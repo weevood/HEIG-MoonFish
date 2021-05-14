@@ -86,6 +86,24 @@ Dans sa première version, l'application web on attend au minimum les fonctionna
 
 Un travail de recherche de "ce qui se fait" actuellement sera réalisé et une étude de marché sommaire présentera les éventuels produits existants concurrents. Cette étude pourra être composé d'une matrice d'affaires (_Business Model Canvas_), des différentes cibles visées par la plateforme web, du marché potentiel et du profil des clients, du secteur d'activité ou encore des éventuels risques et menaces.
 
+
+### Réception des livrables, validation et paiement
+Le déroulement d’un projet, sa validation puis sa rémunération suivent les étapes suivantes.
+1.	Le mandant signe un devis et paye un acompte à la plateforme.
+Développement du projet…
+2.	L’équipe de développeurs a terminé le projet, elle le notifie sur la plateforme.
+3.	Le mandant doit alors régler le montant total du projet à la plateforme.
+4.	L’équipe de développeurs livre et éventuellement installe le projet chez le mandant puis en notifie la plateforme. La réception proprement dite des livrables est gérée directement entre le mandant et l’équipe de développeurs.
+5.	Le mandant complète un rapport sur le déroulement du projet et sur l’équipe de développeurs puis valide la livraison et éventuellement l’installation du projet.
+6.	La plateforme rémunère l’équipe de développeurs et clos le projet.
+
+Si le mandant ne valide pas la livraison du projet, un expert de la plateforme intervient pour régler le conflit et trouver une solution entre les deux parties. Si le projet est abandonné en cours de route par le mandant, l’équipe de développeurs récupère l’acompte payé par celui-ci.
+
+#### Changement d'équipe de développement
+Si en cours de projet, l’équipe de développeurs ou le mandant souhaitent rompre le contrat, les deux parties doivent remplir un rapport expliquant les raisons de cette rupture. Ensuite, le projet est proposé une seconde fois sur la plateforme dans son état actuel. Différentes équipes de développeurs peuvent alors proposer leurs services et le mandant doit à nouveau choisir une équipe pour terminer le projet. Le passage du code source, des processus de déploiement, de la documentation, etc. se fait via la plateforme par l’équipe de développeurs « sortante ». Celle-ci se doit de mettre à disposition de la nouvelle équipe de développeurs tous les éléments nécessaires à la bonne continuation du projet.
+
+Un abandon du projet par une équipe de développeurs entraine de fait un signalement sur le profil de cette équipe. Ce signalement contient le rapport des raisons de l’abandon et est noté par rapport à différents critères notamment sur le travail réalisé, la documentation, le passage des éléments nécessaires, la réactivité, etc.
+
 ### Technologies
 
 Le but est de réaliser une application web client-serveur entièrement en JavaScript à l'aide de Node.js (où Deno) et de frameworks comme Express.js, React.js, Vue.js ou équivalent. Pour réaliser cette plateforme l'utilisation des technologies web récentes et actuelles semble cohérente, ces choix techniques devront être vérifiés et validés dans une phase d'analyse.
