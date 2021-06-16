@@ -3,9 +3,15 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
+    colors: {
+      primary: '#2A4365', // blue-900
+      secondary: '#38B2AC', // teal-500
+    }
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+      require('@tailwindcss/forms'),
+  ],
 }
