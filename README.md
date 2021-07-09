@@ -17,9 +17,9 @@ Ce projet est documenté dans un rapport, la dernière version de celui-ci se tr
  - L'état actuel du projet peut être consulté via l’URL suivant [heig-tb.netlify.app](https://heig-tb.netlify.app/).
 
 ### Annexes
- - Un journal de travail, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation [TB_Planning_Alt-Thibaud.xlsx](/2.Documentation/TB_Planning_Alt-Thibaud.xlsx).
+ - Un journal de travail, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation [TB_Planning_Alt-Thibaud.xlsx](/2.Documentation/Annexes/TB_Planning_Alt-Thibaud.xlsx).
 
-## Cachier des charges
+## Cahier des charges
 
 ### Problématique
 
@@ -39,7 +39,7 @@ Les problèmes rencontrés lors de ces projets sont nombreux, les principaux et 
 - Pour les développeurs : Cahier des charges, problèmes technologiques, manque de temps…
 → Au final les développeurs doivent fournir un livrable bâclé présentant des bugs dus au manque de temps, avec une documentation faible ou inexistante.
 
-#### Objectifs
+### Objectifs
 
 La solution envisagée se base sur la communication directe entre le mandant et l’équipe de développeurs. Le processus se simplifie alors comme suit :
 1.	Un mandant met en concours une liste de fonctionnalités et un délai pour la production d’un produit
