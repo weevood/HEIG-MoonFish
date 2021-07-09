@@ -17,7 +17,7 @@ Ce projet est documenté dans un rapport, la dernière version de celui-ci se tr
  - L'état actuel du projet peut être consulté via l’URL suivant [heig-tb.netlify.app](https://heig-tb.netlify.app/).
 
 ### Annexes
- - Un journal de travail, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation [TB_Planning_Alt-Thibaud.xlsx](/2.Documentation/Annexes/TB_Planning_Alt-Thibaud.xlsx).
+ - Un journal de travail, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation/Annexes : [TB_Planning_Alt-Thibaud.xlsx](/2.Documentation/Annexes/TB_Planning_Alt-Thibaud.xlsx).
 
 ## Cahier des charges
 
