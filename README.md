@@ -17,7 +17,7 @@ Ce projet est documenté dans un rapport, la dernière version de celui-ci se tr
  - Des maquettes statiques ont été réalisées, les sources de celles-ci sont disponibles dans le dossier [3.Maquettes](/3.Maquettes).
 
 ### Suivis du projet
- - Trello
+ - Pour les suivis des tâches, un trello est mis à jour à l'adresse suivante : [trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor](https://trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor).
  - L'état actuel du projet peut être consulté via l’URL suivant [heig-tb.netlify.app](https://heig-tb.netlify.app/).
 
 ## Cahier des charges
