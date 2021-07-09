@@ -12,12 +12,12 @@ _Étude et mise en place d’une plateforme web facilitant la gestion de projets
 ### Rapport général
 Ce projet est documenté dans un rapport, la dernière version de celui-ci se trouve dans le dossier [2.Documentation](/2.Documentation).
 
+#### Annexes
+ - Un journal de travail, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation/Annexes : [TB_Planning_Alt-Thibaud.xlsx](/2.Documentation/Annexes/TB_Planning_Alt-Thibaud.xlsx).
+
 ### Suivis du projet
  - Trello
  - L'état actuel du projet peut être consulté via l’URL suivant [heig-tb.netlify.app](https://heig-tb.netlify.app/).
-
-### Annexes
- - Un journal de travail, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation/Annexes : [TB_Planning_Alt-Thibaud.xlsx](/2.Documentation/Annexes/TB_Planning_Alt-Thibaud.xlsx).
 
 ## Cahier des charges
 
