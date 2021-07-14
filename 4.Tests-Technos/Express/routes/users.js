@@ -8,6 +8,9 @@ router.get('/', users.findAll);
 // Retrieve a single user with id
 router.get('/:id', users.findOne);
 
+// Retrieve a single user by token
+router.post('/me', users.findByToken);
+
 // Create a new user
 router.post('/', users.create);
 

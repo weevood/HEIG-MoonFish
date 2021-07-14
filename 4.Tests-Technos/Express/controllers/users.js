@@ -1,8 +1,9 @@
 const db = require('../models');
+const {getToken} = require("../utils");
 const User = db.user;
 const Op = db.Sequelize.Op;
 
-// Retrieve all Users from the database.
+// Retrieve all users from the database.
 exports.findAll = (req, res) => {
 		const email = req.query.email;
 		const condition = email ? {title: {[Op.like]: `%${email}%`}} : null;
@@ -16,7 +17,7 @@ exports.findAll = (req, res) => {
 		    });
 };
 
-// Find a single User with an id
+// Find a single user with an id
 exports.findOne = (req, res) => {
 		const id = req.params.id;
 
@@ -29,7 +30,32 @@ exports.findOne = (req, res) => {
 		    });
 };
 
-// Create and Save a new User
+// Find a single user with a token
+exports.findByToken = (req, res) => {
+		const token = req.body.token;
+
+		// Validate request
+		if(!token) {
+				res.status(400).send({
+						msg: "Token cannot be empty!"
+				});
+				return;
+		}
+
+		User.findOne({
+				    where: {
+						    token: token
+				    }
+		    })
+		    .then(data => {res.send(data)})
+		    .catch(() => {
+				    res.status(401).send({
+						    msg: "Invalid token"
+				    });
+		    });
+};
+
+// Create and save a new user
 exports.create = (req, res) => {
 
 		// Validate request
@@ -43,12 +69,13 @@ exports.create = (req, res) => {
 		// Create a user
 		const user = {
 				email: req.body.email,
-				password: req.body.password
+				password: req.body.password,
+				token: getToken()
 		};
 
 		// Save user in the database
 		User.create(user)
-		    .then(data => { res.send(data); })
+		    .then(data => {res.send(data)})
 		    .catch(err => {
 				    res.status(500).send({
 						    msg: err.msg || "An error occurred while creating the user."
@@ -56,7 +83,7 @@ exports.create = (req, res) => {
 		    });
 };
 
-// Update a User by the id in the request
+// Update a user by the id in the request
 exports.update = (req, res) => {
 		const id = req.params.id;
 
@@ -76,7 +103,7 @@ exports.update = (req, res) => {
 		    });
 };
 
-// Delete a User with the specified id in the request
+// Delete a user with the specified id in the request
 exports.delete = (req, res) => {
 		const id = req.params.id;
 
@@ -114,7 +141,7 @@ exports.validate = (req, res) => {
 		    })
 		    .then(data => {
 				    if(data.password === req.body.password) {
-						    res.send("Ok");
+						    res.send(data.token);
 				    }
 				    else {
 						    throw "Wrong password";

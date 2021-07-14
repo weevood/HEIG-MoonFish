@@ -5,6 +5,9 @@ module.exports = (sequelize, Sequelize) => {
 						type: Sequelize.STRING(64)
 				},
 				password: {
+						type: Sequelize.STRING(64)
+				},
+				token: {
 						type: Sequelize.STRING(128)
 				}
 		});

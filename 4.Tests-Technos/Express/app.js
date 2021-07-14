@@ -5,6 +5,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const cors = require('cors');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -12,6 +13,10 @@ const authRouter = require('./routes/auth');
 
 const app = express();
 const db = require('./models');
+
+// Access-Control-Allow-Headers
+app.use(cors({origin: true}));
+app.options('*', cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,9 +49,9 @@ app.use((err, req, res, next) => {
 });
 
 // sequelize
-// db.sequelize.sync(); // For production
-db.sequelize.sync({force: true}).then(() => {
-		console.log('On dev, drop and re-sync db.');
-});
+db.sequelize.sync(); // For keep DB
+// db.sequelize.sync({force: true}).then(() => {
+// 		console.log('On dev, drop and re-sync db.');
+// });
 
 module.exports = app;
