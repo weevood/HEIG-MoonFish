@@ -1,6 +1,6 @@
 .DS_Store
-.icloud
 .idea/
+*.icloud
 0.Autres
 1.Cahier-des-charges/assets/
 2.Documentation/assets/
