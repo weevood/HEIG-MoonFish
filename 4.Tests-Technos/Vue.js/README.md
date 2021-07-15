@@ -12,5 +12,5 @@ Ouvrez [http://localhost:8080](http://localhost:8080) pour afficher le résultat
 Le serveur Express doit être démarré parallèle.
 
 ## Sources
-- 
+- https://www.bezkoder.com/vue-3-authentication-jwt/
 
