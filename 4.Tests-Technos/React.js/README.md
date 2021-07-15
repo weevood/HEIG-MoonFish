@@ -1,8 +1,11 @@
-# Test technologique - React.js
+# React.js - Test technologique
 
 Ce projet a été créé avec [Create React App](https://github.com/facebook/create-react-app).
 
 ## Script de démarrage
+
+### `npm install`
+Installation des dépendances
 
 ### `npm start`
 
