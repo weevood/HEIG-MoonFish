@@ -36,7 +36,7 @@ function Index(props) {
 												     ...prevState,
 												     'successMessage': 'Login successful. Redirecting to home page...'
 										     }))
-										     localStorage.setItem('ACCESS_TOKEN', response.data);
+										     localStorage.setItem('ACCESS_TOKEN', response.data.token);
 										     redirectToHome();
 										     props.showError(null)
 								     }

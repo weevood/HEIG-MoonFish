@@ -141,7 +141,7 @@ exports.validate = (req, res) => {
 		    })
 		    .then(data => {
 				    if(data.password === req.body.password) {
-						    res.send(data.token);
+						    res.send({"token": data.token});
 				    }
 				    else {
 						    throw "Wrong password";
