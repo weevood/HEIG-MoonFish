@@ -1,24 +1,16 @@
-# vue.js
+# Vue.js - Test technologique
 
-## Project setup
-```
-npm install
-```
+## Script de démarrage
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+### `npm install`
+Installation des dépendances
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### `npm run serve`
 
-### Lints and fixes files
-```
-npm run lint
-```
+Exécute l'application en mode développement.\
+Ouvrez [http://localhost:8080](http://localhost:8080) pour afficher le résultat dans le navigateur.
+Le serveur Express doit être démarré parallèle.
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Sources
+- 
+
