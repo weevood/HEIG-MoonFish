@@ -6,8 +6,29 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://tailwindcomponents.com/css/component.dashboard-template.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
 </head>
-<body>
+  <body style="background-position: center;background-size: cover;background-image: url('assets/images/ocean.jpg')"
+      class="w-screen h-screen overflow-hidden bg-blue-900 flex flex-col h-screen">
+
+  <header class="max-w-lg mx-auto mt-8 md:mt-16">
+    <a href="#">
+      <h1 class="text-4xl font-bold text-white text-center">LOGO</h1>
+    </a>
+  </header>
+
   <app-root></app-root>
+
+  <footer class="max-w-lg mx-auto mb-8 md:my-3">
+    <div class="text-white uppercase font-bold text-sm">
+      <a href="#" class="hover:underline">Contact</a>
+      <span class="mx-3">•</span>
+      <a href="#" class="hover:underline">Privacy</a>
+    </div>
+    <span class="max-w-lg mb-2 mr-4 text-gray-600 text-xs absolute bottom-0 right-0 italic">Photo by <a
+    href="https://unsplash.com/@conorsexton?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Conor Sexton</a> on <a
+    href="https://unsplash.com/?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">unsplash.com</a></span>
+  </footer>
 </body>
 </html>

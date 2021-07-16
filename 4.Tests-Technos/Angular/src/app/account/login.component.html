@@ -1,30 +1,60 @@
-<div class="card">
-  <h4 class="card-header">Login</h4>
-  <div class="card-body">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">email</label>
-        <input type="text" formControlName="email" class="form-control"
-               [ngClass]="{ 'is-invalid': submitted && f.email.errors }"/>
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-          <div *ngIf="f.email.errors.required">email is required</div>
+<main class="max-w-lg mx-auto flex-grow w-9/12">
+  <div class="bg-gray-100 p-8 md:p-12 mt-10 mb-5 rounded-lg shadow-2xl flex-grow">
+    <section>
+      <h3 class="text-blue-900 text-3xl font-medium">Sign in to your account</h3>
+    </section>
+    <hr class="border-blue-900 border-t-2 w-1/4 mt-3"/>
+    <section class="mt-10">
+      <form class="flex flex-col" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-6 pt-3 rounded bg-gray-200">
+          <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="email">Email</label>
+          <input type="email" id="email" formControlName="email"
+                 [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                 class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">email is required</div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control"
-               [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Password is required</div>
+        <div class="mb-6 pt-3 rounded bg-gray-200">
+          <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="password">Password</label>
+          <input type="password" id="password" formControlName="password"
+                 [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+                 class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
+          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">
-          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-          Login
+        <button
+          class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200 focus:outline-none focus:ring"
+          type="submit" [disabled]="loading">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Sign In
         </button>
-        <a routerLink="../register" class="btn btn-link">Register</a>
-      </div>
-    </form>
+      </form>
+    </section>
+    <div class="md:grid grid-cols-3 divide-x my-3 hidden">
+      <hr class="border-gray-500 border-t-1 w-full my-6"/>
+      <span class="text-sm text-gray-600 text-center my-3">Or continue with</span>
+      <hr class="border-gray-500 border-t-1 w-full my-6"/>
+    </div>
+    <section class="grid grid-cols-3 divide-x mt-8 md:mt-0">
+      <a class="h-16 bg-gray-200 rounded mr-4 p-3 text-center hover:bg-gray-300 transition duration-200">
+        <img class="w-auto h-full mx-auto cursor-pointer" src="assets/images/google_logo.svg"
+             alt="Sign-in with Google"/>
+      </a>
+      <a class="h-16 bg-gray-200 rounded mx-2 p-3 text-center hover:bg-gray-300 transition duration-200">
+        <img class="w-auto h-full mx-auto cursor-pointer" src="assets/images/github_logo.svg"
+             alt="Sign-in with GitHub"/>
+      </a>
+      <a class="h-16 bg-gray-200 rounded ml-4 p-3 text-center hover:bg-gray-300 transition duration-200">
+        <img class="w-auto h-full mx-auto cursor-pointer" src="assets/images/apple_logo.svg" alt="Sign-in with Apple"/>
+      </a>
+    </section>
   </div>
-</div>
+
+  <div class="max-w-lg mx-auto text-center mt-5 mb-6">
+    <p class="text-white">
+      <a href="#" class="font-bold hover:underline">Forgot your password?</a> or
+      <a routerLink="../register" class="font-bold hover:underline">Don't have an account?</a>
+    </p>
+  </div>
+</main>

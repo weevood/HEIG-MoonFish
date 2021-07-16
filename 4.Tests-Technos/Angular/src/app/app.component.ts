@@ -3,7 +3,11 @@ import {Component} from '@angular/core';
 import {AccountService} from './_services';
 import {User} from './_models';
 
-@Component({selector: 'app', templateUrl: 'app.component.html'})
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.sass']
+})
 export class AppComponent {
   user!: User;
 

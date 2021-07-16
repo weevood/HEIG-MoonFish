@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
-import {environment} from '@environments/environment';
-import {User} from '@app/_models';
+import { environment } from '@environments/environment';
+import { User } from '@app/_models';
 
 @Injectable({providedIn: 'root'})
 export class AccountService {
@@ -26,8 +26,8 @@ export class AccountService {
 
   login(email: any, password: any) {
     return this.http.post<User>(`${environment.apiUrl}/auth`, {email, password})
-      .pipe(map(token => {
-        return this.http.post<User>(`${environment.apiUrl}/users/me`, {token})
+      .pipe(switchMap(data => {
+        return this.http.post<User>(`${environment.apiUrl}/users/me`, {token: data.token})
           .pipe(map(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
