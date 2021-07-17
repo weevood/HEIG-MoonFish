@@ -1,27 +1,18 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize(
-		process.env.MARIADB_DBNAME,
-		process.env.MARIADB_USER,
-		process.env.MARIADB_PASSWORD,
-		{
-				host: process.env.MARIADB_HOST,
-				dialect: 'mariadb',
-				operatorsAliases: false,
-				pool: {
-						max: process.env.POOL_MAX,          // Max number of connection in pool
-						min: process.env.POOL_MIN,          // Min number of connection in pool
-						acquire: process.env.POOL_ACQUIRE,  // Max time in ms that pool will try to get connection before error
-						idle: process.env.POOL_IDLE         // Max time in ms that a connection can be idle before being released
-				}
-		}
+module.exports = new Sequelize(
+    process.env.RELDB_DBNAME,
+    process.env.RELDB_USER,
+    process.env.RELDB_PASSWORD,
+    {
+        host: process.env.RELDB_HOST,
+        dialect: process.env.DIALECT,
+        operatorsAliases: false,
+        pool: {
+            max: parseInt(process.env.POOL_MAX),          // Max number of connection in pool
+            min: parseInt(process.env.POOL_MIN),          // Min number of connection in pool
+            acquire: parseInt(process.env.POOL_ACQUIRE),  // Max time in ms that pool will try to get connection before error
+            idle: parseInt(process.env.POOL_IDLE)         // Max time in ms that a connection can be idle before being released
+        }
+    }
 );
-
-const db = {};
-
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-db.user = require('../app/models/user')(sequelize, Sequelize);
-
-module.exports = db;

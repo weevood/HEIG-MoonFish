@@ -1,15 +1,20 @@
-module.exports = (sequelize, Sequelize) => {
+const Sequelize = require('sequelize');
 
-		return sequelize.define('user', {
-				email: {
-						type: Sequelize.STRING(64)
-				},
-				password: {
-						type: Sequelize.STRING(64)
-				},
-				token: {
-						type: Sequelize.STRING(128)
-				}
-		});
+module.exports = (sequelize) => {
+
+    return sequelize.define('user', {
+        uuid: {type: Sequelize.STRING(36)},
+        firstName: {type: Sequelize.STRING(64)},
+        lastName: {type: Sequelize.STRING(64)},
+        phone: {type: Sequelize.STRING(32)},
+        street: {type: Sequelize.STRING(128)},
+        zipCode: {type: Sequelize.STRING(32)},
+        city: {type: Sequelize.STRING(64)},
+        state: {type: Sequelize.STRING(64)},
+        country: {type: Sequelize.STRING(64)},
+        status: {type: Sequelize.INTEGER},
+        language: {type: Sequelize.STRING(3)},
+        resumeId: {type: Sequelize.INTEGER},
+    });
 
 };

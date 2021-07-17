@@ -7,10 +7,10 @@ const helmet = require('helmet')
 const cors = require('cors')
 const passport = require('passport')
 const app = express()
-const db = require('./config/sequelize');
+const sequelize = require('./config/sequelize');
 const i18n = require('i18n')
-const initMongo = require('./config/mongo')
 const path = require('path')
+// const initMongo = require('./config/mongo')
 
 // Setup express server port from ENV, default: 3000
 app.set('port', process.env.PORT || 3000)
@@ -80,8 +80,8 @@ app.listen(app.get('port'))
 // initMongo()
 
 // Init Sequelize
-db.sequelize.sync(); // For keep DB
-// db.sequelize.sync({force: true}).then(() => {
+sequelize.sync(); // For keep DB
+// sequelize.sync({force: true}).then(() => {
 // 		console.log('On dev, drop and re-sync db.');
 // });
 
