@@ -5,6 +5,8 @@ services:
     image: mariadb
     container_name: mariadb
     restart: always
+    ports:
+      - 3306:3306
     command: "mysqld --init-file /data/application/init.sql"
     volumes:
       - mariadb-data:/var/lib/mysql
@@ -31,8 +33,8 @@ services:
     hostname: neo4j
     container_name: neo4j
     ports:
-      - "7474:7474"
-      - "7687:7687"
+      - 7474:7474
+      - 7687:7687
     volumes:
       - ./neo4j/conf:/conf
       - ./neo4j/data:/data
