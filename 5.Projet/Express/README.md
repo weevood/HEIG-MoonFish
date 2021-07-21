@@ -2,18 +2,6 @@
 
 ## How to run
 
-### Database cleaning and seeding samples
-
-There are 3 available commands for this: `fresh`, `clean` and `seed`.
-
-```bash
-npm run command
-```
-
-*   `fresh` cleans and then seeds the database with dynamic data.
-*   `clean` cleans the database.
-*   `seed` seeds the database with dynamic data.
-
 ### Running in development mode (lifting API server)
 
 ```bash
@@ -38,30 +26,6 @@ It´s a good practice to do tests at your code, so a sample of how to do that in
 
 ```bash
 npm run test
-```
-
-### Formatting code
-
-Format your code with prettier by typing:
-
-```bash
-npm run format
-```
-
-### Formatting markdown files
-
-Format all your markdown files with remark by typing:
-
-```bash
-npm run remark
-```
-
-### Linting code
-
-Lint your code with ESLint by typing:
-
-```bash
-npm run lint
 ```
 
 ###### Forked from [node-express-mongodb-jwt-rest-api-skeleton](https://www.npmjs.com/package/node-express-mongodb-jwt-rest-api-skeleton)

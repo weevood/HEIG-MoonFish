@@ -1,0 +1,10 @@
+{
+  "registration": {
+    "SUBJECT": "MoonFish - Verify your email",
+    "MESSAGE": "<p>Hello %s.</p> <p>Welcome! To verify your email, please click in this link:</p> <p>%s/verify/%s</p> <p>Thank you.</p>"
+  },
+  "forgotPassword": {
+    "SUBJECT": "MoonFish - Password recovery",
+    "MESSAGE": "<p>To recover the password for user: %s</p> <p>click the following link:</p> <p>%s/reset/%s</p> <p>If this was a mistake, you can ignore this message.</p> <p>Thank you.</p>"
+  }
+}

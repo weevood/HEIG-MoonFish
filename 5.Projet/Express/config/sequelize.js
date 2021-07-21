@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const Sequelize = require('sequelize') // Sequelize is a promise-based Node.js ORM tool for MariaDB an others SQL Server
 
 module.exports = new Sequelize(
     process.env.RELDB_DBNAME,
