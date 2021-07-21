@@ -1,0 +1,46 @@
+version: "1.0"
+services:
+
+  mariadb:
+    image: mariadb
+    container_name: mariadb
+    restart: always
+    command: "mysqld --init-file /data/application/init.sql"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - ./mariadb/init.sql:/data/application/init.sql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 8000:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mariadb
+    depends_on:
+      - mariadb
+
+  neo4j:
+    image: neo4j
+    container_name: neo4j
+    restart: unless-stopped
+    hostname: neo4j
+    container_name: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./neo4j/conf:/conf
+      - ./neo4j/data:/data
+      - ./neo4j/import:/import
+      - ./neo4j/logs:/logs
+      - ./neo4j/plugins:/plugins
+    environment:
+      NEO4J_dbms_logs_debug_level: DEBUG
+
+volumes:
+  mariadb-data: #  This is where all db data will be stored, even if container is restarted, data will be there.
