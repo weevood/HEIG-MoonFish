@@ -15,7 +15,7 @@ You will know server is running by checking the output of the command `npm run d
 *    Starting Server
 *    Port: 3000
 *    NODE_ENV: development
-*    Database: MongoDB
+*    Database: MariaDB
 *    DB Connection: OK
 ****************************
 ```
