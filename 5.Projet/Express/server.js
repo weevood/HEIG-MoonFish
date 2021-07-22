@@ -11,7 +11,8 @@ const i18n = require('i18n')                // Lightweight simple translation mo
 const path = require('path')                // Provides utilities for working with file and directory paths
 
 // Configurations files
-const sequelize = require('./config/sequelize');
+const sequelize = require('./config/sequelize')
+const models = require('./app/models')
 // const initMongo = require('./config/mongo')
 
 // Initiate the app
@@ -21,46 +22,46 @@ const app = express()
 app.set('port', process.env.PORT || 3000)
 
 // Access-Control-Allow-Headers
-app.use(cors({origin: true}));
+app.use(cors({ origin: true }));
 app.options('*', cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'jade')
 
 // Enable only in development HTTP request logger middleware
 if (process.env.NODE_ENV === 'development') {
-		app.use(morgan('dev'))
+    app.use(morgan('dev'))
 }
 
 // Redis cache enabled by env variable
 if (process.env.USE_REDIS === 'true') {
-		const getExpeditiousCache = require('express-expeditious')
-		const cache = getExpeditiousCache({
-				namespace: 'expresscache',
-				defaultTtl: '1 minute',
-				engine: require('expeditious-engine-redis')({
-						redis: {
-								host: process.env.REDIS_HOST,
-								port: process.env.REDIS_PORT
-						}
-				})
-		})
-		app.use(cache)
+    const getExpeditiousCache = require('express-expeditious')
+    const cache = getExpeditiousCache({
+        namespace: 'expresscache',
+        defaultTtl: '1 minute',
+        engine: require('expeditious-engine-redis')({
+            redis: {
+                host: process.env.REDIS_HOST,
+                port: process.env.REDIS_PORT
+            }
+        })
+    })
+    app.use(cache)
 }
 
 // Parsing json
-app.use(bodyParser.json({limit: '20mb'}))
+app.use(bodyParser.json({ limit: '20mb' }))
 
 // Parsing application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({limit: '20mb', extended: true}))
+app.use(bodyParser.urlencoded({ limit: '20mb', extended: true }))
 
 // Translations
 i18n.configure({
-		locales: ['en', 'fr'],
-		directory: `${ __dirname }/locales`,
-		defaultLocale: 'en',
-		objectNotation: true
+    locales: ['en', 'fr'],
+    directory: `${__dirname}/locales`,
+    defaultLocale: 'en',
+    objectNotation: true
 })
 app.use(i18n.init)
 
@@ -76,9 +77,10 @@ app.listen(app.get('port'))
 // initMongo()
 
 // Init Sequelize
-sequelize.sync(); // For keep DB
-// sequelize.sync({force: true}).then(() => {
-// 		console.log('On dev, drop and re-sync db.');
-// });
+// sequelize.sync(); // For keep DB
+sequelize.sync({ force: true }).then(() => {
+    console.log('On dev, drop and re-sync db.')
+});
+models.load(sequelize);
 
 module.exports = app

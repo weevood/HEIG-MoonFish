@@ -7,7 +7,7 @@ module.exports = new Sequelize(
     {
         host: process.env.RELDB_HOST,
         dialect: process.env.DIALECT,
-        operatorsAliases: false,
+        operatorsAliases: 0,
         pool: {
             max: parseInt(process.env.POOL_MAX),          // Max number of connection in pool
             min: parseInt(process.env.POOL_MIN),          // Min number of connection in pool

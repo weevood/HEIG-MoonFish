@@ -1,6 +1,7 @@
-const model = require('../../models/user')
+const User = require.main.require('./app/models/user')
+const Authentication = require.main.require('./app/models/authentication')
 const { matchedData } = require('express-validator')
-const { isIDGood, handleError } = require('../../middleware/utils')
+const { handleError } = require('../../middleware/utils')
 const { deleteItem } = require('../../middleware/db')
 
 /**
@@ -9,13 +10,15 @@ const { deleteItem } = require('../../middleware/db')
  * @param {Object} res - response object
  */
 const deleteUser = async (req, res) => {
-  try {
-    req = matchedData(req)
-    const id = await isIDGood(req.id)
-    res.status(200).json(await deleteItem(id, model))
-  } catch (error) {
-    handleError(res, error)
-  }
+    try {
+        req = matchedData(req)
+        res.status(200).json(
+            await deleteItem(req.id, User),
+            await deleteItem(req.id, Authentication),
+        )
+    } catch (error) {
+        handleError(res, error)
+    }
 }
 
 module.exports = { deleteUser }
