@@ -21,6 +21,7 @@ const forgotPassword = async (req, res) => {
             ipRequest: getIP(req),
             browserRequest: getBrowserInfo(req),
             countryRequest: getCountry(req)
+        }
         sendResetPasswordEmail(locale, userData)
         let response = {
             msg: 'RESET_EMAIL_SENT',
