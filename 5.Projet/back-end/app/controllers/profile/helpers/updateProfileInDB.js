@@ -1,4 +1,5 @@
-const User = require.main.require('./app/models/user')
+const db = require.main.require('./app/models')
+const User = db.models.User
 const { itemNotFound } = require('../../../middleware/utils')
 
 /**
@@ -8,7 +9,7 @@ const { itemNotFound } = require('../../../middleware/utils')
  */
 const updateProfileInDB = (req = {}, id = 0) => {
     return new Promise((resolve, reject) => {
-        User.findByIdAndUpdate(
+        User.findByPkAndUpdate(
             id,
             req,
             {
@@ -16,9 +17,9 @@ const updateProfileInDB = (req = {}, id = 0) => {
                 runValidators: true,
                 select: '-role -_id -updatedAt -createdAt'
             },
-            async (err, user) => {
+            async (error, user) => {
                 try {
-                    await itemNotFound(err, user, 'NOT_FOUND')
+                    await itemNotFound(error, user, 'NOT_FOUND')
                     resolve(user)
                 } catch (error) {
                     reject(error)

@@ -15,8 +15,8 @@ const validateResult = (req, res, next) => {
             req.body.email = req.body.email.toLowerCase()
         }
         return next()
-    } catch (err) {
-        return handleError(res, buildErrObject(422, err.array()))
+    } catch (error) {
+        return handleError(res, buildErrObject(422, error.array()))
     }
 }
 

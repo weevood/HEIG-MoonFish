@@ -11,8 +11,7 @@ const i18n = require('i18n')                // Lightweight simple translation mo
 const path = require('path')                // Provides utilities for working with file and directory paths
 
 // Configurations files
-const sequelize = require('./config/sequelize')
-const models = require('./app/models')
+const db = require('./app/models')
 // const initMongo = require('./config/mongo')
 
 // Initiate the app
@@ -71,16 +70,15 @@ app.use(compression())
 app.use(helmet())
 app.use(express.static('public'))
 app.use(require('./app/routes'))
-app.listen(app.get('port'))
 
 // Init MongoDB
 // initMongo()
 
 // Init Sequelize
-// sequelize.sync(); // For keep DB
-sequelize.sync({ force: true }).then(() => {
-    console.log('On dev, drop and re-sync db.')
+db.sequelize.sync(
+    { force: true } // On dev, drop and re-sync db
+).then(() => {
+    app.listen(app.get('port'))
 });
-models.load(sequelize);
 
 module.exports = app

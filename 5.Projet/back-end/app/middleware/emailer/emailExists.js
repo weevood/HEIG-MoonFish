@@ -1,4 +1,5 @@
-const User = require.main.require('./app/models/user')
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
 const { buildErrObject } = require('../../middleware/utils')
 
 /**
@@ -7,21 +8,16 @@ const { buildErrObject } = require('../../middleware/utils')
  */
 const emailExists = (email = '') => {
     return new Promise((resolve, reject) => {
-        User.findOne(
-            {
-                email
-            },
-            (err, item) => {
-                if (err) {
-                    return reject(buildErrObject(422, err.message))
-                }
-
+        Authentication.findOne({ where: { email } })
+            .then((item) => {
                 if (item) {
                     return reject(buildErrObject(422, 'EMAIL_ALREADY_EXISTS'))
                 }
                 resolve(false)
-            }
-        )
+            })
+            .catch((error) => {
+                return reject(buildErrObject(422, error.message))
+            })
     })
 }
 

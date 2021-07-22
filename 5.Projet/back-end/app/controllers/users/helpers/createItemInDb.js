@@ -1,6 +1,8 @@
 const uuid = require('uuid')
-const User = require.main.require('./app/models/user')
-const Authentication = require.main.require('./app/models/authentication')
+const { hash } = require("../../../middleware/auth");
+const db = require.main.require('./app/models')
+const User = db.models.User
+const Authentication = db.models.Authentication
 const { buildErrObject } = require('../../../middleware/utils')
 
 /**
@@ -22,7 +24,7 @@ const createItemInDb = ({
                             password = '',
                         }) => {
     return new Promise((resolve, reject) => {
-        const user = new User({
+        const user = {
             uuid: uuid.v4(),
             firstName,
             lastName,
@@ -35,37 +37,36 @@ const createItemInDb = ({
             // status: 0,
             role,
             language
-        })
-        user.save((err, newUser) => {
-
-            if (err) {
-                reject(buildErrObject(422, err.message))
-            }
-            newUser = JSON.parse(JSON.stringify(newUser))
-
-            const auth = new Authentication({
-                userId: newUser.id,
-                email,
-                password,
-                // lastLogin,
-                // loginAttempts,
-                // blockUntil,
-                verification: uuid.v4()
-            })
-
-            auth.save((err, newUserAuth) => {
-                if (err) {
-                    reject(buildErrObject(422, err.message))
+        }
+        User.create(user)
+            .then(async newUser => {
+                newUser = JSON.parse(JSON.stringify(newUser))
+                const auth = {
+                    userId: newUser.id,
+                    email,
+                    password: await hash(password),
+                    // lastLogin,
+                    // loginAttempts,
+                    // blockUntil,
+                    verification: uuid.v4()
                 }
-                newUserAuth = JSON.parse(JSON.stringify(newUserAuth))
+                Authentication.create(authentication)
+                    .then(newUserAuth => {
+                        newUserAuth = JSON.parse(JSON.stringify(newUserAuth))
 
-                delete newUserAuth.password
-                delete newUserAuth.loginAttempts
-                delete newUserAuth.blockUntil
+                        delete newUserAuth.password
+                        delete newUserAuth.loginAttempts
+                        delete newUserAuth.blockUntil
 
-                resolve(Object.assign({}, newUser, newUserAuth))
+                        resolve(Object.assign({}, newUser, newUserAuth))
+                    })
+                    .catch(error => {
+                        reject(buildErrObject(422, error.message))
+                    });
             })
-        })
+            .catch(error => {
+                reject(buildErrObject(422, error.message))
+            });
     })
 }
 

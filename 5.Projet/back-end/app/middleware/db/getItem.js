@@ -7,9 +7,9 @@ const { itemNotFound } = require('../../middleware/utils')
  */
 const getItem = (id = 0, model = {}) => {
     return new Promise((resolve, reject) => {
-        model.findById(id, async (err, item) => {
+        model.findById(id, async (error, item) => {
             try {
-                await itemNotFound(err, item, 'NOT_FOUND')
+                await itemNotFound(error, item, 'NOT_FOUND')
                 resolve(item)
             } catch (error) {
                 reject(error)

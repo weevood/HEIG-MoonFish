@@ -14,13 +14,13 @@ const register = async (req, res) => {
         req = matchedData(req)
         const doesEmailExists = await emailExists(req.email)
         if (!doesEmailExists) {
-            const user = await registerUser(req)
-            const userInfo = await setUserInfo(user)
-            const response = await returnRegisterToken(user, userInfo)
+            const userAndUserAuth = await registerUser(req)
+            const userInfo = await setUserInfo(userAndUserAuth)
+            const response = await returnRegisterToken(userAndUserAuth, userInfo)
             const userData = {
-                firstname: user.firstname,
-                email: user.email,
-                verification: userAuth.verification,
+                firstname: userAndUserAuth.firstname,
+                email: userAndUserAuth.email,
+                verification: userAndUserAuth.verification,
             }
             sendRegistrationEmail(locale, userData)
             res.status(201).json(response)

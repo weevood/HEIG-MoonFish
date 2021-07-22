@@ -1,4 +1,5 @@
-const Authentication = require.main.require('./app/models/authentication')
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
 const { itemNotFound } = require('../../../middleware/utils')
 
 /**
@@ -7,9 +8,9 @@ const { itemNotFound } = require('../../../middleware/utils')
  */
 const findUserAuthById = (id = 0) => {
     return new Promise((resolve, reject) => {
-        Authentication.findById(id, async (err, item) => {
+        Authentication.findById(id, async (error, item) => {
             try {
-                await itemNotFound(err, item, 'USER_AUTH_DOES_NOT_EXIST')
+                await itemNotFound(error, item, 'USER_AUTH_DOES_NOT_EXIST')
                 resolve(item)
             } catch (error) {
                 reject(error)

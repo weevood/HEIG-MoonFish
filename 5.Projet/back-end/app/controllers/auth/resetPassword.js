@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { findUser, findUserAuth, updatePassword } = require('./helpers')
+const { findUserAuth, updatePassword } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 
 /**
@@ -10,8 +10,7 @@ const { handleError } = require('../../middleware/utils')
 const resetPassword = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUser(data.email)
-        const userAuth = await findUserAuth(user)
+        const userAuth = await findUserAuth(data.email)
         await updatePassword(data.password, userAuth)
         res.status(200).json(result)
     } catch (error) {

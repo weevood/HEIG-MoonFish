@@ -15,9 +15,9 @@ const updateItem = (id = 0, model = {}, req = {}) => {
                 new: true,
                 runValidators: true
             },
-            async (err, item) => {
+            async (error, item) => {
                 try {
-                    await itemNotFound(err, item, 'NOT_FOUND')
+                    await itemNotFound(error, item, 'NOT_FOUND')
                     resolve(item)
                 } catch (error) {
                     reject(error)

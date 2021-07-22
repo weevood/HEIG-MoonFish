@@ -1,3 +1,5 @@
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
 const { setUserInfo } = require('./setUserInfo')
 const { generateToken } = require('./generateToken')
 const { buildErrObject } = require('../../../middleware/utils')
@@ -10,22 +12,25 @@ const { buildErrObject } = require('../../../middleware/utils')
  */
 const getUserToken = (req = {}, user = {}, authentication = {}) => {
     return new Promise((resolve, reject) => {
-        authentication.loginAttempts += 1
-        authentication.save(async (err) => {
-            try {
-                if (err) {
-                    return reject(buildErrObject(422, err.message))
-                }
-                const userInfo = await setUserInfo(user)
-                // Returns data with access token
-                resolve({
-                    token: generateToken(user._id),
-                    user: userInfo
-                })
-            } catch (error) {
-                reject(error)
-            }
+        Authentication.update({ loginAttempts: authentication.loginAttempts + 1 }, {
+            where: { id: authentication.id }
         })
+            .then(
+                async num => {
+                    if (num) {
+                        const userInfo = await setUserInfo(user)
+                        // Returns data with access token
+                        resolve({
+                            token: generateToken(user.id),
+                            user: userInfo
+                        })
+                    }
+                    throw { message: 'UPDATE_ERROR' }
+                }
+            )
+            .catch(error => {
+                return reject(buildErrObject(422, error.message))
+            });
     })
 }
 

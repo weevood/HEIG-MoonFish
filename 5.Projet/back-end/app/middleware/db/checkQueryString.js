@@ -33,8 +33,8 @@ const checkQueryString = (query = {}) => {
             } else {
                 resolve({})
             }
-        } catch (err) {
-            console.log(err.message)
+        } catch (error) {
+            console.log(error.message)
             reject(buildErrObject(422, 'ERROR_WITH_FILTER'))
         }
     })

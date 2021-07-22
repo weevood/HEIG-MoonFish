@@ -8,8 +8,8 @@ const { buildErrObject } = require('../../middleware/utils')
  * @param {function} cb
  */
 const comparePassword = function (authentication, passwordAttempt, cb) {
-    bcrypt.compare(passwordAttempt, authentication.password, (err, isMatch) =>
-        err ? cb(err) : cb(null, isMatch)
+    bcrypt.compare(passwordAttempt, authentication.password, (error, isMatch) =>
+        error ? cb(err) : cb(null, isMatch)
     )
 }
 
@@ -20,9 +20,9 @@ const comparePassword = function (authentication, passwordAttempt, cb) {
  */
 const checkPassword = (password = '', authentication = {}) => {
     return new Promise((resolve, reject) => {
-        comparePassword(authentication, password, (err, isMatch) => {
-            if (err) {
-                return reject(buildErrObject(422, err.message))
+        comparePassword(authentication, password, (error, isMatch) => {
+            if (error) {
+                return reject(buildErrObject(422, error.message))
             }
             if (!isMatch) {
                 resolve(false)

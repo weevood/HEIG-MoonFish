@@ -1,4 +1,5 @@
-const User = require.main.require('./app/models/user')
+const db = require.main.require('./app/models')
+const User = db.models.User
 const { itemNotFound } = require('../../../middleware/utils')
 
 /**
@@ -7,14 +8,14 @@ const { itemNotFound } = require('../../../middleware/utils')
  */
 const findUserById = (id = 0) => {
     return new Promise((resolve, reject) => {
-        User.findById(id, async (err, item) => {
-            try {
-                await itemNotFound(err, item, 'USER_DOES_NOT_EXIST')
+        User.findByPk(id)
+            .then(async item => {
+                await itemNotFound(null, item, 'USER_DOES_NOT_EXIST')
                 resolve(item)
-            } catch (error) {
+            })
+            .catch(error => {
                 reject(error)
-            }
-        })
+            });
     })
 }
 

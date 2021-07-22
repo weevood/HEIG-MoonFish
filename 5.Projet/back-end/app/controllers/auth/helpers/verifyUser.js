@@ -1,4 +1,6 @@
-const { buildErrObject } = require('../../../middleware/utils')
+const db = require.main.require('./app/models')
+const User = db.models.User
+const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
 
 /**
  * Verifies an user
@@ -6,13 +8,20 @@ const { buildErrObject } = require('../../../middleware/utils')
  */
 const verifyUser = (user = {}) => {
     return new Promise((resolve, reject) => {
-        user.status = 1
-        user.save((err, item) => {
-            if (err) {
-                return reject(buildErrObject(422, err.message))
-            }
-            resolve(item)
+        User.update({ status: 1 }, {
+            where: { id: user.id }
         })
+            .then(
+                num => {
+                    if (num) {
+                        resolve(buildSuccObject('USER_UPDATED'))
+                    }
+                    throw { message: 'UPDATE_ERROR' }
+                }
+            )
+            .catch(error => {
+                return reject(buildErrObject(422, error.message))
+            });
     })
 }
 

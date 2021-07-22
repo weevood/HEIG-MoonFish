@@ -8,9 +8,9 @@ const { buildErrObject } = require('../../../middleware/utils')
 const blockUser = (authentication = {}) => {
     return new Promise((resolve, reject) => {
         authentication.blockUntil = addHours(new Date(), HOURS_TO_BLOCK)
-        authentication.save((err, result) => {
-            if (err) {
-                return reject(buildErrObject(422, err.message))
+        authentication.save((error, result) => {
+            if (error) {
+                return reject(buildErrObject(422, error.message))
             }
             if (result) {
                 return resolve(buildErrObject(409, 'USER_BLOCKED'))

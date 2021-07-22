@@ -1,6 +1,8 @@
 const uuid = require('uuid')
-const User = require.main.require('./app/models/user')
-const Authentication = require.main.require('./app/models/authentication')
+const { hash } = require("../../../middleware/auth");
+const db = require.main.require('./app/models')
+const User = db.models.User
+const Authentication = db.models.Authentication
 const { buildErrObject } = require('../../../middleware/utils')
 
 /**
@@ -9,29 +11,29 @@ const { buildErrObject } = require('../../../middleware/utils')
  */
 const registerUser = (req = {}) => {
     return new Promise((resolve, reject) => {
-        const user = new User({
+        const user = {
             uuid: uuid.v4(),
-            firstname: req.firstname,
-            lastname: req.lastname
-        })
-
-        user.save((err, item) => {
-            if (err) {
-                reject(buildErrObject(422, err.message))
-            }
-            const authentication = new Authentication({
-                userId: item.id,
-                email: req.email,
-                password: req.password
-            })
-            authentication.save((err, item) => {
-                if (err) {
-                    reject(buildErrObject(422, err.message))
+            firstName: req.firstname,
+            lastName: req.lastname
+        }
+        User.create(user)
+            .then(async newUser => {
+                const authentication = {
+                    userId: newUser.id,
+                    email: req.email,
+                    password: await hash(req.password)
                 }
-                resolve(item)
+                Authentication.create(authentication)
+                    .then(newUserAuth => {
+                        resolve(Object.assign({}, newUser, newUserAuth))
+                    })
+                    .catch(error => {
+                        reject(buildErrObject(422, error.message))
+                    });
             })
-            resolve(item)
-        })
+            .catch(error => {
+                reject(buildErrObject(422, error.message))
+            });
     })
 }
 

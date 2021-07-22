@@ -1,17 +1,17 @@
 /**
  * Handles error by printing to console in development env and builds and sends an error response
  * @param {Object} res - response object
- * @param {Object} err - error object
+ * @param {Object} error - error object
  */
-const handleError = (res = {}, err = {}) => {
+const handleError = (res = {}, error = {}) => {
     // Prints error in console
     if (process.env.NODE_ENV === 'development') {
-        console.log(err)
+        console.log(error)
     }
     // Sends error to user
-    res.status(err.code).json({
+    res.status(error.code).json({
         errors: {
-            msg: err.message
+            msg: error.message
         }
     })
 }

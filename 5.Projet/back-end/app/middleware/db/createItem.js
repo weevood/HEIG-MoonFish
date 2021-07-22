@@ -7,9 +7,9 @@ const { buildErrObject } = require('../../middleware/utils')
  */
 const createItem = (req = {}, model = {}) => {
     return new Promise((resolve, reject) => {
-        model.create(req, (err, item) => {
-            if (err) {
-                reject(buildErrObject(422, err.message))
+        model.create(req, (error, item) => {
+            if (error) {
+                reject(buildErrObject(422, error.message))
             }
             resolve(item)
         })

@@ -8,7 +8,7 @@ const { handleError } = require('../../middleware/utils')
 const roleAuthorization = (roles) => async (req, res, next) => {
     try {
         const data = {
-            id: req.user._id,
+            id: req.user.id,
             roles
         }
         await checkPermissions(data, next)

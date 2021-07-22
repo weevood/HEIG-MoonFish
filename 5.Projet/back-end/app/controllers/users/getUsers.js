@@ -1,5 +1,6 @@
-const User = require.main.require('./app/models/user')
-const Authentication = require.main.require('./app/models/authentication')
+const db = require.main.require('./app/models')
+const User = db.models.User
+const Authentication = db.models.Authentication
 const { handleError } = require('../../middleware/utils')
 const { getItems, checkQueryString } = require('../../middleware/db')
 

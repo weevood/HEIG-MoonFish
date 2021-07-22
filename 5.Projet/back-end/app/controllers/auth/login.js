@@ -1,3 +1,4 @@
+const { findUserById } = require("./helpers");
 const { matchedData } = require('express-validator')
 const { handleError } = require('../../middleware/utils')
 const { checkPassword } = require('../../middleware/auth')
@@ -20,16 +21,16 @@ const {
 const login = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUser(data.email)
-        const userAuth = await findUserAuth(user)
+        const userAuth = await findUserAuth(data.email)
+        const user = await findUserById(userAuth.userId)
         await isUserBlocked(user, userAuth)
         await checkLoginAttempts(userAuth)
-        const isPasswordMatch = await checkPassword(data.password, user)
+        const isPasswordMatch = await checkPassword(data.password, userAuth)
         if (!isPasswordMatch) {
-            handleError(res, await passwordsDoNotMatch(user))
+            handleError(res, await passwordsDoNotMatch(userAuth))
         } else {
             // all ok, register access and return token
-            user.loginAttempts = 0
+            userAuth.loginAttempts = 0
             await saveLoginAttempts(userAuth)
             res.status(200).json(await getUserToken(req, user, userAuth))
         }

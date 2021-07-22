@@ -6,9 +6,9 @@ const { buildErrObject } = require('../../../middleware/utils')
  */
 const saveLoginAttempts = (authentication = {}) => {
   return new Promise((resolve, reject) => {
-    authentication.save((err, result) => {
-      if (err) {
-        return reject(buildErrObject(422, err.message))
+    authentication.save((error, result) => {
+      if (error) {
+        return reject(buildErrObject(422, error.message))
       }
       if (result) {
         resolve(true)

@@ -9,7 +9,7 @@ const { decrypt } = require('../../../middleware/auth')
 const getUserIdFromToken = (token = '') => {
     return new Promise((resolve, reject) => {
         // Decrypts, verifies and decode token
-        jwt.verify(decrypt(token), process.env.JWT_SECRET, (err, decoded) => {
+        jwt.verify(decrypt(token), process.env.JWT_SECRET, (error, decoded) => {
             if (err) {
                 reject(buildErrObject(409, 'BAD_TOKEN'))
             }

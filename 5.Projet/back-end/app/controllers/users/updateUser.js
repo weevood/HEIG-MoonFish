@@ -1,5 +1,6 @@
-const User = require.main.require('./app/models/user')
-const Authentication = require.main.require('./app/models/authentication')
+const db = require.main.require('./app/models')
+const User = db.models.User
+const Authentication = db.models.Authentication
 const { matchedData } = require('express-validator')
 const { handleError } = require('../../middleware/utils')
 const { updateItem } = require('../../middleware/db')

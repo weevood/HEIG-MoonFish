@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { findUser } = require('./helpers')
+const { findUserAuth } = require('./helpers')
 const { getIP, getBrowserInfo, getCountry } = require('../../middleware/utils')
 const { handleError } = require('../../middleware/utils')
 const { sendResetPasswordEmail } = require('../../middleware/emailer')
@@ -14,7 +14,7 @@ const forgotPassword = async (req, res) => {
         // Gets locale from header 'Accept-Language'
         const locale = req.getLocale()
         const data = matchedData(req)
-        await findUser(data.email)
+        await findUserAuth(data.email)
         const userData = {
             email: req.body.email,
             verification: uuid.v4(),

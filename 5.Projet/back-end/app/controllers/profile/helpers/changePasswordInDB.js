@@ -1,4 +1,5 @@
-const Authentication = require.main.require('./app/models/authentication')
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
 const { itemNotFound, buildErrObject, buildSuccObject } = require('../../../middleware/utils')
 
 /**
@@ -8,16 +9,16 @@ const { itemNotFound, buildErrObject, buildSuccObject } = require('../../../midd
  */
 const changePasswordInDB = (id = 0, req = {}) => {
     return new Promise((resolve, reject) => {
-        Authentication.findById(id, '+password', async (err, userAuth) => {
+        Authentication.findById(id, '+password', async (error, userAuth) => {
             try {
-                await itemNotFound(err, userAuth, 'NOT_FOUND')
+                await itemNotFound(error, userAuth, 'NOT_FOUND')
 
                 // Assigns new password to user
                 userAuth.password = req.newPassword
 
                 // Saves in DB
                 userAuth.save((error) => {
-                    if (err) {
+                    if (error) {
                         return reject(buildErrObject(422, error.message))
                     }
                     resolve(buildSuccObject('PASSWORD_CHANGED'))

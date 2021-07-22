@@ -1,3 +1,5 @@
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
 const { MAX_LOGIN_ATTEMPTS } = require.main.require('./config/constants')
 const { buildErrObject } = require('../../../middleware/utils')
 
@@ -7,17 +9,21 @@ const { buildErrObject } = require('../../../middleware/utils')
  */
 const checkLoginAttempts = (authentication = {}) => {
     return new Promise((resolve, reject) => {
-        //
         if (authentication.loginAttempts > MAX_LOGIN_ATTEMPTS && authentication.blockUntil <= new Date()) {
-            authentication.loginAttempts = 0
-            authentication.save((err, result) => {
-                if (err) {
-                    return reject(buildErrObject(422, err.message))
-                }
-                if (result) {
-                    return resolve(true)
-                }
+            Authentication.update({ loginAttempts: 0 }, {
+                where: { id: authentication.id }
             })
+                .then(
+                    num => {
+                        if (num) {
+                            return resolve(true)
+                        }
+                        throw { message: 'UPDATE_ERROR' }
+                    }
+                )
+                .catch(error => {
+                    return reject(buildErrObject(422, error.message))
+                });
         }
         // User is not blocked, check password (normal behaviour)
         resolve(true)

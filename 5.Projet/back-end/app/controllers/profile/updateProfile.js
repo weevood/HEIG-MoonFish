@@ -10,7 +10,7 @@ const { updateProfileInDB } = require('./helpers')
 const updateProfile = async (req, res) => {
     try {
         req = matchedData(req)
-        res.status(200).json(await updateProfileInDB(req, req.user._id))
+        res.status(200).json(await updateProfileInDB(req, req.user.id))
     } catch (error) {
         handleError(res, error)
     }

@@ -1,4 +1,3 @@
-const { findUser } = require('./findUser')
 const { findUserById } = require('./findUserById')
 const { findUserAuth } = require('./findUserAuth')
 const { findUserAuthById } = require('./findUserAuthById')
@@ -18,7 +17,6 @@ const { updatePassword } = require('./updatePassword')
 const { verifyUser } = require('./verifyUser')
 
 module.exports = {
-    findUser,
     findUserById,
     findUserAuth,
     findUserAuthById,

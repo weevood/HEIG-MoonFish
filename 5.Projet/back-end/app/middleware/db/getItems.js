@@ -10,9 +10,9 @@ const { listInitOptions } = require('./listInitOptions')
 const getItems = async (req = {}, model = {}, query = {}) => {
     const options = await listInitOptions(req)
     return new Promise((resolve, reject) => {
-        model.paginate(query, options, (err, items) => {
-            if (err) {
-                return reject(buildErrObject(422, err.message))
+        model.paginate(query, options, (error, items) => {
+            if (error) {
+                return reject(buildErrObject(422, error.message))
             }
             resolve(items)
         })

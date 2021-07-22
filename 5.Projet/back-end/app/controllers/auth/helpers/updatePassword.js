@@ -8,9 +8,9 @@ const { itemNotFound } = require('../../../middleware/utils')
 const updatePassword = (password = '', authentication = {}) => {
     return new Promise((resolve, reject) => {
         authentication.password = password
-        authentication.save(async (err, item) => {
+        authentication.save(async (error, item) => {
             try {
-                await itemNotFound(err, item, 'NOT_FOUND')
+                await itemNotFound(error, item, 'NOT_FOUND')
                 resolve(item)
             } catch (error) {
                 reject(error)
