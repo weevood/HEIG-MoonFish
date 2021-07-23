@@ -5,7 +5,7 @@
 const setUserInfo = (req = {}) => {
     return new Promise((resolve) => {
         let user = {
-            _id: req._id,
+            id: req.id,
             firstname: req.firstname,
             lastname: req.lastname,
             role: req.role,

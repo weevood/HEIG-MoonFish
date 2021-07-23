@@ -33,6 +33,7 @@ module.exports = {
 
         loginAttempts: {
             type: DataTypes.INTEGER,
+            validate: { isNumeric: true },
             defaultValue: 0,
             allowNull: false
         },

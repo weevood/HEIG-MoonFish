@@ -9,24 +9,31 @@ const { itemNotFound, buildErrObject, buildSuccObject } = require('../../../midd
  */
 const changePasswordInDB = (id = 0, req = {}) => {
     return new Promise((resolve, reject) => {
-        Authentication.findById(id, '+password', async (error, userAuth) => {
-            try {
+        Authentication.findByPk(id)
+            .then(async (userAuth) => {
                 await itemNotFound(error, userAuth, 'NOT_FOUND')
 
-                // Assigns new password to user
-                userAuth.password = req.newPassword
-
                 // Saves in DB
-                userAuth.save((error) => {
-                    if (error) {
+                Authentication.update(
+                    { password: req.newPassword },
+                    { where: { userId: userAuth.userId } })
+                    .then(
+                        num => {
+                            if (num) {
+                                resolve(buildSuccObject('PASSWORD_CHANGED'))
+                            }
+                            throw { message: 'UPDATE_ERROR' }
+                        }
+                    )
+                    .catch(error => {
                         return reject(buildErrObject(422, error.message))
-                    }
-                    resolve(buildSuccObject('PASSWORD_CHANGED'))
-                })
-            } catch (error) {
+                    });
+
+            })
+            .catch(error => {
                 reject(error)
-            }
-        })
+            });
+
     })
 }
 

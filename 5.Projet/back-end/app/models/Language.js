@@ -8,7 +8,7 @@ module.exports = {
             primaryKey: true,
             autoIncrement: false,
             type: DataTypes.STRING(3),
-            validate: { len: 3 },
+            validate: { isAlpha: true, len: 3 },
             allowNull: false,
             unique: true,
         },
@@ -18,5 +18,7 @@ module.exports = {
             allowNull: false
         }
     },
-    options: {}
+    options: {
+        timestamps: false
+    }
 };

@@ -10,6 +10,8 @@ const passport = require('passport')        // Passport is Express-compatible au
 const i18n = require('i18n')                // Lightweight simple translation module with dynamic JSON storage
 const path = require('path')                // Provides utilities for working with file and directory paths
 
+const DROP_DB = false; // Fro development only
+
 // Configurations files
 const db = require('./app/models')
 // const initMongo = require('./config/mongo')
@@ -75,10 +77,23 @@ app.use(require('./app/routes'))
 // initMongo()
 
 // Init Sequelize
-db.sequelize.sync(
-    { force: true } // On dev, drop and re-sync db
-).then(() => {
-    app.listen(app.get('port'))
-});
+db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
+    .then(function () {
+        return db.sequelize.sync(
+            { force: DROP_DB } // On dev, drop and re-sync db
+        ).then(() => {
+            if (DROP_DB)
+                require('./data') // Load initial db data
+            app.listen(app.get('port'))
+        });
+    })
+    .then(function () {
+        return db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+    })
+    .then(function () {
+        console.log('Database synchronised.');
+    }, function (err) {
+        console.log(err);
+    });
 
 module.exports = app

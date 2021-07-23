@@ -31,7 +31,7 @@ const login = async (req, res) => {
         } else {
             // all ok, register access and return token
             userAuth.loginAttempts = 0
-            await saveLoginAttempts(userAuth)
+            await saveLoginAttempts(userAuth, true)
             res.status(200).json(await getUserToken(req, user, userAuth))
         }
     } catch (error) {

@@ -1,3 +1,5 @@
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
 const { HOURS_TO_BLOCK } = require.main.require('./config/constants')
 const { addHours } = require('date-fns')
 const { buildErrObject } = require('../../../middleware/utils')
@@ -7,15 +9,20 @@ const { buildErrObject } = require('../../../middleware/utils')
  */
 const blockUser = (authentication = {}) => {
     return new Promise((resolve, reject) => {
-        authentication.blockUntil = addHours(new Date(), HOURS_TO_BLOCK)
-        authentication.save((error, result) => {
-            if (error) {
+        Authentication.update(
+            { blockUntil: addHours(new Date(), HOURS_TO_BLOCK) },
+            { where: { userId: authentication.userId } })
+            .then(
+                num => {
+                    if (num) {
+                        return resolve(buildErrObject(409, 'USER_BLOCKED'))
+                    }
+                    throw { message: 'UPDATE_ERROR' }
+                }
+            )
+            .catch(error => {
                 return reject(buildErrObject(422, error.message))
-            }
-            if (result) {
-                return resolve(buildErrObject(409, 'USER_BLOCKED'))
-            }
-        })
+            });
     })
 }
 

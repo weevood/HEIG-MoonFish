@@ -19,6 +19,28 @@ fs.readdirSync(modelsPath).filter((file) => {
     }
 })
 
+// Associations and dependencies
+models.Authentication.belongsTo(models.User)
+models.BankAccount.belongsTo(models.User)
+models.Category.hasOne(models.Category, {foreignKey: 'parentId'})
+models.CategoryTranslation.belongsTo(models.Category)
+models.Notification.belongsTo(models.User)
+models.NotificationTranslation.belongsTo(models.Notification)
+models.ProjectTranslation.belongsTo(models.Project)
+models.Ressource.belongsTo(models.Project)
+models.Ressource.belongsTo(models.User, { foreignKey: 'authorId' })
+models.Ressource.belongsToMany(models.Category, { through: 'ressources_categories' });
+models.Role.hasMany(models.User)
+models.Status.hasMany(models.User)
+models.User.hasOne(models.Ressource, { foreignKey: 'resumeId' })
+
+// Translations
+models.Language.hasMany(models.CategoryTranslation, { foreignKey: 'lang' })
+models.Language.hasMany(models.NotificationTranslation, { foreignKey: 'lang' })
+models.Language.hasMany(models.ProjectTranslation, { foreignKey: 'lang' })
+models.Language.hasMany(models.Translation, { foreignKey: 'lang' })
+models.Language.hasMany(models.User, { foreignKey: 'lang' })
+
 module.exports = {
     sequelize, models
 };
