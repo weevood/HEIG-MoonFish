@@ -51,6 +51,16 @@ module.exports = {
         country: {
             type: DataTypes.STRING(64),
             validate: { isAlpha: true }
+        },
+
+        resumeId: {
+            type: DataTypes.INTEGER,
+            validate: { isNumeric: true },
+            defaultValue: 0,
+            references: {
+                model: 'Ressource',
+                key: 'id'
+            }
         }
 
     },

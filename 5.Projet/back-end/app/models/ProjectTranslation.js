@@ -4,6 +4,22 @@ module.exports = {
     name: 'projects_translations',
     attributes: {
 
+        projectId: {
+            primaryKey: true,
+            autoIncrement: false,
+            unique: 'projects_translations',
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+
+        lang: {
+            primaryKey: true,
+            autoIncrement: false,
+            unique: 'projects_translations',
+            type: DataTypes.STRING(3),
+            allowNull: false
+        },
+
         title: {
             type: DataTypes.STRING(128),
             validate: { isAlphanumeric: true },

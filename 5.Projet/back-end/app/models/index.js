@@ -28,11 +28,10 @@ models.Notification.belongsTo(models.User)
 models.NotificationTranslation.belongsTo(models.Notification)
 models.ProjectTranslation.belongsTo(models.Project)
 models.Ressource.belongsTo(models.Project)
-models.Ressource.belongsTo(models.User, { foreignKey: 'authorId' })
 models.Ressource.belongsToMany(models.Category, { through: 'ressources_categories' });
-models.Role.hasMany(models.User)
-models.Status.hasMany(models.User)
-models.User.hasOne(models.Ressource, { foreignKey: 'resumeId' })
+models.Role.hasMany(models.User, { foreignKey: 'role' })
+models.Status.hasMany(models.User, { foreignKey: 'status' })
+models.User.hasMany(models.Ressource, { foreignKey: 'authorId' })
 
 // Translations
 models.Language.hasMany(models.CategoryTranslation, { foreignKey: 'lang' })
