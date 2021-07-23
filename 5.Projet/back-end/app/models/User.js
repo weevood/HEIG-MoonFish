@@ -56,12 +56,33 @@ module.exports = {
         resumeId: {
             type: DataTypes.INTEGER,
             validate: { isNumeric: true },
-            defaultValue: 0,
+            defaultValue: null,
             references: {
                 model: 'Ressource',
                 key: 'id'
             }
-        }
+        },
+
+        role: {
+            type: DataTypes.INTEGER,
+            validate: { isNumeric: true },
+            defaultValue: 1,
+            allowNull: false
+        },
+
+        status: {
+            type: DataTypes.INTEGER,
+            validate: { isNumeric: true },
+            defaultValue: 1,
+            allowNull: false
+        },
+
+        lang: {
+            type: DataTypes.STRING(2),
+            validate: { isAlpha: true, len: 2 },
+            defaultValue: 'en',
+            allowNull: false
+        },
 
     },
     options: {}

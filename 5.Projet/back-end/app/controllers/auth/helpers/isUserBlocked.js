@@ -7,7 +7,7 @@ const { buildErrObject } = require('../../../middleware/utils')
  */
 const isUserBlocked = (user = {}, authentication = {}) => {
     return new Promise((resolve, reject) => {
-        if (user.status <= 0 || authentication.blockUntil > new Date()) {
+        if (user.status !== 2 || authentication.blockUntil > new Date()) { // TODO magic number
             return reject(buildErrObject(409, 'USER_BLOCKED'))
         }
         resolve(true)

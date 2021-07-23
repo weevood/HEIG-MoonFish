@@ -8,7 +8,7 @@ const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
  */
 const verifyUser = (user = {}) => {
     return new Promise((resolve, reject) => {
-        User.update({ status: 1 }, {
+        User.update({ status: 2 }, { // TODO magic number
             where: { id: user.id }
         })
             .then(

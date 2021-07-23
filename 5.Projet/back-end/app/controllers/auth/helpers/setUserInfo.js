@@ -6,16 +6,16 @@ const setUserInfo = (req = {}) => {
     return new Promise((resolve) => {
         let user = {
             id: req.id,
-            firstname: req.firstname,
-            lastname: req.lastname,
+            firstName: req.firstName,
+            lastName: req.lastName,
             role: req.role,
-            status: req.status
+            lang: req.lang
         }
         // Adds verification for testing purposes
         if (process.env.NODE_ENV !== 'production') {
             user = {
                 ...user,
-                verification: req.verification
+                verification: req.uuid
             }
         }
         resolve(user)

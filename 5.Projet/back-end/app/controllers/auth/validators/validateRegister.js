@@ -5,13 +5,13 @@ const { check } = require('express-validator')
  * Validates register request
  */
 const validateRegister = [
-    check('firstname')
+    check('firstName')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('lastname')
+    check('lastName')
         .exists()
         .withMessage('MISSING')
         .not()
@@ -33,6 +33,10 @@ const validateRegister = [
         .withMessage('IS_EMPTY')
         .isLength({ min: 8 })
         .withMessage('PASSWORD_TOO_SHORT'),
+    check('lang')
+        .optional()
+        .isLength({ min: 2, max: 2 })
+        .withMessage('LANGUAGE_CODE_NOT_VALID'),
     (req, res, next) => {
         validateResult(req, res, next)
     }

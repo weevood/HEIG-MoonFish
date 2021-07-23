@@ -16,7 +16,7 @@ module.exports = {
             primaryKey: true,
             autoIncrement: false,
             unique: 'projects_translations',
-            type: DataTypes.STRING(3),
+            type: DataTypes.STRING(2),
             allowNull: false
         },
 

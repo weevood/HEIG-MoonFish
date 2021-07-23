@@ -12,7 +12,7 @@ const getUserToken = (req = {}, user = {}, authentication = {}) => {
         const userInfo = await setUserInfo(user)
         // Returns data with access token
         resolve({
-            token: generateToken(user.id),
+            token: generateToken(user.uuid),
             user: userInfo
         })
     })

@@ -19,7 +19,7 @@ const createItemInDb = ({
                             state = '',
                             country = '',
                             role = '',
-                            language = '',
+                            lang = '',
                             email = '',
                             password = '',
                         }) => {
@@ -34,9 +34,10 @@ const createItemInDb = ({
             city,
             state,
             country,
-            // status: 0,
+            resumeId: 0,
             role,
-            language
+            // status: 0,
+            lang
         }
         User.create(user)
             .then(async newUser => {
@@ -48,9 +49,8 @@ const createItemInDb = ({
                     // lastLogin,
                     // loginAttempts,
                     // blockUntil,
-                    verification: uuid.v4()
                 }
-                Authentication.create(authentication)
+                Authentication.create(auth)
                     .then(newUserAuth => {
                         newUserAuth = JSON.parse(JSON.stringify(newUserAuth))
 
@@ -58,7 +58,7 @@ const createItemInDb = ({
                         delete newUserAuth.loginAttempts
                         delete newUserAuth.blockUntil
 
-                        resolve(Object.assign({}, newUser, newUserAuth))
+                        resolve([newUser, newUserAuth])
                     })
                     .catch(error => {
                         reject(buildErrObject(422, error.message))

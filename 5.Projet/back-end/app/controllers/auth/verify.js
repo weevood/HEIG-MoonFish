@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { findUserById, verifyUser } = require('./helpers')
+const { findUserByUuid, verifyUser } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 
 /**
@@ -10,7 +10,7 @@ const { handleError } = require('../../middleware/utils')
 const verify = async (req, res) => {
     try {
         req = matchedData(req)
-        const user = await findUserById(req.id)
+        const user = await findUserByUuid(req.id)
         res.status(200).json(await verifyUser(user))
     } catch (error) {
         handleError(res, error)

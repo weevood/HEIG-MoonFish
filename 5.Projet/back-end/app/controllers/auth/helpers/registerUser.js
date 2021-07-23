@@ -13,8 +13,9 @@ const registerUser = (req = {}) => {
     return new Promise((resolve, reject) => {
         const user = {
             uuid: uuid.v4(),
-            firstName: req.firstname,
-            lastName: req.lastname
+            firstName: req.firstName,
+            lastName: req.lastName,
+            lang: req.lang
         }
         User.create(user)
             .then(async newUser => {
@@ -25,7 +26,7 @@ const registerUser = (req = {}) => {
                 }
                 Authentication.create(authentication)
                     .then(newUserAuth => {
-                        resolve(Object.assign({}, newUser, newUserAuth))
+                        resolve([newUser, newUserAuth])
                     })
                     .catch(error => {
                         reject(buildErrObject(422, error.message))

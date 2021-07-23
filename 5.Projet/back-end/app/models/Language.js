@@ -7,8 +7,8 @@ module.exports = {
         code: {
             primaryKey: true,
             autoIncrement: false,
-            type: DataTypes.STRING(3),
-            validate: { isAlpha: true, len: 3 },
+            type: DataTypes.STRING(2),
+            validate: { isAlpha: true, len: 2},
             allowNull: false,
             unique: true,
         },

@@ -15,14 +15,14 @@ const createUser = async (req, res) => {
         req = matchedData(req)
         const doesEmailExists = await emailExists(req.email)
         if (!doesEmailExists) {
-            const userAndUserAuth = await createItemInDb(req)
-            const userData = {
-                firstname: userAndUserAuth.firstname,
-                email: userAndUserAuth.email,
-                verification: userAndUserAuth.verification,
-            }
-            sendRegistrationEmail(locale, userData)
-            res.status(201).json(userAndUserAuth)
+            const [user, auth] = await createItemInDb(req)
+            sendRegistrationEmail(locale, {
+                firstname: user.firstname,
+                lastName: user.lastName,
+                email: auth.email,
+                verification: user.uuid,
+            })
+            res.status(201).json({ user, auth })
         }
     } catch (error) {
         handleError(res, error)
