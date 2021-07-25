@@ -1,6 +1,6 @@
 {
   "name": "heigvd-tb-frontend",
-  "version": "0.1",
+  "version": "0.1.1",
   "description": "Angular for MoonFish front-end",
   "private": true,
   "repository": {
