@@ -12,4 +12,8 @@ npm run dev
 npm run test
 ```
 
+## Visualisation
+
+**Home page** : http://localhost:3000/
+
 ###### Forked from [node-express-mongodb-jwt-rest-api-skeleton](https://www.npmjs.com/package/node-express-mongodb-jwt-rest-api-skeleton)
