@@ -1,7 +1,8 @@
 {
   "name": "heigvd-tb-backend",
-  "version": "1.0",
+  "version": "0.1",
   "description": "Express.js JWT REST API",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://https://github.com/weevood/HEIG-VD_Travail-de-Bachelor.git"
