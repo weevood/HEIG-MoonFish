@@ -1,4 +1,4 @@
-# Express
+# Express - MoonFish back-end
 
 ## How to run
 
