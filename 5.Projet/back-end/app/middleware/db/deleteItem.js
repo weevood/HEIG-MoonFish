@@ -1,21 +1,23 @@
-const { buildSuccObject, itemNotFound } = require('../../middleware/utils')
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
+const { buildSuccObject } = require('../../middleware/utils')
 
 /**
- * Deletes an item from database by id
- * @param {int} id - id of item
- * @param model
+ * Delete an item from database by id
+ * @param {Object} model - the Sequelize model
+ * @param {int} id - the item id
  */
-const deleteItem = (id = 0, model = {}) => {
+const deleteItem = (model, id) => {
     return new Promise((resolve, reject) => {
-        model.destroy({
-            where: { id: id }
-        })
+        const pk = (model === Authentication ? { userId: id } : { id })
+        model.destroy({ where: { pk } })
             .then(
-                async num => {
-                    if (num) {
-                        resolve(buildSuccObject('DELETED'))
+                res => {
+                    let deletedRows = res[0]
+                    if (deletedRows !== 1) {
+                        reject('DELETE_ERROR')
                     }
-                    throw { message: 'DELETE_ERROR' }
+                    resolve(buildSuccObject('DELETED'))
                 }
             )
             .catch(error => {

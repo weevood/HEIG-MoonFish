@@ -1,6 +1,8 @@
 const db = require.main.require('./app/models')
 const Authentication = db.models.Authentication
-const { buildErrObject } = require('../../../middleware/utils')
+const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
+const { updateItem } = require("../../../middleware/db");
+const { STATUS_ACTIVE } = require("../../../models/enums/status");
 
 /**
  * Saves login attempts
@@ -8,22 +10,15 @@ const { buildErrObject } = require('../../../middleware/utils')
  * @param {boolean} withLastlogin - Update date of last login if true
  */
 const saveLoginAttempts = (authentication = {}, withLastlogin = false) => {
-    return new Promise((resolve, reject) => {
-        Authentication.update(
-            withLastlogin ? { lastLogin: new Date(), loginAttempts: authentication.loginAttempts }
-                : { loginAttempts: authentication.loginAttempts },
-            { where: { userId: authentication.userId } })
-            .then(
-                num => {
-                    if (num) {
-                        resolve(true)
-                    }
-                    throw { message: 'UPDATE_ERROR' }
-                }
-            )
-            .catch(error => {
-                return reject(buildErrObject(422, error.message))
-            })
+    return new Promise(async (resolve, reject) => {
+        try {
+            const values = withLastlogin
+                ? { lastLogin: new Date(), loginAttempts: authentication.loginAttempts }
+                : { loginAttempts: authentication.loginAttempts };
+            resolve(updateItem(Authentication, authentication.userId, values))
+        } catch (error) {
+            reject(buildErrObject(422, error.msg))
+        }
     })
 }
 

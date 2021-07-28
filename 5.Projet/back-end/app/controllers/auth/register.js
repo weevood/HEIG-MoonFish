@@ -11,10 +11,10 @@ const { emailExists, sendRegistrationEmail } = require('../../middleware/emailer
 const register = async (req, res) => {
     try {
         const locale = req.getLocale() // Gets locale from header 'Accept-Language'
-        req = matchedData(req)
-        const doesEmailExists = await emailExists(req.email)
+        const data = matchedData(req)
+        const doesEmailExists = await emailExists(data.email)
         if (!doesEmailExists) {
-            const [user, auth] = await registerUser(req)
+            const [user, auth] = await registerUser(data)
             const userInfo = await setUserInfo(user)
             sendRegistrationEmail(locale, {
                 firstName: user.firstName,

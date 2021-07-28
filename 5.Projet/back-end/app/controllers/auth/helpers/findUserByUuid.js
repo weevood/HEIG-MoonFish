@@ -10,7 +10,7 @@ const findUserByUuid = (uuid = '') => {
     return new Promise((resolve, reject) => {
         User.findOne({ where: { uuid } })
             .then(async item => {
-                await itemNotFound(null, item, 'USER_DOES_NOT_EXIST')
+                await itemNotFound(item, 'USER_DOES_NOT_EXIST')
                 resolve(item)
             })
             .catch(error => {

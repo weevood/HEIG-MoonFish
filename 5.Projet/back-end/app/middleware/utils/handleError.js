@@ -11,7 +11,7 @@ const handleError = (res = {}, error = {}) => {
     // Sends error to user
     res.status(error.code).json({
         errors: {
-            msg: error.message
+            msg: error.msg
         }
     })
 }

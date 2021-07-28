@@ -6,26 +6,47 @@ const { check } = require('express-validator')
  */
 const validateUpdateProfile = [
     check('firstName')
-        .exists()
-        .withMessage('MISSING')
+        .optional()
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('lastName')
-        .exists()
-        .withMessage('MISSING')
+        .optional()
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('role')
-        .exists()
-        .withMessage('MISSING')
+    check('phone')
+        .optional()
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('language')
-        .exists()
-        .withMessage('MISSING')
+    check('street')
+        .optional()
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('zipCode')
+        .optional()
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('city')
+        .optional()
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('state')
+        .optional()
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('country')
+        .optional()
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('lang')
+        .optional()
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),

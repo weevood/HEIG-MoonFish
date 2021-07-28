@@ -12,10 +12,10 @@ const { deleteItem } = require('../../middleware/db')
  */
 const deleteUser = async (req, res) => {
     try {
-        req = matchedData(req)
+        const data = matchedData(req)
         res.status(200).json(
-            await deleteItem(req.id, User),
-            await deleteItem(req.id, Authentication),
+            await deleteItem(User, data.id),
+            await deleteItem(Authentication, data.id),
         )
     } catch (error) {
         handleError(res, error)

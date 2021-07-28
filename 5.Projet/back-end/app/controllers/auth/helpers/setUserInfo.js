@@ -5,9 +5,15 @@
 const setUserInfo = (req = {}) => {
     return new Promise((resolve) => {
         let user = {
-            id: req.id,
             firstName: req.firstName,
             lastName: req.lastName,
+            phone: req.phone,
+            street: req.street,
+            zipCode: req.zipCode,
+            city: req.city,
+            state: req.state,
+            country: req.country,
+            resumeId: req.resumeId,
             lang: req.lang
         }
         if (req.role) {
@@ -26,7 +32,7 @@ const setUserInfo = (req = {}) => {
         if (process.env.NODE_ENV !== 'production') {
             user = {
                 ...user,
-                verification: req.uuid
+                uuid: req.uuid
             }
         }
         resolve(user)

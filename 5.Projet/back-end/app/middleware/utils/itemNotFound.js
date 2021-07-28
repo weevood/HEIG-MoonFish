@@ -2,17 +2,17 @@ const { buildErrObject } = require('./buildErrObject')
 
 /**
  * Item not found
- * @param {Object} error - error object
  * @param {Object} item - item result object
- * @param {string} message - message
+ * @param {string} msg - message
+ * @param {Object} error - error object
  */
-const itemNotFound = (error = {}, item = {}, message = 'NOT_FOUND') => {
+const itemNotFound = (item = {}, msg = 'NOT_FOUND', error = null) => {
     return new Promise((resolve, reject) => {
-        if (error) {
-            return reject(buildErrObject(422, error.message))
-        }
         if (!item) {
-            return reject(buildErrObject(404, message))
+            return reject(buildErrObject(404, msg))
+        }
+        if (error) {
+            return reject(buildErrObject(422, error.msg))
         }
         resolve()
     })

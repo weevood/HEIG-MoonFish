@@ -12,10 +12,10 @@ const createUser = async (req, res) => {
     try {
         // Gets locale from header 'Accept-Language'
         const locale = req.getLocale()
-        req = matchedData(req)
-        const doesEmailExists = await emailExists(req.email)
+        const data = matchedData(req)
+        const doesEmailExists = await emailExists(data.email)
         if (!doesEmailExists) {
-            const [user, auth] = await createItemInDb(req)
+            const [user, auth] = await createItemInDb(data)
             sendRegistrationEmail(locale, {
                 firstname: user.firstname,
                 lastName: user.lastName,

@@ -61,11 +61,11 @@ const createItemInDb = ({
                         resolve([newUser, newUserAuth])
                     })
                     .catch(error => {
-                        reject(buildErrObject(422, error.message))
+                        reject(buildErrObject(422, error.msg))
                     })
             })
             .catch(error => {
-                reject(buildErrObject(422, error.message))
+                reject(buildErrObject(422, error.msg))
             })
     })
 }

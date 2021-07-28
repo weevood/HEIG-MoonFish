@@ -34,7 +34,7 @@ const checkQueryString = (query = {}) => {
                 resolve({})
             }
         } catch (error) {
-            console.log(error.message)
+            console.log(error.msg)
             reject(buildErrObject(422, 'ERROR_WITH_FILTER'))
         }
     })

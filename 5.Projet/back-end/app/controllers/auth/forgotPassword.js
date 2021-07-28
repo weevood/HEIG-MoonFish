@@ -31,7 +31,7 @@ const forgotPassword = async (req, res) => {
         if (process.env.NODE_ENV !== 'production') {
             response = {
                 ...response,
-                verification: userData.verification
+                uuid: userData.verification
             }
         }
         res.status(200).json(response)

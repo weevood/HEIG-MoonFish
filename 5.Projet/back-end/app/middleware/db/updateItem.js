@@ -1,23 +1,24 @@
-const { buildSuccObject } = require("../../middleware/utils")
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
+const { buildSuccObject } = require('../../middleware/utils')
 
 /**
- * Updates an item in database by id
- * @param {int} id - item id
- * @param model
- * @param {Object} req - request object
+ * Update an item in database by id
+ * @param {Object} model - the Sequelize model
+ * @param {int} id - the item id
+ * @param {Object} values - the values to update
  */
-const updateItem = (id = 0, model = {}, req = {}) => {
+const updateItem = (model, id, values = {}) => {
     return new Promise((resolve, reject) => {
-
-        model.update(req, {
-            where: { id: id }
-        })
+        const pk = (model === Authentication ? { userId: id } : { id })
+        model.update(values, { where: pk })
             .then(
-                num => {
-                    if (num) {
-                        resolve(buildSuccObject('ITEM_UPDATED'))
+                res => {
+                    let updatedRows = res[0]
+                    if (updatedRows !== 1) {
+                        reject('UPDATE_ERROR')
                     }
-                    throw { message: 'UPDATE_ERROR' }
+                    resolve(buildSuccObject('UPDATED'))
                 }
             )
             .catch(error => {

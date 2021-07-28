@@ -12,10 +12,10 @@ const { updateItem } = require('../../middleware/db')
  */
 const updateUser = async (req, res) => {
     try {
-        req = matchedData(req)
+        const data = matchedData(req)
         res.status(200).json(
-            await updateItem(req.id, User, req),
-            await updateItem(req.id, Authentication, req)
+            await updateItem(User, data.id, data),
+            await updateItem(Authentication, data.id, data)
         )
     } catch (error) {
         handleError(res, error)

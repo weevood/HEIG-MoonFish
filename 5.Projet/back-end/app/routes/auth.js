@@ -24,6 +24,8 @@ const {
     validateLogin
 } = require('../controllers/auth/validators')
 
+const roles = [ROLES_USER, ROLES_MODERATOR, ROLES_ADMIN]
+
 /*
  * Define all "Authentication" routes
  */
@@ -44,6 +46,6 @@ router.post('/forgot', trimRequest.all, validateForgotPassword, forgotPassword)
 router.post('/reset', trimRequest.all, validateResetPassword, resetPassword)
 
 // Get a new token
-router.get('/token', requireAuth, roleAuthorization([ROLES_USER, ROLES_MODERATOR, ROLES_ADMIN]), trimRequest.all, getRefreshToken)
+router.get('/token', requireAuth, roleAuthorization(roles), trimRequest.all, getRefreshToken)
 
 module.exports = router

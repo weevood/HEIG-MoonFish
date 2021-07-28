@@ -10,7 +10,7 @@ const findUserAuthByEmail = (email = '') => {
     return new Promise((resolve, reject) => {
         Authentication.findOne({ where: { email } })
             .then(async item => {
-                await itemNotFound(null, item, 'USER_DOES_NOT_HAVE_AUTH')
+                await itemNotFound(item, 'USER_DOES_NOT_HAVE_AUTH')
                 resolve(item)
             })
             .catch(error => {

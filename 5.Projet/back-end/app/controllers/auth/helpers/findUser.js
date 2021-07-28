@@ -1,21 +1,19 @@
 const db = require.main.require('./app/models')
 const User = db.models.User
-const { itemNotFound } = require('../../../middleware/utils')
+const { buildErrObject } = require('../../../middleware/utils')
+const { getItem } = require("../../../middleware/db");
 
 /**
  * Finds user by ID
  * @param {int} id - the user´s id
  */
 const findUser = (id = 0) => {
-    return new Promise((resolve, reject) => {
-        User.findByPk(id, { include: ['role', 'status'] })
-            .then(async item => {
-                await itemNotFound(null, item, 'USER_DOES_NOT_EXIST')
-                resolve(item)
-            })
-            .catch(error => {
-                reject(error)
-            })
+    return new Promise(async (resolve, reject) => {
+        try {
+            resolve(await getItem(User, id, { include: ['role', 'status'] }))
+        } catch (error) {
+            reject(buildErrObject(404, 'USER_DOES_NOT_EXIST'))
+        }
     })
 }
 

@@ -1,6 +1,6 @@
-const db = require.main.require('./app/models')
-const User = db.models.User
 const { handleError, itemNotFound } = require('../../middleware/utils')
+const { findUser } = require('../auth/helpers');
+const { setUserInfo } = require('../auth/helpers/setUserInfo');
 
 /**
  * Get profile function called by route
@@ -11,13 +11,10 @@ const getProfile = async (req, res) => {
     try {
         res.status(200).json(
             await new Promise((resolve, reject) => {
-                User.findByPk(req.user.id)
+                findUser(req.user.id)
                     .then(async item => {
-                        await itemNotFound(null, item, 'NOT_FOUND')
-                        delete item.id
-                        delete item.updatedAt
-                        delete item.createdAt
-                        resolve(item)
+                        await itemNotFound(item, 'NOT_FOUND')
+                        resolve(await setUserInfo(item))
                     })
                     .catch(error => {
                         reject(error)

@@ -1,6 +1,8 @@
+const db = require.main.require('./app/models')
+const User = db.models.User
 const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { updateProfileInDB } = require('./helpers')
+const { updateItem } = require('../../middleware/db');
 
 /**
  * Update profile function called by route
@@ -9,8 +11,8 @@ const { updateProfileInDB } = require('./helpers')
  */
 const updateProfile = async (req, res) => {
     try {
-        req = matchedData(req)
-        res.status(200).json(await updateProfileInDB(req, req.user.id))
+        const data = matchedData(req)
+        res.status(200).json(await updateItem(User, req.user.id, data))
     } catch (error) {
         handleError(res, error)
     }

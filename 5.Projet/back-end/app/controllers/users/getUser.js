@@ -12,10 +12,10 @@ const { getItem } = require('../../middleware/db')
  */
 const getUser = async (req, res) => {
     try {
-        req = matchedData(req)
+        const data = matchedData(req)
         res.status(200).json(
-            await getItem(req.id, User),
-            await getItem(req.id, Authentication)
+            await getItem(User, data.id),
+            await getItem(Authentication, data.id)
         )
     } catch (error) {
         handleError(res, error)

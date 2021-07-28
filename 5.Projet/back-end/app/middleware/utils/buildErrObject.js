@@ -1,12 +1,12 @@
 /**
  * Builds error object
  * @param {number} code - error code
- * @param {string} message - error text
+ * @param {string} msg - error text
  */
-const buildErrObject = (code = 0, message = '') => {
+const buildErrObject = (code = 0, msg = '') => {
     return {
         code,
-        message
+        msg
     }
 }
 

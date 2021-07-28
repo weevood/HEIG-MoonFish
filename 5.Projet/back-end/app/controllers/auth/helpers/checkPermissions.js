@@ -10,7 +10,7 @@ const checkPermissions = ({ id = 0, roles = [] }, next) => {
     return new Promise((resolve, reject) => {
         findUser(id)
             .then(async (result) => {
-                await itemNotFound(null, result, 'USER_NOT_FOUND')
+                await itemNotFound(result, 'USER_NOT_FOUND')
                 if (roles.includes(result.role.id)) {
                     return resolve(next())
                 }

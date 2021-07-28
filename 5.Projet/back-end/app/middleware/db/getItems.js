@@ -1,21 +1,19 @@
-const { buildErrObject } = require('../../middleware/utils')
-const { listInitOptions } = require('./listInitOptions')
+const { initOptions } = require('./initOptions')
 
 /**
  * Gets items from database
- * @param {Object} req - request object
- * @param model
- * @param {Object} query - query object
+ * @param {Object} model - the Sequelize model
+ * @param {Object} options - build and query options
  */
-const getItems = async (req = {}, model = {}, query = {}) => {
-    const options = await listInitOptions(req)
+const getItems = async (model,  options = {}) => {
     return new Promise((resolve, reject) => {
-        model.paginate(query, options, (error, items) => {
-            if (error) {
-                return reject(buildErrObject(422, error.message))
-            }
-            resolve(items)
-        })
+        model.findAll(initOptions(options))
+            .then(async item => {
+                resolve(item)
+            })
+            .catch(error => {
+                reject(error)
+            })
     })
 }
 

@@ -1,10 +1,10 @@
 /**
  * Builds success object
- * @param {string} message - success text
+ * @param {string} msg - success text
  */
-const buildSuccObject = (message = '') => {
+const buildSuccObject = (msg = '') => {
     return {
-        msg: message
+        msg
     }
 }
 

@@ -22,7 +22,7 @@ const checkPassword = (password = '', authentication = {}) => {
     return new Promise((resolve, reject) => {
         comparePassword(authentication, password, (error, isMatch) => {
             if (error) {
-                return reject(buildErrObject(422, error.message))
+                return reject(buildErrObject(422, error.msg))
             }
             if (!isMatch) {
                 resolve(false)

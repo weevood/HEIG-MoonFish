@@ -2,18 +2,19 @@ const { buildErrObject } = require('../../middleware/utils')
 
 /**
  * Creates a new item in database
- * @param {Object} req - request object
- * @param model
+ * @param {Object} model - the Sequelize model
+ * @param {Object} values - the values to update
+ * @param {Object} options - build and query options
  */
-const createItem = (req = {}, model = {}) => {
+const createItem = (model, values = {}, options = {}) => {
 
     return new Promise((resolve, reject) => {
-        model.create(req)
+        model.create(values, options)
             .then(item => {
                 resolve(item)
             })
             .catch(error => {
-                reject(buildErrObject(422, error.message))
+                reject(error)
             })
     })
 

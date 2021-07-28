@@ -16,7 +16,7 @@ const emailExists = (email = '') => {
                 resolve(false)
             })
             .catch((error) => {
-                return reject(buildErrObject(422, error.message))
+                return reject(buildErrObject(422, error.msg))
             })
     })
 }

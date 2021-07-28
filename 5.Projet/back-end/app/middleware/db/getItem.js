@@ -2,14 +2,15 @@ const { itemNotFound } = require('../../middleware/utils')
 
 /**
  * Gets item from database by id
- * @param {int} id - item id
- * @param model
+ * @param {Object} model - the Sequelize model
+ * @param {int} id - the item id
+ * @param {Object} options - build and query options
  */
-const getItem = (id = 0, model = {}) => {
+const getItem = (model, id, options = {}) => {
     return new Promise((resolve, reject) => {
-        model.findByPk(id)
-            .then(async (result) => {
-                await itemNotFound(null, result, 'ITEM_NOT_FOUND')
+        model.findByPk(id, options)
+            .then(async item => {
+                await itemNotFound(item, 'ITEM_NOT_FOUND')
                 resolve(item)
             })
             .catch(error => {
