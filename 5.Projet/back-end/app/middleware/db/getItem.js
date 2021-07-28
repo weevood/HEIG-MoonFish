@@ -2,19 +2,19 @@ const { itemNotFound } = require('../../middleware/utils')
 
 /**
  * Gets item from database by id
- * @param {string} id - item id
+ * @param {int} id - item id
  * @param model
  */
 const getItem = (id = 0, model = {}) => {
     return new Promise((resolve, reject) => {
-        model.findById(id, async (error, item) => {
-            try {
-                await itemNotFound(error, item, 'NOT_FOUND')
+        model.findByPk(id)
+            .then(async (result) => {
+                await itemNotFound(null, result, 'ITEM_NOT_FOUND')
                 resolve(item)
-            } catch (error) {
+            })
+            .catch(error => {
                 reject(error)
-            }
-        })
+            })
     })
 }
 

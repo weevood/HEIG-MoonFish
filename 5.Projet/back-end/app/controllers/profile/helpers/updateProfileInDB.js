@@ -5,7 +5,7 @@ const { itemNotFound } = require('../../../middleware/utils')
 /**
  * Updates profile in database
  * @param {Object} req - request object
- * @param {string} id - user id
+ * @param {int} id - user id
  */
 const updateProfileInDB = (req = {}, id = 0) => {
     return new Promise((resolve, reject) => {

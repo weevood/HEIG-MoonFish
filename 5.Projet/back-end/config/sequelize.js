@@ -15,4 +15,4 @@ module.exports = new Sequelize(
             idle: parseInt(process.env.POOL_IDLE)         // Max time in ms that a connection can be idle before being released
         }
     }
-);
+)

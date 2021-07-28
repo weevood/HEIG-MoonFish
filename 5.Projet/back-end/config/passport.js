@@ -1,7 +1,6 @@
 const passport = require('passport')
-const db = require.main.require('./app/models')
-const User = db.models.User
 const auth = require('../app/middleware/auth')
+const { findUserByUuid } = require("../app/controllers/auth/helpers");
 const JwtStrategy = require('passport-jwt').Strategy
 
 /**
@@ -37,13 +36,13 @@ const jwtOptions = {
  * Login with JWT middleware
  */
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
-    User.findByPk(payload.data._id)
+    findUserByUuid(payload.data._id)
         .then(async (user) => {
             return !user ? done(null, false) : done(null, user)
         })
         .catch(error => {
             return done(error, false)
-        });
+        })
 })
 
 passport.use(jwtLogin)

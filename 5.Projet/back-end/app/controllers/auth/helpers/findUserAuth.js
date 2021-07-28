@@ -3,15 +3,15 @@ const Authentication = db.models.Authentication
 const { itemNotFound } = require('../../../middleware/utils')
 
 /**
- * Finds user authentication by user id
- * @param {string} email - the user mail
+ * Finds user auth by use id
+ * @param {int} id - the user´s id
  */
-const findUserAuth = (email = '') => {
+const findUserAuth = (id = 0) => {
     return new Promise((resolve, reject) => {
-        Authentication.findOne({ where: { email } })
-            .then(async item => {
-                await itemNotFound(null, item, 'USER_DOES_NOT_HAVE_AUTH')
-                resolve(item)
+        Authentication.findByPk(id)
+            .then(async (userAuth) => {
+                await itemNotFound(null, userAuth, 'NOT_FOUND')
+                resolve(userAuth)
             })
             .catch(error => {
                 reject(error)

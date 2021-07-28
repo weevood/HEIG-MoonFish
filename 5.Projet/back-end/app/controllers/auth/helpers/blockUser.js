@@ -22,7 +22,7 @@ const blockUser = (authentication = {}) => {
             )
             .catch(error => {
                 return reject(buildErrObject(422, error.message))
-            });
+            })
     })
 }
 

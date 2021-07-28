@@ -8,8 +8,19 @@ const setUserInfo = (req = {}) => {
             id: req.id,
             firstName: req.firstName,
             lastName: req.lastName,
-            role: req.role,
             lang: req.lang
+        }
+        if (req.role) {
+            user = {
+                ...user,
+                role: req.role.name
+            }
+        }
+        if (req.status) {
+            user = {
+                ...user,
+                status: req.status.name
+            }
         }
         // Adds verification for testing purposes
         if (process.env.NODE_ENV !== 'production') {

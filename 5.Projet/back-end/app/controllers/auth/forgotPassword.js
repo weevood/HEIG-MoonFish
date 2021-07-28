@@ -1,9 +1,8 @@
 const { matchedData } = require('express-validator')
-const { findUserAuth } = require('./helpers')
+const { findUserAuthByEmail, findUser } = require('./helpers')
 const { getIP, getBrowserInfo, getCountry } = require('../../middleware/utils')
 const { handleError } = require('../../middleware/utils')
 const { sendResetPasswordEmail } = require('../../middleware/emailer')
-const uuid = require('uuid')
 
 /**
  * Forgot password function called by route
@@ -15,10 +14,11 @@ const forgotPassword = async (req, res) => {
         // Gets locale from header 'Accept-Language'
         const locale = req.getLocale()
         const data = matchedData(req)
-        await findUserAuth(data.email)
+        const userAuth = await findUserAuthByEmail(data.email)
+        const user = await findUser(userAuth.userId)
         const userData = {
-            email: req.body.email,
-            verification: uuid.v4(),
+            email: userAuth.email,
+            verification: user.uuid, // Need other verifications for security reasons
             ipRequest: getIP(req),
             browserRequest: getBrowserInfo(req),
             countryRequest: getCountry(req)
@@ -26,7 +26,7 @@ const forgotPassword = async (req, res) => {
         sendResetPasswordEmail(locale, userData)
         let response = {
             msg: 'RESET_EMAIL_SENT',
-            email: userData.email
+            ...userData,
         }
         if (process.env.NODE_ENV !== 'production') {
             response = {

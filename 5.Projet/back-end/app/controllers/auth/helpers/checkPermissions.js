@@ -1,6 +1,5 @@
-const db = require.main.require('./app/models')
-const User = db.models.User
 const { itemNotFound, buildErrObject } = require('../../../middleware/utils')
+const { findUser } = require('./findUser');
 
 /**
  * Checks against user if has quested role
@@ -9,17 +8,17 @@ const { itemNotFound, buildErrObject } = require('../../../middleware/utils')
  */
 const checkPermissions = ({ id = 0, roles = [] }, next) => {
     return new Promise((resolve, reject) => {
-        User.findByPk(id)
+        findUser(id)
             .then(async (result) => {
                 await itemNotFound(null, result, 'USER_NOT_FOUND')
-                if (roles.indexOf(result.role) > -1) {
+                if (roles.includes(result.role.id)) {
                     return resolve(next())
                 }
                 reject(buildErrObject(401, 'UNAUTHORIZED'))
             })
             .catch(error => {
                 reject(error)
-            });
+            })
     })
 }
 

@@ -10,7 +10,7 @@ const { removeExtensionFromFile } = require('../app/middleware/utils')
 fs.readdirSync(modelsPath).filter((file) => {
     // Take filename and remove last part (extension)
     const modelFile = removeExtensionFromFile(file)
-    // Prevents loading of this file
+    // Prevents loading of this files
     if (modelFile !== 'index' && file !== '.DS_Store') {
         require(`./${modelFile}`)
     }

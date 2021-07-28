@@ -1,6 +1,7 @@
 const db = require.main.require('./app/models')
 const User = db.models.User
 const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
+const { STATUS_ACTIVE } = require('../../../models/enums/status');
 
 /**
  * Verifies an user
@@ -8,7 +9,7 @@ const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
  */
 const verifyUser = (user = {}) => {
     return new Promise((resolve, reject) => {
-        User.update({ status: 2 }, { // TODO magic number
+        User.update({ statusId: STATUS_ACTIVE }, {
             where: { id: user.id }
         })
             .then(
@@ -21,7 +22,7 @@ const verifyUser = (user = {}) => {
             )
             .catch(error => {
                 return reject(buildErrObject(422, error.message))
-            });
+            })
     })
 }
 

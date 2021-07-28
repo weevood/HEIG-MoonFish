@@ -1,5 +1,6 @@
 const DataTypes = require('sequelize')
-const roles = ['user', 'moderator', 'admin'];
+const { getEnumValues } = require('./enums/getEnumValues');
+const roles = getEnumValues(require('./enums/roles'))
 
 module.exports = {
     name: 'roles',

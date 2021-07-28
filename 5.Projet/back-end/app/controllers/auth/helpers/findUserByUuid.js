@@ -15,7 +15,7 @@ const findUserByUuid = (uuid = '') => {
             })
             .catch(error => {
                 reject(error)
-            });
+            })
     })
 }
 

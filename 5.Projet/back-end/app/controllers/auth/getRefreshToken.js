@@ -1,4 +1,4 @@
-const { getUserIdFromToken, findUserById, findUserAuthById, getUserToken } = require('./helpers')
+const { getUserIdFromToken, getUserToken, findUserByUuid } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 
 /**
@@ -11,9 +11,8 @@ const getRefreshToken = async (req, res) => {
         if (req.headers.authorization) {
             const tokenEncrypted = req.headers.authorization.replace('Bearer ', '').trim()
             let userId = await getUserIdFromToken(tokenEncrypted)
-            const user = await findUserById(userId)
-            const userAuth = await findUserAuthById(userId)
-            const token = await getUserToken(req, user, userAuth)
+            const user = await findUserByUuid(userId)
+            const token = await getUserToken(req, user)
             delete token.user // Removes user info from response
             res.status(200).json(token)
         }

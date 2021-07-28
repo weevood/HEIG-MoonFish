@@ -9,7 +9,7 @@ const { buildErrObject } = require('../../middleware/utils')
  */
 const comparePassword = function (authentication, passwordAttempt, cb) {
     bcrypt.compare(passwordAttempt, authentication.password, (error, isMatch) =>
-        error ? cb(err) : cb(null, isMatch)
+        error ? cb(error) : cb(null, isMatch)
     )
 }
 

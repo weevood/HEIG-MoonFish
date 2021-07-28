@@ -4,6 +4,7 @@ require.main.require('./config/passport')
 const passport = require('passport')
 const requireAuth = passport.authenticate('jwt', { session: false })
 const trimRequest = require('trim-request')
+const { ROLES_ADMIN, ROLES_USER, ROLES_MODERATOR } = require('../models/enums/roles');
 
 const {
     login,
@@ -43,6 +44,6 @@ router.post('/forgot', trimRequest.all, validateForgotPassword, forgotPassword)
 router.post('/reset', trimRequest.all, validateResetPassword, resetPassword)
 
 // Get a new token
-router.get('/token', requireAuth, roleAuthorization(['user', 'admin']), trimRequest.all, getRefreshToken)
+router.get('/token', requireAuth, roleAuthorization([ROLES_USER, ROLES_MODERATOR, ROLES_ADMIN]), trimRequest.all, getRefreshToken)
 
 module.exports = router

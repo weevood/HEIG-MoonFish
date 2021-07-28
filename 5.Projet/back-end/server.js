@@ -10,7 +10,7 @@ const passport = require('passport')        // Passport is Express-compatible au
 const i18n = require('i18n')                // Lightweight simple translation module with dynamic JSON storage
 const path = require('path')                // Provides utilities for working with file and directory paths
 
-const DROP_DB = true; // For development only
+const DROP_DB = false; // For development only
 
 // Configurations files
 const db = require('./app/models')
@@ -23,11 +23,11 @@ const app = express()
 app.set('port', process.env.PORT || 3000)
 
 // Access-Control-Allow-Headers
-app.use(cors({ origin: true }));
-app.options('*', cors());
+app.use(cors({ origin: true }))
+app.options('*', cors())
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'jade')
 
 // Enable only in development HTTP request logger middleware
@@ -85,15 +85,15 @@ db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
             if (DROP_DB)
                 require('./data') // Load initial db data
             app.listen(app.get('port'))
-        });
+        })
     })
     .then(function () {
         return db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
     })
     .then(function () {
-        console.log('Database synchronised.');
-    }, function (err) {
-        console.log(err);
-    });
+        console.log('Database synchronised.')
+    }, function (error) {
+        console.log(error)
+    })
 
 module.exports = app

@@ -21,7 +21,7 @@ const getProfile = async (req, res) => {
                     })
                     .catch(error => {
                         reject(error)
-                    });
+                    })
             }))
     } catch (error) {
         handleError(res, error)

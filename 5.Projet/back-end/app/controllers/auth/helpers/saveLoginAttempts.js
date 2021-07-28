@@ -23,7 +23,7 @@ const saveLoginAttempts = (authentication = {}, withLastlogin = false) => {
             )
             .catch(error => {
                 return reject(buildErrObject(422, error.message))
-            });
+            })
     })
 }
 

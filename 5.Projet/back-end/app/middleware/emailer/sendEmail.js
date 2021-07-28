@@ -21,8 +21,8 @@ const sendEmail = async (data = {}) => {
         subject: data.subject,
         html: data.htmlMessage
     }
-    transporter.sendMail(mailOptions, function callback(err) {
-        if (err) {
+    transporter.sendMail(mailOptions, function callback(error) {
+        if (error) {
             return callback(false)
         }
         return callback(true)

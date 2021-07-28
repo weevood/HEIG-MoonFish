@@ -58,19 +58,19 @@ module.exports = {
             validate: { isNumeric: true },
             defaultValue: null,
             references: {
-                model: 'Ressource',
+                model: 'Resource',
                 key: 'id'
             }
         },
 
-        role: {
+        roleId: {
             type: DataTypes.INTEGER,
             validate: { isNumeric: true },
             defaultValue: 1,
             allowNull: false
         },
 
-        status: {
+        statusId: {
             type: DataTypes.INTEGER,
             validate: { isNumeric: true },
             defaultValue: 1,

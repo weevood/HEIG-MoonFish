@@ -24,7 +24,7 @@ fs.readdirSync(routesPath).filter((file) => {
  * Setup routes for index
  */
 router.get('/', (req, res) => {
-    res.render('index', { title: 'Express.js JWT REST API' });
+    res.render('index', { title: 'Express.js JWT REST API' })
 })
 
 /*

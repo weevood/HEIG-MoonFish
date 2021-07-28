@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const { hash } = require("../../../middleware/auth");
+const { hash } = require("../../../middleware/auth")
 const db = require.main.require('./app/models')
 const User = db.models.User
 const Authentication = db.models.Authentication
@@ -15,7 +15,7 @@ const registerUser = (req = {}) => {
             uuid: uuid.v4(),
             firstName: req.firstName,
             lastName: req.lastName,
-            lang: req.lang
+            lang: req.lang || 'en',
         }
         User.create(user)
             .then(async newUser => {
@@ -30,11 +30,11 @@ const registerUser = (req = {}) => {
                     })
                     .catch(error => {
                         reject(buildErrObject(422, error.message))
-                    });
+                    })
             })
             .catch(error => {
                 reject(buildErrObject(422, error.message))
-            });
+            })
     })
 }
 

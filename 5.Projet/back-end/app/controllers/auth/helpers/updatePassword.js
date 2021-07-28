@@ -1,21 +1,40 @@
-const { itemNotFound } = require('../../../middleware/utils')
+const db = require.main.require('./app/models')
+const Authentication = db.models.Authentication
+const { itemNotFound, buildSuccObject, buildErrObject } = require('../../../middleware/utils')
+const { hash } = require("../../../middleware/auth")
 
 /**
  * Updates a user password in database
- * @param {string} password - new password
- * @param {Object} authentication - linked authentication object
+ * @param {int} id - user id
+ * @param {string} password - the new password
  */
-const updatePassword = (password = '', authentication = {}) => {
+const updatePassword = (id = 0, password) => {
     return new Promise((resolve, reject) => {
-        authentication.password = password
-        authentication.save(async (error, item) => {
-            try {
-                await itemNotFound(error, item, 'NOT_FOUND')
-                resolve(item)
-            } catch (error) {
+        Authentication.findByPk(id)
+            .then(async (userAuth) => {
+                await itemNotFound(null, userAuth, 'NOT_FOUND')
+
+                // Saves in DB
+                Authentication.update(
+                    { password: await hash(password) },
+                    { where: { userId: userAuth.userId } })
+                    .then(
+                        num => {
+                            if (num) {
+                                resolve(buildSuccObject('PASSWORD_CHANGED'))
+                            }
+                            throw { message: 'UPDATE_ERROR' }
+                        }
+                    )
+                    .catch(error => {
+                        return reject(buildErrObject(422, error.message))
+                    })
+
+            })
+            .catch(error => {
                 reject(error)
-            }
-        })
+            })
+
     })
 }
 

@@ -1,7 +1,7 @@
-const { findUserById } = require('./findUserById')
+const { findUser } = require('./findUser')
 const { findUserByUuid } = require('./findUserByUuid')
 const { findUserAuth } = require('./findUserAuth')
-const { findUserAuthById } = require('./findUserAuthById')
+const { findUserAuthByEmail } = require('./findUserAuthByEmail')
 const { generateToken } = require('./generateToken')
 const { getUserToken } = require('./getUserToken')
 const { getUserIdFromToken } = require('./getUserIdFromToken')
@@ -17,10 +17,10 @@ const { updatePassword } = require('./updatePassword')
 const { verifyUser } = require('./verifyUser')
 
 module.exports = {
-    findUserById,
+    findUser,
     findUserByUuid,
     findUserAuth,
-    findUserAuthById,
+    findUserAuthByEmail,
     generateToken,
     getUserToken,
     getUserIdFromToken,

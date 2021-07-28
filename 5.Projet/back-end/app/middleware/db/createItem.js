@@ -6,14 +6,17 @@ const { buildErrObject } = require('../../middleware/utils')
  * @param model
  */
 const createItem = (req = {}, model = {}) => {
+
     return new Promise((resolve, reject) => {
-        model.create(req, (error, item) => {
-            if (error) {
+        model.create(req)
+            .then(item => {
+                resolve(item)
+            })
+            .catch(error => {
                 reject(buildErrObject(422, error.message))
-            }
-            resolve(item)
-        })
+            })
     })
+
 }
 
 module.exports = { createItem }

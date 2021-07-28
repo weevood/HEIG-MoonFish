@@ -1,6 +1,10 @@
 const db = require.main.require('./app/models')
-const Role = db.models.Role
+const roles = db.models.Role
+const ROLES = require('../app/models/enums/roles');
 
-Role.create({ id: 1, name: 'user' })
-Role.create({ id: 10, name: 'moderator' })
-Role.create({ id: 20, name: 'admin' })
+Object.entries(ROLES).forEach(([name, id]) => {
+    roles.create({
+        id,
+        name: name.toLowerCase().split('_')[1]
+    })
+})

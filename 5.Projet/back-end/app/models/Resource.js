@@ -2,7 +2,7 @@ const DataTypes = require('sequelize')
 const privacy = ['Private', 'Public'];
 
 module.exports = {
-    name: 'ressources',
+    name: 'resources',
     attributes: {
 
         name: {

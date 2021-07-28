@@ -15,8 +15,8 @@ const decrypt = (text = '') => {
         let decrypted = decipher.update(text, 'hex', 'utf8')
         decrypted += decipher.final('utf8')
         return decrypted
-    } catch (err) {
-        return err
+    } catch (error) {
+        return error
     }
 }
 

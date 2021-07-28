@@ -4,4 +4,4 @@ module.exports = Object.freeze({
     MAX_LOGIN_ATTEMPTS: 5,
     SALT_FACTOR: 5,
 
-});
+})

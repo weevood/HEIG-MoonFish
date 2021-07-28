@@ -14,7 +14,7 @@ const hash = async (password) => {
                 reject(error)
             }
             resolve(hash)
-        });
+        })
     })
 }
 

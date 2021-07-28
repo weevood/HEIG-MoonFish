@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const { hash } = require("../../../middleware/auth");
+const { hash } = require("../../../middleware/auth")
 const db = require.main.require('./app/models')
 const User = db.models.User
 const Authentication = db.models.Authentication
@@ -36,7 +36,7 @@ const createItemInDb = ({
             country,
             resumeId: 0,
             role,
-            // status: 0,
+            // statusId: 0,
             lang
         }
         User.create(user)
@@ -62,11 +62,11 @@ const createItemInDb = ({
                     })
                     .catch(error => {
                         reject(buildErrObject(422, error.message))
-                    });
+                    })
             })
             .catch(error => {
                 reject(buildErrObject(422, error.message))
-            });
+            })
     })
 }
 
