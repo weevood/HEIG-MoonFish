@@ -10,7 +10,7 @@ const passport = require('passport')        // Passport is Express-compatible au
 const i18n = require('i18n')                // Lightweight simple translation module with dynamic JSON storage
 const path = require('path')                // Provides utilities for working with file and directory paths
 
-const DROP_DB = false; // For development only
+const DROP_DB = false // For development only
 
 // Configurations files
 const db = require('./app/models')

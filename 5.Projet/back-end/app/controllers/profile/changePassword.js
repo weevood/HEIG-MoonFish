@@ -10,14 +10,14 @@ const { findUserAuth, updatePassword } = require('../auth/helpers')
  */
 const changePassword = async (req, res) => {
     try {
+        const password = matchedData(req)
         const userAuth = await findUserAuth(req.user.id)
-        const data = matchedData(req)
-        const isPasswordMatch = await checkPassword(data.oldPassword, userAuth)
+        const isPasswordMatch = await checkPassword(password.old, userAuth)
         if (!isPasswordMatch) {
-            return handleError(res, buildErrObject(409, 'WRONG_PASSWORD'))
+            return handleError(res, buildErrObject(409, 'OLD_PASSWORD_INCORRECT'))
         } else {
             // everything's ok, proceed to change password
-            res.status(200).json(await updatePassword(data.user.id, data.newPassword))
+            res.status(200).json(await updatePassword(req.user.id, password.new))
         }
     } catch (error) {
         handleError(res, error)

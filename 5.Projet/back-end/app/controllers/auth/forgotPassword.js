@@ -28,12 +28,6 @@ const forgotPassword = async (req, res) => {
             msg: 'RESET_EMAIL_SENT',
             ...userData,
         }
-        if (process.env.NODE_ENV !== 'production') {
-            response = {
-                ...response,
-                uuid: userData.verification
-            }
-        }
         res.status(200).json(response)
     } catch (error) {
         handleError(res, error)

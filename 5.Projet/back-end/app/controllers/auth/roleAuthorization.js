@@ -1,4 +1,4 @@
-const { checkPermissions } = require('./helpers')
+const { checkPermissions, isUserBlocked } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 
 /**

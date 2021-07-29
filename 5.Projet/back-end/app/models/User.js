@@ -6,51 +6,51 @@ module.exports = {
 
         uuid: {
             type: DataTypes.STRING(36),
-            validate: { isUUID: 4 },
+            validate: { isUUID: 4, len: 36 },
             allowNull: false,
             unique: true
         },
 
         firstName: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true },
+            validate: { isAlpha: true, max: 64 },
             allowNull: false
         },
 
         lastName: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true },
+            validate: { isAlpha: true, max: 64 },
             allowNull: false
         },
 
         phone: {
             type: DataTypes.STRING(32),
-            validate: { isNumeric: true }
+            validate: { is: /[0-9 ]+/, max: 32 }
         },
 
         street: {
             type: DataTypes.STRING(128),
-            validate: { isAlpha: true }
+            validate: { is: /^[\w\-\s]+$/, max: 128 }
         },
 
         zipCode: {
-            type: DataTypes.STRING(32),
+            type: DataTypes.INTEGER,
             validate: { isNumeric: true }
         },
 
         city: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true }
+            validate: { isAlpha: true, max: 64 }
         },
 
         state: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true }
+            validate: { isAlpha: true, max: 64 }
         },
 
         country: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true }
+            validate: { isAlpha: true, max: 64 }
         },
 
         resumeId: {

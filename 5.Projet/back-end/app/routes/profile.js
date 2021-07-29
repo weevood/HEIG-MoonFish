@@ -21,6 +21,6 @@ router.get('/', requireAuth, roleAuthorization(roles), trimRequest.all, getProfi
 router.patch('/', requireAuth, roleAuthorization(roles), trimRequest.all, validateUpdateProfile, updateProfile)
 
 // Change password route
-router.post('/changePassword', requireAuth, roleAuthorization(roles), trimRequest.all, validateChangePassword, changePassword)
+router.patch('/password', requireAuth, roleAuthorization(roles), trimRequest.all, validateChangePassword, changePassword)
 
 module.exports = router

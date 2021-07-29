@@ -31,8 +31,9 @@ const setUserInfo = (req = {}) => {
         // Adds verification for testing purposes
         if (process.env.NODE_ENV !== 'production') {
             user = {
-                ...user,
-                uuid: req.uuid
+                id: req.id,
+                uuid: req.uuid,
+                ...user
             }
         }
         resolve(user)

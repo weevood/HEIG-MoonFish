@@ -322,33 +322,48 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "name",
-									"value": "My Name",
+									"key": "firstName",
+									"value": "Tom",
 									"type": "text"
 								},
 								{
-									"key": "urlTwitter",
-									"value": "https://hello.com",
-									"type": "text"
-								},
-								{
-									"key": "urlGitHub",
-									"value": "https://hello.io",
+									"key": "lastName",
+									"value": "Delingthon",
 									"type": "text"
 								},
 								{
 									"key": "phone",
-									"value": "444444",
+									"value": "026 477 32 90",
+									"type": "text"
+								},
+								{
+									"key": "street",
+									"value": "Boston-City 2a",
+									"type": "text"
+								},
+								{
+									"key": "zipCode",
+									"value": "12345",
 									"type": "text"
 								},
 								{
 									"key": "city",
-									"value": "Boston2",
+									"value": "Munich",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "Munich",
 									"type": "text"
 								},
 								{
 									"key": "country",
-									"value": "Colombia2",
+									"value": "Germany",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "fr",
 									"type": "text"
 								}
 							]
@@ -366,9 +381,9 @@
 					"response": []
 				},
 				{
-					"name": "/profile/changePassword",
+					"name": "/profile/password",
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Authorization",
@@ -383,25 +398,25 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "oldPassword",
-									"value": "12345",
+									"key": "old",
+									"value": "12345678",
 									"type": "text"
 								},
 								{
-									"key": "newPassword",
-									"value": "12345",
+									"key": "new",
+									"value": "87654321",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{server}}/profile/changePassword",
+							"raw": "{{server}}/profile/password",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"profile",
-								"changePassword"
+								"password"
 							]
 						}
 					},

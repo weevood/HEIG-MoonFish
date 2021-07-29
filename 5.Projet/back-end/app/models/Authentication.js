@@ -1,5 +1,4 @@
 const DataTypes = require('sequelize')
-const bcrypt = require('bcrypt')
 
 module.exports = {
     name: 'authentications',
@@ -15,14 +14,14 @@ module.exports = {
 
         email: {
             type: DataTypes.STRING(64),
-            validate: { isEmail: true },
+            validate: { isEmail: true, max: 64 },
             allowNull: false,
             unique: true
         },
 
         password: {
             type: DataTypes.STRING(64),
-            validate: { min: 32 },
+            validate: { min: 32, max: 64 },
             allowNull: false
         },
 
