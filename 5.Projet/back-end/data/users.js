@@ -2,6 +2,7 @@ const uuid = require('uuid')
 const mariadb = require.main.require('./app/models/mariadb')
 const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
+const neo4j = require.main.require('./config/neode')
 
 const users = [
     {
@@ -66,7 +67,13 @@ const users = [
     }
 ]
 
+neo4j.deleteAll('User')
 users.forEach((user) => {
-    User.create(user.user)
-    Authentication.create(user.auth)
+    try {
+        User.create(user.user)
+        Authentication.create(user.auth)
+        neo4j.create('User', { uuid: user.user.uuid })
+    } catch (error) {
+        console.log(error)
+    }
 })
