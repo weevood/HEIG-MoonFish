@@ -1,7 +1,7 @@
 const { initOptions } = require('./initOptions')
 
 /**
- * Gets items from database
+ * Get items from database
  * @param {Object} model - the Sequelize model
  * @param {Object} options - build and query options
  */

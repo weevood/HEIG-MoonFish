@@ -7,7 +7,7 @@ module.exports = {
     },
 
     status: {
-        type: 'string',
+        type: 'integer',
         required: true,
     },
 

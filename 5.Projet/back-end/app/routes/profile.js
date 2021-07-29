@@ -3,14 +3,22 @@ const router = express.Router()
 const { requireAuth } = require('./requireAuth')
 const trimRequest = require('trim-request')
 const { roleAuthorization } = require('../controllers/auth')
-const { getProfile, updateProfile, updateProfileResume, changePassword } = require('../controllers/profile')
 const { ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN } = require("../models/enums/roles")
 const roles = [ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN]
 const {
     validateUpdateProfile,
     validateUpdateProfileResume,
-    validateChangePassword
+    validateChangePassword,
+    validateSetTags
 } = require('../controllers/profile/validators')
+const {
+    getProfile,
+    updateProfile,
+    updateProfileResume,
+    changePassword,
+    getTags,
+    setTags
+} = require('../controllers/profile')
 
 /*
  * Define all "Profile" routes
@@ -27,5 +35,11 @@ router.patch('/resume', requireAuth, roleAuthorization(roles), trimRequest.all, 
 
 // Change password route
 router.patch('/password', requireAuth, roleAuthorization(roles), trimRequest.all, validateChangePassword, changePassword)
+
+// Get my tags
+router.get('/tags', requireAuth, roleAuthorization(roles), trimRequest.all, getTags)
+
+// Set my tags
+router.post('/tags', requireAuth, roleAuthorization(roles), trimRequest.all, validateSetTags, setTags)
 
 module.exports = router

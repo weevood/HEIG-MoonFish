@@ -13,6 +13,7 @@ const users = [
             lastName: 'admin',
             roleId: 20,
             statusId: 2,
+            tags: 'JavaScript;TypeScript;NodeJs'
         },
         auth: {
             userId: 1,
@@ -27,7 +28,7 @@ const users = [
             firstName: 'moderator',
             lastName: 'moderator',
             roleId: 10,
-            statusId: 2,
+            statusId: 2
         },
         auth: {
             userId: 2,
@@ -42,7 +43,7 @@ const users = [
             firstName: 'user',
             lastName: 'user',
             roleId: 1,
-            statusId: 2,
+            statusId: 2
         },
         auth: {
             userId: 3,
@@ -57,7 +58,7 @@ const users = [
             firstName: 'banned',
             lastName: 'banned',
             roleId: 1,
-            statusId: 5,
+            statusId: 5
         },
         auth: {
             userId: 4,
@@ -68,12 +69,14 @@ const users = [
 ]
 
 neo4j.deleteAll('User')
-users.forEach((user) => {
+for (const user of users) {
     try {
-        User.create(user.user)
-        Authentication.create(user.auth)
-        neo4j.create('User', { uuid: user.user.uuid })
+        User.create(user.user).then(() => Authentication.create(user.auth))
+        neo4j.create('User', {
+            uuid: user.user.uuid,
+            tags: user.user.tags || null
+        })
     } catch (error) {
         console.log(error)
     }
-})
+}
