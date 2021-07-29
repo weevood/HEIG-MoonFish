@@ -1,7 +1,7 @@
-const db = require.main.require('./app/models')
-const User = db.models.User
+const mariadb = require.main.require('./app/models/mariadb')
+const User = mariadb.models.User
 const { buildErrObject } = require('../../../middleware/utils')
-const { getItem } = require("../../../middleware/db");
+const { getItem } = require('../../../middleware/db')
 
 /**
  * Finds user by ID

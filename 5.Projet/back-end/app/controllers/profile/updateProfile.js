@@ -1,8 +1,8 @@
-const db = require.main.require('./app/models')
-const User = db.models.User
+const mariadb = require.main.require('./app/models/mariadb')
+const User = mariadb.models.User
 const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { updateItem } = require('../../middleware/db');
+const { updateItem } = require('../../middleware/db')
 
 /**
  * Update profile function called by route

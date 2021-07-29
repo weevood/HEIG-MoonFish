@@ -154,11 +154,23 @@
 								{
 									"key": "email",
 									"value": "jean@poche.com",
-									"type": "text"
+									"type": "text",
+									"disabled": true
 								},
 								{
 									"key": "password",
 									"value": "12345678",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "admin@example.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin1234",
 									"type": "text"
 								}
 							]
@@ -421,6 +433,49 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "/profile/resume",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "resumeId",
+									"value": "15",
+									"type": "text"
+								},
+								{
+									"key": "new",
+									"value": "87654321",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/profile/resume",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"profile",
+								"resume"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -438,7 +493,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/users?filter=ad&fields=name,email&page=1&limit=10&sort=name&order=-1",
+							"raw": "{{server}}/users?fields=firstName,lastName,lang,role&limit=5&sort=lastName&order=DESC",
 							"host": [
 								"{{server}}"
 							],
@@ -447,28 +502,20 @@
 							],
 							"query": [
 								{
-									"key": "filter",
-									"value": "ad"
-								},
-								{
 									"key": "fields",
-									"value": "name,email"
-								},
-								{
-									"key": "page",
-									"value": "1"
+									"value": "firstName,lastName,lang,role"
 								},
 								{
 									"key": "limit",
-									"value": "10"
+									"value": "5"
 								},
 								{
 									"key": "sort",
-									"value": "name"
+									"value": "lastName"
 								},
 								{
 									"key": "order",
-									"value": "-1"
+									"value": "DESC"
 								}
 							]
 						}
@@ -476,66 +523,157 @@
 					"response": []
 				},
 				{
-					"name": "/users",
+					"name": "/users/:id",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Authorization",
 								"value": "Bearer {{authToken}}"
-							},
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/e845a61e-74fe-4acc-9b8d-a19ddacf0bbc",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"e845a61e-74fe-4acc-9b8d-a19ddacf0bbc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [
 							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "name",
-									"value": "New User",
+									"key": "firstName",
+									"value": "Tom",
 									"type": "text"
 								},
 								{
-									"key": "email",
-									"value": "myemail@email.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "12345",
-									"type": "text"
-								},
-								{
-									"key": "role",
-									"value": "admin",
+									"key": "lastName",
+									"value": "Delingthon",
 									"type": "text"
 								},
 								{
 									"key": "phone",
-									"value": "123123",
+									"value": "026 477 32 90",
+									"type": "text"
+								},
+								{
+									"key": "street",
+									"value": "Boston-City 2a",
+									"type": "text"
+								},
+								{
+									"key": "zipCode",
+									"value": "12345",
 									"type": "text"
 								},
 								{
 									"key": "city",
-									"value": "Bucaramamga",
+									"value": "Munich",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "Munich",
 									"type": "text"
 								},
 								{
 									"key": "country",
-									"value": "Colombia",
+									"value": "Germany",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "fr",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{server}}/users",
+							"raw": "{{server}}/users/ebc747ac-82f6-40f9-a909-16f5ad92fa04",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
-								"users"
+								"users",
+								"ebc747ac-82f6-40f9-a909-16f5ad92fa04"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:id/ban",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/b170a9af-c845-4303-ad4d-578c31bd53f3/ban",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"b170a9af-c845-4303-ad4d-578c31bd53f3",
+								"ban"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:id/roles",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "role",
+									"value": "moderator",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/users/b170a9af-c845-4303-ad4d-578c31bd53f3/roles",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"b170a9af-c845-4303-ad4d-578c31bd53f3",
+								"roles"
 							]
 						}
 					},
@@ -556,117 +694,13 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{server}}/users/5aab2443ef417d2d19e6c8f2",
+							"raw": "{{server}}/users/ebc747ac-82f6-40f9-a909-16f5ad92fa04",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"users",
-								"5aab2443ef417d2d19e6c8f2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:id",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users/5aa1c2c35ef7a4e97b5e995a",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"5aa1c2c35ef7a4e97b5e995a"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:id",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "New Name",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "new@email.com",
-									"type": "text"
-								},
-								{
-									"key": "role",
-									"value": "admin",
-									"type": "text"
-								},
-								{
-									"key": "phone",
-									"value": "12345",
-									"type": "text"
-								},
-								{
-									"key": "city",
-									"value": "Cali",
-									"type": "text"
-								},
-								{
-									"key": "country",
-									"value": "Colombia",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "http://localhost:3000/users/5aa1c2c35ef7a4e97b5e995a",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"users",
-								"5aa1c2c35ef7a4e97b5e995a"
-							],
-							"query": [
-								{
-									"key": "sort",
-									"value": "id ASC",
-									"disabled": true
-								},
-								{
-									"key": "skip",
-									"value": "3",
-									"disabled": true
-								},
-								{
-									"key": "where",
-									"value": "{ 'email' : { startsWith : 'f' } }",
-									"disabled": true
-								}
+								"ebc747ac-82f6-40f9-a909-16f5ad92fa04"
 							]
 						}
 					},

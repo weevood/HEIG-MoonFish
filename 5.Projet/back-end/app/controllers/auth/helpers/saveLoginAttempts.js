@@ -1,8 +1,7 @@
-const db = require.main.require('./app/models')
-const Authentication = db.models.Authentication
-const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
-const { updateItem } = require("../../../middleware/db");
-const { STATUS_ACTIVE } = require("../../../models/enums/status");
+const mariadb = require.main.require('./app/models/mariadb')
+const Authentication = mariadb.models.Authentication
+const { buildErrObject } = require('../../../middleware/utils')
+const { updateItem } = require('../../../middleware/db')
 
 /**
  * Saves login attempts

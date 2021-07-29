@@ -1,5 +1,9 @@
-const { createItemInDb } = require('./createItemInDb')
+const { findUser } = require('./findUser')
+const { findUserByUuid } = require('./findUserByUuid')
+const { setUserInfo } = require('./setUserInfo')
 
 module.exports = {
-    createItemInDb
+    findUser,
+    findUserByUuid,
+    setUserInfo,
 }

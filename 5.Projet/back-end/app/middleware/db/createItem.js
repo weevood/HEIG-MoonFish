@@ -9,6 +9,8 @@ const { buildErrObject } = require('../../middleware/utils')
 const createItem = (model, values = {}, options = {}) => {
 
     return new Promise((resolve, reject) => {
+        if (Object.keys(values).length === 0)
+            reject(buildErrObject(422, 'NO_VALUES'))
         model.create(values, options)
             .then(item => {
                 resolve(item)

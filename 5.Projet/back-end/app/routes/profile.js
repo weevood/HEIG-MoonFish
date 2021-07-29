@@ -1,14 +1,16 @@
 const express = require('express')
 const router = express.Router()
-require.main.require('./config/passport')
-const passport = require('passport')
-const requireAuth = passport.authenticate('jwt', { session: false })
+const { requireAuth } = require('./requireAuth')
 const trimRequest = require('trim-request')
 const { roleAuthorization } = require('../controllers/auth')
-const { getProfile, updateProfile, changePassword } = require('../controllers/profile')
-const { validateUpdateProfile, validateChangePassword } = require('../controllers/profile/validators')
-const { ROLES_USER, ROLES_MODERATOR, ROLES_ADMIN } = require("../models/enums/roles");
-const roles = [ROLES_USER, ROLES_MODERATOR, ROLES_ADMIN]
+const { getProfile, updateProfile, updateProfileResume, changePassword } = require('../controllers/profile')
+const { ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN } = require("../models/enums/roles")
+const roles = [ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN]
+const {
+    validateUpdateProfile,
+    validateUpdateProfileResume,
+    validateChangePassword
+} = require('../controllers/profile/validators')
 
 /*
  * Define all "Profile" routes
@@ -19,6 +21,9 @@ router.get('/', requireAuth, roleAuthorization(roles), trimRequest.all, getProfi
 
 // Update profile route
 router.patch('/', requireAuth, roleAuthorization(roles), trimRequest.all, validateUpdateProfile, updateProfile)
+
+// Update resume reference
+router.patch('/resume', requireAuth, roleAuthorization(roles), trimRequest.all, validateUpdateProfileResume, updateProfileResume)
 
 // Change password route
 router.patch('/password', requireAuth, roleAuthorization(roles), trimRequest.all, validateChangePassword, changePassword)

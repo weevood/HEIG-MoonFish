@@ -1,7 +1,7 @@
-const db = require.main.require('./app/models')
-const Authentication = db.models.Authentication
-const { itemNotFound, buildErrObject } = require('../../../middleware/utils')
-const { getItem } = require("../../../middleware/db");
+const mariadb = require.main.require('./app/models/mariadb')
+const Authentication = mariadb.models.Authentication
+const { buildErrObject } = require('../../../middleware/utils')
+const { getItem } = require('../../../middleware/db')
 
 /**
  * Finds user auth by use id

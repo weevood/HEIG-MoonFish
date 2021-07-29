@@ -1,8 +1,8 @@
-const db = require.main.require('./app/models')
-const Authentication = db.models.Authentication
+const mariadb = require.main.require('./app/models/mariadb')
+const Authentication = mariadb.models.Authentication
 const { buildSuccObject, buildErrObject } = require('../../../middleware/utils')
-const { hash } = require("../../../middleware/auth")
-const { updateItem } = require("../../../middleware/db");
+const { hash } = require('../../../middleware/auth')
+const { updateItem } = require('../../../middleware/db')
 
 /**
  * Updates a user password in database

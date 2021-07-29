@@ -1,8 +1,8 @@
 const { matchedData } = require('express-validator')
 const { handleError } = require('../../middleware/utils')
 const { checkPassword } = require('../../middleware/auth')
+const { findUser } = require('../users/helpers')
 const {
-    findUser,
     findUserAuthByEmail,
     isUserBlocked,
     checkLoginAttempts,

@@ -1,7 +1,7 @@
 module.exports = Object.freeze({
 
-    ROLES_USER: 1,
-    ROLES_MODERATOR: 10,
-    ROLES_ADMIN: 20
+    ROLE_USER: 1,
+    ROLE_MODERATOR: 10,
+    ROLE_ADMIN: 20
 
 })

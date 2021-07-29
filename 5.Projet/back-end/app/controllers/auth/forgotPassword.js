@@ -1,8 +1,9 @@
 const { matchedData } = require('express-validator')
-const { findUserAuthByEmail, findUser } = require('./helpers')
+const { findUserAuthByEmail } = require('./helpers')
 const { getIP, getBrowserInfo, getCountry } = require('../../middleware/utils')
 const { handleError } = require('../../middleware/utils')
 const { sendResetPasswordEmail } = require('../../middleware/emailer')
+const { findUser } = require('../users/helpers');
 
 /**
  * Forgot password function called by route

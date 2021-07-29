@@ -1,6 +1,6 @@
-const db = require.main.require('./app/models')
-const User = db.models.User
-const { STATUS_ACTIVE } = require('../../../models/enums/status');
+const mariadb = require.main.require('./app/models/mariadb')
+const User = mariadb.models.User
+const { STATUS_ACTIVE } = require('../../../models/enums/status')
 const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
 const { updateItem } = require('../../../middleware/db')
 

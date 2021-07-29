@@ -7,7 +7,8 @@ const { initOptions } = require('./initOptions')
  */
 const getItems = async (model,  options = {}) => {
     return new Promise((resolve, reject) => {
-        model.findAll(initOptions(options))
+        options = initOptions(options)
+        model.findAll(options)
             .then(async item => {
                 resolve(item)
             })

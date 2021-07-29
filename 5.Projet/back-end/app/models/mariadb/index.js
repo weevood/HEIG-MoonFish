@@ -1,7 +1,7 @@
 const fs = require('fs')
 const modelsPath = `${__dirname}/`
-const { removeExtensionFromFile } = require('../middleware/utils')
-const sequelize = require('../../config/sequelize')
+const { removeExtensionFromFile } = require('../../middleware/utils')
+const sequelize = require('../../../config/sequelize')
 
 /*
  * Load all models dynamically
@@ -44,10 +44,10 @@ NotificationTranslation.belongsTo(Notification)
 ProjectTranslation.belongsTo(Project)
 Resource.belongsTo(Project)
 Resource.belongsToMany(Category, { through: 'resources_categories' })
-Role.hasMany(User, {foreignKey: 'roleId', sourceKey: 'id'});
-User.belongsTo(Role, {foreignKey: 'roleId', targetKey: 'id'});
-Status.hasMany(User, {foreignKey: 'statusId', sourceKey: 'id'});
-User.belongsTo(Status, {foreignKey: 'statusId', targetKey: 'id'});
+Role.hasMany(User, {foreignKey: 'roleId', sourceKey: 'id'})
+User.belongsTo(Role, {foreignKey: 'roleId', targetKey: 'id'})
+Status.hasMany(User, {foreignKey: 'statusId', sourceKey: 'id'})
+User.belongsTo(Status, {foreignKey: 'statusId', targetKey: 'id'})
 User.hasMany(Resource, { foreignKey: 'authorId' })
 
 // Translations

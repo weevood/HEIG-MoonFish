@@ -1,6 +1,6 @@
-const db = require.main.require('./app/models')
-const Authentication = db.models.Authentication
-const { buildSuccObject } = require('../../middleware/utils')
+const mariadb = require.main.require('./app/models/mariadb')
+const Authentication = mariadb.models.Authentication
+const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
 
 /**
  * Update an item in database by id
@@ -10,6 +10,8 @@ const { buildSuccObject } = require('../../middleware/utils')
  */
 const updateItem = (model, id, values = {}) => {
     return new Promise((resolve, reject) => {
+        if (Object.keys(values).length === 0)
+            reject(buildErrObject(422, 'NO_VALUES'))
         const pk = (model === Authentication ? { userId: id } : { id })
         model.update(values, { where: pk })
             .then(

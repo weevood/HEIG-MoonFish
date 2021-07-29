@@ -1,5 +1,5 @@
-const db = require.main.require('./app/models')
-const Authentication = db.models.Authentication
+const mariadb = require.main.require('./app/models/mariadb')
+const Authentication = mariadb.models.Authentication
 const { buildSuccObject } = require('../../middleware/utils')
 
 /**
@@ -10,10 +10,9 @@ const { buildSuccObject } = require('../../middleware/utils')
 const deleteItem = (model, id) => {
     return new Promise((resolve, reject) => {
         const pk = (model === Authentication ? { userId: id } : { id })
-        model.destroy({ where: { pk } })
+        model.destroy({ where: pk })
             .then(
-                res => {
-                    let deletedRows = res[0]
+                deletedRows => {
                     if (deletedRows !== 1) {
                         reject('DELETE_ERROR')
                     }

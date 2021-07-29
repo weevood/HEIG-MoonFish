@@ -1,13 +1,15 @@
+const { banUser } = require('./banUser')
+const { deleteUser } = require('./deleteUser')
 const { getUser } = require('./getUser')
 const { getUsers } = require('./getUsers')
-const { createUser } = require('./createUser')
+const { giveUserRole } = require('./giveUserRole')
 const { updateUser } = require('./updateUser')
-const { deleteUser } = require('./deleteUser')
 
 module.exports = {
+    banUser,
+    deleteUser,
     getUser,
     getUsers,
-    createUser,
+    giveUserRole,
     updateUser,
-    deleteUser,
 }

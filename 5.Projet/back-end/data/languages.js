@@ -1,5 +1,5 @@
-const db = require.main.require('./app/models')
-const Language = db.models.Language
+const mariadb = require.main.require('./app/models/mariadb')
+const Language = mariadb.models.Language
 
 const languages = {
     'aa': 'Afaraf',

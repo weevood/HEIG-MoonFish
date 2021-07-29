@@ -13,7 +13,7 @@ const path = require('path')                // Provides utilities for working wi
 const DROP_DB = false // For development only
 
 // Configurations files
-const db = require('./app/models')
+const mariadb = require('./app/models/mariadb')
 // const initMongo = require('./config/mongo')
 
 // Initiate the app
@@ -77,9 +77,9 @@ app.use(require('./app/routes'))
 // initMongo()
 
 // Init Sequelize
-db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
+mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
     .then(function () {
-        return db.sequelize.sync(
+        return mariadb.sequelize.sync(
             { force: DROP_DB } // On dev, drop and re-sync db
         ).then(() => {
             if (DROP_DB)
@@ -88,7 +88,7 @@ db.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         })
     })
     .then(function () {
-        return db.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+        return mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
     })
     .then(function () {
         console.log('Database synchronised.')

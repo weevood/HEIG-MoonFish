@@ -1,6 +1,6 @@
 const passport = require('passport')
 const auth = require('../app/middleware/auth')
-const { findUserByUuid } = require("../app/controllers/auth/helpers");
+const { findUserByUuid } = require("../app/controllers/users/helpers")
 const JwtStrategy = require('passport-jwt').Strategy
 
 /**

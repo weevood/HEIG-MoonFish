@@ -1,10 +1,12 @@
 const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
+const { getEnumValues } = require("../../../models/enums/getEnumValues");
+const roles = getEnumValues(require('../../../models/enums/roles'))
 
 /**
- * Validates reset password request
+ * Validates update item request
  */
-const validateResetPassword = [
+const validateGiveUserRole = [
     check('id')
         .exists()
         .withMessage('MISSING')
@@ -13,17 +15,17 @@ const validateResetPassword = [
         .withMessage('IS_EMPTY')
         .isUUID(4)
         .withMessage('NOT_VALID_UUID'),
-    check('password')
+    check('role')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY')
-        .isLength({ min: 8 })
-        .withMessage('PASSWORD_TOO_SHORT'),
+        .isIn(roles)
+        .withMessage('NOT_A_VALID_ROLE'),
     (req, res, next) => {
         validateResult(req, res, next)
     }
 ]
 
-module.exports = { validateResetPassword }
+module.exports = { validateGiveUserRole }

@@ -1,7 +1,8 @@
 const { matchedData } = require('express-validator')
-const { registerUser, setUserInfo, generateToken } = require('./helpers')
+const { registerUser, generateToken } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 const { emailExists, sendRegistrationEmail } = require('../../middleware/emailer')
+const { setUserInfo } = require('../users/helpers');
 
 /**
  * Register function called by route

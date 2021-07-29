@@ -1,6 +1,7 @@
 const { matchedData } = require('express-validator')
-const { findUserAuth, updatePassword, findUserByUuid } = require('./helpers')
+const { updatePassword } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
+const { findUserByUuid } = require('../users/helpers');
 
 /**
  * Reset password function called by route

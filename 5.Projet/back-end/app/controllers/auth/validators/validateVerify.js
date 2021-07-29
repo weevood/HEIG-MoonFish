@@ -10,7 +10,9 @@ const validateVerify = [
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .withMessage('IS_EMPTY')
+        .isUUID(4)
+        .withMessage('NOT_VALID_UUID'),
     (req, res, next) => {
         validateResult(req, res, next)
     }

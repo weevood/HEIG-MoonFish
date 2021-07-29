@@ -1,6 +1,5 @@
 const { handleError, itemNotFound } = require('../../middleware/utils')
-const { findUser } = require('../auth/helpers');
-const { setUserInfo } = require('../auth/helpers/setUserInfo');
+const { findUser, setUserInfo } = require('../users/helpers')
 
 /**
  * Get profile function called by route

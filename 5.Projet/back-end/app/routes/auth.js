@@ -1,10 +1,8 @@
 const express = require('express')
 const router = express.Router()
-require.main.require('./config/passport')
-const passport = require('passport')
-const requireAuth = passport.authenticate('jwt', { session: false })
+const { requireAuth } = require('./requireAuth')
 const trimRequest = require('trim-request')
-const { ROLES_ADMIN, ROLES_USER, ROLES_MODERATOR } = require('../models/enums/roles');
+const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../models/enums/roles')
 
 const {
     login,
@@ -24,7 +22,7 @@ const {
     validateLogin
 } = require('../controllers/auth/validators')
 
-const roles = [ROLES_USER, ROLES_MODERATOR, ROLES_ADMIN]
+const roles = [ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN]
 
 /*
  * Define all "Authentication" routes
