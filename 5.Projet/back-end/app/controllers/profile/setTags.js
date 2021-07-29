@@ -1,5 +1,5 @@
 const { handleError } = require('../../middleware/utils')
-const { matchedData } = require("express-validator");
+const { matchedData } = require('express-validator');
 const { updateNode } = require('../../middleware/db/updateNode');
 
 /**

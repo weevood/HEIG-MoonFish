@@ -5,7 +5,7 @@ const {
     PROJECT_STATUS_IN_PROGRESS,
     PROJECT_STATUS_ENDED,
     PROJECT_STATUS_ABANDONED
-} = require("../app/models/enums/projectStatus")
+} = require('../app/models/enums/projectStatus')
 
 const projects = [
     {

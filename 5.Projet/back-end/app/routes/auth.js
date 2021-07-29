@@ -1,28 +1,26 @@
 const express = require('express')
 const router = express.Router()
-const { requireAuth } = require('./requireAuth')
+const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
-const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../models/enums/roles')
+const { ROLE_USER } = require('../models/enums/roles')
 
 const {
+    forgotPassword,
+    getRefreshToken,
     login,
     register,
-    verify,
-    forgotPassword,
+    requiredRole,
     resetPassword,
-    getRefreshToken,
-    roleAuthorization
+    verify,
 } = require('../controllers/auth')
 
 const {
-    validateRegister,
-    validateVerify,
     validateForgotPassword,
+    validateLogin,
+    validateRegister,
     validateResetPassword,
-    validateLogin
+    validateVerify,
 } = require('../controllers/auth/validators')
-
-const roles = [ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN]
 
 /*
  * Define all "Authentication" routes
@@ -44,6 +42,6 @@ router.post('/forgot', trimRequest.all, validateForgotPassword, forgotPassword)
 router.post('/reset', trimRequest.all, validateResetPassword, resetPassword)
 
 // Get a new token
-router.get('/token', requireAuth, roleAuthorization(roles), trimRequest.all, getRefreshToken)
+router.get('/token', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getRefreshToken)
 
 module.exports = router

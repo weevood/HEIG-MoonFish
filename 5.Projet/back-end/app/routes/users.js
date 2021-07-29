@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const { requireAuth } = require('./requireAuth')
+const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
-const { roleAuthorization } = require('../controllers/auth')
+const { requiredRole } = require('../controllers/auth')
 const { ROLE_ADMIN, ROLE_MODERATOR } = require('../models/enums/roles')
 
 const {
@@ -15,10 +15,10 @@ const {
 } = require('../controllers/users')
 
 const {
-    validateGetUser,
-    validateUpdateUser,
     validateDeleteUser,
-    validateGiveUserRole
+    validateGetUser,
+    validateGiveUserRole,
+    validateUpdateUser,
 } = require('../controllers/users/validators')
 
 /*
@@ -26,21 +26,21 @@ const {
  */
 
 // Get all users
-router.get('/', requireAuth, roleAuthorization([ROLE_ADMIN]), trimRequest.all, getUsers)
+router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getUsers)
 
 // Get a user by id
-router.get('/:id', requireAuth, roleAuthorization([ROLE_ADMIN, ROLE_MODERATOR]), trimRequest.all, validateGetUser, getUser)
+router.get('/:id', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUser)
 
 // Update a user by id
-router.patch('/:id', requireAuth, roleAuthorization([ROLE_ADMIN]), trimRequest.all, validateUpdateUser, updateUser)
+router.patch('/:id', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)
 
 // Assign a role to user
-router.patch('/:id/roles', requireAuth, roleAuthorization([ROLE_ADMIN, ROLE_MODERATOR]), trimRequest.all, validateGiveUserRole, giveUserRole)
+router.patch('/:id/roles', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGiveUserRole, giveUserRole)
 
 // Ban a user by id
-router.patch('/:id/ban', requireAuth, roleAuthorization([ROLE_ADMIN, ROLE_MODERATOR]), trimRequest.all, validateDeleteUser, banUser)
+router.patch('/:id/ban', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateDeleteUser, banUser)
 
 // Delete a user
-router.delete('/:id', requireAuth, roleAuthorization([ROLE_ADMIN]), trimRequest.all, validateDeleteUser, deleteUser)
+router.delete('/:id', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteUser, deleteUser)
 
 module.exports = router

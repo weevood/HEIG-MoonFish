@@ -3,8 +3,8 @@ const neo4j = require.main.require('./config/neode')
 
 /**
  * Get node from database by uuid
- * @param {Object} model - the Neo4j model
- * @param {int} uuid - the node uuid
+ * @param {string} model - the Neo4j model
+ * @param {uuid} uuid - the node uuid
  */
 const getNode = (model, uuid) => {
     return new Promise((resolve, reject) => {

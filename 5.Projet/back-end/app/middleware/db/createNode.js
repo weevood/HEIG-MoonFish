@@ -3,7 +3,7 @@ const neo4j = require.main.require('./config/neode')
 
 /**
  * Creates a new node in database
- * @param {Object} model - the Neo4j model
+ * @param {string} model - the Neo4j model
  * @param {Object} values - the values to update
  */
 const createNode = (model, values = {}) => {

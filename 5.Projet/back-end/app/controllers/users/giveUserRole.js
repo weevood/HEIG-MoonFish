@@ -5,7 +5,7 @@ const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { updateItem } = require('../../middleware/db')
 const { findUserByUuid } = require('../users/helpers');
 const { ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN } = require('../../models/enums/roles');
-const { roleAuthorization } = require('../auth');
+const { requiredRole } = require('../auth');
 
 /**
  * Update item function called by route
@@ -25,7 +25,7 @@ const giveUserRole = async (req, res) => {
                 roleId = ROLE_MODERATOR
                 break
             case 'admin':
-                roleAuthorization([ROLE_ADMIN])
+                requiredRole(ROLE_ADMIN)
                 roleId = ROLE_ADMIN
                 break
         }

@@ -1,11 +1,10 @@
 const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
-const { getNode } = require("./index");
-const neo4j = require.main.require('./config/neode')
+const { getNode } = require('./index');
 
 /**
  * Update an node in database by uuid
- * @param {Object} model - the Neo4j model
- * @param {int} uuid - the node uuid
+ * @param {string} model - the Neo4j model
+ * @param {uuid} uuid - the node uuid
  * @param {Object} values - the values to update
  */
 const updateNode = (model, uuid, values = {}) => {
@@ -16,9 +15,7 @@ const updateNode = (model, uuid, values = {}) => {
             .then((node) => {
                 node.update(values)
                     .then(resolve(buildSuccObject('NODE_UPDATED')))
-                    .catch(error => {
-                        reject(error)
-                    })
+                    .catch(reject('UPDATE_ERROR'))
             })
             .catch(error => {
                 reject(error)

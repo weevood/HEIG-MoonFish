@@ -4,7 +4,7 @@ const { verify } = require('./verify')
 const { forgotPassword } = require('./forgotPassword')
 const { resetPassword } = require('./resetPassword')
 const { getRefreshToken } = require('./getRefreshToken')
-const { roleAuthorization } = require('./roleAuthorization')
+const { requiredRole } = require('./requiredRole')
 
 module.exports = {
     login,
@@ -13,5 +13,5 @@ module.exports = {
     forgotPassword,
     resetPassword,
     getRefreshToken,
-    roleAuthorization
+    requiredRole
 }

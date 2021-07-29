@@ -3,7 +3,7 @@
  * @param {Object} res - response object
  * @param {Object} error - error object
  */
-const { ValidationError } = require("sequelize")
+const { ValidationError } = require('sequelize')
 const handleError = (res = {}, error = {}) => {
 
     // Prints error in console

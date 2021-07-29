@@ -1,23 +1,24 @@
 const express = require('express')
 const router = express.Router()
-const { requireAuth } = require('./requireAuth')
+const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
-const { roleAuthorization } = require('../controllers/auth')
-const { ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN } = require("../models/enums/roles")
-const roles = [ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN]
+const { requiredRole } = require('../controllers/auth')
+const { ROLE_USER } = require('../models/enums/roles')
+
 const {
+    validateChangePassword,
+    validateSetTags,
     validateUpdateProfile,
     validateUpdateProfileResume,
-    validateChangePassword,
-    validateSetTags
 } = require('../controllers/profile/validators')
+
 const {
+    changePassword,
     getProfile,
+    getTags,
+    setTags,
     updateProfile,
     updateProfileResume,
-    changePassword,
-    getTags,
-    setTags
 } = require('../controllers/profile')
 
 /*
@@ -25,21 +26,21 @@ const {
  */
 
 // Get profile route
-router.get('/', requireAuth, roleAuthorization(roles), trimRequest.all, getProfile)
+router.get('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getProfile)
 
 // Update profile route
-router.patch('/', requireAuth, roleAuthorization(roles), trimRequest.all, validateUpdateProfile, updateProfile)
+router.patch('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProfile, updateProfile)
 
 // Update resume reference
-router.patch('/resume', requireAuth, roleAuthorization(roles), trimRequest.all, validateUpdateProfileResume, updateProfileResume)
+router.patch('/resume', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProfileResume, updateProfileResume)
 
 // Change password route
-router.patch('/password', requireAuth, roleAuthorization(roles), trimRequest.all, validateChangePassword, changePassword)
+router.patch('/password', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateChangePassword, changePassword)
 
 // Get my tags
-router.get('/tags', requireAuth, roleAuthorization(roles), trimRequest.all, getTags)
+router.get('/tags', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getTags)
 
 // Set my tags
-router.post('/tags', requireAuth, roleAuthorization(roles), trimRequest.all, validateSetTags, setTags)
+router.post('/tags', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateSetTags, setTags)
 
 module.exports = router

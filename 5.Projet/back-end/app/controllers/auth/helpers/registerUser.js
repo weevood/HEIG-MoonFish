@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const { hash } = require("../../../middleware/auth")
+const { hash } = require('../../../middleware/auth')
 const { buildErrObject } = require('../../../middleware/utils')
 const mariadb = require.main.require('./app/models/mariadb')
 const User = mariadb.models.User

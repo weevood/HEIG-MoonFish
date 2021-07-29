@@ -4,7 +4,8 @@ const Authentication = mariadb.models.Authentication
 const { matchedData } = require('express-validator')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { deleteItem } = require('../../middleware/db')
-const { findUserByUuid } = require("../users/helpers");
+const { findUserByUuid } = require('../users/helpers');
+const { deleteNode } = require('../../middleware/db/deleteNode');
 
 /**
  * Delete item function called by route
@@ -17,6 +18,7 @@ const deleteUser = async (req, res) => {
         const user = await findUserByUuid(data.id)
         await deleteItem(Authentication, user.id)
         await deleteItem(User, user.id)
+        await deleteNode('User', user.uuid)
         res.status(200).json(buildSuccObject('USER_DELETED'))
     } catch (error) {
         handleError(res, error)

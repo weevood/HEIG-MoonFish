@@ -1,4 +1,4 @@
-const { ITEMS_LIMIT } = require("../../../config/constants")
+const { ITEMS_LIMIT } = require('../../../config/constants')
 
 /**
  * Builds initial options for query

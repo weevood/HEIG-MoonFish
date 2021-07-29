@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const { STATUS_ACTIVE, STATUS_BANNED } = require("../app/models/enums/status");
+const { STATUS_ACTIVE, STATUS_BANNED } = require('../app/models/enums/status');
 const neo4j = require.main.require('./config/neode')
 
 const teams = [
