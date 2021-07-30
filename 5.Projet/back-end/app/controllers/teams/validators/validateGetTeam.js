@@ -5,12 +5,14 @@ const { check } = require('express-validator')
  * Validates get item request
  */
 const validateGetTeam = [
-    check('id')
+    check('uuid')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY'),
+        .withMessage('IS_EMPTY')
+        .isUUID(4)
+        .withMessage('NOT_VALID_UUID'),
     (req, res, next) => {
         validateResult(req, res, next)
     }

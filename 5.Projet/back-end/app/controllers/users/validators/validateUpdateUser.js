@@ -5,7 +5,7 @@ const { check } = require('express-validator')
  * Validates update item request
  */
 const validateUpdateUser = [
-    check('id')
+    check('uuid')
         .exists()
         .withMessage('MISSING')
         .not()

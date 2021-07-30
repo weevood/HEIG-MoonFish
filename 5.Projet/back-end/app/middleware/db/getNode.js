@@ -7,6 +7,7 @@ const neo4j = require.main.require('./config/neode')
  * @param {uuid} uuid - the node uuid
  */
 const getNode = (model, uuid) => {
+
     return new Promise((resolve, reject) => {
         neo4j.find(model, uuid)
             .then(async item => {

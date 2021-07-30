@@ -1,5 +1,5 @@
-const { getNode } = require('./index');
 const { buildSuccObject } = require('../../middleware/utils');
+const { getNode } = require('./getNode');
 
 /**
  * Delete a node from database by uuid

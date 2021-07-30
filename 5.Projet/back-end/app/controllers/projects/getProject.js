@@ -7,14 +7,14 @@ const { handleError, clearNode } = require('../../middleware/utils')
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-const getTeam = async (req, res) => {
+const getProject = async (req, res) => {
     try {
         const data = matchedData(req)
-        const team = await getNode('Team', data.uuid)
-        res.status(200).json(clearNode(await team.toJson()))
+        const project = await getNode('Project', data.uuid)
+        res.status(200).json(clearNode(await project.toJson()))
     } catch (error) {
         handleError(res, error)
     }
 }
 
-module.exports = { getTeam }
+module.exports = { getProject }

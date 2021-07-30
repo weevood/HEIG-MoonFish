@@ -11,7 +11,7 @@ const getUser = async (req, res) => {
     try {
         const data = matchedData(req)
         res.status(200).json(
-            await findUserByUuid(data.id)
+            await findUserByUuid(data.uuid)
         )
     } catch (error) {
         handleError(res, error)

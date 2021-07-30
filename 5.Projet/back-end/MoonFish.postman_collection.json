@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "6dcac9de-4627-4764-b065-84e87f5d1185",
-		"name": "MoonFish",
+		"name": "MoonFish - Express.js REST API with JWT",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -289,7 +289,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Define all \"Authentication\" routes"
 		},
 		{
 			"name": "profile",
@@ -311,6 +312,62 @@
 							],
 							"path": [
 								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/tags",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/profile/tags",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"profile",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/tags",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "tags",
+									"value": "PHP;JAVA;C++",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/profile/tags",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"profile",
+								"tags"
 							]
 						}
 					},
@@ -477,7 +534,8 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Define all \"Profile\" routes"
 		},
 		{
 			"name": "users",
@@ -493,7 +551,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/users?fields=firstName,lastName,lang,role&limit=5&sort=lastName&order=DESC",
+							"raw": "{{server}}/users?filters[statusId]=2&filters[lang]=en&fields=firstName,lastName,lang,role&limit=5&sort=lastName&order=DESC",
 							"host": [
 								"{{server}}"
 							],
@@ -501,6 +559,14 @@
 								"users"
 							],
 							"query": [
+								{
+									"key": "filters[statusId]",
+									"value": "2"
+								},
+								{
+									"key": "filters[lang]",
+									"value": "en"
+								},
 								{
 									"key": "fields",
 									"value": "firstName,lastName,lang,role"
@@ -523,7 +589,7 @@
 					"response": []
 				},
 				{
-					"name": "/users/:id",
+					"name": "/users/:uuid",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -546,7 +612,7 @@
 					"response": []
 				},
 				{
-					"name": "/users/:id",
+					"name": "/users/:uuid",
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -620,7 +686,7 @@
 					"response": []
 				},
 				{
-					"name": "/users/:id/ban",
+					"name": "/users/:uuid/ban",
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -645,7 +711,7 @@
 					"response": []
 				},
 				{
-					"name": "/users/:id/roles",
+					"name": "/users/:uuid/roles",
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -680,7 +746,7 @@
 					"response": []
 				},
 				{
-					"name": "/users/:id",
+					"name": "/users/:uuid",
 					"request": {
 						"method": "DELETE",
 						"header": [
@@ -689,10 +755,6 @@
 								"value": "Bearer {{authToken}}"
 							}
 						],
-						"body": {
-							"mode": "formdata",
-							"formdata": []
-						},
 						"url": {
 							"raw": "{{server}}/users/ebc747ac-82f6-40f9-a909-16f5ad92fa04",
 							"host": [
@@ -706,7 +768,451 @@
 					},
 					"response": []
 				}
-			]
+			],
+			"description": "Define all \"Users\" routes"
+		},
+		{
+			"name": "teams",
+			"item": [
+				{
+					"name": "/teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams?orders[name]=DESC&limit=5&offset=0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams"
+							],
+							"query": [
+								{
+									"key": "filters[status]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "orders[name]",
+									"value": "DESC"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Purple Team",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/teams",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/00edd4a2-239b-4b7e-b0f8-f3c6f4f27935",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"00edd4a2-239b-4b7e-b0f8-f3c6f4f27935"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "The Big Team",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/teams/c08ac44d-7caf-4fe7-948e-95fac4571b48",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid/join",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/d6443a79-3a8a-40a1-b6d1-e8be732ce361/join",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"join"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid/leave",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/d6443a79-3a8a-40a1-b6d1-e8be732ce361/leave",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"leave"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/c08ac44d-7caf-4fe7-948e-95fac4571b48",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Define all \"Teams\" routes"
+		},
+		{
+			"name": "projects",
+			"item": [
+				{
+					"name": "/projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects?orders[name]=DESC&limit=5&offset=0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects"
+							],
+							"query": [
+								{
+									"key": "filters[status]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "orders[name]",
+									"value": "DESC"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Purple Team",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/projects",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects/00edd4a2-239b-4b7e-b0f8-f3c6f4f27935",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"00edd4a2-239b-4b7e-b0f8-f3c6f4f27935"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "The Big Team",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/projects/c08ac44d-7caf-4fe7-948e-95fac4571b48",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid/arbitrates",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects/d6443a79-3a8a-40a1-b6d1-e8be732ce361/arbitrates",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"arbitrates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid/applies",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects/d6443a79-3a8a-40a1-b6d1-e8be732ce361/applies",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"applies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid/develops",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects/d6443a79-3a8a-40a1-b6d1-e8be732ce361/develops",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"develops"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects/c08ac44d-7caf-4fe7-948e-95fac4571b48",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Define all \"Teams\" routes"
 		}
 	]
 }

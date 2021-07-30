@@ -1,5 +1,5 @@
 const passport = require('passport')
-const auth = require('../app/middleware/auth')
+const { decrypt } = require('../app/middleware/auth/decrypt')
 const { findUserByUuid } = require('../app/controllers/users/helpers')
 const JwtStrategy = require('passport-jwt').Strategy
 
@@ -19,7 +19,7 @@ const jwtExtractor = (req) => {
     }
     // Decrypts token
     if (token) {
-        token = auth.decrypt(token)
+        token = decrypt(token)
     }
     return token
 }

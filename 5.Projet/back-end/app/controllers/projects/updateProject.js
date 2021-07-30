@@ -7,16 +7,16 @@ const { matchedData } = require('express-validator')
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-const updateTeam = async (req, res) => {
+const updateProject = async (req, res) => {
     try {
         const data = matchedData(req)
-        const team = await getNode('Team', data.uuid)
+        const project = await getNode('Project', data.uuid)
         if (await relExists(
-            { model: 'Team', uuid: data.uuid },
+            { model: 'Project', uuid: data.uuid },
             { model: 'User', uuid: req.user.uuid },
             { isOwner: true })
         ) {
-            res.status(200).json(await updateNode('Team', data.uuid, data))
+            res.status(200).json(await updateNode('Project', data.uuid, data))
         }else
             res.status(403).json({ error: { msg: 'FORBIDDEN' } })
     } catch (error) {
@@ -24,4 +24,4 @@ const updateTeam = async (req, res) => {
     }
 }
 
-module.exports = { updateTeam }
+module.exports = { updateProject }

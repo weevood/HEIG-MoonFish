@@ -7,13 +7,13 @@ const { clearNodes } = require('../../middleware/utils/clearNodes');
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-const getTeams = async (req, res) => {
+const getProjects = async (req, res) => {
     try {
-        const teams = await getNodes('Team', req.query);
-        res.status(200).json(clearNodes(await teams.toJson()))
+        const projects = await getNodes('Project', req.query);
+        res.status(200).json(clearNodes(await projects.toJson()))
     } catch (error) {
         handleError(res, error)
     }
 }
 
-module.exports = { getTeams }
+module.exports = { getProjects }

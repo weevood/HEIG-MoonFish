@@ -2,13 +2,13 @@ const { buildErrObject } = require('../../../middleware/utils')
 const { getNodes } = require("../../../middleware/db/getNodes");
 
 /**
- * Checks if a team already exists in database
+ * Checks if a project already exists in database
  * @param {string} name - name of item
  */
-const teamExists = (name = '') => {
+const projectExists = (name = '') => {
     return new Promise((resolve, reject) => {
 
-        getNodes('Team', {
+        getNodes('Project', {
             filters: { name }
         }).then(collection => {
             if (collection.length)
@@ -21,4 +21,4 @@ const teamExists = (name = '') => {
     })
 }
 
-module.exports = { teamExists }
+module.exports = { projectExists }

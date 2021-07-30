@@ -8,13 +8,13 @@ const { findUserNode } = require('../users/helpers');
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-const joinTeam = async (req, res) => {
+const applyProject = async (req, res) => {
     try {
         const data = matchedData(req)
         const user = await findUserNode(req.user.uuid)
-        const team = await getNode('Team', data.uuid)
-        if (!await relExists(user, team)) {
-            await user.relateTo(team, 'isMemberOf', { isOwner: false });
+        const project = await getNode('Project', data.uuid)
+        if (!await relExists(user, project)) {
+            await user.relateTo(project, 'isMemberOf', { isOwner: false });
             res.status(200).json(buildSuccObject('TEAM_JOINED'))
         }
         res.status(403).json({ error: { msg: 'USER_ALREADY_IN_TEAM' } })
@@ -23,4 +23,4 @@ const joinTeam = async (req, res) => {
     }
 }
 
-module.exports = { joinTeam }
+module.exports = { applyProject }

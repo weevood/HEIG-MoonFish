@@ -14,15 +14,19 @@ const handleError = (res = {}, error = {}) => {
     // Catch validation errors
     if (error instanceof ValidationError) {
         error = {
-            code: 422,
+            code: 400,
             msg: error.message
         }
     }
 
+    if(typeof error.code === 'undefined')
+        error.code = 422
+
     // Sends error to user
     res.status(error.code).json({
-        errors: {
-            msg: error.msg
+        error: {
+            code: error.code,
+            msg: error.msg || 'FAILED'
         }
     })
 }

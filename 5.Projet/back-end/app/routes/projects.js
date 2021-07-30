@@ -36,11 +36,11 @@ router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getProje
 // Create a project (MANDATES)
 router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateProject, createProject)
 
-// Get a project by id
-router.get('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetProject, getProject)
+// Get a project by uuid
+router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetProject, getProject)
 
-// Update a project by id
-router.patch('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProject, updateProject)
+// Update a project by uuid
+router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProject, updateProject)
 
 // Arbitrate a project (ARBITRATES)
 router.put('/:id/arbitrates', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateArbitrateProject, arbitrateProject)

@@ -2,9 +2,9 @@ const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
 
 /**
- * Validates delete item request
+ * Validates update item request
  */
-const validateDeleteUser = [
+const validateDevelopProject = [
     check('uuid')
         .exists()
         .withMessage('MISSING')
@@ -18,4 +18,4 @@ const validateDeleteUser = [
     }
 ]
 
-module.exports = { validateDeleteUser }
+module.exports = { validateDevelopProject }

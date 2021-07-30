@@ -4,7 +4,7 @@ const { check } = require('express-validator')
 /**
  * Validates delete item request
  */
-const validateDeleteUser = [
+const validateDeleteProject = [
     check('uuid')
         .exists()
         .withMessage('MISSING')
@@ -18,4 +18,4 @@ const validateDeleteUser = [
     }
 ]
 
-module.exports = { validateDeleteUser }
+module.exports = { validateDeleteProject }

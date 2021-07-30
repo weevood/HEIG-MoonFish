@@ -29,18 +29,18 @@ const {
 router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getUsers)
 
 // Get a user by id
-router.get('/:id', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUser)
+router.get('/:uuid', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUser)
 
 // Update a user by id
-router.patch('/:id', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)
+router.patch('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)
 
 // Assign a role to user
-router.patch('/:id/roles', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGiveUserRole, giveUserRole)
+router.patch('/:uuid/roles', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGiveUserRole, giveUserRole)
 
 // Ban a user by id
-router.patch('/:id/ban', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateDeleteUser, banUser)
+router.patch('/:uuid/ban', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateDeleteUser, banUser)
 
 // Delete a user
-router.delete('/:id', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteUser, deleteUser)
+router.delete('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteUser, deleteUser)
 
 module.exports = router

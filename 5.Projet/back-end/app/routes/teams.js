@@ -34,19 +34,19 @@ router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getTeams
 // Create a team
 router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateTeam, createTeam)
 
-// Get a team by id
-router.get('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeam)
+// Get a team by uuid
+router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeam)
 
-// Update a team by id
-router.patch('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateTeam, updateTeam)
+// Update a team by uuid
+router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateTeam, updateTeam)
 
 // Join a team (IS_MEMBER_OF)
-router.put('/:id/join', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateJoinTeam, joinTeam)
+router.put('/:uuid/join', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateJoinTeam, joinTeam)
 
 // Leave a team (IS_MEMBER_OF)
-router.put('/:id/leave', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateLeaveTeam, leaveTeam)
+router.put('/:uuid/leave', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateLeaveTeam, leaveTeam)
 
 // Delete a team
-router.delete('/:id', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteTeam, deleteTeam)
+router.delete('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteTeam, deleteTeam)
 
 module.exports = router

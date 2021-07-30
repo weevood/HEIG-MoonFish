@@ -7,7 +7,7 @@ const roles = getEnumValues(require('../../../models/enums/roles'))
  * Validates update item request
  */
 const validateGiveUserRole = [
-    check('id')
+    check('uuid')
         .exists()
         .withMessage('MISSING')
         .not()

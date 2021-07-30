@@ -13,7 +13,7 @@ const { findUserByUuid } = require('../users/helpers');
 const updateUser = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUserByUuid(data.id)
+        const user = await findUserByUuid(data.uuid)
         await updateItem(User, user.id, data)
         res.status(200).json(buildSuccObject('USER_UPDATED'))
     } catch (error) {

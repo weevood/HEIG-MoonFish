@@ -14,7 +14,7 @@ const { STATUS_BANNED } = require('../../models/enums/status');
 const banUser = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUserByUuid(data.id)
+        const user = await findUserByUuid(data.uuid)
         await updateItem(User, user.id, { statusId: STATUS_BANNED })
         res.status(200).json(buildSuccObject('USER_BANNED'))
     } catch (error) {

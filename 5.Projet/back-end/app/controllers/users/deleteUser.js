@@ -15,7 +15,7 @@ const { deleteNode } = require('../../middleware/db/deleteNode');
 const deleteUser = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUserByUuid(data.id)
+        const user = await findUserByUuid(data.uuid)
         await deleteItem(Authentication, user.id)
         await deleteItem(User, user.id)
         await deleteNode('User', user.uuid)

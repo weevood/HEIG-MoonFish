@@ -5,7 +5,7 @@ const { check } = require('express-validator')
  * Validates get item request
  */
 const validateGetUser = [
-    check('id')
+    check('uuid')
         .exists()
         .withMessage('MISSING')
         .not()

@@ -1,7 +1,7 @@
 const mariadb = require.main.require('./app/models/mariadb')
 const User = mariadb.models.User
 const { handleError } = require('../../middleware/utils')
-const { getItems, checkQueryString } = require('../../middleware/db')
+const { getItems } = require('../../middleware/db')
 
 /**
  * Get items function called by route
@@ -10,15 +10,16 @@ const { getItems, checkQueryString } = require('../../middleware/db')
  */
 const getUsers = async (req, res) => {
     try {
-        const options = (req.query)
+        const options = req.query
 
         let includes = []
         if (req.query.fields) {
+            // Convert relations fields to includes
             let fields = []
             req.query.fields.split(',').forEach((field) => {
-                if (field === 'role') {
+                if (field === 'role' || field === 'roleId') {
                     includes.push('role')
-                } else if (field === 'status') {
+                } else if (field === 'status' || field === 'statusId') {
                     includes.push('status')
                 } else
                     fields.push(field)

@@ -1,5 +1,5 @@
 const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
-const { getNode } = require('./index');
+const { getNode } = require('./getNode');
 
 /**
  * Update an node in database by uuid
@@ -8,10 +8,10 @@ const { getNode } = require('./index');
  * @param {Object} values - the values to update
  */
 const updateNode = (model, uuid, values = {}) => {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         if (Object.keys(values).length === 0)
             reject(buildErrObject(422, 'NO_VALUES'))
-        getNode(model, uuid)
+        await getNode(model, uuid)
             .then((node) => {
                 node.update(values)
                     .then(resolve(buildSuccObject('NODE_UPDATED')))

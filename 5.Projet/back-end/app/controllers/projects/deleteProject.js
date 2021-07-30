@@ -7,13 +7,13 @@ const { deleteNode } = require('../../middleware/db')
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
-const deleteTeam = async (req, res) => {
+const deleteProject = async (req, res) => {
     try {
         const data = matchedData(req)
-        res.status(200).json(await deleteNode('Team', data.uuid))
+        res.status(200).json(await deleteNode('Project', data.uuid))
     } catch (error) {
         handleError(res, error)
     }
 }
 
-module.exports = { deleteTeam }
+module.exports = { deleteProject }

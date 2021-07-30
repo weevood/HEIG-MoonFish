@@ -4,24 +4,25 @@ const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../../models/enums/ro
 
 /**
  * Roles authorization function called by route
- * @param {Array|int} roles - array of roles specified on the route or the min role level
+ * @param {int|Array} roles - array of roles specified on the route or the min role level
  */
 const requiredRole = (roles) => async (req, res, next) => {
     try {
 
         if (!Array.isArray(roles)) {
+            const role = roles
             roles = []
-            switch (roles) {
+            switch (role) {
                 case ROLE_USER:
                     roles.push(ROLE_USER)
+                    roles.push(ROLE_MODERATOR)
+                    roles.push(ROLE_ADMIN)
                     break
                 case ROLE_MODERATOR:
                     roles.push(ROLE_USER)
                     roles.push(ROLE_MODERATOR)
                     break
                 case ROLE_ADMIN:
-                    roles.push(ROLE_USER)
-                    roles.push(ROLE_MODERATOR)
                     roles.push(ROLE_ADMIN)
                     break
                 default:

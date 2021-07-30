@@ -5,13 +5,15 @@ const { check } = require('express-validator')
  * Validates update item request
  */
 const validateUpdateTeam = [
-    check('name')
+    check('uuid')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
-        .withMessage('IS_EMPTY'),
-    check('id')
+        .withMessage('IS_EMPTY')
+        .isUUID(4)
+        .withMessage('NOT_VALID_UUID'),
+    check('name')
         .exists()
         .withMessage('MISSING')
         .not()

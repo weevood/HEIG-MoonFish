@@ -15,9 +15,9 @@ const { requiredRole } = require('../auth');
 const giveUserRole = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUserByUuid(data.id)
+        const user = await findUserByUuid(data.uuid)
         let roleId = 0
-        switch (req.body.role) {
+        switch (data.role) {
             case 'user':
                 roleId = ROLE_USER
                 break
@@ -31,7 +31,7 @@ const giveUserRole = async (req, res) => {
         }
         if (roleId) {
             await updateItem(User, user.id, { roleId })
-            res.status(200).json(buildSuccObject('USER_UPGRADED_TO_' + req.body.role.toUpperCase()))
+            res.status(200).json(buildSuccObject('USER_UPGRADED_TO_' + data.role.toUpperCase()))
         }
     } catch (error) {
         handleError(res, error)
