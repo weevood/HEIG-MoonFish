@@ -15,6 +15,7 @@ Ce projet est documenté dans un rapport, la dernière version de celui-ci se tr
 #### Annexes
  - Un journal de travail, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation/Annexes : [TB_Planning_Alt-Thibaud.xlsx](/2.Documentation/Annexes/TB_Planning_Alt-Thibaud.xlsx).
  - Des maquettes statiques ont été réalisées, les sources de celles-ci sont disponibles dans le dossier [3.Maquettes](/3.Maquettes).
+ - La définition des routes de l'API réalisé à l'aide de Postman : [MoonFish - Express.js REST API with JWT](https://documenter.getpostman.com/view/8210926/TzseHmCz)
 
 ### Suivis du projet
  - Pour les suivis des tâches, un trello est mis à jour à l'adresse suivante : [trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor](https://trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor).
