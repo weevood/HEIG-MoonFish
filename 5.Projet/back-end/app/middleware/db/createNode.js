@@ -1,5 +1,4 @@
 const { buildErrObject } = require('../../middleware/utils')
-const { clearNode } = require("../utils");
 const neo4j = require.main.require('./config/neode')
 
 /**
@@ -10,10 +9,10 @@ const neo4j = require.main.require('./config/neode')
  */
 const createNode = (model, values = {}) => {
 
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
         if (Object.keys(values).length === 0)
             reject(buildErrObject(422, 'NO_VALUES'))
-        neo4j.create(model, values)
+        await neo4j.create(model, values)
             .then(team => resolve(team))
             .catch(error => {
                 reject(error)

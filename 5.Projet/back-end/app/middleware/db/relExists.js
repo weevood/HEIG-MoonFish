@@ -18,8 +18,8 @@ const relExists = (a = {}, b = {}, properties = {}) => {
         b.model = b.model().name()
     }
 
-    return new Promise((resolve, reject) => {
-        neo4j.cypher(
+    return new Promise(async (resolve, reject) => {
+        await neo4j.cypher(
             `RETURN EXISTS( (:${a.model} {uuid: $aUuid})-[:IS_MEMBER_OF]-(:${b.model} {uuid: $bUuid}) ) as count`,
             {
                 aUuid: a.uuid,

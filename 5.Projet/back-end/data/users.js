@@ -1,4 +1,5 @@
 const uuid = require('uuid')
+const faker = require('faker')
 const mariadb = require.main.require('./app/models/mariadb')
 const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
@@ -68,6 +69,30 @@ const users = [
     }
 ]
 
+for (let i = 5; i <= 10; i++) {
+    users.push({
+        user: {
+            id: i,
+            uuid: uuid.v4(),
+            firstName: faker.name.firstName(i % 2 ? 'male' : 'female'),
+            lastName: faker.name.lastName(i % 2 ? 'male' : 'female'),
+            phone: faker.phone.phoneNumber('+## ## ### ## ##'),
+            street: faker.address.streetName(),
+            zipCode: faker.address.zipCode('######'),
+            city: faker.address.city(),
+            state: faker.address.state(),
+            country: faker.address.country(),
+            roleId: 1,
+            statusId: 2
+        },
+        auth: {
+            userId: i,
+            email: faker.internet.email(),
+            password: faker.internet.password(40),
+        }
+    })
+}
+
 neo4j.deleteAll('User')
 for (const user of users) {
     try {
@@ -77,6 +102,6 @@ for (const user of users) {
             tags: user.user.tags || null
         })
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 }

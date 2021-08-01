@@ -56,7 +56,7 @@ module.exports = {
                 required: true
             },
             specifications: {
-                type: 'string',
+                type: 'integer',
                 required: true
             },
         },

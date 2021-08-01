@@ -35,22 +35,22 @@ module.exports = {
 
         zipCode: {
             type: DataTypes.INTEGER,
-            validate: { isNumeric: true }
+            validate: { is: /[0-9 ]+/ }
         },
 
         city: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true, max: 64 }
+            validate: { is: /^[\w\-\s]+$/, max: 64 }
         },
 
         state: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true, max: 64 }
+            validate: { is: /^[\w\-\s]+$/, max: 64 }
         },
 
         country: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true, max: 64 }
+            validate: { is: /^[\w\-\s]+$/, max: 64 }
         },
 
         resumeId: {

@@ -22,6 +22,21 @@ const teams = [
         uuid: uuid.v4(),
         name: 'Green Team',
         status: STATUS_ACTIVE
+    },
+    {
+        uuid: uuid.v4(),
+        name: 'Pink Team',
+        status: STATUS_ACTIVE
+    },
+    {
+        uuid: uuid.v4(),
+        name: 'Orange Team',
+        status: STATUS_ACTIVE
+    },
+    {
+        uuid: uuid.v4(),
+        name: 'Brown Team',
+        status: STATUS_ACTIVE
     }
 ]
 
@@ -30,6 +45,6 @@ teams.forEach((team) => {
     try {
         neo4j.create('Team', team)
     } catch (error) {
-        console.log(error)
+        console.error(error)
     }
 })

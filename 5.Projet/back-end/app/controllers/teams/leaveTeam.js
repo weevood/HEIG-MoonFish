@@ -1,5 +1,5 @@
 const { getNode, relExists } = require('../../middleware/db')
-const { handleError, buildSuccObject, buildErrObject } = require('../../middleware/utils')
+const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { findUserNode } = require("../users/helpers");
 

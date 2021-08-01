@@ -10,10 +10,10 @@ const getNodes = async (model, options = {}) => {
 
     return new Promise(async (resolve, reject) => {
         const params = await queryToParams(options)
-        neo4j.all(model, params.filters, params.orders, params.limit, params.offset)
+        await neo4j.all(model, params.filters, params.orders, params.limit, params.offset)
             .then(async collection => {
                 if (collection.length) {
-                    resolve(collection)
+                    resolve(collection._values)
                 } else
                     resolve([])
             })

@@ -8,7 +8,7 @@ const handleError = (res = {}, error = {}) => {
 
     // Prints error in console
     if (process.env.NODE_ENV === 'development') {
-        console.log(error)
+        console.error(error)
     }
 
     // Catch validation errors

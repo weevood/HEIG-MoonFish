@@ -10,7 +10,7 @@ const passport = require('passport')        // Passport is Express-compatible au
 const i18n = require('i18n')                // Lightweight simple translation module with dynamic JSON storage
 const path = require('path')                // Provides utilities for working with file and directory paths
 
-const DROP_DB = false // For development only
+const DROP_DB = true // For development only
 
 // Configure databases connections
 const mariadb = require('./app/models/mariadb')
@@ -92,8 +92,10 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
     })
     .then(function () {
         console.log('Database synchronised.')
+        if (DROP_DB)
+            require('./data/relations') // Load initial db data
     }, function (error) {
-        console.error(error)
+        console.erroror(error)
     })
 
 module.exports = app
