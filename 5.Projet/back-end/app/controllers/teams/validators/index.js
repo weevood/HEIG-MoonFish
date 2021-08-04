@@ -4,6 +4,7 @@ const { validateGetTeam } = require('./validateGetTeam')
 const { validateJoinTeam } = require('./validateJoinTeam')
 const { validateLeaveTeam } = require('./validateLeaveTeam')
 const { validateUpdateTeam } = require('./validateUpdateTeam')
+const { validateUpdateTeamStatus } = require('./validateUpdateTeamStatus')
 
 module.exports = {
     validateCreateTeam,
@@ -11,5 +12,6 @@ module.exports = {
     validateGetTeam,
     validateJoinTeam,
     validateLeaveTeam,
-    validateUpdateTeam
+    validateUpdateTeam,
+    validateUpdateTeamStatus,
 }

@@ -3,7 +3,7 @@ const { findUserAuthByEmail } = require('./helpers')
 const { getIP, getBrowserInfo, getCountry } = require('../../middleware/utils')
 const { handleError } = require('../../middleware/utils')
 const { sendResetPasswordEmail } = require('../../middleware/emailer')
-const { findUser } = require('../users/helpers');
+const { findUser } = require('../users/helpers')
 
 /**
  * Forgot password function called by route

@@ -1,13 +1,13 @@
-const { clearNode } = require('./clearNode');
+const { clearNode } = require('./clearNode')
 
 /**
  * Clear a node
  @param {array} nodes - an array of nodes to clear
  */
-const clearNodes = (nodes = []) => {
+const clearNodes = async (nodes = []) => {
     let res = []
     for (let node of nodes) {
-        res.push(clearNode(node))
+        res.push(await clearNode(node))
     }
     return res
 }

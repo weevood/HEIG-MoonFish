@@ -5,7 +5,8 @@
 const getEnumValues = (obj = {}) => {
     let res = []
     Object.entries(obj).forEach(([name, id]) => {
-        res.push(name.toLowerCase().split('_')[1])
+        const a = name.toLowerCase().split('_')
+        res.push(a[a.length - 1])
     })
     return res
 }

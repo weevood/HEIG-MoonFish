@@ -96,11 +96,11 @@ for (let i = 5; i <= 10; i++) {
 neo4j.deleteAll('User')
 for (const user of users) {
     try {
-        User.create(user.user).then(() => Authentication.create(user.auth))
         neo4j.create('User', {
             uuid: user.user.uuid,
             tags: user.user.tags || null
         })
+        User.create(user.user).then(() => Authentication.create(user.auth))
     } catch (error) {
         console.error(error)
     }

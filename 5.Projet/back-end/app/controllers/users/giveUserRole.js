@@ -3,9 +3,9 @@ const User = mariadb.models.User
 const { matchedData } = require('express-validator')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { updateItem } = require('../../middleware/db')
-const { findUserByUuid } = require('../users/helpers');
-const { ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN } = require('../../models/enums/roles');
-const { requiredRole } = require('../auth');
+const { findUserByUuid } = require('../users/helpers')
+const { ROLE_USER, ROLE_MODERATOR, ROLE_ADMIN } = require('../../models/enums/roles')
+const { requiredRole } = require('../auth')
 
 /**
  * Update item function called by route

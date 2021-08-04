@@ -12,8 +12,10 @@ const createNode = (model, values = {}) => {
     return new Promise(async (resolve, reject) => {
         if (Object.keys(values).length === 0)
             reject(buildErrObject(422, 'NO_VALUES'))
-        await neo4j.create(model, values)
-            .then(team => resolve(team))
+        neo4j.create(model, values)
+            .then(
+                team => resolve(team)
+            )
             .catch(error => {
                 reject(error)
             })

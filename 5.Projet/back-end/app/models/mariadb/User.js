@@ -25,7 +25,7 @@ module.exports = {
 
         phone: {
             type: DataTypes.STRING(32),
-            validate: { is: /[0-9 ]+/, max: 32 }
+            validate: { is: /[0-9 ]+/, /*max: 32*/ }
         },
 
         street: {

@@ -5,6 +5,7 @@ const { getTeams } = require('./getTeams')
 const { joinTeam } = require('./joinTeam')
 const { leaveTeam } = require('./leaveTeam')
 const { updateTeam } = require('./updateTeam')
+const { updateTeamStatus } = require('./updateTeamStatus')
 
 module.exports = {
     createTeam,
@@ -14,4 +15,5 @@ module.exports = {
     joinTeam,
     leaveTeam,
     updateTeam,
+    updateTeamStatus,
 }

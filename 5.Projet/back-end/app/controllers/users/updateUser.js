@@ -3,7 +3,7 @@ const User = mariadb.models.User
 const { matchedData } = require('express-validator')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { updateItem } = require('../../middleware/db')
-const { findUserByUuid } = require('../users/helpers');
+const { findUserByUuid } = require('../users/helpers')
 
 /**
  * Update item function called by route

@@ -1,7 +1,7 @@
 const { matchedData } = require('express-validator')
 const { verifyUser } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
-const { findUserByUuid } = require('../users/helpers');
+const { findUserByUuid } = require('../users/helpers')
 
 /**
  * Verify function called by route

@@ -1,6 +1,5 @@
 const { handleError } = require('../../middleware/utils')
-const { getNodes } = require('../../middleware/db/getNodes');
-const { clearNodes } = require('../../middleware/utils/clearNodes');
+const { findProjects, findProjectsNodes, setProjectInfo } = require('./helpers')
 
 /**
  * Get items function called by route
@@ -9,8 +8,17 @@ const { clearNodes } = require('../../middleware/utils/clearNodes');
  */
 const getProjects = async (req, res) => {
     try {
-        const projects = await getNodes('Project', req.query);
-        res.status(200).json(clearNodes(await projects.toJson()))
+        let collection = []
+        const projects = await findProjects(req.query)
+        const projectsNodes = await findProjectsNodes(req.query)
+        for (const project of projects) {
+            let projectNode = projectsNodes.find(obj => {
+                return obj.get('uuid') === project.uuid
+            })
+            if (typeof projectNode !== 'undefined')
+                collection.push(await setProjectInfo(project, projectNode))
+        }
+        res.status(200).json(collection)
     } catch (error) {
         handleError(res, error)
     }

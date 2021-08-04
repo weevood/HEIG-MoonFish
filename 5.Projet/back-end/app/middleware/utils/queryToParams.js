@@ -1,5 +1,5 @@
 const { buildErrObject } = require('../../middleware/utils')
-const { ITEMS_LIMIT } = require('../../../config/constants');
+const { ITEMS_LIMIT } = require('../../../config/constants')
 
 /**
  * Convert the query string to Sequelize options

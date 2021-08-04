@@ -1,6 +1,7 @@
 const { buildErrObject } = require('./buildErrObject')
 const { buildSuccObject } = require('./buildSuccObject')
 const { clearNode } = require('./clearNode')
+const { clearNodes } = require('./clearNodes')
 const { getBrowserInfo } = require('./getBrowserInfo')
 const { getCountry } = require('./getCountry')
 const { getIP } = require('./getIP')
@@ -15,6 +16,7 @@ module.exports = {
     buildErrObject,
     buildSuccObject,
     clearNode,
+    clearNodes,
     getBrowserInfo,
     getCountry,
     getIP,

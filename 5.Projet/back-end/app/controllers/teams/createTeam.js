@@ -2,9 +2,9 @@ const uuid = require('uuid')
 const { handleError, clearNode } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { teamExists } = require('./helpers')
-const { createNode } = require('../../middleware/db/createNode');
-const { STATUS_ACTIVE } = require("../../models/enums/status");
-const { findUserNode } = require("../users/helpers");
+const { createNode } = require('../../middleware/db/createNode')
+const { STATUS_ACTIVE } = require('../../models/enums/status')
+const { findUserNode } = require("../users/helpers")
 
 /**
  * Create item function called by route
@@ -21,8 +21,8 @@ const createTeam = async (req, res) => {
                 uuid: uuid.v4(),
                 status: STATUS_ACTIVE
             })
-            await user.relateTo(team, 'isMemberOf', { isOwner: true });
-            res.status(201).json(clearNode(await team.toJson()))
+            await user.relateTo(team, 'isMemberOf', { isOwner: true })
+            res.status(201).json(team)
         }
     } catch (error) {
         handleError(res, error)

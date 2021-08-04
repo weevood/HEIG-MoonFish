@@ -3,7 +3,7 @@ const router = express.Router()
 const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
 const { requiredRole } = require('../controllers/auth')
-const { ROLE_ADMIN, ROLE_USER } = require('../models/enums/roles')
+const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../models/enums/roles')
 
 const {
     applyProject,
@@ -11,9 +11,11 @@ const {
     createProject,
     deleteProject,
     developProject,
+    feedbackProject,
     getProject,
     getProjects,
     updateProject,
+    updateProjectStatus,
 } = require('../controllers/projects')
 
 const {
@@ -22,8 +24,10 @@ const {
     validateCreateProject,
     validateDeleteProject,
     validateDevelopProject,
+    validateFeedbackProject,
     validateGetProject,
     validateUpdateProject,
+    validateUpdateProjectStatus,
 } = require('../controllers/projects/validators')
 
 /*
@@ -42,16 +46,22 @@ router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, vali
 // Update a project by uuid
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProject, updateProject)
 
+// Update a project status
+router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateUpdateProjectStatus, updateProjectStatus)
+
 // Arbitrate a project (ARBITRATES)
-router.put('/:id/arbitrates', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateArbitrateProject, arbitrateProject)
+router.put('/:uuid/arbitrates', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateArbitrateProject, arbitrateProject)
 
 // Leave a project (APPLIES)
-router.put('/:id/applies', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateApplyProject, applyProject)
+router.put('/:uuid/applies', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateApplyProject, applyProject)
 
 // Leave a project (DEVELOPS)
-router.put('/:id/develops', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDevelopProject, developProject)
+router.put('/:uuid/develops', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDevelopProject, developProject)
+
+// Note and feedback a project (MANDATES mark + feedback)
+router.put('/:uuid/feedback', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateFeedbackProject, feedbackProject)
 
 // Delete a project
-router.delete('/:id', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteProject, deleteProject)
+router.delete('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteProject, deleteProject)
 
 module.exports = router

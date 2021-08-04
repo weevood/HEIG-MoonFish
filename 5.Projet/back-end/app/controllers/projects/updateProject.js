@@ -1,6 +1,12 @@
-const { updateNode, relExists, getNode } = require('../../middleware/db')
-const { handleError } = require('../../middleware/utils')
+const mariadb = require.main.require('./app/models/mariadb')
+const Project = mariadb.models.Project
+const Trans = mariadb.models.ProjectTranslation
+const { updateNode, relExists, updateItem } = require('../../middleware/db')
+const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
+const { findProject } = require('./helpers')
+const { RELATION_MANDATES } = require('../../models/enums/relations')
+const { PROJECT_STATUS_PLANNING } = require("../../models/enums/projectStatus");
 
 /**
  * Update item function called by route
@@ -10,14 +16,20 @@ const { matchedData } = require('express-validator')
 const updateProject = async (req, res) => {
     try {
         const data = matchedData(req)
-        const project = await getNode('Project', data.uuid)
+        const project = await findProject(data.uuid)
         if (await relExists(
-            { model: 'Project', uuid: data.uuid },
-            { model: 'User', uuid: req.user.uuid },
-            { isOwner: true })
+            { model: 'Team', uuid: data.teamUuid },
+            RELATION_MANDATES,
+            { model: 'Project', uuid: data.uuid })
         ) {
-            res.status(200).json(await updateNode('Project', data.uuid, data))
-        }else
+            await updateItem(Project, project.id, data)
+            await updateItem(Trans, { projectId: project.id }, data)
+            await updateNode('Project', data.uuid, {
+                deadline: new Date(data.deadline),
+                tags: data.tags,
+            })
+            res.status(200).json(buildSuccObject('PROJECT_UPDATED'))
+        } else
             res.status(403).json({ error: { msg: 'FORBIDDEN' } })
     } catch (error) {
         handleError(res, error)

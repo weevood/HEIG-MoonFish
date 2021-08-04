@@ -1,3 +1,5 @@
+const { RELATION_MANDATES, RELATION_DEVELOPS, RELATION_APPLIES } = require('../enums/relations')
+
 module.exports = {
 
     uuid: {
@@ -19,7 +21,7 @@ module.exports = {
 
     mandates: {
         type: 'relationship',
-        relationship: 'MANDATES',
+        relationship: RELATION_MANDATES,
         target: 'Project',
         direction: 'out',
         properties: {
@@ -42,7 +44,7 @@ module.exports = {
 
     applies: {
         type: 'relationship',
-        relationship: 'APPLIES',
+        relationship: RELATION_APPLIES,
         target: 'Project',
         direction: 'out',
         properties: {
@@ -64,7 +66,7 @@ module.exports = {
 
     develops: {
         type: 'relationship',
-        relationship: 'DEVELOPS',
+        relationship: RELATION_DEVELOPS,
         target: 'Project',
         direction: 'out',
         properties: {

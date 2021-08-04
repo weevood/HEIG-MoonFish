@@ -15,7 +15,7 @@ fs.readdirSync(modelsPath).filter((file) => {
     // Prevents loading of this files
     if (modelFile !== 'index' && file !== '.DS_Store') {
         const modelData = require(`./${modelFile}`)
-        models[modelFile] = neode.model(modelFile, modelData);
+        models[modelFile] = neode.model(modelFile, modelData)
     }
 })
 

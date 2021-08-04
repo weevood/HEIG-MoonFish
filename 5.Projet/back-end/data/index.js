@@ -1,7 +1,7 @@
 const fs = require('fs')
 const dataPath = `${__dirname}/`
 const { removeExtensionFromFile } = require('../app/middleware/utils')
-const { getNode, getNodes } = require('../app/middleware/db');
+const { getNode, getNodes } = require('../app/middleware/db')
 
 /*
  * Load initial data by models

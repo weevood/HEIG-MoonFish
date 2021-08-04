@@ -4,12 +4,14 @@ const { createNode } = require('./createNode')
 const { deleteItem } = require('./deleteItem')
 const { deleteNode } = require('./deleteNode')
 const { getItem } = require('./getItem')
+const { getItemByUuid } = require('./getItemByUuid')
 const { getItems } = require('./getItems')
 const { getNode } = require('./getNode')
 const { getNodes } = require('./getNodes')
 const { relExists } = require('./relExists')
 const { updateItem } = require('./updateItem')
 const { updateNode } = require('./updateNode')
+const { updateRelation } = require('./updateRelation')
 
 module.exports = {
     countItems,
@@ -18,10 +20,12 @@ module.exports = {
     deleteItem,
     deleteNode,
     getItem,
+    getItemByUuid,
     getItems,
     getNode,
     getNodes,
     relExists,
     updateItem,
     updateNode,
+    updateRelation,
 }

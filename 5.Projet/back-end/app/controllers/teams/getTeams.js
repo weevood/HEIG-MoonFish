@@ -1,6 +1,6 @@
 const { handleError } = require('../../middleware/utils')
-const { getNodes } = require('../../middleware/db/getNodes');
-const { clearNodes } = require('../../middleware/utils/clearNodes');
+const { clearNodes } = require('../../middleware/utils/clearNodes')
+const { findTeamsNodes } = require('./helpers/')
 
 /**
  * Get items function called by route
@@ -9,8 +9,8 @@ const { clearNodes } = require('../../middleware/utils/clearNodes');
  */
 const getTeams = async (req, res) => {
     try {
-        const teams = await getNodes('Team', req.query);
-        res.status(200).json(clearNodes(await teams.toJson()))
+        const teams = await findTeamsNodes(req.query)
+        res.status(200).json(await clearNodes(teams))
     } catch (error) {
         handleError(res, error)
     }

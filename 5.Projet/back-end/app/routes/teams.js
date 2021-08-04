@@ -3,7 +3,7 @@ const router = express.Router()
 const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
 const { requiredRole } = require('../controllers/auth')
-const { ROLE_ADMIN, ROLE_USER } = require('../models/enums/roles')
+const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../models/enums/roles')
 
 const {
     createTeam,
@@ -13,6 +13,7 @@ const {
     joinTeam,
     leaveTeam,
     updateTeam,
+    updateTeamStatus,
 } = require('../controllers/teams')
 
 const {
@@ -22,6 +23,7 @@ const {
     validateJoinTeam,
     validateLeaveTeam,
     validateUpdateTeam,
+    validateUpdateTeamStatus,
 } = require('../controllers/teams/validators')
 
 /*
@@ -39,6 +41,9 @@ router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, vali
 
 // Update a team by uuid
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateTeam, updateTeam)
+
+// Update a team status
+router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateUpdateTeamStatus, updateTeamStatus)
 
 // Join a team (IS_MEMBER_OF)
 router.put('/:uuid/join', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateJoinTeam, joinTeam)

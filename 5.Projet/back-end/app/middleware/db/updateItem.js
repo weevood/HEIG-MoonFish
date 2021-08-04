@@ -5,15 +5,19 @@ const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
 /**
  * Update an item in database by id
  * @param {Object} model - the Sequelize model
- * @param {int} id - the item id
+ * @param {int|Object} id - the item id
  * @param {Object} values - the values to update
  */
-const updateItem = (model, id, values = {}) => {
+const updateItem = (model, id = 0, values = {}) => {
     return new Promise((resolve, reject) => {
+
         if (Object.keys(values).length === 0)
             reject(buildErrObject(422, 'NO_VALUES'))
-        const pk = (model === Authentication ? { userId: id } : { id })
-        model.update(values, { where: pk })
+
+        if (typeof id === 'number')
+            id = (model === Authentication ? { userId: id } : { id })
+
+        model.update(values, { where: id })
             .then(
                 res => {
                     let updatedRows = res[0]

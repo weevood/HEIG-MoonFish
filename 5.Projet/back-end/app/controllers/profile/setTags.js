@@ -1,6 +1,6 @@
 const { handleError } = require('../../middleware/utils')
-const { matchedData } = require('express-validator');
-const { updateNode } = require('../../middleware/db/updateNode');
+const { matchedData } = require('express-validator')
+const { updateNode } = require('../../middleware/db/updateNode')
 
 /**
  * Get profile function called by route

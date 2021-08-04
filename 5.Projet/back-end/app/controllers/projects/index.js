@@ -3,9 +3,11 @@ const { arbitrateProject } = require('./arbitrateProject')
 const { createProject } = require('./createProject')
 const { deleteProject } = require('./deleteProject')
 const { developProject } = require('./developProject')
+const { feedbackProject } = require('./feedbackProject')
 const { getProject } = require('./getProject')
 const { getProjects } = require('./getProjects')
 const { updateProject } = require('./updateProject')
+const { updateProjectStatus } = require('./updateProjectStatus')
 
 module.exports = {
     applyProject,
@@ -13,7 +15,9 @@ module.exports = {
     createProject,
     deleteProject,
     developProject,
+    feedbackProject,
     getProject,
     getProjects,
     updateProject,
+    updateProjectStatus,
 }

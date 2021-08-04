@@ -1,6 +1,6 @@
 const { checkPermissions, isUserBlocked } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
-const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../../models/enums/roles');
+const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../../models/enums/roles')
 
 /**
  * Roles authorization function called by route
@@ -19,8 +19,8 @@ const requiredRole = (roles) => async (req, res, next) => {
                     roles.push(ROLE_ADMIN)
                     break
                 case ROLE_MODERATOR:
-                    roles.push(ROLE_USER)
                     roles.push(ROLE_MODERATOR)
+                    roles.push(ROLE_ADMIN)
                     break
                 case ROLE_ADMIN:
                     roles.push(ROLE_ADMIN)

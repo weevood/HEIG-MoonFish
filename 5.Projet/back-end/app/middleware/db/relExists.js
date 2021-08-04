@@ -2,11 +2,12 @@ const neo4j = require.main.require('./config/neode')
 
 /**
  * Check if a relation exist between entities
- * @param {Object} a - the first entity{ model: 'A', uuid: uuid }
- * @param {Object} b - the second entity{ model: 'B', uuid: uuid }
+ * @param {Object} a - the first entity { model: 'A', uuid: uuid }
+ * @param {string} relation - the relation name (IS_MEMBER_OF)
+ * @param {Object} b - the second entity { model: 'B', uuid: uuid }
  * @param {Object} properties - the relation properties
  */
-const relExists = (a = {}, b = {}, properties = {}) => {
+const relExists = (a = {}, relation = '', b = {}, properties = {}) => {
 
     if (typeof a.uuid === 'undefined') {
         a.uuid = a.get('uuid')
@@ -20,17 +21,13 @@ const relExists = (a = {}, b = {}, properties = {}) => {
 
     return new Promise(async (resolve, reject) => {
         await neo4j.cypher(
-            `RETURN EXISTS( (:${a.model} {uuid: $aUuid})-[:IS_MEMBER_OF]-(:${b.model} {uuid: $bUuid}) ) as count`,
-            {
-                aUuid: a.uuid,
-                bUuid: b.uuid
-            }
+            `RETURN EXISTS( (:${a.model} {uuid: '${a.uuid}'})-[:${relation}]-(:${b.model} {uuid: '${b.uuid}'}) ) as count`
         )
             .then(res => {
                 if (properties) {
                     // TODO check properties
                 }
-                resolve(res.records.length && res.records[0].get('count'));
+                resolve(res.records.length && res.records[0].get('count'))
             })
             .catch(error => {
                 reject(error)

@@ -3,7 +3,7 @@ const Authentication = mariadb.models.Authentication
 const { itemNotFound } = require('../../../middleware/utils')
 
 /**
- * Finds user authentication by user id
+ * Find user authentication by user id
  * @param {string} email - the user mail
  */
 const findUserAuthByEmail = (email = '') => {

@@ -4,7 +4,7 @@ const { buildErrObject } = require('../../../middleware/utils')
 const { getItem } = require('../../../middleware/db')
 
 /**
- * Finds user by ID
+ * Find user by ID
  * @param {int} id - the user´s id
  */
 const findUser = (id = 0) => {

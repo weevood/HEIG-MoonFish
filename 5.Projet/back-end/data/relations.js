@@ -1,12 +1,14 @@
-const { getNodes } = require('../app/middleware/db');
+const { getNodes } = require('../app/middleware/db')
+const { findTeamsNodes } = require('../app/controllers/teams/helpers')
+const { findProjectsNodes } = require('../app/controllers/projects/helpers')
 
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 getNodes('User').then(users => {
-    getNodes('Team').then(teams => {
-        getNodes('Project').then(projects => {
+    findTeamsNodes().then(teams => {
+        findProjectsNodes().then(projects => {
 
             let max = (users.length - 1)
 

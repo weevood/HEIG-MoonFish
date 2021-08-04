@@ -1,5 +1,5 @@
 const neo4j = require.main.require('./config/neode')
-const { queryToParams } = require('../utils');
+const { queryToParams } = require('../utils')
 
 /**
  * Get nodes from database

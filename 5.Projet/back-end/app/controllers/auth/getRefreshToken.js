@@ -1,6 +1,6 @@
 const { getUserIdFromToken, getUserToken } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
-const { findUserByUuid } = require('../users/helpers');
+const { findUserByUuid } = require('../users/helpers')
 
 /**
  * Refresh token function called by route

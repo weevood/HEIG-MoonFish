@@ -1,4 +1,4 @@
-const { queryToOptions } = require('../utils');
+const { queryToOptions } = require('../utils')
 
 /**
  * Get items from database

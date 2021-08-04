@@ -1,3 +1,5 @@
+const { RELATION_IS_MEMBER_OF } = require('../enums/relations')
+
 module.exports = {
 
     uuid: {
@@ -12,7 +14,7 @@ module.exports = {
 
     isMemberOf: {
         type: 'relationship',
-        relationship: 'IS_MEMBER_OF',
+        relationship: RELATION_IS_MEMBER_OF,
         target: 'Team',
         direction: 'out',
         properties: {

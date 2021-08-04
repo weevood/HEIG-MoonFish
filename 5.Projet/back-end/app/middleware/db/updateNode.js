@@ -1,5 +1,5 @@
 const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
-const { getNode } = require('./getNode');
+const { getNode } = require('./getNode')
 
 /**
  * Update an node in database by uuid
@@ -15,7 +15,7 @@ const updateNode = (model, uuid, values = {}) => {
             .then((node) => {
                 node.update(values)
                     .then(resolve(buildSuccObject('NODE_UPDATED')))
-                    .catch(reject('UPDATE_ERROR'))
+                    .catch(reject('UPDATE_NODE_ERROR'))
             })
             .catch(error => {
                 reject(error)

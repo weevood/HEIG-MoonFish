@@ -1,5 +1,5 @@
 const { generateToken } = require('./generateToken')
-const { setUserInfo } = require('../../users/helpers');
+const { setUserInfo } = require('../../users/helpers')
 
 /**
  * Saves a new user access and then returns token

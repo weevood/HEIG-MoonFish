@@ -1,6 +1,7 @@
 const { matchedData } = require('express-validator')
-const { getNode } = require('../../middleware/db')
 const { handleError, clearNode } = require('../../middleware/utils')
+const { findProjectNode, findProject, setProjectInfo } = require('./helpers')
+const { getEnumValues } = require('../../models/enums/getEnumValues')
 
 /**
  * Get item function called by route
@@ -10,8 +11,9 @@ const { handleError, clearNode } = require('../../middleware/utils')
 const getProject = async (req, res) => {
     try {
         const data = matchedData(req)
-        const project = await getNode('Project', data.uuid)
-        res.status(200).json(clearNode(await project.toJson()))
+        const project = await findProject(data.uuid)
+        const projectNode = await findProjectNode(data.uuid)
+        res.status(200).json(await setProjectInfo(project, projectNode))
     } catch (error) {
         handleError(res, error)
     }

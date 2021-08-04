@@ -35,7 +35,7 @@ router.get('/:uuid', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all,
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)
 
 // Assign a role to user
-router.patch('/:uuid/roles', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGiveUserRole, giveUserRole)
+router.patch('/:uuid/roles/:role', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGiveUserRole, giveUserRole)
 
 // Ban a user by id
 router.patch('/:uuid/ban', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateDeleteUser, banUser)
