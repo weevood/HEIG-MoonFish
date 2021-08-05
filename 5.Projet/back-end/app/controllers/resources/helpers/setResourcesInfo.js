@@ -2,22 +2,23 @@
  * Creates an object with user info
  * @param {Object} req - request object
  */
-const setBankAccountsInfo = (req = {}) => {
+const setResourcesInfo = (req = {}) => {
     return new Promise((resolve) => {
-        let bankAccounts = []
+        let resources = []
         if (typeof req !== 'undefined') {
-            bankAccounts = req.map(function (item) {
+            resources = req.map(function (item) {
                 if (process.env.NODE_ENV === 'production') {
                     delete item.dataValues.id
                 }
-                delete item.dataValues.userId
+                delete item.dataValues.authorId
+                delete item.dataValues.projectId
                 delete item.dataValues.createdAt
                 delete item.dataValues.updatedAt
                 return item;
             });
         }
-        resolve(bankAccounts)
+        resolve(resources)
     })
 }
 
-module.exports = { setBankAccountsInfo }
+module.exports = { setResourcesInfo }

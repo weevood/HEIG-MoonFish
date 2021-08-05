@@ -11,6 +11,7 @@ const {
     getUser,
     getUserBankAccounts,
     getUserNotifications,
+    getUserResources,
     getUsers,
     giveUserRole,
     updateUser,
@@ -33,11 +34,14 @@ router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getUsers
 // Get a user by id
 router.get('/:uuid', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUser)
 
-// Get a user bank accounts
+// Get aall user bank accounts
 router.get('/:uuid/bankaccounts', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateGetUser, getUserBankAccounts)
 
-// Get a user notifications
+// Get all user notifications
 router.get('/:uuid/notifications', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateGetUser, getUserNotifications)
+
+// Get all user resources
+router.get('/:uuid/resources', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUserResources)
 
 // Update a user by id
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)

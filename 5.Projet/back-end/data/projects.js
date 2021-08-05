@@ -3,6 +3,7 @@ const faker = require('faker')
 const mariadb = require.main.require('./app/models/mariadb')
 const Project = mariadb.models.Project
 const Trans = mariadb.models.ProjectTranslation
+const Resource = mariadb.models.Resource
 const neo4j = require.main.require('./config/neode')
 const {
     PROJECT_STATUS_PLANNING,
@@ -33,6 +34,24 @@ const projects = [
                 title: 'Projet V',
                 description: faker.commerce.productDescription()
             }
+        ],
+        resources: [
+            {
+                name: faker.lorem.word(),
+                link: faker.internet.url(),
+                type: 'docx',
+                privacy: 'public',
+                visibility: 1,
+                authorId: 5
+            },
+            {
+                name: faker.lorem.word(),
+                link: faker.internet.url(),
+                type: 'xlxs',
+                privacy: 'private',
+                visibility: 1,
+                authorId: 6
+            }
         ]
     },
     {
@@ -55,6 +74,16 @@ const projects = [
                 lang: 'fr',
                 title: 'Projet W',
                 description: faker.commerce.productDescription()
+            }
+        ],
+        resources: [
+            {
+                name: faker.lorem.word(),
+                link: faker.internet.url(),
+                type: 'pdf',
+                privacy: 'public',
+                visibility: 1,
+                authorId: 6
             }
         ]
     },
@@ -137,6 +166,13 @@ projects.forEach((project) => {
     try {
         neo4j.create('Project', project.project)
         Project.create(project.project)
+            .then((item) => {
+                if (project.resources)
+                    project.resources.forEach(resource => {
+                        resource.projectId = item.id
+                        Resource.create(resource)
+                    })
+            })
             .then(() => {
                 for (const trans of project.trans) {
                     Trans.create(trans)

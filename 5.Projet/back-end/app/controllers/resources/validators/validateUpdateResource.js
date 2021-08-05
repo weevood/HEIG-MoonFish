@@ -4,14 +4,14 @@ const { check } = require('express-validator')
 /**
  * Validates update item request
  */
-const validateUpdateNotification = [
+const validateUpdateResource = [
     check('id')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('priority')
+    check('name')
         .optional()
         .exists()
         .withMessage('MISSING')
@@ -19,14 +19,7 @@ const validateUpdateNotification = [
         .isEmpty()
         .withMessage('IS_EMPTY')
         .trim(),
-    check('lang')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY')
-        .trim(),
-    check('title')
+    check('link')
         .optional()
         .exists()
         .withMessage('MISSING')
@@ -34,7 +27,22 @@ const validateUpdateNotification = [
         .isEmpty()
         .withMessage('IS_EMPTY')
         .trim(),
-    check('description')
+    check('type')
+        .optional()
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .trim(),
+    check('privacy')
+        .optional()
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
+    check('visibility')
         .optional()
         .exists()
         .withMessage('MISSING')
@@ -47,4 +55,4 @@ const validateUpdateNotification = [
     }
 ]
 
-module.exports = { validateUpdateNotification }
+module.exports = { validateUpdateResource }

@@ -16,9 +16,7 @@ const createNotification = async (req, res) => {
         const data = matchedData(req)
 
         // Create notification and translations
-        const notification = await createItem(Notification, {
-            ...data,
-        })
+        const notification = await createItem(Notification,data)
         notification['notifications_translations'] = []
         notification['notifications_translations'].push(await createItem(Trans, {
             ...data,

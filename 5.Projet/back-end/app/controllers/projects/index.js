@@ -5,6 +5,7 @@ const { deleteProject } = require('./deleteProject')
 const { developProject } = require('./developProject')
 const { feedbackProject } = require('./feedbackProject')
 const { getProject } = require('./getProject')
+const { getProjectResources } = require('./getProjectResources')
 const { getProjects } = require('./getProjects')
 const { updateProject } = require('./updateProject')
 const { updateProjectStatus } = require('./updateProjectStatus')
@@ -17,6 +18,7 @@ module.exports = {
     developProject,
     feedbackProject,
     getProject,
+    getProjectResources,
     getProjects,
     updateProject,
     updateProjectStatus,

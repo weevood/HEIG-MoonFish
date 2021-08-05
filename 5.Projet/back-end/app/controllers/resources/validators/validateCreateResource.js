@@ -2,40 +2,37 @@ const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
 
 /**
- * Validates update item request
+ * Validates create new item request
  */
-const validateUpdateNotification = [
-    check('id')
+const validateCreateResource = [
+    check('name')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .trim(),
+    check('link')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .trim(),
+    check('type')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .trim(),
+    check('privacy')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
-    check('priority')
-        .optional()
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY')
-        .trim(),
-    check('lang')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY')
-        .trim(),
-    check('title')
-        .optional()
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY')
-        .trim(),
-    check('description')
-        .optional()
+    check('visibility')
         .exists()
         .withMessage('MISSING')
         .not()
@@ -47,4 +44,4 @@ const validateUpdateNotification = [
     }
 ]
 
-module.exports = { validateUpdateNotification }
+module.exports = { validateCreateResource }

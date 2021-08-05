@@ -1,5 +1,6 @@
 const DataTypes = require('sequelize')
-const privacy = ['Private', 'Public'];
+const { getEnumValues } = require('../enums/getEnumValues')
+const privacy = getEnumValues(require('../enums/privacy'))
 
 module.exports = {
     name: 'resources',
@@ -7,19 +8,19 @@ module.exports = {
 
         name: {
             type: DataTypes.STRING(64),
-            validate: { isAlphanumeric: true },
+            validate: { is: /^[\w\-\s]+$/, max: 64 },
             allowNull: false
         },
 
         link: {
             type: DataTypes.STRING(128),
-            validate: { isUrl: true },
+            validate: { isUrl: true, max: 64 },
             allowNull: false
         },
 
         type: {
-            type: DataTypes.STRING(64),
-            validate: { isAlpha: true },
+            type: DataTypes.STRING(128),
+            validate: { isAlpha: true, max: 64 },
             allowNull: false
         },
 

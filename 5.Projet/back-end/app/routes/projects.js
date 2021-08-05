@@ -13,6 +13,7 @@ const {
     developProject,
     feedbackProject,
     getProject,
+    getProjectResources,
     getProjects,
     updateProject,
     updateProjectStatus,
@@ -48,6 +49,9 @@ router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, va
 
 // Update a project status
 router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateUpdateProjectStatus, updateProjectStatus)
+
+// Get all project resources
+router.get('/:uuid/resources', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetProject, getProjectResources)
 
 // Arbitrate a project (ARBITRATES)
 router.put('/:uuid/arbitrates', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateArbitrateProject, arbitrateProject)

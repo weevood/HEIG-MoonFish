@@ -3,6 +3,7 @@ const faker = require('faker')
 const mariadb = require.main.require('./app/models/mariadb')
 const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
+const Resource = mariadb.models.Resource
 const BankAccount = mariadb.models.BankAccount
 const Notification = mariadb.models.Notification
 const Translation = mariadb.models.NotificationTranslation
@@ -93,6 +94,14 @@ for (let i = 5; i <= 10; i++) {
             email: faker.internet.email(),
             password: faker.internet.password(40),
         },
+        resume: {
+            name: 'Resume of ' + faker.name.firstName(i % 2 ? 'male' : 'female'),
+            link: faker.internet.url(),
+            type: 'docx',
+            privacy: 'public',
+            visibility: 1,
+            authorId: i
+        },
         bankAccounts: [{
             userId: i,
             type: faker.finance.accountName(),
@@ -104,7 +113,6 @@ for (let i = 5; i <= 10; i++) {
                 userId: i,
             },
             translation: {
-                notificationId: 1,
                 lang: 'en',
                 title: faker.lorem.word(),
                 description: faker.lorem.sentence()
@@ -121,7 +129,14 @@ for (const user of users) {
             tags: user.user.tags || null
         })
         User.create(user.user)
-            .then(() => Authentication.create(user.auth))
+            .then((item) => {
+                Authentication.create(user.auth)
+                if (user.resume)
+                    Resource.create(user.resume)
+                        .then((resource) => {
+                            item.update({ resumeId: resource.id }, { where: item.id })
+                        })
+            })
             .then(() => {
                 if (user.bankAccounts)
                     user.bankAccounts.forEach(account => {
@@ -139,6 +154,7 @@ for (const user of users) {
                             })
                     })
             })
+
     } catch (error) {
         console.error(error)
     }

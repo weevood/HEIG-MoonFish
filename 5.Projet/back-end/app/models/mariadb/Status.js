@@ -1,7 +1,6 @@
 const DataTypes = require('sequelize')
 const { getEnumValues } = require('../enums/getEnumValues')
-const STATUS = require('../enums/status')
-const status = getEnumValues(STATUS)
+const status = getEnumValues(require('../enums/status'))
 
 module.exports = {
     name: 'status',
