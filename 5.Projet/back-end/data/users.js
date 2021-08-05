@@ -3,6 +3,7 @@ const faker = require('faker')
 const mariadb = require.main.require('./app/models/mariadb')
 const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
+const BankAccount = mariadb.models.BankAccount
 const neo4j = require.main.require('./config/neode')
 
 const users = [
@@ -89,7 +90,13 @@ for (let i = 5; i <= 10; i++) {
             userId: i,
             email: faker.internet.email(),
             password: faker.internet.password(40),
-        }
+        },
+        bankAccounts: [{
+            userId: i,
+            type: faker.finance.accountName(),
+            iban: faker.finance.iban(),
+            swift: faker.finance.bic(),
+        }]
     })
 }
 
@@ -101,6 +108,10 @@ for (const user of users) {
             tags: user.user.tags || null
         })
         User.create(user.user).then(() => Authentication.create(user.auth))
+        user.bankAccounts.forEach(account => {
+            account.owner = user.user.lastName + ' ' + user.user.firstName
+            BankAccount.create(account)
+        })
     } catch (error) {
         console.error(error)
     }

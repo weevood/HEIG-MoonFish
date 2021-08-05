@@ -9,6 +9,7 @@ const {
     banUser,
     deleteUser,
     getUser,
+    getUserBankAccounts,
     getUsers,
     giveUserRole,
     updateUser,
@@ -30,6 +31,9 @@ router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getUsers
 
 // Get a user by id
 router.get('/:uuid', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUser)
+
+// Get a user bank accounts
+router.get('/:uuid/bankaccounts', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUserBankAccounts)
 
 // Update a user by id
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)

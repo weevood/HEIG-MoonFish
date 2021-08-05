@@ -4,17 +4,17 @@ const { buildErrObject } = require('../../../middleware/utils')
 const { getItemByUuid } = require('../../../middleware/db')
 
 /**
- * Find user by uuid
+ * Find user bank accounts by uuid
  * @param {uuid} uuid - the user´s uuid
  */
-const findUserByUuid = (uuid = '') => {
+const findUserBankAccounts = (uuid = '') => {
     return new Promise(async (resolve, reject) => {
         try {
-            resolve(await getItemByUuid(User, uuid, { include: ['role', 'status'] }))
+            resolve(await getItemByUuid(User, uuid, { include: ['bankaccounts'] }))
         } catch (error) {
-            reject(buildErrObject(404, 'USER_DOES_NOT_EXIST'))
+            reject(buildErrObject(404, 'ACCOUNT_DOES_NOT_EXIST'))
         }
     })
 }
 
-module.exports = { findUserByUuid }
+module.exports = { findUserBankAccounts }

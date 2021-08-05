@@ -95,7 +95,7 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
         if (DROP_DB)
             require('./data/relations') // Load initial db data
     }, function (error) {
-        console.erroror(error)
+        console.error(error)
     })
 
 module.exports = app

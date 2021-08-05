@@ -36,7 +36,11 @@ const User = models.User
 
 // Associations and dependencies
 Authentication.belongsTo(User)
-BankAccount.belongsTo(User)
+
+// BankAccounts => User
+User.hasMany(BankAccount, {foreignKey: 'userId', sourceKey: 'id'})
+BankAccount.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'})
+
 Category.hasOne(Category, { foreignKey: 'parentId' })
 CategoryTranslation.belongsTo(Category)
 Notification.belongsTo(User)
@@ -49,9 +53,11 @@ Resource.belongsTo(Project)
 
 Resource.belongsToMany(Category, { through: 'resources_categories' })
 
+// User => Role
 Role.hasMany(User, {foreignKey: 'roleId', sourceKey: 'id'})
 User.belongsTo(Role, {foreignKey: 'roleId', targetKey: 'id'})
 
+// User => Status
 Status.hasMany(User, {foreignKey: 'statusId', sourceKey: 'id'})
 User.belongsTo(Status, {foreignKey: 'statusId', targetKey: 'id'})
 
