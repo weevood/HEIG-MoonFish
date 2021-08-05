@@ -328,13 +328,59 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/profile/tags",
+							"raw": "{{server}}/profile/bankaccounts",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"profile",
-								"tags"
+								"bankaccounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/bankaccounts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/profile/bankaccounts",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"profile",
+								"bankaccounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/profile/notifications",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"profile",
+								"notifications"
 							]
 						}
 					},
@@ -599,13 +645,86 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/users/e845a61e-74fe-4acc-9b8d-a19ddacf0bbc",
+							"raw": "{{server}}/users/e845a61e-74fe-4acc-9b8d-a19ddacf0bbc/bankaccounts",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"users",
-								"e845a61e-74fe-4acc-9b8d-a19ddacf0bbc"
+								"e845a61e-74fe-4acc-9b8d-a19ddacf0bbc",
+								"bankaccounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/bankaccounts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/132f1bde-ab05-4106-b6f3-3d9188e12867/bankaccounts",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"132f1bde-ab05-4106-b6f3-3d9188e12867",
+								"bankaccounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/8306f8ad-f730-4894-a3ca-a934f1ca9961/notifications",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"8306f8ad-f730-4894-a3ca-a934f1ca9961",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/resources",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/517d2764-ef3c-48d3-83f7-92fb359ba29b/resources",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"517d2764-ef3c-48d3-83f7-92fb359ba29b",
+								"resources"
 							]
 						}
 					},
@@ -807,6 +926,29 @@
 					"response": []
 				},
 				{
+					"name": "/teams/:uuid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/00edd4a2-239b-4b7e-b0f8-f3c6f4f27935",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"00edd4a2-239b-4b7e-b0f8-f3c6f4f27935"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/teams",
 					"request": {
 						"method": "POST",
@@ -833,29 +975,6 @@
 							],
 							"path": [
 								"teams"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/teams/:uuid",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/teams/00edd4a2-239b-4b7e-b0f8-f3c6f4f27935",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams",
-								"00edd4a2-239b-4b7e-b0f8-f3c6f4f27935"
 							]
 						}
 					},
@@ -1042,6 +1161,53 @@
 					"response": []
 				},
 				{
+					"name": "/projects/:uuid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects/70899c90-1e1c-409b-82c9-8863fddd75a5",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"70899c90-1e1c-409b-82c9-8863fddd75a5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid/resources",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects/70899c90-1e1c-409b-82c9-8863fddd75a5/resources",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"70899c90-1e1c-409b-82c9-8863fddd75a5",
+								"resources"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/projects",
 					"request": {
 						"method": "POST",
@@ -1093,29 +1259,6 @@
 							],
 							"path": [
 								"projects"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/projects/:uuid",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/projects/70899c90-1e1c-409b-82c9-8863fddd75a5",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"projects",
-								"70899c90-1e1c-409b-82c9-8863fddd75a5"
 							]
 						}
 					},
@@ -1395,7 +1538,393 @@
 					"response": []
 				}
 			],
-			"description": "Define all \"Teams\" routes"
+			"description": "Define all \"Projects\" routes"
+		},
+		{
+			"name": "notifications",
+			"item": [
+				{
+					"name": "/notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/notifications?filters[priority]=1&orders[title]=DESC&limit=5&offset=0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications"
+							],
+							"query": [
+								{
+									"key": "filters[priority]",
+									"value": "1"
+								},
+								{
+									"key": "orders[title]",
+									"value": "DESC"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/notifications/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/notifications/3",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/notifications",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "priority",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "en",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Lorem ipsum",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Itaque rerum sapiente eveniet sit eius quia placeat dolores.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/notifications",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/notifications/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "priority",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "en",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Dolor set amet",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Non id et ipsam nostrum praesentium voluptatum.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/notifications/5",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/notifications/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/notifications/0dde26ce-c0b2-4f77-b2c7-45d37db792f0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications",
+								"0dde26ce-c0b2-4f77-b2c7-45d37db792f0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Define all \"Notifications\" routes"
+		},
+		{
+			"name": "ressources",
+			"item": [
+				{
+					"name": "/resources",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/resources?filters[privacy]=private&orders[name]=DESC&limit=5&offset=0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"resources"
+							],
+							"query": [
+								{
+									"key": "filters[privacy]",
+									"value": "private"
+								},
+								{
+									"key": "orders[name]",
+									"value": "DESC"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/resources/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/resources/6",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"resources",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/resources",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Mon document",
+									"type": "text"
+								},
+								{
+									"key": "link",
+									"value": "http://document.fr/mondoc",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "pdf",
+									"type": "text"
+								},
+								{
+									"key": "privacy",
+									"value": "private",
+									"type": "text"
+								},
+								{
+									"key": "visibility",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/resources",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"resources"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/resources/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Compta",
+									"type": "text"
+								},
+								{
+									"key": "link",
+									"value": "http://document.fr/compta",
+									"type": "text"
+								},
+								{
+									"key": "type",
+									"value": "xlxs",
+									"type": "text"
+								},
+								{
+									"key": "privacy",
+									"value": "private",
+									"type": "text"
+								},
+								{
+									"key": "visibility",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/resources/10",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"resources",
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/resources/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/resources/10",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"resources",
+								"10"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Define all \"Resources\" routes"
 		}
 	]
 }

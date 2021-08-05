@@ -1,4 +1,4 @@
-const neo4j = require.main.require('./config/neode')
+const neo4j = require('../../../config/neode')
 const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
 const { relExists } = require('./relExists')
 

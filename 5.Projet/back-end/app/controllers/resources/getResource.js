@@ -1,6 +1,6 @@
 const { matchedData } = require('express-validator')
 const { handleError } = require('../../middleware/utils')
-const { findResource, setResourcesInfo } = require('./helpers')
+const { findResource, setResourceInfo } = require('./helpers')
 
 /**
  * Get item function called by route
@@ -11,7 +11,7 @@ const getResource = async (req, res) => {
     try {
         const data = matchedData(req)
         const resource = await findResource(data.id)
-        res.status(200).json(await setResourcesInfo([resource]))
+        res.status(200).json(await setResourceInfo(resource))
     } catch (error) {
         handleError(res, error)
     }

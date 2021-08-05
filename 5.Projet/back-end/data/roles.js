@@ -1,4 +1,4 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../app/models/mariadb')
 const Role = mariadb.models.Role
 const ROLES = require('../app/models/enums/roles')
 

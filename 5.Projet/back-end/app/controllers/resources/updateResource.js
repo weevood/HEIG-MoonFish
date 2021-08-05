@@ -1,4 +1,4 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../models/mariadb')
 const Resource = mariadb.models.Resource
 const { updateItem } = require('../../middleware/db')
 const { handleError, buildSuccObject } = require('../../middleware/utils')

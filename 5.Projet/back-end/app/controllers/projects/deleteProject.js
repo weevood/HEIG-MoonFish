@@ -1,4 +1,4 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../models/mariadb')
 const Project = mariadb.models.Project
 const { matchedData } = require('express-validator')
 const { handleError, buildSuccObject } = require('../../middleware/utils')

@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const { SALT_FACTOR } = require.main.require('./config/constants')
+const { SALT_FACTOR } = require('../../../config/constants')
 
 /**
  * Hash a user password

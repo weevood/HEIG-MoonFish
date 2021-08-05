@@ -1,9 +1,9 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../models/mariadb')
 const Notification = mariadb.models.Notification
 const Trans = mariadb.models.NotificationTranslation
 const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { setNotificationsInfo } = require('./helpers')
+const { setNotificationInfo } = require('./helpers')
 const { createItem } = require('../../middleware/db')
 
 /**
@@ -23,7 +23,7 @@ const createNotification = async (req, res) => {
             notificationId: notification.id
         }))
 
-        res.status(201).json(await setNotificationsInfo([notification]))
+        res.status(201).json(await setNotificationInfo(notification))
     } catch (error) {
         handleError(res, error)
     }

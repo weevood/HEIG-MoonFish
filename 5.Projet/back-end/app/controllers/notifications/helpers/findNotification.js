@@ -1,4 +1,4 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../../models/mariadb')
 const Notification = mariadb.models.Notification
 const NotificationTranslation = mariadb.models.NotificationTranslation
 const { buildErrObject } = require('../../../middleware/utils')

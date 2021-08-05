@@ -1,6 +1,6 @@
 const { matchedData } = require('express-validator')
 const { handleError } = require('../../middleware/utils')
-const { findNotification, setNotificationsInfo } = require('./helpers')
+const { findNotification, setNotificationInfo } = require('./helpers')
 
 /**
  * Get item function called by route
@@ -11,7 +11,7 @@ const getNotification = async (req, res) => {
     try {
         const data = matchedData(req)
         const notification = await findNotification(data.id)
-        res.status(200).json(await setNotificationsInfo([notification]))
+        res.status(200).json(await setNotificationInfo(notification))
     } catch (error) {
         handleError(res, error)
     }

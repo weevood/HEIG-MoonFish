@@ -85,5 +85,5 @@ typings/
 .env.production
 
 .history/
-/test/
+/tests/
 /app/controllers/cities/

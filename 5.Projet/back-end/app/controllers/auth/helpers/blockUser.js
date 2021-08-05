@@ -1,6 +1,6 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../../models/mariadb')
 const Authentication = mariadb.models.Authentication
-const { HOURS_TO_BLOCK } = require.main.require('./config/constants')
+const { HOURS_TO_BLOCK } = require('../../../../config/constants')
 const { addHours } = require('date-fns')
 const { buildErrObject } = require('../../../middleware/utils')
 const { updateItem } = require('../../../middleware/db')

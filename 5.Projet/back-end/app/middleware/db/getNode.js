@@ -1,5 +1,5 @@
 const { itemNotFound } = require('../../middleware/utils')
-const neo4j = require.main.require('./config/neode')
+const neo4j = require('../../../config/neode')
 
 /**
  * Get node from database by uuid

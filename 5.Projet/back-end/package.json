@@ -10,10 +10,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",
     "dev": "cross-env NODE_ENV=development nodemon --inspect=9230 server.js",
-    "mocha": "nyc mocha --timeout=5000 --exit",
-    "test": "npm run coverage:clean && npm run test:unit && npm run test:e2e && npm run coverage",
-    "test:unit": "cross-env NODE_ENV=test jest --coverage",
-    "test:e2e": "cross-env NODE_ENV=test npm run fresh && npm run mocha"
+    "test": "cross-env NODE_ENV=test npm run mocha",
+    "mocha": "mocha tests/*.js --timeout=5000 --exit"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",

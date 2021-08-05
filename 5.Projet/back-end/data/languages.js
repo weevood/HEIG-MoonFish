@@ -1,4 +1,4 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../app/models/mariadb')
 const Language = mariadb.models.Language
 
 const languages = {

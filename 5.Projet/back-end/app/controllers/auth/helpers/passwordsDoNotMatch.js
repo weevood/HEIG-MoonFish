@@ -1,7 +1,7 @@
 const { saveLoginAttempts } = require('./saveLoginAttempts')
 const { blockUser } = require('./blockUser')
 const { buildErrObject } = require('../../../middleware/utils')
-const { MAX_LOGIN_ATTEMPTS } = require.main.require('./config/constants')
+const { MAX_LOGIN_ATTEMPTS } = require('../../../../config/constants')
 
 /**
  * Adds one attempt to loginAttempts, then compares loginAttempts with the constant LOGIN_ATTEMPTS,

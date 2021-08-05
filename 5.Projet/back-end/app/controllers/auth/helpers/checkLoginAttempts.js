@@ -1,4 +1,4 @@
-const { MAX_LOGIN_ATTEMPTS } = require.main.require('./config/constants')
+const { MAX_LOGIN_ATTEMPTS } = require('../../../../config/constants')
 const { saveLoginAttempts } = require('./saveLoginAttempts')
 
 

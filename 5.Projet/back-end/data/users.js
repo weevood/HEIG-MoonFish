@@ -1,13 +1,13 @@
 const uuid = require('uuid')
 const faker = require('faker')
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../app/models/mariadb')
 const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
 const Resource = mariadb.models.Resource
 const BankAccount = mariadb.models.BankAccount
 const Notification = mariadb.models.Notification
 const Translation = mariadb.models.NotificationTranslation
-const neo4j = require.main.require('./config/neode')
+const neo4j = require('../config/neode')
 
 const users = [
     {

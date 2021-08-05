@@ -1,4 +1,4 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../../models/mariadb')
 const User = mariadb.models.User
 const { buildErrObject } = require('../../../middleware/utils')
 const { getItem } = require('../../../middleware/db')

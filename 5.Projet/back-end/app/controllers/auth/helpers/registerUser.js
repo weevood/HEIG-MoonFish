@@ -1,10 +1,10 @@
 const uuid = require('uuid')
 const { hash } = require('../../../middleware/auth')
 const { buildErrObject } = require('../../../middleware/utils')
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../../models/mariadb')
 const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
-const neo4j = require.main.require('./config/neode')
+const neo4j = require('../../../../config/neode')
 
 /**
  * Registers a new user in database

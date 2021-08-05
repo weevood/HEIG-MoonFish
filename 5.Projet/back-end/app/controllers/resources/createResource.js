@@ -1,8 +1,8 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../models/mariadb')
 const Resource = mariadb.models.Resource
 const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { setResourcesInfo } = require('./helpers')
+const { setResourceInfo } = require('./helpers')
 const { createItem } = require('../../middleware/db')
 
 /**
@@ -14,7 +14,7 @@ const createResource = async (req, res) => {
     try {
         const data = matchedData(req)
         const resource = await createItem(Resource, data)
-        res.status(201).json(await setResourcesInfo([resource]))
+        res.status(201).json(await setResourceInfo(resource))
     } catch (error) {
         handleError(res, error)
     }

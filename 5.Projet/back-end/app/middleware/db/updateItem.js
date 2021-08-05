@@ -1,4 +1,4 @@
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../models/mariadb')
 const Authentication = mariadb.models.Authentication
 const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
 
@@ -14,6 +14,9 @@ const updateItem = (model, id = 0, values = {}) => {
         if (Object.keys(values).length === 0)
             reject(buildErrObject(422, 'NO_VALUES'))
 
+        if (typeof id === 'string')
+            id = parseInt(id)
+
         if (typeof id === 'number')
             id = (model === Authentication ? { userId: id } : { id })
 
@@ -22,7 +25,7 @@ const updateItem = (model, id = 0, values = {}) => {
                 res => {
                     let updatedRows = res[0]
                     if (updatedRows !== 1) {
-                        reject('UPDATE_ERROR')
+                        reject(buildErrObject(422, 'UPDATE_ERROR'))
                     }
                     resolve(buildSuccObject('UPDATED'))
                 }

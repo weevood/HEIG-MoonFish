@@ -1,5 +1,5 @@
 const uuid = require('uuid')
-const mariadb = require.main.require('./app/models/mariadb')
+const mariadb = require('../../models/mariadb')
 const Project = mariadb.models.Project
 const Trans = mariadb.models.ProjectTranslation
 const { handleError } = require('../../middleware/utils')

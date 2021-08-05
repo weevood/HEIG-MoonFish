@@ -1,5 +1,5 @@
 const { buildErrObject } = require('../../middleware/utils')
-const neo4j = require.main.require('./config/neode')
+const neo4j = require('../../../config/neode')
 
 /**
  * Creates a new node in database
