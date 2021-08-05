@@ -35,22 +35,25 @@ const Translation = models.Translation
 const User = models.User
 
 // Associations and dependencies
-Authentication.belongsTo(User)
+
+// Authentication => User
+User.hasOne(Authentication, {foreignKey: 'userId', sourceKey: 'id'})
+Authentication.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'})
 
 // BankAccounts => User
 User.hasMany(BankAccount, {foreignKey: 'userId', sourceKey: 'id'})
 BankAccount.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'})
 
+// Category => Category
 Category.hasOne(Category, { foreignKey: 'parentId' })
-CategoryTranslation.belongsTo(Category)
-Notification.belongsTo(User)
-NotificationTranslation.belongsTo(Notification)
 
-Project.hasMany(ProjectTranslation)
-ProjectTranslation.belongsTo(Project)
+// Notifications => User
+User.hasMany(Notification, {foreignKey: 'userId', sourceKey: 'id'})
+Notification.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'})
 
-Resource.belongsTo(Project)
-
+// Resources => Project
+Project.hasMany(Resource, {foreignKey: 'projectId', sourceKey: 'id'})
+Resource.belongsTo(Project, {foreignKey: 'projectId', targetKey: 'id'})
 Resource.belongsToMany(Category, { through: 'resources_categories' })
 
 // User => Role
@@ -61,12 +64,23 @@ User.belongsTo(Role, {foreignKey: 'roleId', targetKey: 'id'})
 Status.hasMany(User, {foreignKey: 'statusId', sourceKey: 'id'})
 User.belongsTo(Status, {foreignKey: 'statusId', targetKey: 'id'})
 
-User.hasMany(Resource, { foreignKey: 'authorId' })
+// Resource => User
+User.hasMany(Resource, { foreignKey: 'authorId', sourceKey: 'id'})
+Resource.belongsTo(User, {foreignKey: 'authorId', targetKey: 'id'})
 
 // Translations
 Language.hasMany(CategoryTranslation, { foreignKey: 'lang' })
+Category.hasMany(CategoryTranslation)
+CategoryTranslation.belongsTo(Category)
+
 Language.hasMany(NotificationTranslation, { foreignKey: 'lang' })
+Notification.hasMany(NotificationTranslation)
+NotificationTranslation.belongsTo(Notification)
+
 Language.hasMany(ProjectTranslation, { foreignKey: 'lang' })
+Project.hasMany(ProjectTranslation)
+ProjectTranslation.belongsTo(Project)
+
 Language.hasMany(Translation, { foreignKey: 'lang' })
 Language.hasMany(User, { foreignKey: 'lang' })
 

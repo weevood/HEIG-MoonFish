@@ -4,6 +4,8 @@ const mariadb = require.main.require('./app/models/mariadb')
 const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
 const BankAccount = mariadb.models.BankAccount
+const Notification = mariadb.models.Notification
+const Translation = mariadb.models.NotificationTranslation
 const neo4j = require.main.require('./config/neode')
 
 const users = [
@@ -96,6 +98,17 @@ for (let i = 5; i <= 10; i++) {
             type: faker.finance.accountName(),
             iban: faker.finance.iban(),
             swift: faker.finance.bic(),
+        }],
+        notifications: [{
+            notification: {
+                userId: i,
+            },
+            translation: {
+                notificationId: 1,
+                lang: 'en',
+                title: faker.lorem.word(),
+                description: faker.lorem.sentence()
+            }
         }]
     })
 }
@@ -107,11 +120,25 @@ for (const user of users) {
             uuid: user.user.uuid,
             tags: user.user.tags || null
         })
-        User.create(user.user).then(() => Authentication.create(user.auth))
-        user.bankAccounts.forEach(account => {
-            account.owner = user.user.lastName + ' ' + user.user.firstName
-            BankAccount.create(account)
-        })
+        User.create(user.user)
+            .then(() => Authentication.create(user.auth))
+            .then(() => {
+                if (user.bankAccounts)
+                    user.bankAccounts.forEach(account => {
+                        account.owner = user.user.lastName + ' ' + user.user.firstName
+                        BankAccount.create(account)
+                    })
+            })
+            .then(() => {
+                if (user.notifications)
+                    user.notifications.forEach(notification => {
+                        Notification.create(notification.notification)
+                            .then((item) => {
+                                notification.translation.notificationId = item.id
+                                Translation.create(notification.translation)
+                            })
+                    })
+            })
     } catch (error) {
         console.error(error)
     }

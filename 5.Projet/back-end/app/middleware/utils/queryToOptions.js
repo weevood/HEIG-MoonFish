@@ -8,7 +8,9 @@ const { ITEMS_LIMIT } = require('../../../config/constants')
 const queryToOptions = (query = {}) => {
     return new Promise((resolve, reject) => {
         try {
-            let options = {}
+            let options = {
+                where: query.where
+            }
 
             // Add filters
             if (typeof query.filters !== 'undefined') {

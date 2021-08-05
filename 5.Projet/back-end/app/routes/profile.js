@@ -16,6 +16,8 @@ const {
     changePassword,
     getProfile,
     getTags,
+    getBankAccounts,
+    getNotifications,
     setTags,
     updateProfile,
     updateProfileResume,
@@ -42,5 +44,11 @@ router.get('/tags', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getTa
 
 // Set my tags
 router.post('/tags', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateSetTags, setTags)
+
+// Get a user bank accounts
+router.get('/bankaccounts', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getBankAccounts)
+
+// Get a user notifications
+router.get('/notifications', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getNotifications)
 
 module.exports = router

@@ -21,14 +21,13 @@ module.exports = {
         },
 
         title: {
-            type: DataTypes.STRING(128),
-            validate: { isAlphanumeric: true },
+            type: DataTypes.STRING(64),
+            validate: { is: /^[\w\-\s]+$/, max: 64 },
             allowNull: false
         },
 
         description: {
-            type: DataTypes.STRING(128),
-            validate: { isAlphanumeric: true }
+            type: DataTypes.TEXT,
         }
 
     },

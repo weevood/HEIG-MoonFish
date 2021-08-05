@@ -22,7 +22,7 @@ module.exports = {
 
         title: {
             type: DataTypes.STRING(128),
-            validate: { is: /^[\w\-\s]+$/ },
+            validate: { is: /^[\w\-\s]+$/, max: 128 },
             allowNull: false
         },
 

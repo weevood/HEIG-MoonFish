@@ -10,6 +10,7 @@ const {
     deleteUser,
     getUser,
     getUserBankAccounts,
+    getUserNotifications,
     getUsers,
     giveUserRole,
     updateUser,
@@ -33,7 +34,10 @@ router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getUsers
 router.get('/:uuid', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUser)
 
 // Get a user bank accounts
-router.get('/:uuid/bankaccounts', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUserBankAccounts)
+router.get('/:uuid/bankaccounts', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateGetUser, getUserBankAccounts)
+
+// Get a user notifications
+router.get('/:uuid/notifications', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateGetUser, getUserNotifications)
 
 // Update a user by id
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)

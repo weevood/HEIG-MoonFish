@@ -137,9 +137,11 @@ projects.forEach((project) => {
     try {
         neo4j.create('Project', project.project)
         Project.create(project.project)
-        for (const trans of project.trans) {
-            Trans.create(trans)
-        }
+            .then(() => {
+                for (const trans of project.trans) {
+                    Trans.create(trans)
+                }
+            })
     } catch (error) {
         console.error(error)
     }
