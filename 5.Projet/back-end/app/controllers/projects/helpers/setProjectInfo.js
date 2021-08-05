@@ -1,6 +1,6 @@
 const { findTranslations } = require('../../translations/helpers')
 const { clearNode } = require('../../../middleware/utils')
-const { getEnumName } = require('../../../models/enums/getEnumName');
+const { getEnumName } = require('../../../models/enums/getEnumName')
 const projectStatus = require('../../../models/enums/projectStatus')
 
 /**

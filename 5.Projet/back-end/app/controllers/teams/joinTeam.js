@@ -4,7 +4,7 @@ const { matchedData } = require('express-validator')
 const { findUserNode } = require('../users/helpers')
 const { findTeamNode } = require('./helpers')
 const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
-const { STATUS_ACTIVE } = require("../../models/enums/status");
+const { STATUS_ACTIVE } = require("../../models/enums/status")
 
 /**
  * Update item function called by route

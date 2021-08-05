@@ -37,7 +37,7 @@ module.exports = {
                 type: 'integer',
             },
             feedback: {
-                type: 'string'
+                type: 'integer'
             },
         },
     },

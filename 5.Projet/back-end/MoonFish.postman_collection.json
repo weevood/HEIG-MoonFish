@@ -711,7 +711,7 @@
 					"response": []
 				},
 				{
-					"name": "/users/:uuid/roles",
+					"name": "/users/:uuid/roles/:role",
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -721,25 +721,16 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "role",
-									"value": "moderator",
-									"type": "text"
-								}
-							]
-						},
 						"url": {
-							"raw": "{{server}}/users/b170a9af-c845-4303-ad4d-578c31bd53f3/roles",
+							"raw": "{{server}}/users/220a4cc8-75a2-4bc6-937d-9e32d486b399/roles/moderator",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"users",
-								"b170a9af-c845-4303-ad4d-578c31bd53f3",
-								"roles"
+								"220a4cc8-75a2-4bc6-937d-9e32d486b399",
+								"roles",
+								"moderator"
 							]
 						}
 					},
@@ -905,6 +896,32 @@
 					"response": []
 				},
 				{
+					"name": "/teams/:uuid/status/:status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/c08ac44d-7caf-4fe7-948e-95fac4571b48/status/active",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"c08ac44d-7caf-4fe7-948e-95fac4571b48",
+								"status",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/teams/:uuid/join",
 					"request": {
 						"method": "PUT",
@@ -1038,8 +1055,33 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "name",
-									"value": "Purple Team",
+									"key": "teamUuid",
+									"value": "648039cb-4160-44d8-85ef-149bc54fd823",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "en",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Project A",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Lorem ipsum set dolor",
+									"type": "text"
+								},
+								{
+									"key": "deadline",
+									"value": "12/20/2022",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "C#;.Net",
 									"type": "text"
 								}
 							]
@@ -1067,13 +1109,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/projects/00edd4a2-239b-4b7e-b0f8-f3c6f4f27935",
+							"raw": "{{server}}/projects/70899c90-1e1c-409b-82c9-8863fddd75a5",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"00edd4a2-239b-4b7e-b0f8-f3c6f4f27935"
+								"70899c90-1e1c-409b-82c9-8863fddd75a5"
 							]
 						}
 					},
@@ -1094,20 +1136,71 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "name",
-									"value": "The Big Team",
+									"key": "teamUuid",
+									"value": "97b5e3fb-6585-4c0a-a3d7-1d38145d5a93",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "en",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Project B",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Lorem ipsum set dolor",
+									"type": "text"
+								},
+								{
+									"key": "deadline",
+									"value": "12/20/2025",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "C#;.Net",
 									"type": "text"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{server}}/projects/c08ac44d-7caf-4fe7-948e-95fac4571b48",
+							"raw": "{{server}}/projects/0ec231e1-5a36-443a-8a54-21cd0a75cb05",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
+								"0ec231e1-5a36-443a-8a54-21cd0a75cb05"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid/status/:status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/projects/6af0d8ef-32fd-4e7f-a2e8-1365a66b1363/status/ended",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"6af0d8ef-32fd-4e7f-a2e8-1365a66b1363",
+								"status",
+								"ended"
 							]
 						}
 					},
@@ -1124,14 +1217,29 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "type",
+									"value": "mediation",
+									"type": "text"
+								},
+								{
+									"key": "status",
+									"value": "done",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
-							"raw": "{{server}}/projects/d6443a79-3a8a-40a1-b6d1-e8be732ce361/arbitrates",
+							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/arbitrates",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"5b2eaa2e-a45f-4603-a387-e714ffa1586d",
 								"arbitrates"
 							]
 						}
@@ -1149,14 +1257,34 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "teamUuid",
+									"value": "f5576b29-00f2-4ffe-8b27-868b85451dc9",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "342141",
+									"type": "text"
+								},
+								{
+									"key": "specifications",
+									"value": "33",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
-							"raw": "{{server}}/projects/d6443a79-3a8a-40a1-b6d1-e8be732ce361/applies",
+							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/applies",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"5b2eaa2e-a45f-4603-a387-e714ffa1586d",
 								"applies"
 							]
 						}
@@ -1174,15 +1302,70 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "teamUuid",
+									"value": "c83c79c4-f2fd-490e-98d4-856f540d79dd",
+									"type": "text"
+								}
+							]
+						},
 						"url": {
-							"raw": "{{server}}/projects/d6443a79-3a8a-40a1-b6d1-e8be732ce361/develops",
+							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/develops",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"5b2eaa2e-a45f-4603-a387-e714ffa1586d",
 								"develops"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid/feedback",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "teamUuid",
+									"value": "648039cb-4160-44d8-85ef-149bc54fd823",
+									"type": "text"
+								},
+								{
+									"key": "mark",
+									"value": "4",
+									"type": "text"
+								},
+								{
+									"key": "feedback",
+									"value": "33",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/projects/6af0d8ef-32fd-4e7f-a2e8-1365a66b1363/feedback",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"6af0d8ef-32fd-4e7f-a2e8-1365a66b1363",
+								"feedback"
 							]
 						}
 					},
@@ -1199,13 +1382,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/projects/c08ac44d-7caf-4fe7-948e-95fac4571b48",
+							"raw": "{{server}}/projects/0dde26ce-c0b2-4f77-b2c7-45d37db792f0",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
+								"0dde26ce-c0b2-4f77-b2c7-45d37db792f0"
 							]
 						}
 					},

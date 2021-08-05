@@ -2,9 +2,9 @@ const { relExists, updateNode } = require('../../middleware/db')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { findProjectNode } = require('./helpers')
-const { findTeamNode } = require("../teams/helpers");
-const { RELATION_APPLIES, RELATION_DEVELOPS } = require("../../models/enums/relations");
-const { PROJECT_STATUS_PROPOSAL, PROJECT_STATUS_IN_PROGRESS } = require("../../models/enums/projectStatus");
+const { findTeamNode } = require("../teams/helpers")
+const { RELATION_APPLIES, RELATION_DEVELOPS } = require("../../models/enums/relations")
+const { PROJECT_STATUS_PROPOSAL, PROJECT_STATUS_IN_PROGRESS } = require("../../models/enums/projectStatus")
 
 /**
  * Update item function called by route

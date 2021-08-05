@@ -6,7 +6,7 @@ const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { findProject } = require('./helpers')
 const { RELATION_MANDATES } = require('../../models/enums/relations')
-const { PROJECT_STATUS_PLANNING } = require("../../models/enums/projectStatus");
+const { PROJECT_STATUS_PLANNING } = require("../../models/enums/projectStatus")
 
 /**
  * Update item function called by route
