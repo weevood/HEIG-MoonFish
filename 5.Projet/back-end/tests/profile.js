@@ -6,30 +6,57 @@ const server = require('../server')
 const should = chai.should()
 const mariadb = require('../app/models/mariadb')
 const Resource = mariadb.models.Resource
-const { deleteItem } = require('../app/middleware/db')
+const User = mariadb.models.User
+const { deleteItem, deleteNode } = require('../app/middleware/db')
+const faker = require("faker");
 
 const loginDetails = {
-    email: 'admin@example.com',
-    password: 'admin1234'
+    email: faker.internet.email(),
+    password: 'bruno1234'
 }
 let token = ''
+let verification = ''
+let authorId = 0
+const createdUsers = []
 const createdResources = []
+const name = faker.random.words()
+const link = faker.internet.url()
 
 chai.use(chaiHttp)
 
 describe('*********** PROFILE ***********', () => {
 
-    describe('POST /login', () => {
-        it('it should GET token', (done) => {
+    describe('POST /register', () => {
+        it('it should register and verify user', (done) => {
+            const user = {
+                firstName: faker.random.words(),
+                lastName: faker.random.words(),
+                email: loginDetails.email,
+                password: loginDetails.password
+            }
             chai.request(server)
-                .post('/login')
-                .send(loginDetails)
+                .post('/register')
+                .send(user)
                 .end((err, res) => {
-                    res.should.have.status(200)
+                    res.should.have.status(201)
                     res.body.should.be.an('object')
-                    res.body.should.have.property('token')
+                    res.body.should.include.keys('token', 'verification', 'user')
+                    createdUsers.push(res.body.user.uuid)
                     token = res.body.token
-                    done()
+                    verification = res.body.verification
+                    authorId = res.body.user.id
+                    chai.request(server)
+                        .post('/verify')
+                        .send({
+                            email: loginDetails.email,
+                            verification
+                        })
+                        .end((err, res) => {
+                            res.should.have.status(200)
+                            res.body.should.be.an('object')
+                            res.body.should.have.property('msg').eql('USER_VERIFIED')
+                            done()
+                        })
                 })
         })
     })
@@ -50,7 +77,7 @@ describe('*********** PROFILE ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.an('object')
-                    res.body.should.include.keys('name', 'email')
+                    res.body.should.include.keys('firstName', 'lastName')
                     done()
                 })
         })
@@ -74,36 +101,13 @@ describe('*********** PROFILE ***********', () => {
                     done()
                 })
         })
-        it('it should GET profile tags', (done) => {
-            chai.request(server)
-                .get(`/profile/tags`)
-                .set('Authorization', `Bearer ${token}`)
-                .end((err, res) => {
-                    res.should.have.status(200)
-                    res.body.should.be.an('array')
-                    done()
-                })
-        })
     })
 
     describe('PATCH /profile', () => {
-        it('it should NOT UPDATE profile empty name/email', (done) => {
-            const user = {}
-            chai.request(server)
-                .patch('/profile')
-                .set('Authorization', `Bearer ${token}`)
-                .send(user)
-                .end((err, res) => {
-                    res.should.have.status(422)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('errors')
-                    done()
-                })
-        })
         it('it should UPDATE profile', (done) => {
             const user = {
-                firstName: 'Test123456',
-                phone: '123123123',
+                firstName: 'Bruno',
+                phone: '+41 24 678 54 32',
                 city: 'Bucaramanga',
                 country: 'Colombia',
                 tags: 'Java;PHP',
@@ -115,25 +119,17 @@ describe('*********** PROFILE ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    res.body.should.have.property('firstName').eql('Test123456')
-                    res.body.should.have.property('phone').eql('123123123')
-                    res.body.should.have.property('city').eql('Bucaramanga')
-                    res.body.should.have.property('country').eql('Colombia')
+                    res.body.should.have.property('msg').eql('PROFILE_UPDATED')
                     done()
                 })
         })
-        it('it should NOT UPDATE profile with email that already exists', (done) => {
-            const user = {
-                email: 'moderator@example.com'
-            }
+        it('it should GET profile tags', (done) => {
             chai.request(server)
-                .patch('/profile')
+                .get(`/profile/tags`)
                 .set('Authorization', `Bearer ${token}`)
-                .send(user)
                 .end((err, res) => {
-                    res.should.have.status(422)
-                    res.body.should.be.a('object')
-                    res.body.should.have.property('errors')
+                    res.should.have.status(200)
+                    res.body.should.be.an('array')
                     done()
                 })
         })
@@ -158,12 +154,13 @@ describe('*********** PROFILE ***********', () => {
                     res.body.should.include.keys('id', 'name')
                     createdResources.push(res.body.id)
                     chai.request(server)
-                        .post(`/profile/profile/${res.body.id}`)
+                        .patch(`/profile/resume/${res.body.id}`)
                         .set('Authorization', `Bearer ${token}`)
                         .end((err, res) => {
                             res.should.have.status(403)
                             res.body.should.be.a('object')
-                            res.body.should.have.property('msg').eql('FORBIDDEN')
+                            res.body.should.have.property('error')
+                            res.body.error.should.have.property('msg').eql('FORBIDDEN')
                             done()
                         })
                 })
@@ -175,7 +172,7 @@ describe('*********** PROFILE ***********', () => {
                 type: 'docx',
                 privacy: 'public',
                 visibility: 1,
-                authorId: 1,
+                authorId,
             }
             chai.request(server)
                 .post('/resources')
@@ -187,7 +184,7 @@ describe('*********** PROFILE ***********', () => {
                     res.body.should.include.keys('id', 'name')
                     createdResources.push(res.body.id)
                     chai.request(server)
-                        .post(`/profile/profile/${res.body.id}`)
+                        .patch(`/profile/resume/${res.body.id}`)
                         .set('Authorization', `Bearer ${token}`)
                         .end((err, res) => {
                             res.should.have.status(200)
@@ -202,67 +199,53 @@ describe('*********** PROFILE ***********', () => {
     describe('PATCH /profile/password', () => {
         it('it should NOT change password', (done) => {
             const data = {
-                oldPassword: '12345678',
-                newPassword: '12345678'
+                old: '12345678',
+                new: '12345678'
             }
             chai.request(server)
-                .post('/profile/password')
+                .patch('/profile/password')
                 .set('Authorization', `Bearer ${token}`)
                 .send(data)
                 .end((err, res) => {
                     res.should.have.status(409)
                     res.body.should.be.a('object')
-                    res.body.should.have
-                        .property('errors')
-                        .that.has.property('msg')
-                        .eql('WRONG_PASSWORD')
+                    res.body.should.have.property('error')
+                        .that.has.property('msg').eql('OLD_PASSWORD_INCORRECT')
                     done()
                 })
         })
         it('it should NOT change a too short password', (done) => {
             const data = {
-                oldPassword: '1234',
-                newPassword: '1234'
+                old: loginDetails.password,
+                new: '1234'
             }
             chai.request(server)
-                .post('/profile/password')
+                .patch('/profile/password')
                 .set('Authorization', `Bearer ${token}`)
                 .send(data)
                 .end((err, res) => {
                     res.should.have.status(422)
                     res.body.should.be.a('object')
-                    res.body.should.have.property('errors').that.has.property('msg')
-                    res.body.errors.msg[0].should.have
-                        .property('msg')
-                        .eql('PASSWORD_TOO_SHORT')
+                    res.body.should.have.property('error').that.has.property('msg')
+                    res.body.error.msg[0].should.have
+                        .property('msg').eql('PASSWORD_TOO_SHORT')
                     done()
                 })
         })
         it('it should change password', (done) => {
+            const data = {
+                old: loginDetails.password,
+                new: '0123456789'
+            }
             chai.request(server)
-                .post('/profile/password')
+                .patch('/profile/password')
                 .set('Authorization', `Bearer ${token}`)
-                .send({
-                    oldPassword: loginDetails.password,
-                    newPassword: '0123456789'
-                })
+                .send(data)
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
                     res.body.should.have.property('msg').eql('PASSWORD_CHANGED')
-                    chai.request(server)
-                        .post('/profile/password')
-                        .set('Authorization', `Bearer ${token}`)
-                        .send({
-                            oldPassword: '0123456789',
-                            newPassword: loginDetails.password
-                        })
-                        .end((err, res) => {
-                            res.should.have.status(200)
-                            res.body.should.be.a('object')
-                            res.body.should.have.property('msg').eql('PASSWORD_CHANGED')
-                            done()
-                        })
+                    done()
                 })
         })
     })
@@ -270,6 +253,13 @@ describe('*********** PROFILE ***********', () => {
     after(() => {
         createdResources.forEach((id) => {
             deleteItem(Resource, id)
+        })
+    })
+
+    after(() => {
+        createdUsers.forEach(uuid => {
+            deleteItem(User, uuid)
+            deleteNode('User', uuid)
         })
     })
 })

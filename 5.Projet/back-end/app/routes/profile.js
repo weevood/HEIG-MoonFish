@@ -7,7 +7,6 @@ const { ROLE_USER } = require('../models/enums/roles')
 
 const {
     validateChangePassword,
-    validateSetTags,
     validateUpdateProfile,
     validateUpdateProfileResume,
 } = require('../controllers/profile/validators')
@@ -18,7 +17,6 @@ const {
     getTags,
     getBankAccounts,
     getNotifications,
-    setTags,
     updateProfile,
     updateProfileResume,
 } = require('../controllers/profile')

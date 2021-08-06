@@ -21,11 +21,11 @@ const register = async (req, res) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: auth.email,
-                verification: user.uuid,
             })
             res.status(201).json({
                 token: generateToken(user.uuid),
-                user: userInfo
+                verification: auth.verification,
+                user: userInfo,
             })
         }
     } catch (error) {

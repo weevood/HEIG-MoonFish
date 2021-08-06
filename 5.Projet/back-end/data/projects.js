@@ -7,7 +7,7 @@ const Resource = mariadb.models.Resource
 const neo4j = require('../config/neode')
 const {
     PROJECT_STATUS_PLANNING,
-    PROJECT_STATUS_IN_PROGRESS,
+    PROJECT_STATUS_ONGOING,
     PROJECT_STATUS_ENDED,
     PROJECT_STATUS_ABANDONED
 } = require('../app/models/enums/projectStatus')
@@ -17,7 +17,7 @@ const projects = [
         project: {
             id: 1,
             uuid: uuid.v4(),
-            status: PROJECT_STATUS_IN_PROGRESS,
+            status: PROJECT_STATUS_ONGOING,
             deadline: new Date('10/17/2021'),
             tags: 'Web Design'
         },
@@ -116,7 +116,7 @@ const projects = [
             id: 4,
             uuid: uuid.v4(),
             name: 'Project Y',
-            status: PROJECT_STATUS_IN_PROGRESS,
+            status: PROJECT_STATUS_ONGOING,
             deadline: new Date('01/01/2023'),
             tags: 'Java'
         },

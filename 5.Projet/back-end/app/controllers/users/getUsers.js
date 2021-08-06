@@ -1,5 +1,5 @@
 const { handleError } = require('../../middleware/utils')
-const { findUsers } = require('./helpers')
+const { findUsers, setUsersInfo } = require('./helpers')
 
 /**
  * Get items function called by route
@@ -9,7 +9,8 @@ const { findUsers } = require('./helpers')
 const getUsers = async (req, res) => {
     try {
         const options = req.query
-        res.status(200).json(await findUsers(options))
+        const users = await findUsers(options)
+        res.status(200).json(await setUsersInfo(users))
     } catch (error) {
         handleError(res, error)
     }

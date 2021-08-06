@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { handleError } = require('../../middleware/utils')
+const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { deleteNode } = require('../../middleware/db')
 
 /**
@@ -10,7 +10,8 @@ const { deleteNode } = require('../../middleware/db')
 const deleteTeam = async (req, res) => {
     try {
         const data = matchedData(req)
-        res.status(200).json(await deleteNode('Team', data.uuid))
+        await deleteNode('Team', data.uuid)
+        res.status(200).json(buildSuccObject('TEAM_DELETED'))
     } catch (error) {
         handleError(res, error)
     }

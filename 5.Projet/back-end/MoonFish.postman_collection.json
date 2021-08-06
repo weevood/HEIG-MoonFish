@@ -15,12 +15,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"//- auto populates token to environment variables",
-									"pm.test(\"Token returned from login, added to environment.\", function () {",
-									"    pm.expect(pm.response.text()).to.include(\"token\");",
-									"    const jsonData = pm.response.json();",
-									"    pm.environment.set('authToken', jsonData.token);",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -101,8 +96,13 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "id",
-									"value": "2c6f69da-0bf3-48ab-85b1-ea1d95c7e696",
+									"key": "email",
+									"value": "jean@poche.com",
+									"type": "text"
+								},
+								{
+									"key": "verification",
+									"value": "e08f6bc9-104d-47e8-b9c4-88a285800cad",
 									"type": "text"
 								}
 							]
@@ -244,13 +244,18 @@
 							"mode": "urlencoded",
 							"urlencoded": [
 								{
-									"key": "id",
-									"value": "0f024883-9991-4f41-aae7-4c1ddb359166",
+									"key": "email",
+									"value": "jean@poche.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
 									"value": "88888888",
+									"type": "text"
+								},
+								{
+									"key": "verification",
+									"value": "0f024883-9991-4f41-aae7-4c1ddb359166",
 									"type": "text"
 								}
 							]
@@ -293,6 +298,194 @@
 			"description": "Define all \"Authentication\" routes"
 		},
 		{
+			"name": "notifications",
+			"item": [
+				{
+					"name": "/notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/notifications?filters[priority]=1&orders[title]=DESC&limit=5&offset=0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications"
+							],
+							"query": [
+								{
+									"key": "filters[priority]",
+									"value": "1"
+								},
+								{
+									"key": "orders[title]",
+									"value": "DESC"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/notifications/:id",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/notifications/3",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/notifications",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "priority",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "en",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Lorem ipsum",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Itaque rerum sapiente eveniet sit eius quia placeat dolores.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/notifications",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/notifications/:id",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "priority",
+									"value": "7",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "en",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Dolor set amet",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Non id et ipsam nostrum praesentium voluptatum.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/notifications/5",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/notifications/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/notifications/0dde26ce-c0b2-4f77-b2c7-45d37db792f0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"notifications",
+								"0dde26ce-c0b2-4f77-b2c7-45d37db792f0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Define all \"Notifications\" routes"
+		},
+		{
 			"name": "profile",
 			"item": [
 				{
@@ -328,13 +521,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/profile/bankaccounts",
+							"raw": "{{server}}/profile/tags",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"profile",
-								"bankaccounts"
+								"tags"
 							]
 						}
 					},
@@ -381,39 +574,6 @@
 							"path": [
 								"profile",
 								"notifications"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/profile/tags",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "tags",
-									"value": "PHP;JAVA;C++",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{server}}/profile/tags",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"profile",
-								"tags"
 							]
 						}
 					},
@@ -479,6 +639,11 @@
 								{
 									"key": "lang",
 									"value": "fr",
+									"type": "text"
+								},
+								{
+									"key": "tags",
+									"value": "Java;PHP",
 									"type": "text"
 								}
 							]
@@ -551,30 +716,15 @@
 								"value": "application/x-www-form-urlencoded"
 							}
 						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "resumeId",
-									"value": "15",
-									"type": "text"
-								},
-								{
-									"key": "new",
-									"value": "87654321",
-									"type": "text",
-									"disabled": true
-								}
-							]
-						},
 						"url": {
-							"raw": "{{server}}/profile/resume",
+							"raw": "{{server}}/profile/resume/5",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"profile",
-								"resume"
+								"resume",
+								"5"
 							]
 						}
 					},
@@ -582,539 +732,6 @@
 				}
 			],
 			"description": "Define all \"Profile\" routes"
-		},
-		{
-			"name": "users",
-			"item": [
-				{
-					"name": "/users",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users?filters[statusId]=2&filters[lang]=en&fields=firstName,lastName,lang,role&limit=5&sort=lastName&order=DESC",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users"
-							],
-							"query": [
-								{
-									"key": "filters[statusId]",
-									"value": "2"
-								},
-								{
-									"key": "filters[lang]",
-									"value": "en"
-								},
-								{
-									"key": "fields",
-									"value": "firstName,lastName,lang,role"
-								},
-								{
-									"key": "limit",
-									"value": "5"
-								},
-								{
-									"key": "sort",
-									"value": "lastName"
-								},
-								{
-									"key": "order",
-									"value": "DESC"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:uuid",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users/e845a61e-74fe-4acc-9b8d-a19ddacf0bbc/bankaccounts",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"e845a61e-74fe-4acc-9b8d-a19ddacf0bbc",
-								"bankaccounts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:uuid/bankaccounts",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users/132f1bde-ab05-4106-b6f3-3d9188e12867/bankaccounts",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"132f1bde-ab05-4106-b6f3-3d9188e12867",
-								"bankaccounts"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:uuid/notifications",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users/8306f8ad-f730-4894-a3ca-a934f1ca9961/notifications",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"8306f8ad-f730-4894-a3ca-a934f1ca9961",
-								"notifications"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:uuid/resources",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users/517d2764-ef3c-48d3-83f7-92fb359ba29b/resources",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"517d2764-ef3c-48d3-83f7-92fb359ba29b",
-								"resources"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:uuid",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "firstName",
-									"value": "Tom",
-									"type": "text"
-								},
-								{
-									"key": "lastName",
-									"value": "Delingthon",
-									"type": "text"
-								},
-								{
-									"key": "phone",
-									"value": "026 477 32 90",
-									"type": "text"
-								},
-								{
-									"key": "street",
-									"value": "Boston-City 2a",
-									"type": "text"
-								},
-								{
-									"key": "zipCode",
-									"value": "12345",
-									"type": "text"
-								},
-								{
-									"key": "city",
-									"value": "Munich",
-									"type": "text"
-								},
-								{
-									"key": "state",
-									"value": "Munich",
-									"type": "text"
-								},
-								{
-									"key": "country",
-									"value": "Germany",
-									"type": "text"
-								},
-								{
-									"key": "lang",
-									"value": "fr",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{server}}/users/ebc747ac-82f6-40f9-a909-16f5ad92fa04",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"ebc747ac-82f6-40f9-a909-16f5ad92fa04"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:uuid/ban",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users/b170a9af-c845-4303-ad4d-578c31bd53f3/ban",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"b170a9af-c845-4303-ad4d-578c31bd53f3",
-								"ban"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:uuid/roles/:role",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users/220a4cc8-75a2-4bc6-937d-9e32d486b399/roles/moderator",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"220a4cc8-75a2-4bc6-937d-9e32d486b399",
-								"roles",
-								"moderator"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/users/:uuid",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/users/ebc747ac-82f6-40f9-a909-16f5ad92fa04",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"users",
-								"ebc747ac-82f6-40f9-a909-16f5ad92fa04"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "Define all \"Users\" routes"
-		},
-		{
-			"name": "teams",
-			"item": [
-				{
-					"name": "/teams",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/teams?orders[name]=DESC&limit=5&offset=0",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams"
-							],
-							"query": [
-								{
-									"key": "filters[status]",
-									"value": "2",
-									"disabled": true
-								},
-								{
-									"key": "orders[name]",
-									"value": "DESC"
-								},
-								{
-									"key": "limit",
-									"value": "5"
-								},
-								{
-									"key": "offset",
-									"value": "0"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/teams/:uuid",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/teams/00edd4a2-239b-4b7e-b0f8-f3c6f4f27935",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams",
-								"00edd4a2-239b-4b7e-b0f8-f3c6f4f27935"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/teams",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "Purple Team",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{server}}/teams",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/teams/:uuid",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "The Big Team",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{server}}/teams/c08ac44d-7caf-4fe7-948e-95fac4571b48",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams",
-								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/teams/:uuid/status/:status",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/teams/c08ac44d-7caf-4fe7-948e-95fac4571b48/status/active",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams",
-								"c08ac44d-7caf-4fe7-948e-95fac4571b48",
-								"status",
-								"active"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/teams/:uuid/join",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/teams/d6443a79-3a8a-40a1-b6d1-e8be732ce361/join",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams",
-								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
-								"join"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/teams/:uuid/leave",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/teams/d6443a79-3a8a-40a1-b6d1-e8be732ce361/leave",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams",
-								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
-								"leave"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/teams/:uuid",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/teams/c08ac44d-7caf-4fe7-948e-95fac4571b48",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"teams",
-								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "Define all \"Teams\" routes"
 		},
 		{
 			"name": "projects",
@@ -1130,7 +747,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/projects?orders[name]=DESC&limit=5&offset=0",
+							"raw": "{{server}}/projects?filters[status]=6&orders[status]=DESC&limit=3&offset=0",
 							"host": [
 								"{{server}}"
 							],
@@ -1140,16 +757,15 @@
 							"query": [
 								{
 									"key": "filters[status]",
-									"value": "2",
-									"disabled": true
+									"value": "6"
 								},
 								{
-									"key": "orders[name]",
+									"key": "orders[status]",
 									"value": "DESC"
 								},
 								{
 									"key": "limit",
-									"value": "5"
+									"value": "3"
 								},
 								{
 									"key": "offset",
@@ -1171,13 +787,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/projects/70899c90-1e1c-409b-82c9-8863fddd75a5",
+							"raw": "{{server}}/projects/c5c3aa22-5b82-40a1-9c13-05ab29fc3398",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"70899c90-1e1c-409b-82c9-8863fddd75a5"
+								"c5c3aa22-5b82-40a1-9c13-05ab29fc3398"
 							]
 						}
 					},
@@ -1194,13 +810,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/projects/70899c90-1e1c-409b-82c9-8863fddd75a5/resources",
+							"raw": "{{server}}/projects/c5c3aa22-5b82-40a1-9c13-05ab29fc3398/resources",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"70899c90-1e1c-409b-82c9-8863fddd75a5",
+								"c5c3aa22-5b82-40a1-9c13-05ab29fc3398",
 								"resources"
 							]
 						}
@@ -1280,7 +896,7 @@
 							"urlencoded": [
 								{
 									"key": "teamUuid",
-									"value": "97b5e3fb-6585-4c0a-a3d7-1d38145d5a93",
+									"value": "2efe8ac1-13a1-43a0-9eeb-a15e5a8de185",
 									"type": "text"
 								},
 								{
@@ -1311,13 +927,13 @@
 							]
 						},
 						"url": {
-							"raw": "{{server}}/projects/0ec231e1-5a36-443a-8a54-21cd0a75cb05",
+							"raw": "{{server}}/projects/c13edd3f-8262-43c0-ae35-7341064beefa",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"0ec231e1-5a36-443a-8a54-21cd0a75cb05"
+								"c13edd3f-8262-43c0-ae35-7341064beefa"
 							]
 						}
 					},
@@ -1335,13 +951,13 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/projects/6af0d8ef-32fd-4e7f-a2e8-1365a66b1363/status/ended",
+							"raw": "{{server}}/projects/c13edd3f-8262-43c0-ae35-7341064beefa/status/ended",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
-								"6af0d8ef-32fd-4e7f-a2e8-1365a66b1363",
+								"c13edd3f-8262-43c0-ae35-7341064beefa",
 								"status",
 								"ended"
 							]
@@ -1541,194 +1157,6 @@
 			"description": "Define all \"Projects\" routes"
 		},
 		{
-			"name": "notifications",
-			"item": [
-				{
-					"name": "/notifications",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/notifications?filters[priority]=1&orders[title]=DESC&limit=5&offset=0",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"notifications"
-							],
-							"query": [
-								{
-									"key": "filters[priority]",
-									"value": "1"
-								},
-								{
-									"key": "orders[title]",
-									"value": "DESC"
-								},
-								{
-									"key": "limit",
-									"value": "5"
-								},
-								{
-									"key": "offset",
-									"value": "0"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/notifications/:id",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/notifications/3",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"notifications",
-								"3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/notifications",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "priority",
-									"value": "1",
-									"type": "text"
-								},
-								{
-									"key": "lang",
-									"value": "en",
-									"type": "text"
-								},
-								{
-									"key": "title",
-									"value": "Lorem ipsum",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Itaque rerum sapiente eveniet sit eius quia placeat dolores.",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{server}}/notifications",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"notifications"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/notifications/:id",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "priority",
-									"value": "7",
-									"type": "text"
-								},
-								{
-									"key": "lang",
-									"value": "en",
-									"type": "text"
-								},
-								{
-									"key": "title",
-									"value": "Dolor set amet",
-									"type": "text"
-								},
-								{
-									"key": "description",
-									"value": "Non id et ipsam nostrum praesentium voluptatum.",
-									"type": "text"
-								}
-							]
-						},
-						"url": {
-							"raw": "{{server}}/notifications/5",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"notifications",
-								"5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/notifications/:id",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/notifications/0dde26ce-c0b2-4f77-b2c7-45d37db792f0",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"notifications",
-								"0dde26ce-c0b2-4f77-b2c7-45d37db792f0"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"description": "Define all \"Notifications\" routes"
-		},
-		{
 			"name": "ressources",
 			"item": [
 				{
@@ -1925,6 +1353,538 @@
 				}
 			],
 			"description": "Define all \"Resources\" routes"
+		},
+		{
+			"name": "teams",
+			"item": [
+				{
+					"name": "/teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams?orders[name]=DESC&limit=5&offset=0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams"
+							],
+							"query": [
+								{
+									"key": "filters[status]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "orders[name]",
+									"value": "DESC"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/3917aa96-59c3-4e96-86a3-92575287e23d",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"3917aa96-59c3-4e96-86a3-92575287e23d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Purple Team",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/teams",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "The Big Team",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/teams/c08ac44d-7caf-4fe7-948e-95fac4571b48",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid/status/:status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/3917aa96-59c3-4e96-86a3-92575287e23d/status/active",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"3917aa96-59c3-4e96-86a3-92575287e23d",
+								"status",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid/join",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/d6443a79-3a8a-40a1-b6d1-e8be732ce361/join",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"d6443a79-3a8a-40a1-b6d1-e8be732ce361",
+								"join"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid/leave",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/af8b5030-7671-489e-ac10-f85d9262ce63/leave",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"af8b5030-7671-489e-ac10-f85d9262ce63",
+								"leave"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/c08ac44d-7caf-4fe7-948e-95fac4571b48",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"c08ac44d-7caf-4fe7-948e-95fac4571b48"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Define all \"Teams\" routes"
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "/users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users?filters[statusId]=2&filters[lang]=en&fields=uuid,firstName,lastName,lang,role&limit=5&sort=lastName&order=DESC",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "filters[statusId]",
+									"value": "2"
+								},
+								{
+									"key": "filters[lang]",
+									"value": "en"
+								},
+								{
+									"key": "fields",
+									"value": "uuid,firstName,lastName,lang,role"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "sort",
+									"value": "lastName"
+								},
+								{
+									"key": "order",
+									"value": "DESC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/05ba5504-21f8-4852-88fa-a5b680c3ce94",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"05ba5504-21f8-4852-88fa-a5b680c3ce94"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/bankaccounts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/5a45842d-d8e2-4567-b31a-ac44342d0e62/bankaccounts",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"5a45842d-d8e2-4567-b31a-ac44342d0e62",
+								"bankaccounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/notifications",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/5a45842d-d8e2-4567-b31a-ac44342d0e62/notifications",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"5a45842d-d8e2-4567-b31a-ac44342d0e62",
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/resources",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/5a45842d-d8e2-4567-b31a-ac44342d0e62/resources",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"5a45842d-d8e2-4567-b31a-ac44342d0e62",
+								"resources"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "firstName",
+									"value": "Tom",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Delingthon",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "026 477 32 90",
+									"type": "text"
+								},
+								{
+									"key": "street",
+									"value": "Boston-City 2a",
+									"type": "text"
+								},
+								{
+									"key": "zipCode",
+									"value": "12345",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Munich",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "Munich",
+									"type": "text"
+								},
+								{
+									"key": "country",
+									"value": "Germany",
+									"type": "text"
+								},
+								{
+									"key": "lang",
+									"value": "fr",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/users/5a45842d-d8e2-4567-b31a-ac44342d0e62",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"5a45842d-d8e2-4567-b31a-ac44342d0e62"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/ban",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/d3f38f13-be9d-4a3b-82fd-1a43dc3bdf8a/ban",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"d3f38f13-be9d-4a3b-82fd-1a43dc3bdf8a",
+								"ban"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/roles/:role",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/d3f38f13-be9d-4a3b-82fd-1a43dc3bdf8a/roles/moderator",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"d3f38f13-be9d-4a3b-82fd-1a43dc3bdf8a",
+								"roles",
+								"moderator"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/5a45842d-d8e2-4567-b31a-ac44342d0e62",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"5a45842d-d8e2-4567-b31a-ac44342d0e62"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Define all \"Users\" routes"
 		}
 	]
 }

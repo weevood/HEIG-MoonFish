@@ -1,6 +1,6 @@
-const mariadb = require('../../../models/mariadb')
+const mariadb = require('../../models/mariadb')
 const Authentication = mariadb.models.Authentication
-const { updateItem } = require('../../../middleware/db')
+const { updateItem } = require('../../middleware/db')
 const { matchedData } = require('express-validator')
 const { updatePassword, findUserAuthByEmail } = require('./helpers')
 const { handleError } = require('../../middleware/utils')

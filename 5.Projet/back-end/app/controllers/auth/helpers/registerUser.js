@@ -2,9 +2,9 @@ const uuid = require('uuid')
 const { hash } = require('../../../middleware/auth')
 const { buildErrObject } = require('../../../middleware/utils')
 const mariadb = require('../../../models/mariadb')
+const { createNode } = require('../../../middleware/db')
 const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
-const neo4j = require('../../../../config/neode')
 
 /**
  * Registers a new user in database
@@ -18,13 +18,14 @@ const registerUser = (req = {}) => {
             lastName: req.lastName,
             lang: req.lang || 'en',
         }
-        await neo4j.create('User', { uuid: user.uuid })
+        await createNode('User', { uuid: user.uuid })
         User.create(user)
             .then(async newUser => {
                 const authentication = {
                     userId: newUser.id,
                     email: req.email,
-                    password: await hash(req.password)
+                    password: await hash(req.password),
+                    verification: uuid.v4()
                 }
                 Authentication.create(authentication)
                     .then(newUserAuth => {

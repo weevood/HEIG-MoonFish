@@ -1,5 +1,5 @@
 const { updateNode, relExists } = require('../../middleware/db')
-const { handleError } = require('../../middleware/utils')
+const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
 
@@ -17,7 +17,8 @@ const updateTeam = async (req, res) => {
             { model: 'Team', uuid: data.uuid },
             { isOwner: true })
         ) {
-            res.status(200).json(await updateNode('Team', data.uuid, data))
+            await updateNode('Team', data.uuid, data)
+            res.status(200).json(buildSuccObject('TEAM_UPDATED'))
         } else
             res.status(403).json({ error: { msg: 'FORBIDDEN' } })
     } catch (error) {

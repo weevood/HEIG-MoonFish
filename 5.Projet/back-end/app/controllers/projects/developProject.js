@@ -4,7 +4,7 @@ const { matchedData } = require('express-validator')
 const { findProjectNode } = require('./helpers')
 const { findTeamNode } = require("../teams/helpers")
 const { RELATION_APPLIES, RELATION_DEVELOPS } = require("../../models/enums/relations")
-const { PROJECT_STATUS_PROPOSAL, PROJECT_STATUS_IN_PROGRESS } = require("../../models/enums/projectStatus")
+const { PROJECT_STATUS_PROPOSAL, PROJECT_STATUS_ONGOING } = require("../../models/enums/projectStatus")
 
 /**
  * Update item function called by route
@@ -19,7 +19,7 @@ const developProject = async (req, res) => {
         if (await relExists(team, RELATION_APPLIES, project)) {
             if (!await relExists(team, RELATION_DEVELOPS, project)) {
                 await team.relateTo(project, 'develops')
-                await updateNode('Project', data.uuid, { status: PROJECT_STATUS_IN_PROGRESS })
+                await updateNode('Project', data.uuid, { status: PROJECT_STATUS_ONGOING })
                 res.status(200).json(buildSuccObject('TEAM_DEVELOPS_PROJECT'))
             }
             res.status(403).json({ error: { msg: 'TEAM_ALREADY_DEVELOPS_PROJECT' } })

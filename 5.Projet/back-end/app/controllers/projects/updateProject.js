@@ -24,10 +24,13 @@ const updateProject = async (req, res) => {
         ) {
             await updateItem(Project, project.id, data)
             await updateItem(Trans, { projectId: project.id }, data)
-            await updateNode('Project', data.uuid, {
-                deadline: new Date(data.deadline),
-                tags: data.tags,
-            })
+            let nodeValues = {}
+            if (data.deadline)
+                nodeValues.deadline = new Date(data.deadline)
+            if (data.deadline)
+                nodeValues.tags = data.tags
+            if (Object.keys(nodeValues).length)
+                await updateNode('Project', data.uuid, nodeValues)
             res.status(200).json(buildSuccObject('PROJECT_UPDATED'))
         } else
             res.status(403).json({ error: { msg: 'FORBIDDEN' } })

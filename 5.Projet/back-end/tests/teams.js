@@ -9,7 +9,7 @@ const server = require('../server')
 const should = chai.should()
 const mariadb = require('../app/models/mariadb')
 const Team = mariadb.models.Team
-const { deleteItem } = require('../app/middleware/db')
+const { deleteNode, deleteItem } = require('../app/middleware/db')
 
 const loginDetails = {
     email: 'admin@example.com',
@@ -57,6 +57,8 @@ describe('*********** TEAMS ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.an('array')
+                    res.body[0].should.be.an('object')
+                    res.body[0].should.include.keys('uuid', 'name', 'status')
                     done()
                 })
         })
@@ -130,8 +132,8 @@ describe('*********** TEAMS ***********', () => {
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    res.body.should.have.property('id').eql(id)
-                    res.body.should.have.property('name').eql(newName)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('msg').eql('TEAM_UPDATED')
                     done()
                 })
         })
@@ -146,67 +148,68 @@ describe('*********** TEAMS ***********', () => {
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_STATUS_SET_TO_INACTIVE')
-                    done()
+                    res.body.should.have.property('msg').eql('TEAM_STATUS_SET_TO_INACTIVE')
+                    chai.request(server)
+                        .patch(`/teams/${uuid}/status/active`)
+                        .set('Authorization', `Bearer ${token}`)
+                        .end((error, res) => {
+                            res.should.have.status(200)
+                            res.body.should.be.a('object')
+                            res.body.should.have.property('msg').eql('TEAM_STATUS_SET_TO_ACTIVE')
+                            done()
+                        })
                 })
         })
     })
 
-    describe('PUT /teams/:uuid/leave', () => {
-        it('it should NOT leave a team before join it', (done) => {
-            const uuid = createdTeams.slice(-1).pop()
-            chai.request(server)
-                .patch(`/teams/${uuid}/leave`)
-                .set('Authorization', `Bearer ${token}`)
-                .end((error, res) => {
-                    res.should.have.status(403)
-                    res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('USER_NOT_IN_TEAM')
-                    done()
-                })
-        })
-    })
-
-    describe('PUT /teams/:uuid/join', () => {
-        it('it should ADD A RELATION between team and user', (done) => {
-            const uuid = createdTeams.slice(-1).pop()
-            chai.request(server)
-                .patch(`/teams/${uuid}/join`)
-                .set('Authorization', `Bearer ${token}`)
-                .end((error, res) => {
-                    res.should.have.status(200)
-                    res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_JOINED')
-                    done()
-                })
-        })
-    })
-
-    describe('PUT /teams/:uuid/join', () => {
-        it('it should NOT ADD an existing relation between team and user', (done) => {
-            const uuid = createdTeams.slice(-1).pop()
-            chai.request(server)
-                .patch(`/teams/${uuid}/join`)
-                .set('Authorization', `Bearer ${token}`)
-                .end((error, res) => {
-                    res.should.have.status(403)
-                    res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('USER_ALREADY_IN_TEAM')
-                    done()
-                })
-        })
-    })
-
-    describe('PUT /teams/:uuid/leave', () => {
+    describe('PUT /teams/:uuid/leave & /teams/:uuid/join', () => {
         it('it should DELETE A RELATION between team and user', (done) => {
             const uuid = createdTeams.slice(-1).pop()
             chai.request(server)
-                .patch(`/teams/${uuid}/leave`)
+                .put(`/teams/${uuid}/leave`)
                 .set('Authorization', `Bearer ${token}`)
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_LEAVED')
+                    res.body.should.have.property('msg').eql('TEAM_LEAVED')
+                    done()
+                })
+        })
+        it('it should NOT leave a team before join it', (done) => {
+            const uuid = createdTeams.slice(-1).pop()
+            chai.request(server)
+                .put(`/teams/${uuid}/leave`)
+                .set('Authorization', `Bearer ${token}`)
+                .end((error, res) => {
+                    res.should.have.status(403)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('error')
+                    res.body.error.should.have.property('msg').eql('USER_NOT_IN_TEAM')
+                    done()
+                })
+        })
+        it('it should ADD A RELATION between team and user', (done) => {
+            const uuid = createdTeams.slice(-1).pop()
+            chai.request(server)
+                .put(`/teams/${uuid}/join`)
+                .set('Authorization', `Bearer ${token}`)
+                .end((error, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('msg').eql('TEAM_JOINED')
+                    done()
+                })
+        })
+        it('it should NOT ADD an existing relation between team and user', (done) => {
+            const uuid = createdTeams.slice(-1).pop()
+            chai.request(server)
+                .put(`/teams/${uuid}/join`)
+                .set('Authorization', `Bearer ${token}`)
+                .end((error, res) => {
+                    res.should.have.status(403)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('error')
+                    res.body.error.should.have.property('msg').eql('USER_ALREADY_IN_TEAM')
                     done()
                 })
         })
@@ -218,18 +221,19 @@ describe('*********** TEAMS ***********', () => {
             chai.request(server)
                 .delete(`/teams/${uuid}`)
                 .set('Authorization', `Bearer ${token}`)
-                .end((error, result) => {
-                    result.should.have.status(200)
-                    result.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_DELETED')
+                .end((error, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('msg').eql('TEAM_DELETED')
                     done()
                 })
         })
     })
 
     after(() => {
-        createdTeams.forEach((uuid) => {
+        createdTeams.forEach(uuid => {
             deleteItem(Team, uuid)
+            deleteNode('Team', uuid)
         })
     })
 })

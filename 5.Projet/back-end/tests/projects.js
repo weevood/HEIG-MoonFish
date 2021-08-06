@@ -10,7 +10,7 @@ const should = chai.should()
 const mariadb = require('../app/models/mariadb')
 const Project = mariadb.models.Project
 const Team = mariadb.models.Team
-const { deleteItem } = require('../app/middleware/db')
+const { deleteNode, deleteItem } = require('../app/middleware/db')
 
 const loginDetails = {
     email: 'admin@example.com',
@@ -61,12 +61,14 @@ describe('*********** PROJECTS ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.an('array')
+                    res.body[0].should.be.an('object')
+                    res.body[0].should.include.keys('uuid', 'title', 'description')
                     done()
                 })
         })
         it('it should GET the projects with filters', (done) => {
             chai.request(server)
-                .get('/projects?filters[status]=2&orders[name]=DESC&limit=5&offset=0')
+                .get('/projects?filters[status]=6&orders[status]=DESC&limit=3&offset=0')
                 .set('Authorization', `Bearer ${token}`)
                 .end((err, res) => {
                     res.should.have.status(200)
@@ -132,7 +134,7 @@ describe('*********** PROJECTS ***********', () => {
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    res.body.should.include.keys('priority', 'title', 'description')
+                    res.body.should.include.keys('uuid', 'status', 'title', 'description')
                     done()
                 })
         })
@@ -151,20 +153,43 @@ describe('*********** PROJECTS ***********', () => {
     })
 
     describe('PATCH /projects/:uuid', () => {
-        it('it should UPDATE a project given the uuid', (done) => {
+        it('it should not UPDATE a project without teamUuid', (done) => {
             const uuid = createdProjects.slice(-1).pop()
+            const project = {
+                teamUuid: '97b5e3fb-6585-4c0a-a3d7-1d38145d5a93',
+                lang,
+                title: newTitle,
+                description: faker.random.words(),
+            }
             chai.request(server)
                 .patch(`/projects/${uuid}`)
                 .set('Authorization', `Bearer ${token}`)
-                .send({
-                    lang,
-                    title: newTitle
+                .send(project)
+                .end((error, res) => {
+                    res.should.have.status(403)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('error')
+                    res.body.error.should.have.property('msg').eql('FORBIDDEN')
+                    done()
                 })
+        })
+        it('it should UPDATE a project given the uuid', (done) => {
+            const uuid = createdProjects.slice(-1).pop()
+            const teamUuid = createdTeams.slice(-1).pop()
+            const project = {
+                teamUuid,
+                lang,
+                title: newTitle,
+                description: faker.random.words(),
+            }
+            chai.request(server)
+                .patch(`/projects/${uuid}`)
+                .set('Authorization', `Bearer ${token}`)
+                .send(project)
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    res.body.should.have.property('id').eql(id)
-                    res.body.should.have.property('title').eql(newTitle)
+                    res.body.should.have.property('msg').eql('PROJECT_UPDATED')
                     done()
                 })
         })
@@ -179,8 +204,16 @@ describe('*********** PROJECTS ***********', () => {
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('PROJECT_STATUS_SET_TO_ENDED')
-                    done()
+                    res.body.should.have.property('msg').eql('PROJECT_STATUS_SET_TO_ENDED')
+                    chai.request(server)
+                        .patch(`/projects/${uuid}/status/ongoing`)
+                        .set('Authorization', `Bearer ${token}`)
+                        .end((error, res) => {
+                            res.should.have.status(200)
+                            res.body.should.be.a('object')
+                            res.body.should.have.property('msg').eql('PROJECT_STATUS_SET_TO_ONGOING')
+                            done()
+                        })
                 })
         })
     })
@@ -189,7 +222,7 @@ describe('*********** PROJECTS ***********', () => {
         it('it should ADD A RELATION between user and project', (done) => {
             const uuid = createdProjects.slice(-1).pop()
             chai.request(server)
-                .patch(`/projects/${uuid}/arbitrates`)
+                .put(`/projects/${uuid}/arbitrates`)
                 .set('Authorization', `Bearer ${token}`)
                 .send({
                     type: 'mediation',
@@ -198,35 +231,41 @@ describe('*********** PROJECTS ***********', () => {
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('PROJECT_ARBITRATES')
+                    res.body.should.have.property('msg').eql('PROJECT_ARBITRATES')
                     done()
                 })
         })
     })
 
-    describe('PUT /projects/:uuid/develops', () => {
+    describe('PUT /projects/:uuid/develops && /projects/:uuid/applies', () => {
         it('it should NOT ADD a develops relation before applies', (done) => {
             const uuid = createdProjects.slice(-1).pop()
-            const teamUuid = createdProjects.slice(-1).pop()
+            const teamUuid = createdTeams.slice(-1).pop()
             chai.request(server)
-                .patch(`/projects/${uuid}/develops`)
+                .patch(`/projects/${uuid}/status/proposal`)
                 .set('Authorization', `Bearer ${token}`)
-                .send({ teamUuid })
                 .end((error, res) => {
-                    res.should.have.status(403)
+                    res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_DOESNT_APPLY_FOR_PROJECT')
-                    done()
+                    res.body.should.have.property('msg').eql('PROJECT_STATUS_SET_TO_PROPOSAL')
+                    chai.request(server)
+                        .put(`/projects/${uuid}/develops`)
+                        .set('Authorization', `Bearer ${token}`)
+                        .send({ teamUuid })
+                        .end((error, res) => {
+                            res.should.have.status(403)
+                            res.body.should.be.a('object')
+                            res.body.should.have.property('error')
+                            res.body.error.should.have.property('msg').eql('TEAM_DOESNT_APPLY_FOR_PROJECT')
+                            done()
+                        })
                 })
         })
-    })
-
-    describe('PUT /projects/:uuid/applies', () => {
         it('it should ADD A RELATION between team and project', (done) => {
             const uuid = createdProjects.slice(-1).pop()
-            const teamUuid = createdProjects.slice(-1).pop()
+            const teamUuid = createdTeams.slice(-1).pop()
             chai.request(server)
-                .patch(`/projects/${uuid}/applies`)
+                .put(`/projects/${uuid}/applies`)
                 .set('Authorization', `Bearer ${token}`)
                 .send({
                     teamUuid,
@@ -236,42 +275,45 @@ describe('*********** PROJECTS ***********', () => {
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_APPLIES_FOR_PROJECT')
+                    res.body.should.have.property('msg').eql('TEAM_APPLIES_FOR_PROJECT')
                     done()
                 })
         })
-    })
-
-    describe('PUT /projects/:uuid/develops', () => {
         it('it should ADD A RELATION between team and project', (done) => {
             const uuid = createdProjects.slice(-1).pop()
-            const teamUuid = createdProjects.slice(-1).pop()
+            const teamUuid = createdTeams.slice(-1).pop()
             chai.request(server)
-                .patch(`/projects/${uuid}/develops`)
+                .put(`/projects/${uuid}/develops`)
                 .set('Authorization', `Bearer ${token}`)
                 .send({ teamUuid })
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_DEVELOPS_PROJECT')
+                    res.body.should.have.property('msg').eql('TEAM_DEVELOPS_PROJECT')
                     done()
                 })
         })
-    })
-
-    describe('PUT /projects/:uuid/develops', () => {
         it('it should NOT ADD an existing relation between team and project', (done) => {
             const uuid = createdProjects.slice(-1).pop()
-            const teamUuid = createdProjects.slice(-1).pop()
+            const teamUuid = createdTeams.slice(-1).pop()
             chai.request(server)
-                .patch(`/projects/${uuid}/develops`)
+                .patch(`/projects/${uuid}/status/proposal`)
                 .set('Authorization', `Bearer ${token}`)
-                .send({ teamUuid })
                 .end((error, res) => {
-                    res.should.have.status(403)
+                    res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_ALREADY_DEVELOPS_PROJECT')
-                    done()
+                    res.body.should.have.property('msg').eql('PROJECT_STATUS_SET_TO_PROPOSAL')
+                    chai.request(server)
+                        .put(`/projects/${uuid}/develops`)
+                        .set('Authorization', `Bearer ${token}`)
+                        .send({ teamUuid })
+                        .end((error, res) => {
+                            res.should.have.status(403)
+                            res.body.should.be.a('object')
+                            res.body.should.have.property('error')
+                            res.body.error.should.have.property('msg').eql('TEAM_ALREADY_DEVELOPS_PROJECT')
+                            done()
+                        })
                 })
         })
     })
@@ -279,20 +321,28 @@ describe('*********** PROJECTS ***********', () => {
     describe('PUT /projects/:uuid/feedback', () => {
         it('it should UPDATE A RELATION between team and project', (done) => {
             const uuid = createdProjects.slice(-1).pop()
-            const teamUuid = createdProjects.slice(-2).pop()
+            const teamUuid = createdTeams.slice(-2).pop()
             chai.request(server)
-                .patch(`/projects/${uuid}/feedback`)
+                .patch(`/projects/${uuid}/status/ended`)
                 .set('Authorization', `Bearer ${token}`)
-                .send({
-                    teamUuid,
-                    mark: 4,
-                    feedback: 33
-                })
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('TEAM_FEEDBACK_PROJECT')
-                    done()
+                    res.body.should.have.property('msg').eql('PROJECT_STATUS_SET_TO_ENDED')
+                    chai.request(server)
+                        .put(`/projects/${uuid}/feedback`)
+                        .set('Authorization', `Bearer ${token}`)
+                        .send({
+                            teamUuid,
+                            mark: 4,
+                            feedback: 33
+                        })
+                        .end((error, res) => {
+                            res.should.have.status(200)
+                            res.body.should.be.a('object')
+                            res.body.should.have.property('msg').eql('TEAM_FEEDBACK_PROJECT')
+                            done()
+                        })
                 })
         })
     })
@@ -303,21 +353,23 @@ describe('*********** PROJECTS ***********', () => {
             chai.request(server)
                 .delete(`/projects/${uuid}`)
                 .set('Authorization', `Bearer ${token}`)
-                .end((error, result) => {
-                    result.should.have.status(200)
-                    result.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('PROJECT_DELETED')
+                .end((error, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('msg').eql('PROJECT_DELETED')
                     done()
                 })
         })
     })
 
     after(() => {
-        createdProjects.forEach((id) => {
+        createdProjects.forEach(uuid => {
             deleteItem(Project, uuid)
+            deleteNode('Project', uuid)
         })
-        createdTeams.forEach((uuid) => {
+        createdTeams.forEach(uuid => {
             deleteItem(Team, uuid)
+            deleteNode('Team', uuid)
         })
     })
 })

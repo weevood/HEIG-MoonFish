@@ -10,13 +10,12 @@ const passport = require('passport')        // Passport is Express-compatible au
 const i18n = require('i18n')                // Lightweight simple translation module with dynamic JSON storage
 const path = require('path')                // Provides utilities for working with file and directory paths
 
-const DROP_DB = false // For development only
+const DROP_DB = (process.env.NODE_ENV === 'production') // For development only
 
 // Configure databases connections
 const mariadb = require('./app/models/mariadb')
 const neo4j = require('./app/models/neo4j')
 
-// Initiate the app
 const app = express()
 
 // Setup express server port from ENV or from default: 3000

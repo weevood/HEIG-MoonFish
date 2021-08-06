@@ -13,13 +13,13 @@ module.exports = {
 
         firstName: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true, max: 64 },
+            validate: { is: /^[\w\-\s]+$/, max: 64 },
             allowNull: false
         },
 
         lastName: {
             type: DataTypes.STRING(64),
-            validate: { isAlpha: true, max: 64 },
+            validate: { is: /^[\w\-\s]+$/, max: 64 },
             allowNull: false
         },
 

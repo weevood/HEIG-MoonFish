@@ -1,6 +1,6 @@
 const mariadb = require('../../models/mariadb')
 const Authentication = mariadb.models.Authentication
-const { buildSuccObject } = require('../../middleware/utils')
+const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
 
 /**
  * Delete an item from database by id
@@ -14,7 +14,7 @@ const deleteItem = (model, id) => {
             .then(
                 deletedRows => {
                     if (deletedRows !== 1) {
-                        reject('DELETE_ERROR')
+                        reject(buildErrObject(422, 'DELETE_ERROR'))
                     }
                     resolve(buildSuccObject('DELETED'))
                 }

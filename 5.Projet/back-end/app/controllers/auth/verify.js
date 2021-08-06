@@ -1,7 +1,6 @@
 const { matchedData } = require('express-validator')
-const { verifyUser } = require('./helpers')
+const { verifyUser, findUserAuthByEmail } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
-const { findUserByUuid } = require('../users/helpers')
 
 /**
  * Verify function called by route
@@ -11,8 +10,10 @@ const { findUserByUuid } = require('../users/helpers')
 const verify = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUserByUuid(data.id)
-        res.status(200).json(await verifyUser(user))
+        const userAuth = await findUserAuthByEmail(data.email)
+        if (userAuth.verification !== data.verification)
+            res.status(403).json({ error: { msg: 'FORBIDDEN' } })
+        res.status(200).json(await verifyUser(userAuth))
     } catch (error) {
         handleError(res, error)
     }

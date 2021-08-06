@@ -5,7 +5,7 @@ const { getNode } = require('../../../middleware/db')
  * Find user by ID
  * @param {uuid} uuid - the user´s uuid
  */
-const findUserNode = (uuid) => {
+const findUserNode = uuid => {
     return new Promise(async (resolve, reject) => {
         try {
             resolve(await getNode('User', uuid))

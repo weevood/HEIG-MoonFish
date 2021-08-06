@@ -1,4 +1,5 @@
 const { findUserNode } = require('./findUserNode')
+const { buildErrObject } = require("../../../middleware/utils");
 
 /**
  * Find user by ID
@@ -8,7 +9,10 @@ const getUserTags = (uuid = '') => {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await findUserNode(uuid)
-            resolve({ tags: user.get('tags') })
+            const tags = user.get('tags')
+            if (typeof tags === 'string')
+                resolve(user.get('tags').split(';'))
+            resolve([])
         } catch (error) {
             reject(error)
         }

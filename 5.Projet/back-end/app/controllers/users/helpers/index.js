@@ -6,6 +6,7 @@ const { findUserNode } = require('./findUserNode')
 const { getUserTags } = require('./getUserTags')
 const { setBankAccountsInfo } = require('./setBankAccountsInfo')
 const { setUserInfo } = require('./setUserInfo')
+const { setUsersInfo } = require('./setUsersInfo')
 
 module.exports = {
     findUser,
@@ -16,4 +17,5 @@ module.exports = {
     getUserTags,
     setBankAccountsInfo,
     setUserInfo,
+    setUsersInfo,
 }

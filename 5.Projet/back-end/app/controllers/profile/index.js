@@ -4,7 +4,6 @@ const { getNotifications } = require('./getNotifications')
 const { getProfile } = require('./getProfile')
 const { updateProfile } = require('./updateProfile')
 const { getTags } = require('./getTags')
-const { setTags } = require('./setTags')
 const { updateProfileResume } = require('./updateProfileResume')
 
 module.exports = {
@@ -13,7 +12,6 @@ module.exports = {
     getNotifications,
     getProfile,
     getTags,
-    setTags,
     updateProfile,
     updateProfileResume,
 }

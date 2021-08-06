@@ -57,6 +57,8 @@ describe('*********** NOTIFICATIONS ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.an('array')
+                    res.body[0].should.be.an('object')
+                    res.body[0].should.include.keys('title', 'description', 'priority')
                     done()
                 })
         })
@@ -129,13 +131,14 @@ describe('*********** NOTIFICATIONS ***********', () => {
                 .patch(`/notifications/${id}`)
                 .set('Authorization', `Bearer ${token}`)
                 .send({
-                    title: newTitle
+                    lang: 'en',
+                    title: newTitle,
+                    description: faker.random.words()
                 })
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    res.body.should.have.property('id').eql(id)
-                    res.body.should.have.property('title').eql(newTitle)
+                    res.body.should.have.property('msg').eql('NOTIFICATION_UPDATED')
                     done()
                 })
         })
@@ -147,10 +150,10 @@ describe('*********** NOTIFICATIONS ***********', () => {
             chai.request(server)
                 .delete(`/notifications/${id}`)
                 .set('Authorization', `Bearer ${token}`)
-                .end((error, result) => {
-                    result.should.have.status(200)
-                    result.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('NOTIFICATION_DELETED')
+                .end((error, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('msg').eql('NOTIFICATION_DELETED')
                     done()
                 })
         })

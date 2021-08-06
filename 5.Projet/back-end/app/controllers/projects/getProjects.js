@@ -1,5 +1,5 @@
 const { handleError } = require('../../middleware/utils')
-const { findProjects, findProjectsNodes, setProjectInfo } = require('./helpers')
+const { findProjectsNodes, setProjectInfo, findProject } = require('./helpers')
 
 /**
  * Get items function called by route
@@ -9,13 +9,10 @@ const { findProjects, findProjectsNodes, setProjectInfo } = require('./helpers')
 const getProjects = async (req, res) => {
     try {
         let collection = []
-        const projects = await findProjects(req.query)
         const projectsNodes = await findProjectsNodes(req.query)
-        for (const project of projects) {
-            let projectNode = projectsNodes.find(obj => {
-                return obj.get('uuid') === project.uuid
-            })
-            if (typeof projectNode !== 'undefined')
+        for (const projectNode of projectsNodes) {
+            let project = await findProject(projectNode.get('uuid'))
+            if (typeof project !== 'undefined')
                 collection.push(await setProjectInfo(project, projectNode))
         }
         res.status(200).json(collection)

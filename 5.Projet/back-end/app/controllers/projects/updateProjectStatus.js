@@ -8,7 +8,7 @@ const {
     PROJECT_STATUS_PLANNING,
     PROJECT_STATUS_VALIDATION,
     PROJECT_STATUS_PROPOSAL,
-    PROJECT_STATUS_IN_PROGRESS,
+    PROJECT_STATUS_ONGOING,
     PROJECT_STATUS_ENDED,
     PROJECT_STATUS_ABANDONED,
     PROJECT_STATUS_BANNED,
@@ -37,8 +37,8 @@ const updateProjectStatus = async (req, res) => {
             case 'proposal':
                 statusId = PROJECT_STATUS_PROPOSAL
                 break
-            case 'in_progress':
-                statusId = PROJECT_STATUS_IN_PROGRESS
+            case 'ongoing':
+                statusId = PROJECT_STATUS_ONGOING
                 break
             case 'ended':
                 statusId = PROJECT_STATUS_ENDED

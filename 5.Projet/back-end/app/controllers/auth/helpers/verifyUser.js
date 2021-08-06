@@ -1,17 +1,22 @@
 const mariadb = require('../../../models/mariadb')
+const Authentication = mariadb.models.Authentication
 const User = mariadb.models.User
 const { STATUS_ACTIVE } = require('../../../models/enums/status')
 const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
 const { updateItem } = require('../../../middleware/db')
+const { findUser } = require('../../users/helpers')
 
 /**
  * Verifies an user
- * @param {Object} user - user object
+ * @param {Object} authentication - linked authentication object
  */
-const verifyUser = (user = {}) => {
+const verifyUser = (authentication = {}) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await updateItem(User, user.id, { statusId: STATUS_ACTIVE })
+            const user = await findUser(authentication.userId)
+            if (user.statusId !== STATUS_ACTIVE)
+                await updateItem(User, user.id, { statusId: STATUS_ACTIVE })
+            await updateItem(Authentication, authentication.userId, { verification: null })
             resolve(buildSuccObject('USER_VERIFIED'))
         } catch (error) {
             reject(buildErrObject(422, 'VERIFY_ERROR'))

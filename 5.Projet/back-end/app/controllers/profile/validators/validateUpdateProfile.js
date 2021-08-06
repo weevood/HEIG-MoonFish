@@ -50,6 +50,11 @@ const validateUpdateProfile = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('tags')
+        .optional()
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     (req, res, next) => {
         validateResult(req, res, next)
     }

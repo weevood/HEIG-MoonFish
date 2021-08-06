@@ -57,6 +57,8 @@ describe('*********** RESOURCES ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.an('array')
+                    res.body[0].should.be.an('object')
+                    res.body[0].should.include.keys('name', 'link', 'type', 'privacy', 'visibility')
                     done()
                 })
         })
@@ -136,8 +138,7 @@ describe('*********** RESOURCES ***********', () => {
                 .end((error, res) => {
                     res.should.have.status(200)
                     res.body.should.be.a('object')
-                    res.body.should.have.property('id').eql(id)
-                    res.body.should.have.property('name').eql(newName)
+                    res.body.should.have.property('msg').eql('RESOURCE_UPDATED')
                     done()
                 })
         })
@@ -149,10 +150,10 @@ describe('*********** RESOURCES ***********', () => {
             chai.request(server)
                 .delete(`/resources/${id}`)
                 .set('Authorization', `Bearer ${token}`)
-                .end((error, result) => {
-                    result.should.have.status(200)
-                    result.body.should.be.a('object')
-                    result.body.should.have.property('msg').eql('RESOURCE_DELETED')
+                .end((error, res) => {
+                    res.should.have.status(200)
+                    res.body.should.be.a('object')
+                    res.body.should.have.property('msg').eql('RESOURCE_DELETED')
                     done()
                 })
         })

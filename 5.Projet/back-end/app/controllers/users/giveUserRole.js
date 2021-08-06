@@ -30,7 +30,8 @@ const giveUserRole = async (req, res) => {
                 break
         }
         if (roleId) {
-            await updateItem(User, user.id, { roleId })
+            if (user.roleId !== roleId)
+                await updateItem(User, user.id, { roleId })
             res.status(200).json(buildSuccObject('USER_UPGRADED_TO_' + data.role.toUpperCase()))
         }
     } catch (error) {

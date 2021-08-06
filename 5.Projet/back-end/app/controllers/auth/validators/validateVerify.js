@@ -5,7 +5,15 @@ const { check } = require('express-validator')
  * Validates verify request
  */
 const validateVerify = [
-    check('id')
+    check('email')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .isEmail()
+        .withMessage('EMAIL_IS_NOT_VALID'),
+    check('verification')
         .exists()
         .withMessage('MISSING')
         .not()

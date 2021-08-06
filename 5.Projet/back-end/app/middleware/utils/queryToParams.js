@@ -13,16 +13,14 @@ const queryToParams = (query = {}) => {
             // Add filters
             if (typeof query.filters !== 'undefined') {
                 params['filters'] = Array.isArray(query.filters) ? Object.assign({}, query.filters) : query.filters
+                Object.entries(params.filters).forEach(([key, value]) => {
+                    params.filters[key] = parseInt(value) || value
+                })
             }
 
             // // Convert fields to attributes
             // if (query.fields && query.fields.length) {
             //     params['attributes'] = Array.isArray(query.fields) ? query.fields : query.fields.split(',')
-            // }
-
-            // // Add relations
-            // if (query.include && query.include.length) {
-            //     params['include'] = query.include
             // }
 
             // Define sorts
