@@ -43,6 +43,15 @@ module.exports = {
             defaultValue: DataTypes.NOW,
             allowNull: false
         },
+
+        verification: {
+            type: DataTypes.STRING(36),
+            validate: { isUUID: 4, len: 36 },
+            allowNull: true,
+            defaultValue: null,
+            unique: true
+        }
+
     },
     options: {}
 };

@@ -1,7 +1,10 @@
+const mariadb = require('../../../models/mariadb')
+const Authentication = mariadb.models.Authentication
+const { updateItem } = require('../../../middleware/db')
 const { matchedData } = require('express-validator')
-const { updatePassword } = require('./helpers')
+const { updatePassword, findUserAuthByEmail } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
-const { findUserByUuid } = require('../users/helpers')
+const { findUser } = require('../users/helpers')
 
 /**
  * Reset password function called by route
@@ -11,8 +14,11 @@ const { findUserByUuid } = require('../users/helpers')
 const resetPassword = async (req, res) => {
     try {
         const data = matchedData(req)
-        const user = await findUserByUuid(data.id)
-        // Need other verifications for security reasons
+        const userAuth = await findUserAuthByEmail(data.email)
+        const user = await findUser(userAuth.userId)
+        if (userAuth.verification !== data.verification)
+            res.status(403).json({ error: { msg: 'FORBIDDEN' } })
+        await updateItem(Authentication, userAuth.userId, { verification: null })
         res.status(200).json(await updatePassword(user.id, data.password))
     } catch (error) {
         handleError(res, error)

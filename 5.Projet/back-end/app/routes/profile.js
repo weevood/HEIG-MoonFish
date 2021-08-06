@@ -34,16 +34,13 @@ router.get('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getProfil
 router.patch('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProfile, updateProfile)
 
 // Update resume reference
-router.patch('/resume', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProfileResume, updateProfileResume)
+router.patch('/resume/:resumeId', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProfileResume, updateProfileResume)
 
 // Change password route
 router.patch('/password', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateChangePassword, changePassword)
 
 // Get my tags
 router.get('/tags', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getTags)
-
-// Set my tags
-router.post('/tags', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateSetTags, setTags)
 
 // Get a user bank accounts
 router.get('/bankaccounts', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getBankAccounts)
