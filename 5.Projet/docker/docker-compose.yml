@@ -1,16 +1,21 @@
-version: '1.1'
 services:
 
   web:
+    container_name: moonfish-backend
     build:
-      context: ../back-end
+      context: ../back-end/
       target: dev
     volumes:
       - ../back-end:/src
-    command: npm run start:dev
+    # command: npm run start # For production mode
+    command: npm run dev
     ports:
       - "3000:3000"
+    depends_on:
+      - "mariadb"
+      - "neo4j"
     environment:
+      # NODE_ENV: production # For production mode
       NODE_ENV: development
       DEBUG: nodejs-docker-express:*
 
