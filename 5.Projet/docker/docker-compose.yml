@@ -1,5 +1,18 @@
-version: "1.0"
+version: '1.1'
 services:
+
+  web:
+    build:
+      context: ../back-end
+      target: dev
+    volumes:
+      - ../back-end:/src
+    command: npm run start:dev
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DEBUG: nodejs-docker-express:*
 
   mariadb:
     image: mariadb
@@ -14,24 +27,23 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
 
-  phpmyadmin:
-    image: phpmyadmin
-    container_name: phpmyadmin
-    restart: always
-    ports:
-      - 8000:80
-    environment:
-      - PMA_ARBITRARY=1
-      - PMA_HOST=mariadb
-    depends_on:
-      - mariadb
+  # phpmyadmin:
+  #   image: phpmyadmin
+  #   container_name: phpmyadmin
+  #   restart: always
+  #   ports:
+  #     - 8000:80
+  #   environment:
+  #     - PMA_ARBITRARY=1
+  #     - PMA_HOST=mariadb
+  #   depends_on:
+  #     - mariadb
 
   neo4j:
     image: neo4j
     container_name: neo4j
     restart: unless-stopped
     hostname: neo4j
-    container_name: neo4j
     ports:
       - 7474:7474
       - 7687:7687
