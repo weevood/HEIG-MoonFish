@@ -8,6 +8,7 @@ services:
     volumes:
       - ../back-end:/src
     # command: npm run start # For production mode
+    # command: NODE_ENV=production node server.js # For production mode
     command: npm run dev
     ports:
       - "3000:3000"

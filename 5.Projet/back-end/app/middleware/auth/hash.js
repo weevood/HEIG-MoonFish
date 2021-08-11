@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const { SALT_FACTOR } = require('../../../config/constants')
 
 /**

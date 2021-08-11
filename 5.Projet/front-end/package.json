@@ -1,7 +1,12 @@
 {
-  "name": "vue.js",
-  "version": "0.1.0",
+  "name": "heigvd-tb-frontend",
+  "version": "0.1.1",
+  "description": "Vue.js app",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://https://github.com/weevood/HEIG-VD_Travail-de-Bachelor.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
