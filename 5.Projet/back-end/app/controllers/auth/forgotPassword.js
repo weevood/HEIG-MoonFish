@@ -2,7 +2,7 @@ const mariadb = require('../../models/mariadb')
 const Authentication = mariadb.models.Authentication
 const { updateItem } = require('../../middleware/db')
 const { matchedData } = require('express-validator')
-const { findUserAuthByEmail } = require('./helpers')
+const { findUserAuthByEmail, generateToken } = require('./helpers')
 const { getIP, getBrowserInfo, getCountry } = require('../../middleware/utils')
 const { handleError } = require('../../middleware/utils')
 const { sendResetPasswordEmail } = require('../../middleware/emailer')
@@ -30,7 +30,9 @@ const forgotPassword = async (req, res) => {
         sendResetPasswordEmail(locale, userData)
         let response = {
             msg: 'RESET_EMAIL_SENT',
-            ...userData,
+        }
+        if (process.env.NODE_ENV !== 'production') {
+            response.userData = userData
         }
         res.status(200).json(response)
     } catch (error) {

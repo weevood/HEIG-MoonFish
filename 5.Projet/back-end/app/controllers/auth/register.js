@@ -22,11 +22,14 @@ const register = async (req, res) => {
                 lastName: user.lastName,
                 email: auth.email,
             })
-            res.status(201).json({
-                token: generateToken(user.uuid),
-                verification: auth.verification,
+            let response = {
                 user: userInfo,
-            })
+            }
+            if (process.env.NODE_ENV !== 'production') {
+                response.token = generateToken(user.uuid)
+                response.verification = auth.verification
+            }
+            res.status(201).json(response)
         }
     } catch (error) {
         handleError(res, error)
