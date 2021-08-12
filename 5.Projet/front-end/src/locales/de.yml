@@ -1,0 +1,24 @@
+# ----- Components -----
+firstName: "Prénom"
+lastName: "Nom"
+email:
+  email: "Email"
+  your: "Votre email"
+password:
+  pwd: "Passwort"
+  new: "Neue Passwort"
+login: "Anmelden"
+
+# ----- Pages -----
+
+# Authentication
+
+Login:
+  title: "Melden Sie sich bei Ihrem Konto an"
+  alternatives: "Oder weiter mit"
+
+Forgot:
+  forgot: "Passwort vergessen ?"
+
+Register:
+  register: "Sie haben noch kein Konto ?"

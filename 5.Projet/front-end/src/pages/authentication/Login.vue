@@ -1,66 +1,59 @@
 <template>
+  <AuthHeader/>
   <main class="max-w-lg mx-auto flex-grow w-9/12">
-    <div class="bg-gray-100 p-8 md:p-12 mt-10 mb-5 rounded-lg shadow-2xl flex-grow">
+    <div class="bg-gray-100 p-8 md:p-12 my-5 rounded-lg shadow-2xl flex-grow">
       <section>
-        <h3 class="text-blue-900 text-3xl font-medium">Sign in to your account</h3>
+        <h3 class="text-blue-900 text-3xl font-medium">{{ $t('Login.title') }}</h3>
       </section>
       <hr class="border-blue-900 border-t-2 w-1/4 mt-3"/>
-      <div v-if="message" role="alert"
-           class="bg-red-100 border-t-4 border-red-500 rounded-b text-teal-900 px-4 py-3 my-5 shadow-md">
-        <div class="flex">
-          <div class="py-1">
-            <svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path fill="#f56565"
-                    d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-bold text-red-500">Error!</p>
-            <p class="text-sm">{{ message }}</p>
-          </div>
-        </div>
-      </div>
-
+      <AlertSuccess :message="message"/>
+      <AlertError :message="errorMessage && $t(`error.${ errorMessage }`)"/>
       <section class="mt-10">
-        <Form class="flex flex-col" @submit="handleLogin" :validation-schema="schema">
+        <Form class="flex flex-col" @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }">
           <div class="mb-6 pt-3 rounded bg-gray-200">
-            <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="email">Email</label>
+            <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="email">{{
+                $t('email.email')
+              }}</label>
             <Field id="email" name="email" type="text"
                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
             <ErrorMessage name="email" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
           </div>
           <div class="mb-6 pt-3 rounded bg-gray-200">
-            <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="password">Password</label>
+            <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="password">{{
+                $t('password.pwd')
+              }}</label>
             <Field id="password" name="password" type="password"
                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
             <ErrorMessage name="password" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
           </div>
-          <button :disabled="loading"
+          <button :disabled="loading || Object.keys(errors).length"
                   class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200 focus:outline-none focus:ring disabled:opacity-50 inline-flex items-center justify-center">
-            <svg v-show="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <svg v-show="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                 fill="none" viewBox="0 0 24 24">
               <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <span>Sign In</span>
+            <span>{{ $t('login') }}</span>
           </button>
         </Form>
       </section>
       <div class="md:grid grid-cols-3 divide-x my-3 hidden">
         <hr class="border-gray-500 border-t-1 w-full my-6"/>
-        <span class="text-sm text-gray-600 text-center my-3 border-gray-100">Or continue with</span>
+        <span class="text-sm text-gray-600 text-center my-3 border-gray-100">{{ $t('Login.alternatives') }}</span>
         <hr class="border-gray-500 border-t-1 w-full my-6"/>
       </div>
       <section class="grid grid-cols-3 divide-x mt-8 md:mt-0">
         <a class="h-16 bg-gray-200 border-gray-200 rounded mr-4 p-3 text-center hover:bg-gray-300 transition duration-200">
-          <img class="w-auto h-full mx-auto cursor-pointer" src="../assets/images/google_logo.svg"
+          <img class="w-auto h-full mx-auto cursor-pointer" src="@/assets/images/google_logo.svg"
                alt="Sign-in with Google"/>
         </a>
         <a class="h-16 bg-gray-200 border-gray-200 rounded mx-2 p-3 text-center hover:bg-gray-300 transition duration-200">
-          <img class="w-auto h-full mx-auto cursor-pointer" src="../assets/images/github_logo.svg"
+          <img class="w-auto h-full mx-auto cursor-pointer" src="@/assets/images/github_logo.svg"
                alt="Sign-in with GitHub"/>
         </a>
         <a class="h-16 bg-gray-200 border-gray-200 rounded ml-4 p-3 text-center hover:bg-gray-300 transition duration-200">
-          <img class="w-auto h-full mx-auto cursor-pointer" src="../assets/images/apple_logo.svg"
+          <img class="w-auto h-full mx-auto cursor-pointer" src="@/assets/images/apple_logo.svg"
                alt="Sign-in with Apple"/>
         </a>
       </section>
@@ -68,36 +61,42 @@
 
     <div class="max-w-lg mx-auto text-center mt-5 mb-6">
       <p class="text-white">
-        <a href="#" class="font-bold hover:underline" @click.prevent="forgot">Forgot your password?</a> or
-        <a href="#" class="font-bold hover:underline" @click.prevent="register">Don't have an account?</a>
+        <a href="#" class="font-bold hover:underline" @click.prevent="forgot">{{ $t('Forgot.forgot') }}</a> or
+        <a href="#" class="font-bold hover:underline" @click.prevent="register">{{ $t('Register.register') }}</a>
       </p>
     </div>
   </main>
+  <AuthFooter/>
 </template>
 
 <script>
 import { ErrorMessage, Field, Form } from 'vee-validate';
 import * as yup from 'yup';
+import AuthFooter from '@/components/layout/AuthFooter';
+import AlertSuccess from "@/components/ui/AlertSuccess";
+import AlertError from "@/components/ui/AlertError";
+import AuthHeader from "@/components/layout/AuthHeader";
 
 export default {
   name: 'Login',
-  components: { Form, Field, ErrorMessage },
+  components: { AuthHeader, AlertSuccess, AlertError, AuthFooter, Form, Field, ErrorMessage },
 
   data() {
     const schema = yup.object().shape({
       email: yup
           .string()
-          .required("Email is required!")
-          .email("Email is invalid!")
-          .max(50, "Must be maximum 50 characters!"),
+          .required(this.$t('required', { item: this.$t('email.email') }))
+          .email(this.$t('invalid', { item: this.$t('email.email') }))
+          .max(50, this.$t('maxChars', { max: 50 })),
       password: yup
           .string()
-          .required("Password is required!")
-          .min(8, "Must be at least 8 characters!")
-          .max(40, "Must be maximum 40 characters!"),
+          .required(this.$t('required', { item: this.$t('password.pwd') }))
+          .min(8, this.$t('minChars', { min: 8 }))
+          .max(40, this.$t('maxChars', { max: 40 })),
     });
     return {
       loading: false,
+      errorMessage: '',
       message: this.$route.query.message,
       schema,
     };
@@ -125,7 +124,7 @@ export default {
           },
           (error) => {
             this.loading = false;
-            this.message = error.msg || error.toString();
+            this.errorMessage = error.msg || error.toString();
           }
       );
     },

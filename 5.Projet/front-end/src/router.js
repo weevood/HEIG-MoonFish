@@ -1,15 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from './components/Login.vue';
-import Register from './components/Register.vue';
-import Verify from './components/Verify.vue';
-import Forgot from './components/Forgot.vue';
-import Reset from './components/Reset.vue';
+import Login from './pages/authentication/Login.vue';
+import Register from './pages/authentication/Register.vue';
+import Verify from './pages/authentication/Verify.vue';
+import Forgot from './pages/authentication/Forgot.vue';
+import Reset from './pages/authentication/Reset.vue';
 
 // Then, lazy-loaded components
-const Profile = () => import('./components/Profile.vue')
-const BoardAdmin = () => import('./components/BoardAdmin.vue')
-const BoardModerator = () => import('./components/BoardModerator.vue')
-const BoardUser = () => import('./components/BoardUser.vue')
+const Profile = () => import('./pages/user/Profile.vue')
+const BoardAdmin = () => import('./pages/admin/BoardAdmin.vue')
+const BoardModerator = () => import('./pages/moderator/BoardModerator.vue')
+const BoardUser = () => import('./pages/user/BoardUser.vue')
 
 const routes = [
 		{

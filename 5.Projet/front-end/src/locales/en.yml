@@ -1,0 +1,57 @@
+# ----- Components -----
+firstName: "First name"
+lastName: "Last name"
+email:
+  email: "Email"
+  your: "Your email"
+password:
+  pwd: "Password"
+  new: "New password"
+  confirm: "Confirm password"
+  match: "Passwords must match"
+login: "Sign In"
+logout: "Sign Out"
+
+# Validation
+required: "{item} is required!"
+invalid: "{item} is invalid!"
+minChars: "Must be at least {min} characters"
+maxChars: "Must be maximum {max} characters"
+
+# ----- Pages -----
+
+# Authentication
+
+Forgot:
+  title: "Get a new password"
+  successful: "Your reset link his on the way, please check it by going to your mailbox."
+  submit: "Redeem a password reset link"
+  forgot: "Forgot your password?"
+
+Login:
+  title: "Sign in to your account"
+  alternatives: "Or continue with"
+
+Register:
+  title: "Create your account"
+  congratulations: "Congratulations!"
+  successful: "Your new account has just been created, please validate it by going to your mailbox."
+  submit: "Sign Up"
+  register: "Don't have an account?"
+
+Reset:
+  title: "Reset your password"
+  submit: "Reset my password"
+
+Verify:
+  title: "Validate your account"
+  submit: "Verify my account"
+
+# ----- Messages -----
+VERIFY_SUCCESS: "Your email address has been verified, you can now sign-in."
+RESET_SUCCESS: "Your password has been changed, you can now sign-in."
+
+# ----- Errors -----
+error:
+  INVALID_CREDENTIALS: "You have entered an invalid username or password."
+  EMAIL_ALREADY_EXISTS: "This email is already associated with an account, you can connect with it."

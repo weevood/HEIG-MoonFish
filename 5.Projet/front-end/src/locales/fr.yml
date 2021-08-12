@@ -1,0 +1,57 @@
+# ----- Components -----
+firstName: "Prénom"
+lastName: "Nom"
+email:
+  email: "Email"
+  your: "Votre email"
+password:
+  pwd: "Mot de passe"
+  new: "Nouveau mot de passe"
+  confirm: "Confirmer le mot de passe"
+  match: "Les mots de passe doivent correspondre"
+login: "Se connecter"
+logout: "Se déconnecter"
+
+# Validation
+required: "{item} est requis !"
+invalid: "{item} n'est pas valide !"
+minChars: "Doit comporter au moins {min} caractères"
+maxChars: "Doit être un maximum de {max} caractères"
+
+# ----- Pages -----
+
+# Authentication
+
+Forgot:
+  title: "Obtenir un nouveau mot de passe"
+  successful: "Votre lien de réinitialisation est en route, veuillez le vérifier en vous rendant dans votre boîte aux lettres."
+  submit: "Demander un lien de réinitialisation"
+  forgot: "Mot de passe oublié ?"
+
+Login:
+  title: "Connectez-vous à votre compte"
+  alternatives: "Ou continuer avec"
+
+Register:
+  title: "Créez votre compte"
+  congratulations: "Félicitations!"
+  successful: "Votre nouveau compte vient d'être créé, merci de le valider en vous rendant dans votre boîte mail."
+  submit: "S'inscrire"
+  register: "Vous n'avez pas de compte ?"
+
+Reset:
+  title: "Réinitialiser votre mot de passe"
+  submit: "Réinitialiser mon mot de passe"
+
+Verify:
+  title: "Validez votre compte"
+  submit: "Vérifier mon compte"
+
+# ----- Messages -----
+VERIFY_SUCCESS: "Votre adresse email à bien été vérifiée, vous pouvez à présent vous connecter."
+RESET_SUCCESS: "Votre mot de passe à bien été modifié, vous pouvez à présent vous connecter."
+
+# ----- Errors -----
+error:
+  INVALID_CREDENTIALS: "Vous avez saisi un nom d'utilisateur ou un mot de passe invalide."
+  EMAIL_ALREADY_EXISTS: "Cet email est déja associé à un compte, vous pouvez vous connecter avec celui-ci."

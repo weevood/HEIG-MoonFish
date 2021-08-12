@@ -1,34 +1,21 @@
 <template>
+  <AuthHeader/>
   <main class="max-w-lg mx-auto flex-grow w-9/12">
-    <div class="bg-gray-100 p-8 md:p-12 mt-10 mb-5 rounded-lg shadow-2xl flex-grow">
+    <div class="bg-gray-100 p-8 md:p-12 my-5 rounded-lg shadow-2xl flex-grow">
       <section>
-        <h3 class="text-blue-900 text-3xl font-medium">Validate your account</h3>
+        <h3 class="text-blue-900 text-3xl font-medium">{{ $t('Verify.title') }}</h3>
       </section>
       <hr class="border-blue-900 border-t-2 w-1/4 mt-3"/>
-      <div v-if="message" role="alert"
-           class="bg-red-100 border-t-4 border-red-500 rounded-b text-teal-900 px-4 py-3 my-5 shadow-md">
-        <div class="flex">
-          <div class="py-1">
-            <svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-              <path fill="#f56565"
-                    d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/>
-            </svg>
-          </div>
-          <div>
-            <p class="font-bold text-red-500">Error!</p>
-            <p class="text-sm">{{ message }}</p>
-          </div>
-        </div>
-      </div>
+      <AlertError :message="message && $t(`error.${ message }`)"/>
       <section class="mt-10">
-        <Form class="flex flex-col" @submit="handleVerify" :validation-schema="schema">
+        <Form class="flex flex-col" @submit="handleVerify" :validation-schema="schema" v-slot="{ errors }">
           <div class="mb-6 pt-3 rounded bg-gray-200 opacity-50">
-            <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="email">Your email</label>
+            <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="email">{{ $t('email.your') }}</label>
             <Field id="email" name="email" type="text" :value="$route.query.email" disabled
                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
             <ErrorMessage name="email" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
           </div>
-          <button :disabled="loading"
+          <button :disabled="loading || Object.keys(errors).length"
                   class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200 focus:outline-none focus:ring disabled:opacity-50 inline-flex items-center justify-center">
             <svg v-show="loading" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg"
                  fill="none" viewBox="0 0 24 24">
@@ -36,7 +23,7 @@
               <path class="opacity-75" fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            <span>Verify my account</span>
+            <span>{{ $t('Verify.submit') }}</span>
           </button>
         </Form>
       </section>
@@ -44,28 +31,32 @@
 
     <div class="max-w-lg mx-auto text-center mt-5 mb-6">
       <p class="text-white">
-        <a href="#" class="font-bold hover:underline" @click.prevent="login">Sign-in</a> or
-        <a href="#" class="font-bold hover:underline" @click.prevent="register">Don't have an account?</a>
+        <a href="#" class="font-bold hover:underline" @click.prevent="login">{{ $t('login') }}</a> or
+        <a href="#" class="font-bold hover:underline" @click.prevent="register">{{ $t('Register.register') }}</a>
       </p>
     </div>
   </main>
+  <AuthFooter/>
 </template>
 
 <script>
 import { ErrorMessage, Field, Form } from 'vee-validate';
 import * as yup from 'yup';
+import AuthFooter from '@/components/layout/AuthFooter';
+import AlertError from "@/components/ui/AlertError";
+import AuthHeader from "@/components/layout/AuthHeader";
 
 export default {
   name: 'Verify',
-  components: { Form, Field, ErrorMessage },
+  components: { AuthHeader, AlertError, AuthFooter, Form, Field, ErrorMessage },
 
   data() {
     const schema = yup.object().shape({
       email: yup
           .string()
-          .required("Email is required!")
-          .email("Email is invalid!")
-          .max(50, "Must be maximum 50 characters!"),
+          .required(this.$t('required', { item: this.$t('email.email') }))
+          .email(this.$t('invalid', { item: this.$t('email.email') }))
+          .max(50, this.$t('maxChars', { max: 50 })),
     });
     return {
       loading: false,

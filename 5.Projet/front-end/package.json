@@ -1,16 +1,14 @@
 {
   "name": "heigvd-tb-frontend",
   "version": "0.1.1",
-  "description": "Vue.js app",
   "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://https://github.com/weevood/HEIG-VD_Travail-de-Bachelor.git"
-  },
+  "description": "Vue.js app",
   "scripts": {
-    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "dev": "vue-cli-service serve",
+    "serve": "vue-cli-service serve",
+    "lint": "vue-cli-service lint",
+    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
@@ -25,11 +23,13 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.2",
     "vee-validate": "^4.4.6",
     "vue": "^3.0.0",
+    "vue-i18n": "^9.1.0",
     "vue-router": "^4.0.10",
     "vuex": "^4.0.2",
     "yup": "^0.32.9"
   },
   "devDependencies": {
+    "@intlify/vue-i18n-loader": "^3.0.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
@@ -37,6 +37,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
+    "vue-cli-plugin-i18n": "~2.1.3",
     "vue-cli-plugin-tailwind": "~2.0.6"
   },
   "eslintConfig": {
@@ -57,5 +58,9 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://https://github.com/weevood/HEIG-VD_Travail-de-Bachelor.git"
+  }
 }

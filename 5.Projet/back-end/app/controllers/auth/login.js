@@ -1,5 +1,5 @@
 const { matchedData } = require('express-validator')
-const { handleError } = require('../../middleware/utils')
+const { handleError, buildErrObject } = require('../../middleware/utils')
 const { checkPassword } = require('../../middleware/auth')
 const { findUser } = require('../users/helpers')
 const {
@@ -34,7 +34,10 @@ const login = async (req, res) => {
             res.status(200).json(await getUserToken(req, user))
         }
     } catch (error) {
-        handleError(res, error)
+        // handleError(res, error)
+
+        // Catch error and replace it by a general one to not give specific information
+        handleError(res, buildErrObject(401, 'INVALID_CREDENTIALS'))
     }
 }
 

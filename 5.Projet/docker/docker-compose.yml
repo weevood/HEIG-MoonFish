@@ -9,7 +9,7 @@ services:
       - ../back-end:/src
     command: npm run dev # 'npm run start' : for production mode
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
       - mariadb
       - neo4j
@@ -28,7 +28,7 @@ services:
       - mariadb-data:/var/lib/mysql
       - ./mariadb/init.sql:/data/application/init.sql
     environment:
-      MYSQL_ROOT_PASSWORD: secret
+      - ALLOW_EMPTY_PASSWORD: yes
 
   phpmyadmin:
     image: phpmyadmin
