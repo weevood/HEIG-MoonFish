@@ -1,7 +1,7 @@
 <template>
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
     <div class="container mx-auto px-6 py-8">
-      <h1 class="text-blue-900 text-3xl font-medium">Teams</h1>
+      <h1 class="text-blue-900 text-3xl font-medium">Edit users</h1>
     </div>
     <div class="container">
       <pre>{{ content }}</pre>
@@ -10,24 +10,16 @@
 </template>
 
 <script>
-import UserService from '@/services/user.service';
+
 
 export default {
-  name: 'Teams',
+  name: 'UsersEdit',
   data() {
     return {
       content: '',
     };
   },
   mounted() {
-    UserService.getPublicContent().then(
-        (response) => {
-          this.content = response.data;
-        },
-        (error) => {
-          this.content = error.msg || error.toString();
-        }
-    );
   },
 };
 </script>

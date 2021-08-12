@@ -31,7 +31,7 @@ const {
  */
 
 // Get all teams
-router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getTeams)
+router.get('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getTeams)
 
 // Create a team
 router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateTeam, createTeam)

@@ -88,7 +88,6 @@ export default {
       this.loading = true;
       this.$store.dispatch('auth/forgot', user.email).then(
           (data) => {
-            console.log(data);
             if (data.userData.verification) {
               this.message = `</br><a href="/reset/${ data.userData.verification }?email=${ user.email }"
                                  class="text-blue-500">&rarr; Bypass validate (dev only)</a>`;

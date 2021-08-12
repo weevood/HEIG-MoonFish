@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import UserService from '@/services/user.service';
 
 export default {
   name: 'Projects',
@@ -20,14 +19,6 @@ export default {
     };
   },
   mounted() {
-    UserService.getPublicContent().then(
-        (response) => {
-          this.content = response.data;
-        },
-        (error) => {
-          this.content = error.msg || error.toString();
-        }
-    );
   },
 };
 </script>

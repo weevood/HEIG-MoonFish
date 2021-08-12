@@ -8,13 +8,14 @@ import Reset from './pages/authentication/Reset.vue';
 // Then, lazy-loaded components
 const Profile = () => import('./pages/user/Profile.vue')
 const Dashboard = () => import('./pages/Dashboard.vue')
-const Projects = () => import('./pages/user/Projects.vue')
-const Teams = () => import('./pages/user/Teams.vue')
-const Resources = () => import('./pages/user/Resources.vue')
+const Projects = () => import('./pages/project/Projects.vue')
+const Teams = () => import('./pages/team/Teams.vue')
+const Team = () => import('./pages/team/Team.vue')
+const Resources = () => import('./pages/resource/Resources.vue')
 const BoardModerator = () => import('./pages/moderator/BoardModerator.vue')
-const TeamsEdit = () => import('./pages/moderator/TeamsEdit.vue')
+const TeamsEdit = () => import('./pages/team/TeamsEdit.vue')
 const BoardAdmin = () => import('./pages/admin/BoardAdmin.vue')
-const UsersEdit = () => import('./pages/admin/UsersEdit.vue')
+const UsersEdit = () => import('./pages/user/UsersEdit.vue')
 
 const routes = [
 		{
@@ -62,6 +63,11 @@ const routes = [
 				path: '/teams',
 				name: 'teams',
 				component: Teams
+		},
+		{
+				path: '/teams/:uuid',
+				name: 'team',
+				component: Team
 		},
 		{
 				path: '/resources',
