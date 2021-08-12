@@ -14,7 +14,7 @@
             <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="email">{{
                 $t('email.email')
               }}</label>
-            <Field id="email" name="email" type="text"
+            <Field id="email" name="email" type="text" v-model="email"
                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
             <ErrorMessage name="email" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
           </div>
@@ -58,7 +58,6 @@
         </a>
       </section>
     </div>
-
     <div class="max-w-lg mx-auto text-center mt-5 mb-6">
       <p class="text-white">
         <a href="#" class="font-bold hover:underline" @click.prevent="forgot">{{ $t('Forgot.forgot') }}</a> or
@@ -95,6 +94,7 @@ export default {
           .max(40, this.$t('maxChars', { max: 40 })),
     });
     return {
+      email: this.$route.query.email,
       loading: false,
       errorMessage: '',
       message: this.$route.query.message,
@@ -110,7 +110,7 @@ export default {
 
   created() {
     if (this.loggedIn) {
-      this.$router.push('/profile');
+      this.$router.push('/dashboard');
     }
   },
 
@@ -120,7 +120,7 @@ export default {
 
       this.$store.dispatch('auth/login', user).then(
           () => {
-            this.$router.push('/profile');
+            this.$router.push('/dashboard');
           },
           (error) => {
             this.loading = false;
@@ -130,11 +130,11 @@ export default {
     },
 
     register() {
-      this.$router.push('/register');
+      this.$router.push(`/register?email=${this.email}`);
     },
 
     forgot() {
-      this.$router.push('/forgot');
+      this.$router.push(`/forgot?email=${this.email}`);
     }
 
   },

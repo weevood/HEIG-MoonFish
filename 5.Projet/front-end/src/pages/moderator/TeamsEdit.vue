@@ -1,23 +1,26 @@
 <template>
-  <div class="container">
-    <header class="jumbotron">
-      <h3>{{ content }}</h3>
-    </header>
-  </div>
+  <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+    <div class="container mx-auto px-6 py-8">
+      <h1 class="text-blue-900 text-3xl font-medium">Edit teams</h1>
+    </div>
+    <div class="container">
+      <pre>{{ content }}</pre>
+    </div>
+  </main>
 </template>
 
 <script>
 import UserService from '@/services/user.service';
 
 export default {
-  name: 'User',
+  name: 'TeamsEdit',
   data() {
     return {
       content: '',
     };
   },
   mounted() {
-    UserService.getUserBoard().then(
+    UserService.getModeratorBoard().then(
         (response) => {
           this.content = response.data;
         },

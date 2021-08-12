@@ -7,9 +7,14 @@ import Reset from './pages/authentication/Reset.vue';
 
 // Then, lazy-loaded components
 const Profile = () => import('./pages/user/Profile.vue')
-const BoardAdmin = () => import('./pages/admin/BoardAdmin.vue')
+const Dashboard = () => import('./pages/Dashboard.vue')
+const Projects = () => import('./pages/user/Projects.vue')
+const Teams = () => import('./pages/user/Teams.vue')
+const Resources = () => import('./pages/user/Resources.vue')
 const BoardModerator = () => import('./pages/moderator/BoardModerator.vue')
-const BoardUser = () => import('./pages/user/BoardUser.vue')
+const TeamsEdit = () => import('./pages/moderator/TeamsEdit.vue')
+const BoardAdmin = () => import('./pages/admin/BoardAdmin.vue')
+const UsersEdit = () => import('./pages/admin/UsersEdit.vue')
 
 const routes = [
 		{
@@ -44,9 +49,24 @@ const routes = [
 				component: Profile
 		},
 		{
-				path: '/admin',
-				name: 'admin',
-				component: BoardAdmin
+				path: '/dashboard',
+				name: 'dashboard',
+				component: Dashboard
+		},
+		{
+				path: '/projects',
+				name: 'projects',
+				component: Projects
+		},
+		{
+				path: '/teams',
+				name: 'teams',
+				component: Teams
+		},
+		{
+				path: '/resources',
+				name: 'resources',
+				component: Resources
 		},
 		{
 				path: '/moderator',
@@ -54,10 +74,20 @@ const routes = [
 				component: BoardModerator
 		},
 		{
-				path: '/user',
-				name: 'user',
-				component: BoardUser
+				path: '/moderator/teams',
+				name: 'moderator-teams',
+				component: TeamsEdit
 		},
+		{
+				path: '/admin',
+				name: 'admin',
+				component: BoardAdmin
+		},
+		{
+				path: '/admin/users',
+				name: 'admin-users',
+				component: UsersEdit
+		}
 ];
 
 const router = createRouter({

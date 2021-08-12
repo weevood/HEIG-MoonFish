@@ -1,7 +1,7 @@
 <template>
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
     <div class="container mx-auto px-6 py-8">
-      <h1 class="text-blue-900 text-3xl font-medium">Moderation</h1>
+      <h1 class="text-blue-900 text-3xl font-medium">Resources</h1>
     </div>
     <div class="container">
       <pre>{{ content }}</pre>
@@ -13,14 +13,14 @@
 import UserService from '@/services/user.service';
 
 export default {
-  name: 'Moderator',
+  name: 'Resources',
   data() {
     return {
       content: '',
     };
   },
   mounted() {
-    UserService.getModeratorBoard().then(
+    UserService.getPublicContent().then(
         (response) => {
           this.content = response.data;
         },
