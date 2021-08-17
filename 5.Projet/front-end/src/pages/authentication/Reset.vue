@@ -8,7 +8,7 @@
       <hr class="border-blue-900 border-t-2 w-1/4 mt-3"/>
       <AlertError :message="message && $t(`error.${ message }`)"/>
       <section class="mt-10">
-        <Form class="flex flex-col" @submit="handleVerify" :validation-schema="schema" v-slot="{ errors }">
+        <Form class="flex flex-col" @submit="handleReset" :validation-schema="schema" v-slot="{ errors }">
           <div class="mb-6 pt-3 rounded bg-gray-200 opacity-50">
             <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="email">{{ $t('email.your') }}</label>
             <Field id="email" name="email" type="text" v-model="email" disabled
@@ -102,7 +102,7 @@ export default {
   },
 
   methods: {
-    handleVerify(user) {
+    handleReset(user) {
       this.loading = true;
       this.$store.dispatch('auth/reset',
               {

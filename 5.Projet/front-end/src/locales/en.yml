@@ -1,16 +1,27 @@
 # ----- Components -----
 firstName: "First name"
 lastName: "Last name"
+city: "City"
+country: "Country"
+lang: "Preferred language"
+phone: "Phone number"
+state: "State"
+street: "Street"
+zipCode: "ZIP Code"
 email:
   email: "Email"
   your: "Your email"
 password:
   pwd: "Password"
+  old: "Old password"
   new: "New password"
   confirm: "Confirm password"
-  match: "Passwords must match"
+  match: "New and confirm passwords must match"
+  change: "Change my password"
 login: "Sign In"
 logout: "Sign Out"
+save: "Save"
+
 
 # Validation
 required: "{item} is required!"
@@ -19,6 +30,9 @@ minChars: "Must be at least {min} characters"
 maxChars: "Must be maximum {max} characters"
 
 # ----- Pages -----
+
+Dashboard:
+  title: "Welcome {firstName}!"
 
 # Authentication
 
@@ -47,11 +61,50 @@ Verify:
   title: "Validate your account"
   submit: "Verify my account"
 
+# Admin
+
+BoardAdmin:
+  title: "Administration"
+
+# Moderator
+
+BoardModerator:
+  title: "Edition"
+
+# Project
+
+Projects:
+  title: "Projects"
+
+# Resource
+
+Resources:
+  title: "Resources"
+
+# Team
+
+Teams:
+  title: "Teams"
+TeamsEdit:
+  title: "Edit teams"
+
+# User
+
+Users:
+  title: "Users"
+UsersEdit:
+  title: "Edit users"
+Profile:
+  title: "My profile"
+  changePassword: "Change my password"
+
 # ----- Messages -----
 VERIFY_SUCCESS: "Your email address has been verified, you can now sign-in."
 RESET_SUCCESS: "Your password has been changed, you can now sign-in."
 
-# ----- Errors -----
+# Errors
+
 error:
   INVALID_CREDENTIALS: "You have entered an invalid username or password."
   EMAIL_ALREADY_EXISTS: "This email is already associated with an account, you can connect with it."
+  SIGN_IN_AGAIN: "Please sign in again."

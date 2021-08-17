@@ -21,7 +21,7 @@
         </div>
         <div class="relative block text-white text-sm">
           <span class="block font-bold">{{ currentUser.firstName }}</span>
-          <router-link to="/profile" class="text-gray-400 hover:text-teal-500">View profile</router-link>
+          <router-link to="/profile" class="text-gray-400 hover:text-teal-500">View my profile</router-link>
         </div>
       </div>
       <Logout/>

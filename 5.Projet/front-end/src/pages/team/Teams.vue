@@ -2,7 +2,7 @@
   <AlertError :message="error && $t(error)"/>
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
     <div class="container mx-auto px-6 py-8">
-      <h1 class="text-blue-900 text-3xl font-medium">Teams</h1>
+      <h1 class="text-blue-900 text-3xl font-medium">{{ $t('Teams.title') }}</h1>
     </div>
     <div class="container">
       <div v-for="(team, i) in teams.data" :key="`Lang${i}`"

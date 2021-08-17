@@ -96,7 +96,7 @@ export default {
     return {
       email: this.$route.query.email,
       loading: false,
-      errorMessage: '',
+      errorMessage: this.$route.query.error,
       message: this.$route.query.message,
       schema,
     };
