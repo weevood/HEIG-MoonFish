@@ -5,6 +5,7 @@
 const setUserInfo = (req = {}) => {
     return new Promise((resolve) => {
         let user = {
+            uuid: req.uuid,
             firstName: req.firstName,
             lastName: req.lastName,
             phone: req.phone,
@@ -32,7 +33,6 @@ const setUserInfo = (req = {}) => {
         if (process.env.NODE_ENV !== 'production') {
             user = {
                 id: req.id,
-                uuid: req.uuid,
                 ...user
             }
         }

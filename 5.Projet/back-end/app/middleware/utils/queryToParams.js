@@ -18,6 +18,11 @@ const queryToParams = (query = {}) => {
                 })
             }
 
+            // Convert relations
+            if (typeof query.relations !== 'undefined') {
+                // TODO
+            }
+
             // // Convert fields to attributes
             // if (query.fields && query.fields.length) {
             //     params['attributes'] = Array.isArray(query.fields) ? query.fields : query.fields.split(',')

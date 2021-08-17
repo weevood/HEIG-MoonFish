@@ -36,11 +36,11 @@ export default {
   },
 
   mounted() {
-    this.retrieveTutorials();
+    this.retrieveTeams();
   },
 
   methods: {
-    async retrieveTutorials() {
+    async retrieveTeams() {
       this.teams = await TeamsService.getAll(STATUS_ACTIVE);
     }
   }

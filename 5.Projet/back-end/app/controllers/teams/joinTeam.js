@@ -18,6 +18,7 @@ const joinTeam = async (req, res) => {
         const team = await findTeamNode(data.uuid, [STATUS_ACTIVE])
         if (!await relExists(user, RELATION_IS_MEMBER_OF, team)) {
             await user.relateTo(team, 'isMemberOf', { isOwner: false })
+            // TODO create notification for owner to accept membership (that update rel status)
             res.status(200).json(buildSuccObject('TEAM_JOINED'))
         }
         res.status(403).json({ error: { msg: 'USER_ALREADY_IN_TEAM' } })

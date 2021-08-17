@@ -1,4 +1,5 @@
 const { RELATION_IS_MEMBER_OF } = require('../enums/relations')
+const { STATUS_INACTIVE } = require("../enums/status");
 
 module.exports = {
 
@@ -28,6 +29,11 @@ module.exports = {
                 required: true,
                 default: false,
             },
+            status: {
+                type: 'string',
+                required: true,
+                default: STATUS_INACTIVE,
+            }
         },
     },
 
@@ -49,7 +55,7 @@ module.exports = {
             status: {
                 type: 'string',
                 required: true
-            },
+            }
         },
     },
 

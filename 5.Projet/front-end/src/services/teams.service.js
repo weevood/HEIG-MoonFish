@@ -1,4 +1,5 @@
 import http from '@/http';
+import { STATUS_ACTIVE } from "@/enums/status";
 // import handleError from '@/services/handleError';
 
 class TeamsService {
@@ -6,16 +7,18 @@ class TeamsService {
 		getAll(status) {
 				return new Promise((resolve) => {
 						if (status) {
-								http
-										.get(`/teams?filters[status]=${ status }`)
+								http.get(`/teams?filters[status]=${ status }`)
 										.then(data => resolve(data))
-										// .catch(err => reject(handleError(err)));
 						}
 						else {
 								return http.get(`/teams`);
 						}
 				});
 
+		}
+
+		getMine(uuid) {
+				return http.get(`/teams?filters[status]=${ STATUS_ACTIVE }&relations[isMemberOf]=${ uuid }`)
 		}
 
 		get(uuid) {

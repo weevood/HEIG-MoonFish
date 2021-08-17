@@ -36,6 +36,20 @@
           <span class="mx-3">Teams</span>
         </router-link>
 
+        <ul class="pl-4">
+          <li v-for="(team, i) in teams" :key="`Team-${i}`">
+            <router-link :to="`/teams/${team.uuid}`"
+                         :class="$route.path === `/teams/${team.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
+                         class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"/>
+              </svg>
+              <span class="mx-3">{{ team.name }}</span>
+            </router-link>
+          </li>
+        </ul>
+
         <router-link to="/resources"
                      :class="$route.path === '/resources' ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
                      class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
@@ -109,8 +123,17 @@
 
 <script>
 
+import TeamsService from "@/services/teams.service";
+
 export default {
   name: 'Navigation',
+
+  data() {
+    return {
+      error: '',
+      teams: [],
+    };
+  },
 
   computed: {
     currentUser() {
@@ -126,6 +149,16 @@ export default {
       return this.showAdminBoard || (this.currentUser && this.currentUser['role'] && this.currentUser['role'] === 'moderator');
     }
   },
+
+  mounted() {
+    this.retrieveTeams();
+  },
+
+  methods: {
+    async retrieveTeams() {
+      this.teams = await TeamsService.getMine(this.currentUser.uuid);
+    }
+  }
 
 }
 </script>
