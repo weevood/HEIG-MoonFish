@@ -1,4 +1,4 @@
-const { RELATION_IS_MEMBER_OF } = require('../enums/relations')
+const { RELATION_IS_MEMBER_OF, RELATION_ARBITRATES } = require('../enums/relations')
 const { STATUS_INACTIVE } = require("../enums/status");
 
 module.exports = {
@@ -39,7 +39,7 @@ module.exports = {
 
     arbitrates: {
         type: 'relationship',
-        relationship: 'ARBITRATES',
+        relationship: RELATION_ARBITRATES,
         target: 'Project',
         direction: 'out',
         properties: {

@@ -14,6 +14,11 @@ module.exports = {
         unique: true,
     },
 
+    color: {
+        type: 'string',
+        default: 'blue',
+    },
+
     status: {
         type: 'integer',
         required: true,

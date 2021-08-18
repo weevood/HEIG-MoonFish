@@ -16,39 +16,57 @@
           <span class="mx-3">Dashboard</span>
         </router-link>
 
-        <router-link to="/projects"
-                     :class="$route.path === '/projects' ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
-                     class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
-          </svg>
-          <span class="mx-3">Projects</span>
-        </router-link>
+        <div>
+          <router-link to="/projects"
+                       :class="$route.path === '/projects' ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
+                       class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+            </svg>
+            <span class="mx-3">Projects</span>
+          </router-link>
 
-        <router-link to="/teams"
-                     :class="$route.path === '/teams' ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
-                     class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-          </svg>
-          <span class="mx-3">Teams</span>
-        </router-link>
+          <ul class="pl-4">
+            <li v-for="(project, i) in projects" :key="`project-${i}`">
+              <router-link :to="`/projects/${project.uuid}`"
+                           :class="$route.path === `/projects/${project.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
+                           class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"/>
+                </svg>
+                <span class="mx-3">{{ project.title }}</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
 
-        <ul class="pl-4">
-          <li v-for="(team, i) in teams" :key="`Team-${i}`">
-            <router-link :to="`/teams/${team.uuid}`"
-                         :class="$route.path === `/teams/${team.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
-                         class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                   stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"/>
-              </svg>
-              <span class="mx-3">{{ team.name }}</span>
-            </router-link>
-          </li>
-        </ul>
+        <div>
+          <router-link to="/teams"
+                       :class="$route.path === '/teams' ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
+                       class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            <span class="mx-3">Teams</span>
+          </router-link>
+
+          <ul class="pl-4">
+            <li v-for="(team, i) in teams.STATUS_ACTIVE" :key="`Team-${i}`">
+              <router-link :to="`/teams/${team.uuid}`"
+                           :class="$route.path === `/teams/${team.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
+                           class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6"/>
+                </svg>
+                <span class="mx-3">{{ team.name }}</span>
+              </router-link>
+            </li>
+          </ul>
+        </div>
 
         <router-link to="/resources"
                      :class="$route.path === '/resources' ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
@@ -124,6 +142,7 @@
 <script>
 
 import TeamsService from "@/services/teams.service";
+import ProjectsService from "@/services/projects.service";
 
 export default {
   name: 'Navigation',
@@ -131,6 +150,7 @@ export default {
   data() {
     return {
       error: '',
+      projects: [],
       teams: [],
     };
   },
@@ -151,11 +171,15 @@ export default {
   },
 
   mounted() {
-    this.retrieveTeams();
+    this.retrieveMineProjects();
+    this.retrieveMineTeams();
   },
 
   methods: {
-    async retrieveTeams() {
+    async retrieveMineProjects() {
+      this.projects = await ProjectsService.getMine(this.currentUser.uuid);
+    },
+    async retrieveMineTeams() {
       this.teams = await TeamsService.getMine(this.currentUser.uuid);
     }
   }

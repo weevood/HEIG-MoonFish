@@ -12,7 +12,7 @@
 <script>
 
 export default {
-  name: 'Projects',
+  name: 'Project',
   data() {
     return {
       content: '',

@@ -1,4 +1,5 @@
 # ----- Components -----
+name: "Name"
 firstName: "First name"
 lastName: "Last name"
 city: "City"
@@ -8,6 +9,8 @@ phone: "Phone number"
 state: "State"
 street: "Street"
 zipCode: "ZIP Code"
+color: "Color"
+owner: "Owner"
 email:
   email: "Email"
   your: "Your email"
@@ -85,6 +88,16 @@ Resources:
 
 Teams:
   title: "Teams"
+  members: "Members"
+  join: "Join"
+  leave: "Leave"
+  requested: "Requested"
+  accept: "Accept request"
+  ban: "Ban definitely"
+  banned: "You have been banned"
+  new: "Create a new team"
+  giveOwnership: "Give ownership"
+  requests: "Requests"
 TeamsEdit:
   title: "Edit teams"
 

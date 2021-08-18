@@ -58,12 +58,12 @@ router.delete('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, 
 // TODO router.get('/:uuid/users', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeamUsers, getTeamUsers)
 
 // Accept a user by uuid (update IS_MEMBER_OF status)
-// TODO router.put('/:uuid/users/:id/accept', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateAcceptTeamUser, acceptTeamUser)
+// TODO router.put('/:teamUuid/users/:userUuid/accept', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateAcceptTeamUser, acceptTeamUser)
 
 // Ban a user by uuid (update IS_MEMBER_OF status)
-// TODO router.put('/:uuid/users/:id/ban', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateBanTeamUser, banTeamUser)
+// TODO router.put('/:teamUuid/users/:userUuid/ban', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateBanTeamUser, banTeamUser)
 
 // Give ownership to a user by uuid (update IS_MEMBER_OF isOwner)
-// TODO router.put('/:uuid/users/:id/delegateOwnership', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDelegateOwnership, delegateOwnership)
+// TODO router.put('/:teamUuid/users/:userUuid/giveOwnership', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDelegateOwnership, delegateOwnership)
 
 module.exports = router

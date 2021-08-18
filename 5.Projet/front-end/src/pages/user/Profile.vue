@@ -41,8 +41,10 @@
     <section class="container my-6">
       <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
               @click="changePassword">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
         </svg>
         <span>{{ $t('Profile.changePassword') }}</span>
       </button>
@@ -55,6 +57,7 @@ import AlertSuccess from "@/components/ui/AlertSuccess";
 import AlertError from "@/components/ui/AlertError";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
+import inArray from '@/utils/inArray';
 
 export default {
   name: 'Profile',
@@ -107,6 +110,7 @@ export default {
   },
 
   methods: {
+    inArray,
 
     updateUser(user) {
       this.loading = true;
@@ -121,16 +125,6 @@ export default {
       //       this.errorMessage = error.msg || error.toString();
       //     }
       // );
-    },
-
-    inArray: function(needle, haystack) {
-      const length = haystack.length;
-      for (let i = 0; i < length; i++) {
-        if (haystack[i] === needle) {
-          return true;
-        }
-      }
-      return false;
     },
 
     changePassword() {

@@ -10,9 +10,9 @@ const http = axios.create({
 http.interceptors.response.use(
 		(response) => { return response },
 		(error) => {
-				console.log('Interceptor: You are not authorized');
-				// console.log(error.response);
 				if (error.response.status === 401) {
+						console.log('Interceptor: You are not authorized');
+						// console.log(error.response);
 						localStorage.removeItem('user');
 						window.location.replace('/login?error=SIGN_IN_AGAIN');
 				}
