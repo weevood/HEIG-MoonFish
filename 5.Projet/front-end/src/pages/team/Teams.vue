@@ -28,7 +28,7 @@
           </div>
         </router-link>
         <div class="flex flex-col">
-          <button v-if="inArray(team.uuid, mineTeams.STATUS_INACTIVE)" disabled
+          <button v-if="inArray(team.uuid, myTeams.STATUS_INACTIVE)" disabled
                   class="bg-gray-500 text-white font-bold py-1 px-3 rounded inline-flex items-center cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
@@ -37,8 +37,8 @@
             </svg>
             <span>{{ $t('Teams.requested') }}</span>
           </button>
-          <div v-else-if="!inArray(team.uuid, mineTeams.STATUS_ACTIVE)" class="flex flex-col">
-            <button @click="join(team.uuid)" :disabled="inArray(team.uuid, mineTeams.STATUS_BANNED)"
+          <div v-else-if="!inArray(team.uuid, myTeams.STATUS_ACTIVE)" class="flex flex-col">
+            <button @click="join(team.uuid)" :disabled="inArray(team.uuid, myTeams.STATUS_BANNED)"
                     class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 " fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
@@ -47,7 +47,7 @@
               </svg>
               <span>{{ $t('Teams.join') }}</span>
             </button>
-            <span v-if="inArray(team.uuid, mineTeams.STATUS_BANNED)"
+            <span v-if="inArray(team.uuid, myTeams.STATUS_BANNED)"
                   class="mt-2 text-xs italic text-gray-500">{{ $t('Teams.banned') }}</span>
           </div>
           <button v-else @click="leave(team.uuid)"
@@ -77,7 +77,7 @@ export default {
   data() {
     return {
       teams: [],
-      mineTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] },
+      myTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] },
     };
   },
 
@@ -92,7 +92,7 @@ export default {
 
   mounted() {
     this.retrieveTeams();
-    this.retrieveMineTeams();
+    this.retrieveMyTeams();
   },
 
   methods: {
@@ -100,8 +100,8 @@ export default {
     async retrieveTeams() {
       this.teams = await TeamsService.getAll(STATUS_ACTIVE);
     },
-    async retrieveMineTeams() {
-      this.mineTeams = await TeamsService.getMine(this.currentUser.uuid, 'uuid');
+    async retrieveMyTeams() {
+      this.myTeams = await TeamsService.getMine(this.currentUser.uuid, 'uuid');
     },
     join(uuid) {
       TeamsService.join(uuid);

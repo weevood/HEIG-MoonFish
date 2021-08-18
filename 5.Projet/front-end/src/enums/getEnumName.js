@@ -1,7 +1,7 @@
 /**
  * Retrieve enum name from value
- * @param {Object} obj - the enum to retrieve strings
- * @param {int} search - the enum to retrieve strings
+ * @param {Object} obj - the enum to retrieve string
+ * @param {int} search - the index to retrieve
  */
 const getEnumName = (obj = {}, search = 0) => {
     let res = ''

@@ -1,24 +1,128 @@
 <template>
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-    <div class="container mx-auto px-6 py-8">
+    <div class="container mx-auto px-6 py-8 flex justify-between items-center">
       <h1 class="text-blue-900 text-3xl font-medium">{{ $t('Projects.title') }}</h1>
+      <button @click="create"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span>{{ $t('Projects.new') }}</span>
+      </button>
     </div>
     <div class="container">
-      <pre>{{ content }}</pre>
+      <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
+        <li v-for="(project, i) in projects" :key="`Project${i}`"
+            class="flex flex-col w-1/3 mb-4">
+          <div
+              class="flex justify-between items-center p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+            <router-link :to="`/projects/${project.uuid}`" class="flex items-center">
+              <div>
+                <p class="text-sm font-medium text-gray-900">
+                  {{ project.title }}<span class="text-gray-600"> - {{ getEnumName(project.status) }}</span>
+                </p>
+                <p class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
+                <p class="text-sm font-normal text-gray-600">Deadline: {{ format(project.deadline) }}</p>
+              </div>
+            </router-link>
+            <!--          <div class="flex flex-col">-->
+            <!--            <button v-if="inArray(project.uuid, mineProjects.STATUS_INACTIVE)" disabled-->
+            <!--                    class="bg-gray-500 text-white font-bold py-1 px-3 rounded inline-flex items-center cursor-not-allowed">-->
+            <!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"-->
+            <!--                   stroke="currentColor">-->
+            <!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+            <!--                      d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6"/>-->
+            <!--              </svg>-->
+            <!--              <span>{{ $t('Projects.requested') }}</span>-->
+            <!--            </button>-->
+            <!--            <div v-else-if="!inArray(project.uuid, mineProjects.STATUS_ACTIVE)" class="flex flex-col">-->
+            <!--              <button @click="join(project.uuid)" :disabled="inArray(project.uuid, mineProjects.STATUS_BANNED)"-->
+            <!--                      class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">-->
+            <!--                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 " fill="none" viewBox="0 0 24 24"-->
+            <!--                     stroke="currentColor">-->
+            <!--                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+            <!--                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>-->
+            <!--                </svg>-->
+            <!--                <span>{{ $t('Projects.join') }}</span>-->
+            <!--              </button>-->
+            <!--              <span v-if="inArray(project.uuid, mineProjects.STATUS_BANNED)"-->
+            <!--                    class="mt-2 text-xs italic text-gray-500">{{ $t('Projects.banned') }}</span>-->
+            <!--            </div>-->
+            <!--            <button v-else @click="leave(project.uuid)"-->
+            <!--                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded inline-flex items-center">-->
+            <!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"-->
+            <!--                   stroke="currentColor">-->
+            <!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
+            <!--                      d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6"/>-->
+            <!--              </svg>-->
+            <!--              <span>{{ $t('Projects.leave') }}</span>-->
+            <!--            </button>-->
+            <!--          </div>-->
+          </div>
+        </li>
+      </ul>
     </div>
   </main>
 </template>
 
 <script>
+import ProjectsService from '@/services/projects.service';
+import { STATUS_ACTIVE } from '@/enums/status';
+import inArray from '@/utils/inArray';
+import dateFormat from 'dateformat';
+import { getEnumName } from '@/enums/getEnumName';
+
+const projectStatus = require('@/enums/projectStatus')
 
 export default {
-  name: 'Project',
+  name: 'Projects',
+
   data() {
     return {
-      content: '',
+      projects: [],
+      mineProjects: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] },
     };
   },
-  mounted() {
+
+  computed: {
+    currentUser() {
+      if (this.$store.state.auth.user) {
+        return this.$store.state.auth.user.user;
+      }
+      return false;
+    }
   },
+
+  mounted() {
+    this.retrieveProjects();
+    this.retrieveMineProjects();
+  },
+
+  methods: {
+    inArray,
+    async retrieveProjects() {
+      this.projects = await ProjectsService.getAll(STATUS_ACTIVE);
+    },
+    async retrieveMineProjects() {
+      this.mineProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
+    },
+    getEnumName(index) {
+      return getEnumName(projectStatus, index).toUpperCase()
+    },
+    format(date) {
+      return dateFormat(new Date(date), 'dd.mm.yyyy')
+    },
+    join(uuid) {
+      ProjectsService.join(uuid);
+    },
+    leave(uuid) {
+      ProjectsService.leave(uuid);
+    },
+    create(data = []) {
+      ProjectsService.create(data);
+    }
+  }
 };
 </script>

@@ -24,7 +24,9 @@ password:
 login: "Sign In"
 logout: "Sign Out"
 save: "Save"
-
+Dropzone:
+  drop: "Drop the files here ..."
+  drag-n-drop: "Drag 'n' drop some files here, or click to select files"
 
 # Validation
 required: "{item} is required!"
@@ -78,11 +80,13 @@ BoardModerator:
 
 Projects:
   title: "Projects"
+  new: "Create a new project"
 
 # Resource
 
 Resources:
   title: "Resources"
+  new: "Add a new resource"
 
 # Team
 

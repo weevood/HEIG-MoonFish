@@ -19,7 +19,6 @@ class TeamsService {
 
 		// eslint-disable-next-line no-unused-vars
 		getAll(status) {
-
 				return new Promise((resolve) => {
 						resolve(teams)
 				});
@@ -35,7 +34,7 @@ class TeamsService {
 		}
 
 		// eslint-disable-next-line no-unused-vars
-		getMine(uuid, fields) {
+		getMine(uuid, fields = '') {
 				return new Promise((resolve) => {
 						if (fields === 'uuid') {
 								resolve({
