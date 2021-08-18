@@ -1,5 +1,9 @@
 # ----- Components -----
 name: "Name"
+title: "Title"
+description: "Description"
+deadline: "Deadline"
+tags: "Tags"
 firstName: "First name"
 lastName: "Last name"
 city: "City"
@@ -81,6 +85,9 @@ BoardModerator:
 Projects:
   title: "Projects"
   new: "Create a new project"
+  edit: "Edit project details"
+  specifications: "See specifications"
+  accept: "Choose this team"
 
 # Resource
 
@@ -100,6 +107,7 @@ Teams:
   ban: "Ban definitely"
   banned: "You have been banned"
   new: "Create a new team"
+  edit: "Edit team details"
   giveOwnership: "Give ownership"
   requests: "Requests"
 TeamsEdit:

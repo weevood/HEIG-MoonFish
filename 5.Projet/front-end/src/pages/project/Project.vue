@@ -2,18 +2,80 @@
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
       <h1 class="text-blue-900 text-3xl font-medium">{{ project.title }}</h1>
-      <button v-if="inArray(project.uuid, myProjects)" @click="onAddResource = true" :disabled="onAddResource"
-              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
+      <button v-if="!edition && inMyProjects(mandates)" @click="edition = true"
+              class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded inline-flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
         </svg>
-        <span>{{ $t('Resources.new') }}</span>
+        <span>{{ $t('Projects.edit') }}</span>
       </button>
     </div>
-    <section class="container" v-if="onAddResource">
-      <DropZone @close="onAddResource = false"/>
+    <EditOrCreateProject v-if="edition" @done="edition = false" :title="project.title"
+                         :description="project.description" :deadline="project.deadline" :tags="project.tags"/>
+    <section class="container">
+      <div>
+        <p class="text-sm font-medium text-gray-900">{{ getEnumName(project.status) }}</p>
+        <p class="text-sm font-normal text-gray-700 my-2">{{ project.tags }}</p>
+        <p class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
+        <p class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
+        <p class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
+        <p class="text-sm font-normal text-blue-900">{{ $t('deadline') }}: {{ project.deadline }}</p>
+      </div>
+    </section>
+    <section class="container my-6" v-if="!edition && project.status >= proposal">
+      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.title') }}</h2>
+      <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
+        <li v-for="(team, i) in teams" :key="`Teams-${i}`"
+            class="flex flex-col w-1/3 mb-4">
+          <div
+              class="flex flex-col px-4 py-6 mx-2 content-center bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+            <router-link :to="`/teams/${team.uuid}`" class="flex items-center">
+              <div :class="`p-3 mr-4 bg-${team.color}-500 text-white rounded-full`">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">{{ team.name }}<span
+                    class="text-gray-600 uppercase"> - {{ team.relation }}</span></p>
+                <div v-if="project.status === proposal">
+                  <p class="text-sm font-medium text-gray-900">$ {{ team.price }}</p>
+                  <router-link :to="`/resources/${team.specifications}`" class="text-sm font-medium text-gray-900">
+                    {{ $t('Projects.specifications') }} ->
+                  </router-link>
+                </div>
+              </div>
+            </router-link>
+            <button @click="accept(team.uuid)" v-if="project.status === proposal && inMyProjects(mandates)"
+                    class="justify-center bg-green-500 hover:bg-green-600 text-white mt-3 font-bold py-1 px-3 rounded inline-flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <span>{{ $t('Projects.accept') }}</span>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <section class="container" v-if="!edition">
+      <div class="flex justify-between items-center">
+        <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Resources.title') }}</h2>
+        <button v-if="inMyProjects()" @click="onAddResource = true" :disabled="onAddResource"
+                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <span>{{ $t('Resources.new') }}</span>
+        </button>
+      </div>
+      <DropZone v-if="onAddResource" @close="onAddResource = false"/>
     </section>
   </main>
 </template>
@@ -23,16 +85,30 @@
 import ProjectsService from "@/services/projects.service";
 import DropZone from "@/components/ui/DropZone";
 import inArray from "@/utils/inArray";
+import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
+import { getEnumName } from "@/enums/getEnumName";
+import projectStatus, { PROJECT_STATUS_PROPOSAL } from "@/enums/projectStatus";
+// eslint-disable-next-line no-unused-vars
+import { RELATION_ARBITRATES, RELATION_DEVELOPS, RELATION_MANDATES } from "@/enums/relations";
 
 export default {
   name: 'Project',
-  components: { DropZone },
+  components: { DropZone, EditOrCreateProject },
+  watch: {
+    $route() {
+      this.retrieveProject().then(() => this.retrieveTeams());
+    }
+  },
 
   data() {
     return {
+      proposal: PROJECT_STATUS_PROPOSAL,
+      mandates: RELATION_MANDATES,
+      edition: false,
       onAddResource: false,
       project: { uuid: '', title: '' },
       myProjects: [],
+      teams: [],
     };
   },
 
@@ -46,17 +122,40 @@ export default {
   },
 
   mounted() {
-    this.retrieveProject();
     this.retrieveMyProjects();
+    this.retrieveProject().then(() => this.retrieveTeams());
   },
 
   methods: {
     inArray,
+    async retrieveMyProjects() {
+      this.myProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
+    },
     async retrieveProject() {
       this.project = await ProjectsService.get(this.$route.params.uuid);
     },
-    async retrieveMyProjects() {
-      this.myProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
+    async retrieveTeams() {
+      const relation = this.project.status === this.proposal ? 'applies' : 'mandates,develops,arbitrates';
+      this.teams = await ProjectsService.getTeams(this.$route.params.uuid, relation);
+    },
+    getEnumName(index) {
+      return getEnumName(projectStatus, index).toUpperCase()
+    },
+    // eslint-disable-next-line no-unused-vars
+    inMyProjects(relation = 0) {
+      return true;
+      // console.log(relation)
+      // console.log(this.myProjects)
+      // if (relation) {
+      //   return inArray(this.project.uuid, this.myProjects[relation]);
+      // }
+      // return (inArray(this.project.uuid, this.myProjects[RELATION_ARBITRATES]) ||
+      //     inArray(this.project.uuid, this.myProjects[RELATION_DEVELOPS]) ||
+      //     inArray(this.project.uuid, this.myProjects[RELATION_MANDATES]));
+    },
+
+    accept(uuid) {
+      ProjectsService.accept(this.project.uuid, uuid);
     },
   }
 };

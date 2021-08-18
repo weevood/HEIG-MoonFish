@@ -17,6 +17,7 @@ const Resources = () => import('./pages/resource/Resources.vue')
 const Team = () => import('./pages/team/Team.vue')
 const Teams = () => import('./pages/team/Teams.vue')
 const TeamsEdit = () => import('./pages/team/TeamsEdit.vue')
+const User = () => import('./pages/user/User.vue')
 const UsersEdit = () => import('./pages/user/UsersEdit.vue')
 
 const routes = [
@@ -27,18 +28,19 @@ const routes = [
 		{ path: '/forgot', component: Forgot },
 		{ path: '/reset/:uuid', component: Reset },
 		// Then, lazy-loaded components
-		{ path: '/profile', name: 'profile', component: Profile },
-		{ path: '/profile/changePassword', name: 'changePassword', component: ChangePassword },
+		{ path: '/admin', name: 'admin', component: BoardAdmin },
+		{ path: '/admin/users', name: 'admin-users', component: UsersEdit },
 		{ path: '/dashboard', name: 'dashboard', component: Dashboard },
-		{ path: '/projects', name: 'projects', component: Projects },
-		{ path: '/projects/:uuid', name: 'project', component: Project },
-		{ path: '/teams', name: 'teams', component: Teams },
-		{ path: '/teams/:uuid', name: 'team', component: Team },
-		{ path: '/resources', name: 'resources', component: Resources },
 		{ path: '/moderator', name: 'moderator', component: BoardModerator },
 		{ path: '/moderator/teams', name: 'moderator-teams', component: TeamsEdit },
-		{ path: '/admin', name: 'admin', component: BoardAdmin },
-		{ path: '/admin/users', name: 'admin-users', component: UsersEdit }
+		{ path: '/profile', name: 'profile', component: Profile },
+		{ path: '/profile/changePassword', name: 'changePassword', component: ChangePassword },
+		{ path: '/projects', name: 'projects', component: Projects },
+		{ path: '/projects/:uuid', name: 'project', component: Project },
+		{ path: '/resources', name: 'resources', component: Resources },
+		{ path: '/teams', name: 'teams', component: Teams },
+		{ path: '/teams/:uuid', name: 'team', component: Team },
+		{ path: '/users/:uuid', name: 'user', component: User },
 ];
 
 const router = createRouter({

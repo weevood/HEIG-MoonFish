@@ -1,8 +1,8 @@
 <template>
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
-      <h1 class="text-blue-900 text-3xl font-medium">{{ $t('Projects.title') }}</h1>
-      <button @click="create"
+      <h1 class="text-blue-900 text-3xl font-medium">{{ creation ? $t('Projects.new') : $t('Projects.title') }}</h1>
+      <button v-if="!creation" @click="creation = true"
               class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
@@ -12,7 +12,8 @@
         <span>{{ $t('Projects.new') }}</span>
       </button>
     </div>
-    <div class="container">
+    <EditOrCreateProject v-if="creation" @done="creation = false"/>
+    <div v-if="!creation" class="container">
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
         <li v-for="(project, i) in projects" :key="`Project${i}`"
             class="flex flex-col w-1/3 mb-4">
@@ -23,12 +24,16 @@
                 <p class="text-sm font-medium text-gray-900">
                   {{ project.title }}<span class="text-gray-600"> - {{ getEnumName(project.status) }}</span>
                 </p>
+                <ul class="my-2" style="margin-left: -4px; margin-right: -4px">
+                  <li v-for="(tag, j) in project.tags.split(';')" :key="`Project-${i}-tags-${j}`"
+                      class="mx-1 text-xs inline-flex items-center font-bold leading-sm px-3 py-1 bg-blue-900 text-white rounded">{{ tag }}</li>
+                </ul>
                 <p class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
-                <p class="text-sm font-normal text-gray-600">Deadline: {{ format(project.deadline) }}</p>
+                <p class="text-sm font-normal text-blue-900">Deadline: {{ format(project.deadline) }}</p>
               </div>
             </router-link>
             <!--          <div class="flex flex-col">-->
-            <!--            <button v-if="inArray(project.uuid, mineProjects.STATUS_INACTIVE)" disabled-->
+            <!--            <button v-if="inArray(project.uuid, myProjects.STATUS_INACTIVE)" disabled-->
             <!--                    class="bg-gray-500 text-white font-bold py-1 px-3 rounded inline-flex items-center cursor-not-allowed">-->
             <!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"-->
             <!--                   stroke="currentColor">-->
@@ -37,8 +42,8 @@
             <!--              </svg>-->
             <!--              <span>{{ $t('Projects.requested') }}</span>-->
             <!--            </button>-->
-            <!--            <div v-else-if="!inArray(project.uuid, mineProjects.STATUS_ACTIVE)" class="flex flex-col">-->
-            <!--              <button @click="join(project.uuid)" :disabled="inArray(project.uuid, mineProjects.STATUS_BANNED)"-->
+            <!--            <div v-else-if="!inArray(project.uuid, myProjects.STATUS_ACTIVE)" class="flex flex-col">-->
+            <!--              <button @click="join(project.uuid)" :disabled="inArray(project.uuid, myProjects.STATUS_BANNED)"-->
             <!--                      class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">-->
             <!--                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 " fill="none" viewBox="0 0 24 24"-->
             <!--                     stroke="currentColor">-->
@@ -47,7 +52,7 @@
             <!--                </svg>-->
             <!--                <span>{{ $t('Projects.join') }}</span>-->
             <!--              </button>-->
-            <!--              <span v-if="inArray(project.uuid, mineProjects.STATUS_BANNED)"-->
+            <!--              <span v-if="inArray(project.uuid, myProjects.STATUS_BANNED)"-->
             <!--                    class="mt-2 text-xs italic text-gray-500">{{ $t('Projects.banned') }}</span>-->
             <!--            </div>-->
             <!--            <button v-else @click="leave(project.uuid)"-->
@@ -73,16 +78,19 @@ import { STATUS_ACTIVE } from '@/enums/status';
 import inArray from '@/utils/inArray';
 import dateFormat from 'dateformat';
 import { getEnumName } from '@/enums/getEnumName';
+import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
 
 const projectStatus = require('@/enums/projectStatus')
 
 export default {
   name: 'Projects',
+  components: { EditOrCreateProject },
 
   data() {
     return {
+      creation: false,
       projects: [],
-      mineProjects: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] },
+      myProjects: {},
     };
   },
 
@@ -106,7 +114,7 @@ export default {
       this.projects = await ProjectsService.getAll(STATUS_ACTIVE);
     },
     async retrieveMineProjects() {
-      this.mineProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
+      this.myProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
     },
     getEnumName(index) {
       return getEnumName(projectStatus, index).toUpperCase()
