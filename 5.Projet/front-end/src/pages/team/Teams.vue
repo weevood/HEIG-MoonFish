@@ -15,7 +15,7 @@
     <EditOrCreateTeam v-if="creation" @done="creation = false"/>
     <div v-if="!creation" class="container">
       <ul>
-        <li v-for="(team, i) in teams" :key="`Lang${i}`"
+        <li v-for="(team, i) in teams" :key="`Teams${i}`"
             class="flex justify-between items-center p-4 mb-3 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
           <router-link :to="`/teams/${team.uuid}`" class="flex items-center">
             <div :class="`p-3 mr-4 bg-${team.color}-500 text-white rounded-full`">

@@ -1,5 +1,5 @@
 import http from '@/http';
-import { TEAMS, USERS } from "../../config/data";
+import { PROJECTS, TEAMS, USERS } from "../../config/data";
 
 class TeamsService {
 
@@ -58,6 +58,14 @@ class TeamsService {
 								STATUS_INACTIVE: [USERS[2]],
 								STATUS_BANNED: [],
 						})
+				});
+				// return http.get(`/teams/${ uuid }/members`);
+		}
+
+		// eslint-disable-next-line no-unused-vars
+		getProjects(uuid) {
+				return new Promise((resolve) => {
+						resolve([PROJECTS[0], PROJECTS[4], PROJECTS[3]])
 				});
 				// return http.get(`/teams/${ uuid }/members`);
 		}

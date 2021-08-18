@@ -25,6 +25,32 @@
         placerat odio, id feugiat ipsum efficitur sed.</p>
     </section>
     <section class="container my-6">
+      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Projects.title') }}</h2>
+      <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
+        <li v-for="(project, i) in myProjects" :key="`Projects-${i}`"
+            class="flex flex-col w-1/3 mb-4">
+          <div
+              class="flex justify-between items-center p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+            <router-link :to="`/projects/${project.uuid}`" class="flex items-center">
+              <div>
+                <p class="text-sm font-medium text-gray-900">
+                  {{ project.title }}<span class="text-gray-600"> - {{ getEnumName(project.status) }}</span>
+                </p>
+                <ul class="my-2" style="margin-left: -4px; margin-right: -4px">
+                  <li v-for="(tag, j) in project.tags.split(';')" :key="`Project-${i}-tags-${j}`"
+                      class="mx-1 text-xs inline-flex items-center font-bold leading-sm px-3 py-1 bg-blue-900 text-white rounded">
+                    {{ tag }}
+                  </li>
+                </ul>
+                <p class="text-sm font-normal text-gray-700 my-2">Note : 4</p>
+                <p class="text-sm font-normal text-gray-700 my-2">Feedback : link</p>
+              </div>
+            </router-link>
+          </div>
+        </li>
+      </ul>
+    </section>
+    <section class="container my-6">
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.members') }}</h2>
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
         <li v-for="(member, i) in members.STATUS_ACTIVE" :key="`Members-ACTIVE-${i}`"
@@ -111,6 +137,8 @@
 import inArray from '@/utils/inArray';
 import TeamsService from "@/services/teams.service";
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
+import { getEnumName } from "@/enums/getEnumName";
+import projectStatus from "@/enums/projectStatus";
 
 export default {
   name: 'Team',
@@ -122,6 +150,7 @@ export default {
       edition: false,
       team: { uuid: '', name: '', color: '', ownerUuid: '' },
       members: [],
+      myProjects: [],
     };
   },
 
@@ -136,6 +165,7 @@ export default {
 
   mounted() {
     this.retrieveTeamAndMembers();
+    this.retrieveTeamProjects();
     if (!this.currentUser) {
       this.$router.push('/login');
     }
@@ -147,6 +177,14 @@ export default {
     async retrieveTeamAndMembers() {
       this.team = await TeamsService.get(this.$route.params.uuid);
       this.members = await TeamsService.getMembers(this.$route.params.uuid);
+    },
+
+    async retrieveTeamProjects() {
+      this.myProjects = await TeamsService.getProjects(this.currentUser.uuid);
+    },
+
+    getEnumName(index) {
+      return getEnumName(projectStatus, index).toUpperCase()
     },
 
     isOwner(uuid = this.currentUser.uuid) {

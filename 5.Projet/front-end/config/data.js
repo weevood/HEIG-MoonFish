@@ -23,6 +23,7 @@ module.exports = Object.freeze({
 						name: 'Yellow Team',
 						color: 'yellow',
 						relation: 'applies',
+						ownerUuid: '2ce7e518-078d-4b82-970d-fb8b9e95b144',
 						price: 3440,
 						specifications: 45
 				},

@@ -24,6 +24,20 @@
         <p class="text-sm font-normal text-blue-900">{{ $t('deadline') }}: {{ project.deadline }}</p>
       </div>
     </section>
+    <div v-if="!inMyProjects(mandates) && project.status === proposal" class="container my-6"
+         style="margin-left: -8px; margin-right: -8px">
+      <button v-for="(team, i) in myTeams.STATUS_ACTIVE" :key="`MyTeams-${i}`"
+              :disabled="hasTeamApply(team.uuid)" @click="apply(team.uuid)"
+              :class="!isOwner(team.ownerUuid) && 'hidden'"
+              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center m-2 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+        </svg>
+        <span>{{ `${ team.name } ${ $t('Projects.apply').toLowerCase() }` }}</span>
+      </button>
+    </div>
     <section class="container my-6" v-if="!edition && project.status >= proposal">
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.title') }}</h2>
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
@@ -89,7 +103,8 @@ import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
 import { getEnumName } from "@/enums/getEnumName";
 import projectStatus, { PROJECT_STATUS_PROPOSAL } from "@/enums/projectStatus";
 // eslint-disable-next-line no-unused-vars
-import { RELATION_ARBITRATES, RELATION_DEVELOPS, RELATION_MANDATES } from "@/enums/relations";
+import { RELATION_MANDATES } from "@/enums/relations";
+import TeamsService from "@/services/teams.service";
 
 export default {
   name: 'Project',
@@ -107,6 +122,7 @@ export default {
       edition: false,
       onAddResource: false,
       project: { uuid: '', title: '' },
+      myTeams: [],
       myProjects: [],
       teams: [],
     };
@@ -123,6 +139,7 @@ export default {
 
   mounted() {
     this.retrieveMyProjects();
+    this.retrieveMyTeams();
     this.retrieveProject().then(() => this.retrieveTeams());
   },
 
@@ -130,6 +147,9 @@ export default {
     inArray,
     async retrieveMyProjects() {
       this.myProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
+    },
+    async retrieveMyTeams() {
+      this.myTeams = await TeamsService.getMine(this.currentUser.uuid);
     },
     async retrieveProject() {
       this.project = await ProjectsService.get(this.$route.params.uuid);
@@ -141,10 +161,13 @@ export default {
     getEnumName(index) {
       return getEnumName(projectStatus, index).toUpperCase()
     },
+    isOwner(uuid) {
+      return this.currentUser.uuid === uuid
+    },
     // eslint-disable-next-line no-unused-vars
     inMyProjects(relation = 0) {
-      return true;
-      // console.log(relation)
+      return false;
+      // TODO console.log(relation)
       // console.log(this.myProjects)
       // if (relation) {
       //   return inArray(this.project.uuid, this.myProjects[relation]);
@@ -153,9 +176,16 @@ export default {
       //     inArray(this.project.uuid, this.myProjects[RELATION_DEVELOPS]) ||
       //     inArray(this.project.uuid, this.myProjects[RELATION_MANDATES]));
     },
-
+    // eslint-disable-next-line no-unused-vars
+    hasTeamApply(uuid) {
+      const teamsUuid = this.teams.map(team => {return team['uuid']});
+      return inArray(uuid, teamsUuid);
+    },
     accept(uuid) {
       ProjectsService.accept(this.project.uuid, uuid);
+    },
+    apply(uuid) {
+      ProjectsService.apply(this.project.uuid, uuid);
     },
   }
 };
