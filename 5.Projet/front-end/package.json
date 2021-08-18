@@ -26,6 +26,7 @@
     "vue": "^3.0.0",
     "vue-i18n": "^9.1.0",
     "vue-router": "^4.0.10",
+    "vue-star-rating": "^2.1.0",
     "vue3-dropzone": "^0.0.7",
     "vuex": "^4.0.2",
     "yup": "^0.32.9"

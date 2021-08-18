@@ -15,6 +15,7 @@ module.exports = Object.freeze({
 						color: 'blue',
 						ownerUuid: '2ce7e518-078d-4b82-970d-fb8b9e95b144',
 						relation: 'mandates',
+						grade: 4.7,
 						status
 				},
 				{ uuid: '8373662e-3dbe-43b1-bbd2-a6cf1710b41c', name: 'Red Team', color: 'red', relation: 'develops' },
@@ -24,6 +25,7 @@ module.exports = Object.freeze({
 						color: 'yellow',
 						relation: 'applies',
 						ownerUuid: '2ce7e518-078d-4b82-970d-fb8b9e95b144',
+						grade: 3.35,
 						price: 3440,
 						specifications: 45
 				},
@@ -32,6 +34,7 @@ module.exports = Object.freeze({
 						name: 'Purple Team',
 						color: 'purple',
 						relation: 'applies',
+						grade: 4.23,
 						price: 3440,
 						specifications: 45
 				},
@@ -41,6 +44,7 @@ module.exports = Object.freeze({
 						color: 'green',
 						relation: 'applies',
 						price: 3440,
+						grade: 1.62,
 						specifications: 45
 				}
 		],
@@ -103,7 +107,9 @@ module.exports = Object.freeze({
 						tags: 'Java',
 						lang: 'en',
 						title: 'Project Y',
-						description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae magna vitae ipsum molestie dapibus vel ac velit. Aenean suscipit nisi sed leo aliquam mattis. "
+						description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae magna vitae ipsum molestie dapibus vel ac velit. Aenean suscipit nisi sed leo aliquam mattis. ",
+						endDate: new Date('01/01/2021'),
+						mark: 1.25,
 				},
 				{
 						uuid: 'b1c38454-05cc-43a1-b430-0f3cc5456c42',
@@ -113,7 +119,9 @@ module.exports = Object.freeze({
 						tags: 'iOS;Android',
 						lang: 'en',
 						title: 'Project Z',
-						description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae magna vitae ipsum molestie dapibus vel ac velit. Aenean suscipit nisi sed leo aliquam mattis. "
+						description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam vitae magna vitae ipsum molestie dapibus vel ac velit. Aenean suscipit nisi sed leo aliquam mattis. ",
+						endDate: new Date('03/14/2021'),
+						mark: 4.5,
 				}
 		]
 })

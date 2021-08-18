@@ -1,7 +1,10 @@
 <template>
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
-      <h1 class="text-blue-900 text-3xl font-medium">{{ team.name }}</h1>
+      <div>
+        <h1 class="text-blue-900 text-3xl font-medium pb-4">{{ team.name }}</h1>
+        <StarRating :rating="team.grade" rounded-corners="true" padding="1" read-only="true" star-size="25" increment="0.01" style="margin-left: -5px"/>
+      </div>
       <button v-if="!edition && isOwner()" @click="edition = true"
               class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded inline-flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
@@ -14,7 +17,6 @@
     </div>
     <EditOrCreateTeam v-if="edition" :name="team.name" :color="team.color" @done="edition = false"/>
     <section class="container">
-      <p>Note : 4.6 / 5</p>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus est massa, interdum non laoreet quis, vehicula
         eget ligula. Mauris a est metus. Aliquam auctor est non nunc tempus, non vehicula justo gravida. Morbi nec
         sollicitudin magna. Morbi iaculis iaculis erat a fermentum. Cras vitae ipsum urna. Mauris ac mi vehicula,
@@ -42,8 +44,15 @@
                     {{ tag }}
                   </li>
                 </ul>
-                <p class="text-sm font-normal text-gray-700 my-2">Note : 4</p>
-                <p class="text-sm font-normal text-gray-700 my-2">Feedback : link</p>
+                <div v-if="inArray(project.status, finishedStatus)">
+                  <p class="text-sm font-normal text-gray-700 my-2">
+                    {{ `${ $t('Projects.end') }: ${ project.endDate }` }}</p>
+                  <StarRating :rating="project.mark" rounded-corners="true" read-only="true" star-size="20" increment="0.5" :show-rating="false" style="margin-left: -5px"/>
+                  <router-link :to="`/resources/${project.feedback}`" class="text-sm font-medium text-gray-900">
+                    {{ $t('Projects.feedback') }} ->
+                  </router-link>
+                </div>
+                <p v-else class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
               </div>
             </router-link>
           </div>
@@ -138,11 +147,12 @@ import inArray from '@/utils/inArray';
 import TeamsService from "@/services/teams.service";
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
 import { getEnumName } from "@/enums/getEnumName";
-import projectStatus from "@/enums/projectStatus";
+import projectStatus, { PROJECT_STATUS_ABANDONED, PROJECT_STATUS_ENDED } from "@/enums/projectStatus";
+import StarRating from "vue-star-rating";
 
 export default {
   name: 'Team',
-  components: { EditOrCreateTeam },
+  components: { EditOrCreateTeam, StarRating },
   watch: { $route() { this.retrieveTeamAndMembers() } },
 
   data() {
@@ -151,6 +161,7 @@ export default {
       team: { uuid: '', name: '', color: '', ownerUuid: '' },
       members: [],
       myProjects: [],
+      finishedStatus: [PROJECT_STATUS_ABANDONED, PROJECT_STATUS_ENDED],
     };
   },
 

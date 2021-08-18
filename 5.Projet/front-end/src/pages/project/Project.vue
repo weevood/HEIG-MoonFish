@@ -79,17 +79,32 @@
     <section class="container" v-if="!edition">
       <div class="flex justify-between items-center">
         <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Resources.title') }}</h2>
-        <button v-if="inMyProjects()" @click="onAddResource = true" :disabled="onAddResource"
-                class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
-               stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-          <span>{{ $t('Resources.new') }}</span>
-        </button>
+        <div class="flex justify-between items-center">
+          <button v-if="inMyProjects(mandates)" @click="onAddFeedback = true"
+                  :disabled="onAddResource || onAddFeedback"
+                  class="mr-3 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+            </svg>
+            <span>{{ $t('Resources.feedback') }}</span>
+          </button>
+          <button v-if="inMyProjects()" @click="onAddResource = true" :disabled="onAddResource || onAddFeedback"
+                  class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <span>{{ $t('Resources.new') }}</span>
+          </button>
+        </div>
       </div>
-      <DropZone v-if="onAddResource" @close="onAddResource = false"/>
+      <div v-if="onAddFeedback" class="mb-4 flex flex-col">
+        <StarRating v-model:rating="grade" increment="0.01" rounded-corners="true" padding="1"/>
+      </div>
+      <DropZone v-if="onAddResource || grade > 0" @close="setGrade"/>
     </section>
   </main>
 </template>
@@ -105,10 +120,11 @@ import projectStatus, { PROJECT_STATUS_PROPOSAL } from "@/enums/projectStatus";
 // eslint-disable-next-line no-unused-vars
 import { RELATION_MANDATES } from "@/enums/relations";
 import TeamsService from "@/services/teams.service";
+import StarRating from "vue-star-rating";
 
 export default {
   name: 'Project',
-  components: { DropZone, EditOrCreateProject },
+  components: { DropZone, EditOrCreateProject, StarRating },
   watch: {
     $route() {
       this.retrieveProject().then(() => this.retrieveTeams());
@@ -120,7 +136,9 @@ export default {
       proposal: PROJECT_STATUS_PROPOSAL,
       mandates: RELATION_MANDATES,
       edition: false,
+      onAddFeedback: false,
       onAddResource: false,
+      grade: 0,
       project: { uuid: '', title: '' },
       myTeams: [],
       myProjects: [],
@@ -161,12 +179,27 @@ export default {
     getEnumName(index) {
       return getEnumName(projectStatus, index).toUpperCase()
     },
+    setGrade(grade) {
+      if (!this.onAddFeedback)
+      {
+        this.onAddResource = false;
+        return;
+      }
+      else if (this.grade > 0 && this.grade <= 5)
+      {
+        // TODO save grade
+        console.log(grade);
+        this.grade = 0;
+        this.onAddResource = false;
+        this.onAddFeedback = false;
+      }
+    },
     isOwner(uuid) {
       return this.currentUser.uuid === uuid
     },
     // eslint-disable-next-line no-unused-vars
     inMyProjects(relation = 0) {
-      return false;
+      return true;
       // TODO console.log(relation)
       // console.log(this.myProjects)
       // if (relation) {

@@ -89,12 +89,16 @@ Projects:
   specifications: "See specifications"
   accept: "Choose this team"
   apply: "Apply for this project"
+  feedback: "Feedback"
+  end: "Finished on"
+  mark: "Mark"
 
 # Resource
 
 Resources:
   title: "Resources"
   new: "Add a new resource"
+  feedback: "Upload the feedback and assign a grade"
 
 # Team
 

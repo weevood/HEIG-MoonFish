@@ -26,8 +26,9 @@
               </svg>
             </div>
             <div>
-              <p class="mb-2 text-sm font-medium text-gray-900">{{ team.name }}</p>
-              <p class="text-sm font-normal text-gray-800">7 {{ $t('Teams.members').toLowerCase() }}</p>
+              <p class="mb-2 text-sm font-medium text-gray-900">{{ team.name }}
+               - <span class="text-sm font-normal text-gray-800">7 {{ $t('Teams.members').toLowerCase() }}</span></p>
+              <StarRating :rating="team.grade" rounded-corners="true" read-only="true" star-size="20" increment="0.5" :show-rating="false" style="margin-left: -5px"/>
             </div>
           </router-link>
           <div class="flex flex-col">
@@ -74,10 +75,11 @@ import TeamsService from '@/services/teams.service';
 import { STATUS_ACTIVE } from '@/enums/status';
 import inArray from "@/utils/inArray";
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
+import StarRating from "vue-star-rating";
 
 export default {
   name: 'Teams',
-  components: { EditOrCreateTeam },
+  components: { EditOrCreateTeam, StarRating },
 
   data() {
     return {
