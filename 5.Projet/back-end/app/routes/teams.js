@@ -9,6 +9,8 @@ const {
     createTeam,
     deleteTeam,
     getTeam,
+    getTeamMembers,
+    getTeamProjects,
     getTeams,
     joinTeam,
     leaveTeam,
@@ -38,6 +40,12 @@ router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validate
 
 // Get a team by uuid
 router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeam)
+
+// Get all team members
+router.get('/:uuid/members', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeamMembers)
+
+// Get all team projects
+router.get('/:uuid/projects', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeamProjects)
 
 // Update a team by uuid
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateTeam, updateTeam)

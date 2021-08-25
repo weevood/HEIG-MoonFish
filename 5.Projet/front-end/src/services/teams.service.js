@@ -1,107 +1,92 @@
-import http from '@/http';
-import { PROJECTS, TEAMS, USERS } from "../../config/data";
+import http from '@/http'
 
 class TeamsService {
 
-		// eslint-disable-next-line no-unused-vars
-		getAll(status) {
-				return new Promise((resolve) => {
-						resolve(TEAMS)
-				});
-				// TODO return new Promise((resolve) => {
-				// 		if (status) {
-				// 				http.get(`/teams?filters[status]=${ status }`).then(data => resolve(data))
-				// 		}
-				// 		else {
-				// 				return http.get(`/teams`);
-				// 		}
-				// });
-
-		}
-
-		// eslint-disable-next-line no-unused-vars
-		getMine(uuid, fields = '') {
-				return new Promise((resolve) => {
-						if (fields === 'uuid') {
-								resolve({
-										STATUS_ACTIVE: [TEAMS[0]['uuid'], TEAMS[2]['uuid']],
-										STATUS_INACTIVE: [TEAMS[1]['uuid']],
-										STATUS_BANNED: [TEAMS[3]['uuid']],
-								})
-						}
-						resolve({
-								STATUS_ACTIVE: [TEAMS[0], TEAMS[2]],
-								STATUS_INACTIVE: [TEAMS[1]],
-								STATUS_BANNED: [TEAMS[3]],
-						})
-				});
-				// TODO let endpoint = `/teams?filters[status]=${ STATUS_ACTIVE }&relations[isMemberOf]=${ uuid }`
-				// if(fields)
-				// 		endpoint += `&fields=${ fields }`
-				// return http.get(endpoint)
-		}
-
-		// eslint-disable-next-line no-unused-vars
+		/**
+		 * get
+		 *
+		 * @param {uuid} uuid the teams uuid
+		 * @return {Promise<unknown>}
+		 */
 		get(uuid) {
-				return new Promise((resolve) => {
-						console.log(uuid)
-						resolve(TEAMS.find(team => team.uuid === uuid))
-				});
-				// return http.get(`/teams/${ uuid }`);
+				return http.get(`/teams/${ uuid }`)
 		}
 
-		// eslint-disable-next-line no-unused-vars
+		/**
+		 * getAll
+		 *
+		 * @param {int} status
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
+		getAll(status) {
+				let endpoint = '/teams'
+				if (status) {
+						endpoint += `?filters[status]=${ status }`
+				}
+				return http.get(endpoint)
+		}
+
+		/**
+		 * getMine
+		 *
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
+		getMine() {
+				return http.get('/profile/teams')
+		}
+
+		/**
+		 * getMembers
+		 *
+		 * @param {uuid} uuid the teams uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		getMembers(uuid) {
-				return new Promise((resolve) => {
-						resolve({
-								STATUS_ACTIVE: [USERS[0], USERS[1]],
-								STATUS_INACTIVE: [USERS[2]],
-								STATUS_BANNED: [],
-						})
-				});
-				// return http.get(`/teams/${ uuid }/members`);
+				return http.get(`/teams/${ uuid }/members`)
 		}
 
-		// eslint-disable-next-line no-unused-vars
+		/**
+		 * getProjects
+		 *
+		 * @param {uuid} uuid the teams uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		getProjects(uuid) {
-				return new Promise((resolve) => {
-						resolve([PROJECTS[0], PROJECTS[4], PROJECTS[3]])
-				});
-				// return http.get(`/teams/${ uuid }/members`);
+				return http.get(`/teams/${ uuid }/projects`)
 		}
 
 		create(data) {
-				return http.post('/teams', data);
+				return http.post('/teams', data)
 		}
 
 		update(uuid, data) {
-				return http.patch(`/teams/${ uuid }`, data);
+				return http.patch(`/teams/${ uuid }`, data)
 		}
 
 		delete(uuid) {
-				return http.delete(`/teams/${ uuid }`);
+				return http.delete(`/teams/${ uuid }`)
 		}
 
 		join(uuid) {
-				return http.put(`/teams/${ uuid }/join`);
+				return http.put(`/teams/${ uuid }/join`)
 		}
 
 		leave(uuid) {
-				return http.put(`/teams/${ uuid }/leave`);
+				return http.put(`/teams/${ uuid }/leave`)
 		}
 
 		accept(teamUuid, userUuid) {
-				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/accept`);
+				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/accept`)
 		}
 
 		ban(teamUuid, userUuid) {
-				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/ban`);
+				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/ban`)
 		}
 
 		giveOwnership(teamUuid, userUuid) {
-				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/giveOwnership`);
+				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/giveOwnership`)
 		}
 
 }
 
-export default new TeamsService();
+export default new TeamsService()

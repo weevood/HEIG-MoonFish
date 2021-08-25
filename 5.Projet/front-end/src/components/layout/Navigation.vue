@@ -54,7 +54,7 @@
           </router-link>
 
           <ul class="pl-4">
-            <li v-for="(team, i) in teams.STATUS_ACTIVE" :key="`Team-${i}`">
+            <li v-for="(team, i) in myTeams" :key="`Team-${i}`">
               <router-link :to="`/teams/${team.uuid}`"
                            :class="$route.path === `/teams/${team.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
                            class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
@@ -151,7 +151,7 @@ export default {
     return {
       error: '',
       projects: [],
-      teams: [],
+      myTeams: [],
     };
   },
 
@@ -171,16 +171,16 @@ export default {
   },
 
   mounted() {
-    this.retrieveMineProjects();
-    this.retrieveMineTeams();
+    this.retrieveMyProjects();
+    this.retrieveMyTeams();
   },
 
   methods: {
-    async retrieveMineProjects() {
+    async retrieveMyProjects() {
       this.projects = await ProjectsService.getMine(this.currentUser.uuid);
     },
-    async retrieveMineTeams() {
-      this.teams = await TeamsService.getMine(this.currentUser.uuid);
+    async retrieveMyTeams() {
+      this.myTeams = await TeamsService.getMine();
     }
   }
 

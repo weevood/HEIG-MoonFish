@@ -18,7 +18,7 @@
         <li v-for="(team, i) in teams" :key="`Teams${i}`"
             class="flex justify-between items-center p-4 mb-3 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
           <router-link :to="`/teams/${team.uuid}`" class="flex items-center">
-            <div :class="`p-3 mr-4 bg-${team.color}-500 text-white rounded-full`">
+            <div class="p-3 mr-4 bg-gray-500 text-white rounded-full" :class="team.color && `bg-${team.color}-500`">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -27,8 +27,9 @@
             </div>
             <div>
               <p class="mb-2 text-sm font-medium text-gray-900">{{ team.name }}
-               - <span class="text-sm font-normal text-gray-800">7 {{ $t('Teams.members').toLowerCase() }}</span></p>
-              <StarRating :rating="team.grade" rounded-corners="true" read-only="true" star-size="20" increment="0.5" :show-rating="false" style="margin-left: -5px"/>
+                - <span class="text-sm font-normal text-gray-800">7 {{ $t('Teams.members').toLowerCase() }}</span></p>
+              <StarRating :rating="team.grade" rounded-corners="true" read-only="true" star-size="20" increment="0.5"
+                          :show-rating="false" style="margin-left: -5px"/>
             </div>
           </router-link>
           <div class="flex flex-col">
@@ -72,14 +73,16 @@
 
 <script>
 import TeamsService from '@/services/teams.service';
-import { STATUS_ACTIVE } from '@/enums/status';
+import { STATUS_ACTIVE, STATUS_BANNED, STATUS_INACTIVE } from '@/enums/status';
 import inArray from "@/utils/inArray";
+import request from "@/utils/request";
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
 import StarRating from "vue-star-rating";
 
 export default {
   name: 'Teams',
   components: { EditOrCreateTeam, StarRating },
+  emits: ['msg'],
 
   data() {
     return {
@@ -106,10 +109,24 @@ export default {
   methods: {
     inArray,
     async retrieveTeams() {
-      this.teams = await TeamsService.getAll(STATUS_ACTIVE);
+      this.teams = await request(TeamsService.getAll(STATUS_ACTIVE), this);
     },
     async retrieveMyTeams() {
-      this.myTeams = await TeamsService.getMine(this.currentUser.uuid, 'uuid');
+      const myTeams = await request(TeamsService.getMine(), this);
+      for (const team of myTeams) {
+        switch (team.status)
+        {
+          case STATUS_INACTIVE:
+            this.myTeams.STATUS_INACTIVE.push(team.uuid)
+            break
+          case STATUS_ACTIVE:
+            this.myTeams.STATUS_ACTIVE.push(team.uuid)
+            break
+          case STATUS_BANNED:
+            this.myTeams.STATUS_BANNED.push(team.uuid)
+            break
+        }
+      }
     },
     join(uuid) {
       TeamsService.join(uuid);

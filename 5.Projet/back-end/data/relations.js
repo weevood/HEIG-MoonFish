@@ -1,6 +1,7 @@
 const { getNodes } = require('../app/middleware/db')
 const { findTeamsNodes } = require('../app/controllers/teams/helpers')
 const { findProjectsNodes } = require('../app/controllers/projects/helpers')
+const { STATUS_ACTIVE } = require("../app/models/enums/status");
 
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -16,8 +17,11 @@ getNodes('User').then(users => {
             for (const team of teams) {
                 let u1 = random(0, max)
                 let u2 = random(0, max)
-                users[u1].relateTo(team, 'isMemberOf', { isOwner: true })
+                let u3 = random(0, max)
+                users[u1].relateTo(team, 'isMemberOf', { isOwner: true, status: STATUS_ACTIVE })
                 if (u1 !== u2)
+                    users[u2].relateTo(team, 'isMemberOf', { isOwner: false, status: STATUS_ACTIVE })
+                if (u1 !== u3 && u2 !== u3)
                     users[u2].relateTo(team, 'isMemberOf', { isOwner: false })
             }
 

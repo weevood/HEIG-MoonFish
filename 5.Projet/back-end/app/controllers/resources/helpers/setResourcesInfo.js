@@ -15,7 +15,7 @@ const setResourcesInfo = (req = {}) => {
                 delete item.dataValues.createdAt
                 delete item.dataValues.updatedAt
                 return item;
-            });
+            })
         }
         resolve(resources)
     })

@@ -3,7 +3,7 @@ const User = mariadb.models.User
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { updateItem } = require('../../middleware/db')
-const { updateNode } = require("../../middleware/db/updateNode");
+const { updateNode } = require('../../middleware/db/updateNode')
 
 /**
  * Update profile function called by route

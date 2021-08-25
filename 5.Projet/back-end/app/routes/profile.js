@@ -13,6 +13,7 @@ const {
 
 const {
     changePassword,
+    getMyTeams,
     getProfile,
     getTags,
     getBankAccounts,
@@ -45,5 +46,8 @@ router.get('/bankaccounts', requireAuth, requiredRole(ROLE_USER), trimRequest.al
 
 // Get a user notifications
 router.get('/notifications', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getNotifications)
+
+// Get all user teams
+router.get('/teams', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getMyTeams)
 
 module.exports = router

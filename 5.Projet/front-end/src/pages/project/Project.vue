@@ -26,7 +26,7 @@
     </section>
     <div v-if="!inMyProjects(mandates) && project.status === proposal" class="container my-6"
          style="margin-left: -8px; margin-right: -8px">
-      <button v-for="(team, i) in myTeams.STATUS_ACTIVE" :key="`MyTeams-${i}`"
+      <button v-for="(team, i) in myTeams" :key="`MyTeams-${i}`"
               :disabled="hasTeamApply(team.uuid)" @click="apply(team.uuid)"
               :class="!isOwner(team.ownerUuid) && 'hidden'"
               class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center m-2 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
@@ -167,7 +167,7 @@ export default {
       this.myProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
     },
     async retrieveMyTeams() {
-      this.myTeams = await TeamsService.getMine(this.currentUser.uuid);
+      this.myTeams = await TeamsService.getMine();
     },
     async retrieveProject() {
       this.project = await ProjectsService.get(this.$route.params.uuid);

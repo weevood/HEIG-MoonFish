@@ -1,6 +1,8 @@
 const { createTeam } = require('./createTeam')
 const { deleteTeam } = require('./deleteTeam')
 const { getTeam } = require('./getTeam')
+const { getTeamMembers } = require('./getTeamMembers')
+const { getTeamProjects } = require('./getTeamProjects')
 const { getTeams } = require('./getTeams')
 const { joinTeam } = require('./joinTeam')
 const { leaveTeam } = require('./leaveTeam')
@@ -11,6 +13,8 @@ module.exports = {
     createTeam,
     deleteTeam,
     getTeam,
+    getTeamMembers,
+    getTeamProjects,
     getTeams,
     joinTeam,
     leaveTeam,

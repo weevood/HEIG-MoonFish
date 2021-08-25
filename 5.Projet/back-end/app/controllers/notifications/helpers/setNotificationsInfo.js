@@ -11,8 +11,8 @@ const setNotificationsInfo = (req = {}) => {
                     priority: item.priority,
                     title: item['notifications_translations'][0].title,
                     description: item['notifications_translations'][0].description
-                };
-            });
+                }
+            })
         }
         resolve(notifications)
     })

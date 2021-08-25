@@ -7,6 +7,7 @@ const { getItem } = require('./getItem')
 const { getItemByUuid } = require('./getItemByUuid')
 const { getItems } = require('./getItems')
 const { getNode } = require('./getNode')
+const { getNodeRelations } = require('./getNodeRelations')
 const { getNodes } = require('./getNodes')
 const { relExists } = require('./relExists')
 const { updateItem } = require('./updateItem')
@@ -23,6 +24,7 @@ module.exports = {
     getItemByUuid,
     getItems,
     getNode,
+    getNodeRelations,
     getNodes,
     relExists,
     updateItem,

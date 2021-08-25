@@ -14,7 +14,7 @@ const setBankAccountsInfo = (req = {}) => {
                 delete item.dataValues.createdAt
                 delete item.dataValues.updatedAt
                 return item;
-            });
+            })
         }
         resolve(bankAccounts)
     })

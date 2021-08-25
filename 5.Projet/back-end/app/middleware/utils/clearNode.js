@@ -4,15 +4,21 @@
  */
 const clearNode = (node = {}) => {
     return new Promise(async (resolve, reject) => {
-        await node.toJson()
-            .then(node => {
-                delete node._id
-                delete node.createdAt
-                resolve(node)
-            })
-            .catch(error => {
-                reject(error)
-            })
+        try {
+            await node.toJson()
+                .then(json => node = json)
+                .catch(error => {
+                    reject(error)
+                })
+        } catch (err) {
+            if (node.properties)
+                node = node.properties
+        }
+        if (node.status && node.status.low)
+            node.status = node.status.low
+        delete node._id
+        delete node.createdAt
+        resolve(node)
     })
 }
 

@@ -14,7 +14,7 @@
                       @clear="msg = null" :can-close="true"/>
         </div>
         <div class="container">
-          <router-view/>
+          <router-view @msg="getMessage"/>
         </div>
       </div>
     </div>
@@ -72,6 +72,9 @@ export default {
         }
       }
       return {}
+    },
+    getMessage(msg) {
+      this.msg = msg
     },
     errorMessage() {
       if (this.msg && this.msg.status !== 'OK')

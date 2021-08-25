@@ -1,5 +1,5 @@
 const { RELATION_IS_MEMBER_OF, RELATION_ARBITRATES } = require('../enums/relations')
-const { STATUS_INACTIVE } = require("../enums/status");
+const { STATUS_INACTIVE } = require('../enums/status')
 
 module.exports = {
 

@@ -2,13 +2,20 @@ import axios from "axios";
 import { API_BASE_URL } from '../config/constants'
 import authHeader from '@/services/auth-header';
 
-const http = axios.create({
-		baseURL: API_BASE_URL,
-		headers: authHeader()
+// Create axios instance
+const http = axios.create({ baseURL: API_BASE_URL });
+
+// Add authentication headers to requests via interceptor
+http.interceptors.request.use(function(config) {
+		config.headers.Authorization = authHeader().Authorization;
+		return config;
 });
 
+// Intercept the response to resolve or to manage errors
 http.interceptors.response.use(
-		(response) => { return response },
+		(response) => {
+				return Promise.resolve(response.data);
+		},
 		(error) => {
 				if (error.response.status === 401) {
 						// console.log(error.response);
@@ -21,7 +28,7 @@ http.interceptors.response.use(
 						// that falls out of the range of 2xx
 						console.log(error.response.data);
 						console.log(error.response.status);
-						console.log(error.response.headers);
+						// console.log(error.response.headers);
 				}
 				else if (error.request) {
 						// The request was made but no response was received
@@ -33,7 +40,7 @@ http.interceptors.response.use(
 						// Something happened in setting up the request that triggered an Error
 						console.log('Error', error.message);
 				}
-				console.log(error.config);
+				// console.log(error.config);
 				return Promise.reject(error);
 		});
 

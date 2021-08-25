@@ -105,7 +105,7 @@ export default {
 
   mounted() {
     this.retrieveProjects();
-    this.retrieveMineProjects();
+    this.retrieveMyProjects();
   },
 
   methods: {
@@ -113,7 +113,7 @@ export default {
     async retrieveProjects() {
       this.projects = await ProjectsService.getAll(STATUS_ACTIVE);
     },
-    async retrieveMineProjects() {
+    async retrieveMyProjects() {
       this.myProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
     },
     getEnumName(index) {
