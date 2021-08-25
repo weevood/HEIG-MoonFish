@@ -70,10 +70,25 @@ const users = [
             email: 'banned@example.com',
             password: '$2b$05$Mikjrj.cYPyq/8VENW19n.TU42A9AQVHaalT4KUAyefN9DB.3UVhm' // banned1234
         }
+    },
+    {
+        user: {
+            id: 5,
+            uuid: uuid.v4(),
+            firstName: 'Thibaud',
+            lastName: 'Alt',
+            roleId: 1,
+            statusId: 2
+        },
+        auth: {
+            userId: 5,
+            email: 'thibaud.alt@gmail.com',
+            password: '$2a$05$7LP3W0G8PuZJ0Te.cAwfte6S5A3wQs/q3rbQQnF6U2Pms1wmTBq72' // 123456789
+        }
     }
 ]
 
-for (let i = 5; i <= 10; i++) {
+for (let i = 6; i <= 10; i++) {
     users.push({
         user: {
             id: i,
@@ -124,6 +139,7 @@ for (let i = 5; i <= 10; i++) {
 neo4j.deleteAll('User')
 for (const user of users) {
     try {
+
         neo4j.create('User', {
             uuid: user.user.uuid,
             tags: user.user.tags || null
@@ -134,7 +150,7 @@ for (const user of users) {
                 if (user.resume)
                     Resource.create(user.resume)
                         .then((resource) => {
-                            item.update({ resumeId: resource.id }, { where: item.id })
+                            // item.update({ resumeId: resource.id }, { where: item.id })
                         })
             })
             .then(() => {

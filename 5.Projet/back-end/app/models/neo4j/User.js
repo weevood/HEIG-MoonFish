@@ -30,7 +30,7 @@ module.exports = {
                 default: false,
             },
             status: {
-                type: 'string',
+                type: 'integer',
                 required: true,
                 default: STATUS_INACTIVE,
             }

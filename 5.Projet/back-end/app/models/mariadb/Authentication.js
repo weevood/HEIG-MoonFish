@@ -21,7 +21,7 @@ module.exports = {
 
         password: {
             type: DataTypes.STRING(64),
-            validate: { min: 32, max: 64 },
+            validate: { min: 16, max: 64 },
             allowNull: false
         },
 

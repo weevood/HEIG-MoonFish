@@ -1,6 +1,4 @@
 <template>
-  <AlertSuccess :message="message"/>
-  <AlertError :message="errorMessage && $t(`error.${ errorMessage }`)"/>
   <section class="container mb-6">
     <Form class="flex flex-col" @submit="updateProject" :validation-schema="schema" v-slot="{ errors }">
       <div class="mb-6 pt-3 rounded bg-gray-200">
@@ -42,14 +40,12 @@
 </template>
 
 <script>
-import AlertSuccess from "@/components/ui/AlertSuccess";
-import AlertError from "@/components/ui/AlertError";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
 
 export default {
   name: 'EditOrCreateProject',
-  components: { AlertSuccess, AlertError, Form, Field, ErrorMessage },
+  components: { Form, Field, ErrorMessage },
   emits: ['done'],
 
   props: {

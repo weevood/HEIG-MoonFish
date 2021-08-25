@@ -80,21 +80,25 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
     .then(function () {
         return mariadb.sequelize.sync(
             { force: DROP_DB } // On dev, drop and re-sync db
-        ).then(() => {
-            if (DROP_DB)
-                require('./data') // Load initial db data
-            app.listen(app.get('port'))
-        })
-    })
-    .then(function () {
-        return mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
-    })
-    .then(function () {
-        console.log('Database synchronised.')
-        if (DROP_DB)
-            require('./data/relations') // Load initial Neo4j relations
-    }, function (error) {
-        console.error(error)
+        )
+            .then(async () => {
+                if (DROP_DB) {
+                    // Load initial db data
+                    await require('./data')
+                    await new Promise(r => setTimeout(r, 5000));
+                }
+                app.listen(app.get('port'))
+                await mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+                console.log('Database synchronised.')
+                if (DROP_DB) {
+                    // Load initial Neo4j relations
+                    await require('./data/relations')
+                    await new Promise(r => setTimeout(r, 2000));
+                }
+                console.log('Relations created.')
+            }, function (error) {
+                console.error(error)
+            })
     })
 
 module.exports = app
