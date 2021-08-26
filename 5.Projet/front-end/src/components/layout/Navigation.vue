@@ -20,7 +20,8 @@
           <router-link to="/projects"
                        :class="$route.path === '/projects' ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
                        class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
             </svg>
@@ -46,7 +47,8 @@
           <router-link to="/teams"
                        :class="$route.path === '/teams' ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
                        class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
             </svg>
@@ -54,7 +56,7 @@
           </router-link>
 
           <ul class="pl-4">
-            <li v-for="(team, i) in myTeams" :key="`Team-${i}`">
+            <li v-for="(team, i) in myTeams.STATUS_ACTIVE" :key="`Team-${i}`">
               <router-link :to="`/teams/${team.uuid}`"
                            :class="$route.path === `/teams/${team.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
                            class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
@@ -138,11 +140,11 @@
     </ul>
   </nav>
 </template>
-
 <script>
 
 import TeamsService from "@/services/teams.service";
 import ProjectsService from "@/services/projects.service";
+import request from "@/utils/request";
 
 export default {
   name: 'Navigation',
@@ -151,7 +153,7 @@ export default {
     return {
       error: '',
       projects: [],
-      myTeams: [],
+      myTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] },
     };
   },
 
@@ -177,10 +179,10 @@ export default {
 
   methods: {
     async retrieveMyProjects() {
-      this.projects = await ProjectsService.getMine(this.currentUser.uuid);
+      this.projects = await request(ProjectsService.getMine(this.currentUser.uuid), this);
     },
     async retrieveMyTeams() {
-      this.myTeams = await TeamsService.getMine();
+      this.myTeams = await request(TeamsService.getMine(), this);
     }
   }
 

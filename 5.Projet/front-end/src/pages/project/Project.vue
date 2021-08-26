@@ -102,7 +102,7 @@
         </div>
       </div>
       <div v-if="onAddFeedback" class="mb-4 flex flex-col">
-        <StarRating v-model:rating="grade" increment="0.01" rounded-corners="true" padding="1"/>
+        <StarRating :increment=0.01 :padding=1 :rounded-corners=true v-model:rating="grade"/>
       </div>
       <DropZone v-if="onAddResource || grade > 0" @close="setGrade"/>
     </section>

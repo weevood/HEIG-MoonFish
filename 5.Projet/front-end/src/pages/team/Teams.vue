@@ -28,8 +28,8 @@
             <div>
               <p class="mb-2 text-sm font-medium text-gray-900">{{ team.name }}
                 - <span class="text-sm font-normal text-gray-800">7 {{ $t('Teams.members').toLowerCase() }}</span></p>
-              <StarRating :rating="team.grade" rounded-corners="true" read-only="true" star-size="20" increment="0.5"
-                          :show-rating="false" style="margin-left: -5px"/>
+              <StarRating :rating="team.grade" :rounded-corners=true :read-only=true :star-size=20 :increment=0.5
+                          :show-rating=false style="margin-left: -5px"/>
             </div>
           </router-link>
           <div class="flex flex-col">
@@ -73,7 +73,7 @@
 
 <script>
 import TeamsService from '@/services/teams.service';
-import { STATUS_ACTIVE, STATUS_BANNED, STATUS_INACTIVE } from '@/enums/status';
+import { STATUS_ACTIVE } from '@/enums/status';
 import inArray from "@/utils/inArray";
 import request from "@/utils/request";
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
@@ -112,20 +112,9 @@ export default {
       this.teams = await request(TeamsService.getAll(STATUS_ACTIVE), this);
     },
     async retrieveMyTeams() {
-      const myTeams = await request(TeamsService.getMine(), this);
-      for (const team of myTeams) {
-        switch (team.status)
-        {
-          case STATUS_INACTIVE:
-            this.myTeams.STATUS_INACTIVE.push(team.uuid)
-            break
-          case STATUS_ACTIVE:
-            this.myTeams.STATUS_ACTIVE.push(team.uuid)
-            break
-          case STATUS_BANNED:
-            this.myTeams.STATUS_BANNED.push(team.uuid)
-            break
-        }
+      this.myTeams = await request(TeamsService.getMine('uuid'), this)
+      for (const s in this.myTeams) {
+        this.myTeams[s] = this.myTeams[s].map(team => {return team.uuid});
       }
     },
     join(uuid) {

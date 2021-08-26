@@ -1,9 +1,11 @@
 import http from '@/http'
+import CacheService from '@/services/cache.service';
+import { STATUS_ACTIVE, STATUS_BANNED, STATUS_INACTIVE } from "@/enums/status";
 
 class TeamsService {
 
 		/**
-		 * get
+		 * get  Retrieve a team by its uuid
 		 *
 		 * @param {uuid} uuid the teams uuid
 		 * @return {Promise<unknown>}
@@ -13,7 +15,7 @@ class TeamsService {
 		}
 
 		/**
-		 * getAll
+		 * getAll   Get all teams, optionally with a specified status
 		 *
 		 * @param {int} status
 		 * @return {Promise<AxiosResponse<any>>}
@@ -27,16 +29,34 @@ class TeamsService {
 		}
 
 		/**
-		 * getMine
+		 * getMine  Retrieve all team linked to the connected user
 		 *
-		 * @return {Promise<AxiosResponse<any>>}
+		 * @return {Promise<{STATUS_INACTIVE: *[], STATUS_BANNED: *[], STATUS_ACTIVE: *[]}>}
 		 */
 		getMine() {
-				return http.get('/profile/teams')
+				return CacheService.get('myTeams') || http.get('/profile/teams').then((teams) => {
+						let myTeams = { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] };
+						for (const team of teams) {
+								switch (team.relation.status)
+								{
+										case STATUS_INACTIVE:
+												myTeams.STATUS_INACTIVE.push(team)
+												break
+										case STATUS_ACTIVE:
+												myTeams.STATUS_ACTIVE.push(team)
+												break
+										case STATUS_BANNED:
+												myTeams.STATUS_BANNED.push(team)
+												break
+								}
+						}
+						CacheService.set('myTeams', myTeams)
+						return myTeams;
+				})
 		}
 
 		/**
-		 * getMembers
+		 * getMembers   Retrieve all members of a team
 		 *
 		 * @param {uuid} uuid the teams uuid
 		 * @return {Promise<AxiosResponse<any>>}
@@ -46,7 +66,7 @@ class TeamsService {
 		}
 
 		/**
-		 * getProjects
+		 * getProjects  Retrieve all projects of a team (mandates and develops ones)
 		 *
 		 * @param {uuid} uuid the teams uuid
 		 * @return {Promise<AxiosResponse<any>>}
@@ -68,22 +88,27 @@ class TeamsService {
 		}
 
 		join(uuid) {
+				CacheService.del('myTeams');
 				return http.put(`/teams/${ uuid }/join`)
 		}
 
 		leave(uuid) {
+				CacheService.del('myTeams');
 				return http.put(`/teams/${ uuid }/leave`)
 		}
 
 		accept(teamUuid, userUuid) {
+				CacheService.del('myTeams');
 				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/accept`)
 		}
 
 		ban(teamUuid, userUuid) {
+				CacheService.del('myTeams');
 				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/ban`)
 		}
 
 		giveOwnership(teamUuid, userUuid) {
+				CacheService.del('myTeams');
 				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/giveOwnership`)
 		}
 

@@ -3,7 +3,7 @@
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
       <div>
         <h1 class="text-blue-900 text-3xl font-medium pb-4">{{ team.name }}</h1>
-        <StarRating :rating="grade" rounded-corners="true" padding="1" read-only="true" star-size="25" increment="0.01"
+        <StarRating :rating=grade :rounded-corners=true :padding=1 :read-only=true :star-size=25 :increment=0.01
                     style="margin-left: -5px"/>
       </div>
       <button v-if="!edition && isOwner()" @click="edition = true"
@@ -48,8 +48,8 @@
                 <div v-if="inArray(project.status, finishedStatus)">
                   <p class="text-sm font-normal text-gray-700 my-2">
                     {{ `${ $t('Projects.end') }: ${ project.endDate }` }}</p>
-                  <StarRating :rating="project.mark" rounded-corners="true" read-only="true" star-size="20"
-                              increment="0.5" :show-rating="false" style="margin-left: -5px"/>
+                  <StarRating :rating="project.mark" :rounded-corners=true :read-only=true :star-size=20
+                              :increment=0.5 :show-rating=false style="margin-left: -5px"/>
                   <router-link :to="`/resources/${project.feedback}`" class="text-sm font-medium text-gray-900">
                     {{ $t('Projects.feedback') }} ->
                   </router-link>
@@ -158,9 +158,11 @@ export default {
   components: { EditOrCreateTeam, StarRating },
   watch: {
     $route() {
-      this.retrieveTeam();
-      this.retrieveTeamMembers();
-      this.retrieveTeamProjects();
+      if (this.$route.params.uuid) {
+        this.retrieveTeam();
+        this.retrieveTeamMembers();
+        this.retrieveTeamProjects();
+      }
     }
   },
 
@@ -205,6 +207,7 @@ export default {
     },
 
     async retrieveTeamMembers() {
+      this.members = { STATUS_INACTIVE: [], STATUS_ACTIVE: [] };
       const members = await request(TeamsService.getMembers(this.$route.params.uuid), this);
       for (const member of members) {
         switch (member.relation.status)

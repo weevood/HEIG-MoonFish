@@ -10,8 +10,22 @@ const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
  */
 const getMyTeams = async (req, res) => {
     try {
-        const { nodes, relations } = await getNodeRelations('User', req.user.uuid, RELATION_IS_MEMBER_OF)
-        res.status(200).json(await clearNodes(nodes))
+        let myTeams = []
+        await getNodeRelations('User', req.user.uuid, RELATION_IS_MEMBER_OF)
+            .then(async ({ nodes, relations }) => {
+                const teams = await clearNodes(nodes)
+                for (const [i, team] of teams.entries()) {
+                    myTeams.push({
+                        ...team,
+                        relation: {
+                            name: relations[i].type,
+                            isOwner: relations[i].properties.isOwner,
+                            status: relations[i].properties.status.low
+                        }
+                    })
+                }
+            })
+        res.status(200).json(myTeams)
     } catch (error) {
         handleError(res, error)
     }
