@@ -16,7 +16,7 @@
     <div v-if="!creation" class="container">
       <ul class="overflow-y-scroll" style="max-height: 80vh;">
         <li v-for="(team, i) in teams" :key="`Teams${i}`"
-            class="flex justify-between items-center p-4 mb-3 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+            class="flex justify-between items-center p-4 mb-3 bg-white border-2 border-gray-200 rounded-lg shadow-sm">
           <router-link :to="`/teams/${team.uuid}`" class="flex items-center">
             <div class="p-3 mr-4 bg-gray-500 text-white rounded-full" :class="team.color && `bg-${team.color}-500`">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -27,7 +27,9 @@
             </div>
             <div>
               <p class="mb-2 text-sm font-medium text-gray-900">{{ team.name }}
-                <span class="text-xs italic font-normal text-gray-600">- {{ team.members }} {{ $t('Teams.members').toLowerCase() }}</span></p>
+                <span class="text-xs italic font-normal text-gray-600">- {{
+                    team.members
+                  }} {{ $t('Teams.members').toLowerCase() }}</span></p>
               <StarRating :rating="team.grade" :rounded-corners=true :read-only=true :star-size=20 :increment=0.5
                           :show-rating=false style="margin-left: -5px"/>
             </div>
@@ -55,15 +57,19 @@
               <span v-if="inArray(team.uuid, myTeams.STATUS_BANNED)"
                     class="mt-2 text-xs italic text-gray-500">{{ $t('Teams.banned') }}</span>
             </div>
-            <button v-else @click="leave(team.uuid)" :disabled="inArray(team.uuid, myTeams.OWNERSHIP)"
-                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
-                   stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6"/>
-              </svg>
-              <span>{{ $t('Teams.leave') }}</span>
-            </button>
+            <div v-else class="flex flex-col">
+              <button @click="leave(team.uuid)" :disabled="inArray(team.uuid, myTeams.OWNERSHIP)"
+                      class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6"/>
+                </svg>
+                <span>{{ $t('Teams.leave') }}</span>
+              </button>
+              <span v-if="inArray(team.uuid, myTeams.OWNERSHIP)"
+                    class="mt-2 text-xs italic text-gray-500">{{ $t('Teams.owner') }}</span>
+            </div>
           </div>
         </li>
       </ul>
@@ -109,6 +115,12 @@ export default {
   methods: {
     inArray,
 
+    refresh(team) {
+      this.retrieveMyTeams();
+      this.teams.unshift(team)
+      this.creation = false;
+    },
+
     async retrieveTeams() {
       this.teams = await request(TeamsService.getAll(STATUS_ACTIVE), this);
     },
@@ -133,13 +145,8 @@ export default {
         }
       }, this);
       await request(TeamsService.leave(uuid, this));
-    },
+    }
 
-    refresh(team) {
-      this.retrieveMyTeams();
-      this.teams.unshift(team)
-      this.creation = false;
-    },
   }
 };
 </script>

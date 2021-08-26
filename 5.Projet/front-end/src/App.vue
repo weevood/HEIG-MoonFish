@@ -79,9 +79,12 @@ export default {
     errorMessage() {
       if (this.msg && this.msg.status !== 'OK')
       {
+        if (this.msg.data && this.msg.data.error && this.msg.data.error.msg) {
+          return { message: `[${ this.msg.status }] ${ this.$t(`error.${ this.msg.data.error.msg }`) } ` }
+        }
         return {
           title: this.msg.title,
-          message: this.msg.message.startsWith('error.') ? this.$t(`error.${ this.msg.message }`) : this.msg.message,
+          message: this.msg.message.startsWith('error.') ? this.$t(`error.${ this.msg.message }`) : this.msg.message
         }
       }
       return {}

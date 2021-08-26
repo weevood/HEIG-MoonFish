@@ -1,8 +1,8 @@
 const { validateCreateTeam } = require('./validateCreateTeam')
 const { validateDeleteTeam } = require('./validateDeleteTeam')
 const { validateGetTeam } = require('./validateGetTeam')
-const { validateJoinTeam } = require('./validateJoinTeam')
-const { validateLeaveTeam } = require('./validateLeaveTeam')
+const { validateJoinLeaveTeam } = require('./validateJoinLeaveTeam')
+const { validateTeamUserRelation } = require('./validateTeamUserRelation')
 const { validateUpdateTeam } = require('./validateUpdateTeam')
 const { validateUpdateTeamStatus } = require('./validateUpdateTeamStatus')
 
@@ -10,8 +10,8 @@ module.exports = {
     validateCreateTeam,
     validateDeleteTeam,
     validateGetTeam,
-    validateJoinTeam,
-    validateLeaveTeam,
+    validateJoinLeaveTeam,
+    validateTeamUserRelation,
     validateUpdateTeam,
     validateUpdateTeamStatus,
 }

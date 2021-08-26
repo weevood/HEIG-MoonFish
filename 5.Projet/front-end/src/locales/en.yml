@@ -25,6 +25,7 @@ password:
   confirm: "Confirm password"
   match: "New and confirm passwords must match"
   change: "Change my password"
+  updated: "Your password has been updated"
 login: "Sign In"
 logout: "Sign Out"
 save: "Save"
@@ -115,6 +116,7 @@ Teams:
   requested: "Requested"
   accept: "Accept request"
   ban: "Ban definitely"
+  owner: "You are the owner"
   banned: "You have been banned"
   new: "Create a new team"
   edit: "Edit team details"
@@ -133,6 +135,7 @@ UsersEdit:
 Profile:
   title: "My profile"
   changePassword: "Change my password"
+  updated: "Your profile has been updated"
 
 # ----- Messages -----
 VERIFY_SUCCESS: "Your email address has been verified, you can now sign-in."
@@ -144,3 +147,4 @@ error:
   INVALID_CREDENTIALS: "You have entered an invalid username or password."
   EMAIL_ALREADY_EXISTS: "This email is already associated with an account, you can connect with it."
   SIGN_IN_AGAIN: "Please sign in again."
+  OLD_PASSWORD_INCORRECT: "Your old password is incorrect, please try again."

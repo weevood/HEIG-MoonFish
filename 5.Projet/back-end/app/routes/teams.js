@@ -16,14 +16,15 @@ const {
     leaveTeam,
     updateTeam,
     updateTeamStatus,
+    updateTeamUserRelation,
 } = require('../controllers/teams')
 
 const {
     validateCreateTeam,
     validateDeleteTeam,
     validateGetTeam,
-    validateJoinTeam,
-    validateLeaveTeam,
+    validateJoinLeaveTeam,
+    validateTeamUserRelation,
     validateUpdateTeam,
     validateUpdateTeamStatus,
 } = require('../controllers/teams/validators')
@@ -42,7 +43,7 @@ router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validate
 router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeam)
 
 // Get all team members
-router.get('/:uuid/members', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeamMembers)
+router.get('/:uuid/users', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeamMembers)
 
 // Get all team projects
 router.get('/:uuid/projects', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeamProjects)
@@ -53,25 +54,16 @@ router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, va
 // Update a team status
 router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateUpdateTeamStatus, updateTeamStatus)
 
+// Accept a user by uuid (update IS_MEMBER_OF status)
+router.patch('/:teamUuid/users/:userUuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateTeamUserRelation, updateTeamUserRelation)
+
 // Join a team (IS_MEMBER_OF)
-router.put('/:uuid/join', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateJoinTeam, joinTeam)
+router.put('/:uuid/join', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateJoinLeaveTeam, joinTeam)
 
 // Leave a team (IS_MEMBER_OF)
-router.put('/:uuid/leave', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateLeaveTeam, leaveTeam)
+router.put('/:uuid/leave', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateJoinLeaveTeam, leaveTeam)
 
 // Delete a team
 router.delete('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteTeam, deleteTeam)
-
-// Get all team users
-// TODO router.get('/:uuid/users', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeamUsers, getTeamUsers)
-
-// Accept a user by uuid (update IS_MEMBER_OF status)
-// TODO router.put('/:teamUuid/users/:userUuid/accept', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateAcceptTeamUser, acceptTeamUser)
-
-// Ban a user by uuid (update IS_MEMBER_OF status)
-// TODO router.put('/:teamUuid/users/:userUuid/ban', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateBanTeamUser, banTeamUser)
-
-// Give ownership to a user by uuid (update IS_MEMBER_OF isOwner)
-// TODO router.put('/:teamUuid/users/:userUuid/giveOwnership', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDelegateOwnership, delegateOwnership)
 
 module.exports = router

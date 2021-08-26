@@ -37,15 +37,21 @@ class TeamsService {
 				return CacheService.get('myTeams') || http.get('/profile/teams').then((teams) => {
 						let myTeams = { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [], OWNERSHIP: [] };
 						for (const team of teams) {
+								if (team.status !== STATUS_ACTIVE) {
+										continue;
+								}
 								switch (team.relation.status)
 								{
 										case STATUS_INACTIVE:
 												myTeams.STATUS_INACTIVE.push(team)
 												break
 										case STATUS_ACTIVE:
-												myTeams.STATUS_ACTIVE.push(team)
 												if (team.relation.isOwner) {
+														myTeams.STATUS_ACTIVE.unshift(team)
 														myTeams.OWNERSHIP.push(team)
+												}
+												else {
+														myTeams.STATUS_ACTIVE.push(team)
 												}
 												break
 										case STATUS_BANNED:
@@ -65,7 +71,7 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		getMembers(uuid) {
-				return http.get(`/teams/${ uuid }/members`)
+				return http.get(`/teams/${ uuid }/users`)
 		}
 
 		/**
@@ -96,7 +102,6 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		update(team) {
-				CacheService.del('myTeams');
 				return http.patch(`/teams/${ team.uuid }`, team)
 		}
 
@@ -111,29 +116,60 @@ class TeamsService {
 				return http.delete(`/teams/${ uuid }`)
 		}
 
+		/**
+		 * join     Leave a team
+		 *
+		 * @param {uuid} uuid the team uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		join(uuid) {
 				CacheService.del('myTeams');
 				return http.put(`/teams/${ uuid }/join`)
 		}
 
+		/**
+		 * leave    Join a team
+		 *
+		 * @param {uuid} uuid the team uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		leave(uuid) {
 				CacheService.del('myTeams');
 				return http.put(`/teams/${ uuid }/leave`)
 		}
 
+		/**
+		 * accept   Accept a user request
+		 *
+		 * @param {uuid} teamUuid the team uuid
+		 * @param {uuid} userUuid the member uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		accept(teamUuid, userUuid) {
-				CacheService.del('myTeams');
-				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/accept`)
+				return http.patch(`/teams/${ teamUuid }/users/${ userUuid }`, { action: 'accept' })
 		}
 
+		/**
+		 * ban  Ban a user definitely
+		 *
+		 * @param {uuid} teamUuid the team uuid
+		 * @param {uuid} userUuid the member uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		ban(teamUuid, userUuid) {
-				CacheService.del('myTeams');
-				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/ban`)
+				return http.patch(`/teams/${ teamUuid }/users/${ userUuid }`, { action: 'ban' })
 		}
 
+		/**
+		 * giveOwnership    Transfer ownership to another team member
+		 *
+		 * @param {uuid} teamUuid the team uuid
+		 * @param {uuid} userUuid the member uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		giveOwnership(teamUuid, userUuid) {
 				CacheService.del('myTeams');
-				return http.put(`/teams/${ teamUuid }/users/:${ userUuid }/giveOwnership`)
+				return http.patch(`/teams/${ teamUuid }/users/${ userUuid }`, { action: 'giveOwnership' })
 		}
 
 }

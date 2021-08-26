@@ -14,7 +14,7 @@
         <li v-for="(team, i) in teams" :key="`Teams-${i}`"
             class="flex flex-col w-1/3 mb-4">
           <div
-              class="flex flex-col px-4 py-6 mx-2 content-center bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+              class="flex flex-col px-4 py-6 mx-2 content-center bg-white border-2 border-gray-200 rounded-lg shadow-sm">
             <router-link :to="`/teams/${team.uuid}`" class="flex items-center">
               <div :class="`p-3 mr-4 bg-${team.color}-500 text-white rounded-full`">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -37,10 +37,18 @@
 <script>
 
 import UsersService from "@/services/users.service";
+import request from "@/utils/request";
 
 export default {
   name: 'User',
-  watch: { $route() { this.retrieveUserAndTeams() } },
+  watch: {
+    $route() {
+      if (this.$route.name === 'user') {
+        this.retrieveUser();
+        this.retrieveUserTeams();
+      }
+    }
+  },
 
   data() {
     return {
@@ -50,14 +58,20 @@ export default {
   },
 
   mounted() {
-    this.retrieveUserAndTeams();
+    this.retrieveUser();
+    this.retrieveUserTeams();
   },
 
   methods: {
-    async retrieveUserAndTeams() {
-      this.user = await UsersService.get(this.$route.params.uuid);
-      this.teams = await UsersService.getTeams(this.$route.params.uuid);
+
+    async retrieveUser() {
+      this.user = await request(UsersService.get(this.$route.params.uuid), this);
     },
+
+    async retrieveUserTeams() {
+      this.teams = await request(UsersService.getTeams(this.$route.params.uuid), this);
+    }
+
   }
 };
 </script>

@@ -18,14 +18,9 @@
     </div>
     <EditOrCreateTeam v-if="edition" :uuid="team.uuid" :name="team.name" :color="team.color" @done="refresh"/>
     <section class="container">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus est massa, interdum non laoreet quis, vehicula
+      <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus est massa, interdum non laoreet quis, vehicula
         eget ligula. Mauris a est metus. Aliquam auctor est non nunc tempus, non vehicula justo gravida. Morbi nec
-        sollicitudin magna. Morbi iaculis iaculis erat a fermentum. Cras vitae ipsum urna. Mauris ac mi vehicula,
-        tincidunt diam vel, posuere elit. Sed non feugiat magna. Vivamus gravida pretium ipsum, ut tempus diam cursus
-        vel. Aliquam malesuada felis eu accumsan malesuada. In mattis faucibus lorem, eget consequat risus tincidunt ac.
-        Sed accumsan venenatis purus, id egestas leo. Suspendisse a convallis nulla. Donec cursus ligula sed risus
-        posuere, a malesuada est viverra. In eu sem egestas, scelerisque lacus in, venenatis dui. Mauris dignissim
-        placerat odio, id feugiat ipsum efficitur sed.</p>
+        sollicitudin magna. Morbi iaculis iaculis erat a fermentum. Cras vitae ipsum urna. Mauris ac mi vehicula.</p>
     </section>
     <section class="container my-6">
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Projects.title') }}</h2>
@@ -33,7 +28,7 @@
         <li v-for="(project, i) in projects" :key="`Projects-${i}`"
             class="flex flex-col w-1/3 mb-4">
           <div
-              class="flex justify-between items-center p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+              class="flex justify-between items-center p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm">
             <router-link :to="`/projects/${project.uuid}`" class="flex items-center">
               <div>
                 <p class="text-sm font-medium text-gray-900">
@@ -67,7 +62,7 @@
         <li v-for="(member, i) in members.STATUS_ACTIVE" :key="`Members-ACTIVE-${i}`"
             class="flex flex-col w-1/3 mb-4">
           <div
-              class="flex flex-col px-4 py-6 mx-2 content-center bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+              class="flex flex-col px-4 py-6 mx-2 content-center bg-white border-2 border-gray-200 rounded-lg shadow-sm">
             <router-link :to="`/users/${member.uuid}`" class="flex items-center">
               <div class="p-3 mr-4 bg-gray-500 text-white rounded-full" :class="team.color && `bg-${team.color}-500`">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -79,7 +74,7 @@
               <div>
                 <p class="mb-2 text-sm font-medium text-gray-900">
                   {{ member.firstName }} {{ member.lastName }}
-                  <span v-if="isOwner(member.uuid)" class="text-gray-500">- {{ $t('owner') }}</span>
+                  <span v-if="isOwner(member.uuid)" class="text-gray-600">- {{ $t('owner') }}</span>
                 </p>
                 <p class="text-sm font-normal text-gray-800">{{ member.phone }}</p>
               </div>
@@ -112,7 +107,7 @@
         <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
           <li v-for="(member, i) in members.STATUS_INACTIVE" :key="`Members-INACTIVE-${i}`"
               class="flex flex-col w-1/3 mb-4">
-            <div class="flex flex-col p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+            <div class="flex flex-col p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm">
               <router-link :to="`/users/${member.uuid}`" class="flex items-center">
                 <div class="p-3 mr-4 bg-gray-500 text-white rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -159,7 +154,8 @@ export default {
   components: { EditOrCreateTeam, StarRating },
   watch: {
     $route() {
-      if (this.$route.params.uuid) {
+      if (this.$route.name === 'team') {
+        this.edition = false;
         this.retrieveTeam();
         this.retrieveTeamMembers();
         this.retrieveTeamProjects();
@@ -198,6 +194,21 @@ export default {
   methods: {
     inArray,
 
+    refresh(team) {
+      this.team.name = team.name;
+      this.team.color = team.color;
+      this.edition = false;
+    },
+
+    isOwner(uuid = this.currentUser.uuid) {
+      for (const member of this.members.STATUS_ACTIVE) {
+        if (member.relation.isOwner && member.uuid === uuid) {
+          return true;
+        }
+      }
+      return false;
+    },
+
     async retrieveTeam() {
       this.team = await request(TeamsService.get(this.$route.params.uuid), this);
     },
@@ -228,32 +239,42 @@ export default {
       this.isOwner();
     },
 
-    isOwner(uuid = this.currentUser.uuid) {
-      for (const member of this.members.STATUS_ACTIVE) {
-        if (member.relation.isOwner && member.uuid === uuid) {
+    async accept(uuid) {
+      this.members.STATUS_INACTIVE.some(function(user, i) {
+        if (user.uuid === uuid) {
+          this.members.STATUS_ACTIVE.push(user);
+          this.members.STATUS_INACTIVE.splice(i, 1);
           return true;
         }
-      }
-      return false;
+      }, this);
+      await request(TeamsService.accept(this.team.uuid, uuid));
     },
 
-    accept(uuid) {
-      TeamsService.accept(this.team.uuid, uuid);
+    async ban(uuid) {
+      this.members.STATUS_ACTIVE.some(function(user, i) {
+        if (user.uuid === uuid) {
+          this.members.STATUS_ACTIVE.splice(i, 1);
+          return true;
+        }
+      }, this);
+      await request(TeamsService.ban(this.team.uuid, uuid));
     },
 
-    ban(uuid) {
-      TeamsService.ban(this.team.uuid, uuid);
-    },
-
-    giveOwnership(uuid) {
-      TeamsService.giveOwnership(this.team.uuid, uuid);
-    },
-
-    refresh(team) {
-      this.team.name = team.name;
-      this.team.color = team.color;
-      this.edition = false;
-    },
+    async giveOwnership(uuid) {
+      this.members.STATUS_ACTIVE.some(function(user, i) {
+        if (user.uuid === uuid) {
+          this.members.STATUS_ACTIVE[i].relation.isOwner = true;
+          return true;
+        }
+      }, this);
+      this.members.STATUS_ACTIVE.some(function(user, i) {
+        if (user.uuid === this.currentUser.uuid) {
+          this.members.STATUS_ACTIVE[i].relation.isOwner = false;
+          return true;
+        }
+      }, this);
+      await request(TeamsService.giveOwnership(this.team.uuid, uuid));
+    }
 
   }
 

@@ -4,7 +4,7 @@ const { check } = require('express-validator')
 /**
  * Validates update item request
  */
-const validateJoinTeam = [
+const validateJoinLeaveTeam = [
     check('uuid')
         .exists()
         .withMessage('MISSING')
@@ -18,4 +18,4 @@ const validateJoinTeam = [
     }
 ]
 
-module.exports = { validateJoinTeam }
+module.exports = { validateJoinLeaveTeam }

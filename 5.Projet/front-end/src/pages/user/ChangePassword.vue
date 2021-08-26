@@ -8,7 +8,7 @@
     <section class="container">
       <Form class="flex flex-col" @submit="changePassword" :validation-schema="schema"
             v-slot="{ errors }">
-        <div class="mr-1 mb-6 pt-3 rounded bg-gray-200">
+        <div class="mb-6 pt-3 rounded bg-gray-200">
           <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="oldPassword">{{
               $t('password.old')
             }}</label>
@@ -16,7 +16,7 @@
                  class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
           <ErrorMessage name="oldPassword" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
         </div>
-        <div class="mr-1 mb-6 pt-3 rounded bg-gray-200">
+        <div class="mb-6 pt-3 rounded bg-gray-200">
           <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="password">{{
               $t('password.new')
             }}</label>
@@ -24,7 +24,7 @@
                  class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
           <ErrorMessage name="password" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
         </div>
-        <div class="ml-1 mb-6 pt-3 rounded bg-gray-200">
+        <div class="mb-6 pt-3 rounded bg-gray-200">
           <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3"
                  for="confirmPassword">{{ $t('password.confirm') }}</label>
           <Field id="confirmPassword" name="confirmPassword" type="password"
@@ -51,6 +51,8 @@ import AlertSuccess from "@/components/ui/AlertSuccess";
 import AlertError from "@/components/ui/AlertError";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
+import request from "@/utils/request";
+import ProfileService from "@/services/profile.service";
 
 export default {
   name: 'ChangePassword',
@@ -105,26 +107,19 @@ export default {
   },
 
   methods: {
-    changePassword(user) {
+
+    async changePassword(user) {
       this.loading = true;
-      console.log(user);
-      // TODO
-      // this.$store.dispatch('auth/reset',
-      //         {
-      //           verification: this.$route.params.uuid,
-      //           email: user.email,
-      //           password: user.password
-      //         })
-      //     .then(
-      //         () => {
-      //           this.$router.push('/login?message=RESET_SUCCESS');
-      //         },
-      //         (error) => {
-      //           this.loading = false;
-      //           this.message = error.msg || error.toString();
-      //         }
-      //     );
+      this.$emit('msg', { status: 'OK', message: 'password.updated' })
+      await request(ProfileService.updatePwd(
+          {
+            old: user.oldPassword,
+            new: user.confirmPassword,
+          }
+      ), this)
+      this.loading = false;
     }
+
   }
 
 };

@@ -1,20 +1,25 @@
-import { TEAMS, USERS } from "../../config/data";
+import http from "@/http";
 
 class UsersService {
 
+		/**
+		 * get  Retrieve a user by its uuid
+		 *
+		 * @param {uuid} uuid the user uuid
+		 * @return {Promise<unknown>}
+		 */
 		get(uuid) {
-				return new Promise((resolve) => {
-						resolve(USERS.find(user => user.uuid === uuid))
-				});
-				// return http.get(`/users/${ uuid }`);
+				return http.get(`/users/${ uuid }`)
 		}
 
-		// eslint-disable-next-line no-unused-vars
+		/**
+		 * getTeams  Retrieve all teams linked to a user
+		 *
+		 * @param {uuid} uuid the user uuid
+		 * @return {Promise<unknown>}
+		 */
 		getTeams(uuid) {
-				return new Promise((resolve) => {
-						resolve([TEAMS[0], TEAMS[1], TEAMS[3]])
-				});
-				// return http.get(`/users/${ uuid }/teams`);
+				return http.get(`/users/${ uuid }/teams`);
 		}
 }
 

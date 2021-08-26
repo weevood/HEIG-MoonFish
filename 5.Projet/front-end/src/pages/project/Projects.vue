@@ -18,7 +18,7 @@
         <li v-for="(project, i) in projects" :key="`Project${i}`"
             class="flex flex-col w-1/3 mb-4">
           <div
-              class="flex justify-between items-center p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
+              class="flex justify-between items-center p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm">
             <router-link :to="`/projects/${project.uuid}`" class="flex items-center">
               <div>
                 <p class="text-sm font-medium text-gray-900">

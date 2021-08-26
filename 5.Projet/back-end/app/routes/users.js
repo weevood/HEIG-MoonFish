@@ -3,7 +3,7 @@ const router = express.Router()
 const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
 const { requiredRole } = require('../controllers/auth')
-const { ROLE_ADMIN, ROLE_MODERATOR } = require('../models/enums/roles')
+const { ROLE_USER, ROLE_ADMIN, ROLE_MODERATOR } = require('../models/enums/roles')
 
 const {
     banUser,
@@ -12,6 +12,7 @@ const {
     getUserBankAccounts,
     getUserNotifications,
     getUserResources,
+    getUserTeams,
     getUsers,
     giveUserRole,
     updateUser,
@@ -32,7 +33,7 @@ const {
 router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getUsers)
 
 // Get a user by id
-router.get('/:uuid', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUser)
+router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetUser, getUser)
 
 // Get aall user bank accounts
 router.get('/:uuid/bankaccounts', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateGetUser, getUserBankAccounts)
@@ -42,6 +43,9 @@ router.get('/:uuid/notifications', requireAuth, requiredRole(ROLE_ADMIN), trimRe
 
 // Get all user resources
 router.get('/:uuid/resources', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetUser, getUserResources)
+
+// Get all user teams
+router.get('/:uuid/teams', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetUser, getUserTeams)
 
 // Update a user by id
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)

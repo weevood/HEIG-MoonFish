@@ -16,8 +16,8 @@
     </section>
     <section class="container">
       <Form class="flex flex-col" @submit="updateUser" :validation-schema="schema" v-slot="{ errors }">
-        <div class="h-96 overflow-y-auto">
-          <div v-for="(value, key) in currentUser" :key="`UserKey-${key}`">
+        <div class="overflow-y-auto" style="max-height: 60vh">
+          <div v-for="(value, key) in profile" :key="`UserKey-${key}`">
             <div v-if="inArray(key, whiteList)" class="mb-6 pt-3 rounded bg-gray-200">
               <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" :for="`${key}`">{{ $t(key) }}</label>
               <Field :id="`${key}`" :name="`${key}`" type="text" :value="value && `${value}`"
@@ -58,6 +58,8 @@ import AlertError from "@/components/ui/AlertError";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
 import inArray from '@/utils/inArray';
+import request from "@/utils/request";
+import ProfileService from "@/services/profile.service";
 
 export default {
   name: 'Profile',
@@ -80,11 +82,12 @@ export default {
           .max(2, this.$t('maxChars', { max: 2 })),
     });
     return {
+      schema,
       whiteList: ['city', 'country', 'firstName', 'lang', 'lastName', 'phone', 'state', 'street', 'zipCode'],
       loading: false,
       errorMessage: this.$route.query.error,
       message: this.$route.query.message,
-      schema
+      profile: null
     };
   },
 
@@ -104,6 +107,7 @@ export default {
   },
 
   mounted() {
+    this.retrieveProfile();
     if (!this.currentUser) {
       this.$router.push('/login');
     }
@@ -112,24 +116,22 @@ export default {
   methods: {
     inArray,
 
-    updateUser(user) {
-      this.loading = true;
-      console.log(user);
-      // TODO
-      // this.$store.dispatch('auth/login', user).then(
-      //     () => {
-      //       this.$router.push('/dashboard');
-      //     },
-      //     (error) => {
-      //       this.loading = false;
-      //       this.errorMessage = error.msg || error.toString();
-      //     }
-      // );
-    },
-
     changePassword() {
       this.$router.push('/profile/changePassword');
+    },
+
+    async retrieveProfile() {
+      this.profile = await request(ProfileService.get(), this);
+    },
+
+    async updateUser(user) {
+      this.loading = true;
+      this.$emit('msg', { status: 'OK', message: 'Profile.updated' })
+      await request(ProfileService.update(user), this)
+      await this.retrieveProfile();
+      this.loading = false;
     }
+
   }
 
 };

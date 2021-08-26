@@ -8,6 +8,7 @@ const { joinTeam } = require('./joinTeam')
 const { leaveTeam } = require('./leaveTeam')
 const { updateTeam } = require('./updateTeam')
 const { updateTeamStatus } = require('./updateTeamStatus')
+const { updateTeamUserRelation } = require('./updateTeamUserRelation')
 
 module.exports = {
     createTeam,
@@ -20,4 +21,5 @@ module.exports = {
     leaveTeam,
     updateTeam,
     updateTeamStatus,
+    updateTeamUserRelation,
 }
