@@ -29,6 +29,13 @@ class CacheService {
 				localStorage.removeItem(key);
 		}
 
+		/**
+		 * flush  Remove all cached keys
+		 */
+		flush() {
+				['myTeams'].forEach(key => this.del(key))
+		}
+
 }
 
 export default new CacheService()

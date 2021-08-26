@@ -3,7 +3,7 @@
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
       <div>
         <h1 class="text-blue-900 text-3xl font-medium pb-4">{{ team.name }}</h1>
-        <StarRating :rating=grade :rounded-corners=true :padding=1 :read-only=true :star-size=25 :increment=0.01
+        <StarRating :rating=team.grade :rounded-corners=true :padding=1 :read-only=true :star-size=25 :increment=0.01
                     style="margin-left: -5px"/>
       </div>
       <button v-if="!edition && isOwner()" @click="edition = true"
@@ -16,7 +16,7 @@
         <span>{{ $t('Teams.edit') }}</span>
       </button>
     </div>
-    <EditOrCreateTeam v-if="edition" :name="team.name" :color="team.color" @done="edition = false"/>
+    <EditOrCreateTeam v-if="edition" :uuid="team.uuid" :name="team.name" :color="team.color" @done="refresh"/>
     <section class="container">
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus est massa, interdum non laoreet quis, vehicula
         eget ligula. Mauris a est metus. Aliquam auctor est non nunc tempus, non vehicula justo gravida. Morbi nec
@@ -69,7 +69,7 @@
           <div
               class="flex flex-col px-4 py-6 mx-2 content-center bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
             <router-link :to="`/users/${member.uuid}`" class="flex items-center">
-              <div :class="`p-3 mr-4 bg-${team.color}-500 text-white rounded-full`">
+              <div class="p-3 mr-4 bg-gray-500 text-white rounded-full" :class="team.color && `bg-${team.color}-500`">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -108,6 +108,7 @@
       </ul>
       <div v-if="isOwner()">
         <h3 class="py-2 text-blue-900 text-1xl font-medium">{{ $t('Teams.requests') }}</h3>
+        <p v-if="!members.STATUS_INACTIVE.length" class="italic text-gray-600">{{ $t('Teams.noRequest') }}</p>
         <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
           <li v-for="(member, i) in members.STATUS_INACTIVE" :key="`Members-INACTIVE-${i}`"
               class="flex flex-col w-1/3 mb-4">
@@ -170,7 +171,6 @@ export default {
     return {
       edition: false,
       team: { uuid: '', name: '', color: '', ownerUuid: '' },
-      grade: 3,
       members: { STATUS_INACTIVE: [], STATUS_ACTIVE: [] },
       projects: [],
       finishedStatus: [PROJECT_STATUS_ABANDONED, PROJECT_STATUS_ENDED],
@@ -216,14 +216,18 @@ export default {
             this.members.STATUS_INACTIVE.push(member)
             break
           case STATUS_ACTIVE:
-            this.members.STATUS_ACTIVE.push(member)
+            if (member.relation.isOwner) {
+              this.members.STATUS_ACTIVE.unshift(member)
+            }
+            else {
+              this.members.STATUS_ACTIVE.push(member)
+            }
             break
         }
       }
       this.isOwner();
     },
 
-    // eslint-disable-next-line no-unused-vars
     isOwner(uuid = this.currentUser.uuid) {
       for (const member of this.members.STATUS_ACTIVE) {
         if (member.relation.isOwner && member.uuid === uuid) {
@@ -243,6 +247,12 @@ export default {
 
     giveOwnership(uuid) {
       TeamsService.giveOwnership(this.team.uuid, uuid);
+    },
+
+    refresh(team) {
+      this.team.name = team.name;
+      this.team.color = team.color;
+      this.edition = false;
     },
 
   }

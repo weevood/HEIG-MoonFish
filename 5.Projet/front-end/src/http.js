@@ -1,6 +1,7 @@
 import axios from "axios";
 import { API_BASE_URL } from '../config/constants'
 import authHeader from '@/services/auth-header';
+import AuthService from "@/services/auth.service";
 
 // Create axios instance
 const http = axios.create({ baseURL: API_BASE_URL });
@@ -20,7 +21,7 @@ http.interceptors.response.use(
 				if (error.response.status === 401) {
 						// console.log(error.response);
 						console.log('Interceptor: You are not authorized');
-						localStorage.removeItem('user');
+						AuthService.logout();
 						window.location.replace('/login?error=SIGN_IN_AGAIN');
 				}
 				else if (error.response) {

@@ -120,6 +120,7 @@ Teams:
   edit: "Edit team details"
   giveOwnership: "Give ownership"
   requests: "Requests"
+  noRequest: "No new request"
 TeamsEdit:
   title: "Edit teams"
 

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_BASE_URL } from '/config/constants'
+import CacheService from "@/services/cache.service";
 
 class AuthService {
 
@@ -33,6 +34,7 @@ class AuthService {
 		}
 
 		logout() {
+				CacheService.flush();
 				localStorage.removeItem('user');
 		}
 

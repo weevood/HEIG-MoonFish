@@ -19,6 +19,11 @@ module.exports = {
         default: 'blue',
     },
 
+    grade: {
+        type: 'float',
+        default: 0.0,
+    },
+
     status: {
         type: 'integer',
         required: true,

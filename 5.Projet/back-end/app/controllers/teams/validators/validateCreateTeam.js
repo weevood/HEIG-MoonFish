@@ -12,6 +12,13 @@ const validateCreateTeam = [
         .isEmpty()
         .withMessage('IS_EMPTY')
         .trim(),
+    check('color')
+        .optional()
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     (req, res, next) => {
         validateResult(req, res, next)
     }

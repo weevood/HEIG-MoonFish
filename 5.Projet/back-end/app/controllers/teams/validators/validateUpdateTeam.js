@@ -19,6 +19,13 @@ const validateUpdateTeam = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
+    check('color')
+        .optional()
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     (req, res, next) => {
         validateResult(req, res, next)
     }

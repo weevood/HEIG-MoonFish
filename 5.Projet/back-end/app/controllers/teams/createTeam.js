@@ -21,7 +21,10 @@ const createTeam = async (req, res) => {
                 uuid: uuid.v4(),
                 status: STATUS_ACTIVE
             })
-            await user.relateTo(team, 'isMemberOf', { isOwner: true })
+            await user.relateTo(team, 'isMemberOf', {
+                isOwner: true,
+                status: STATUS_ACTIVE
+            })
             res.status(201).json(await clearNode(team))
         }
     } catch (error) {

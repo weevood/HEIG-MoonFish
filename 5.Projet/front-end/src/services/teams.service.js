@@ -35,7 +35,7 @@ class TeamsService {
 		 */
 		getMine() {
 				return CacheService.get('myTeams') || http.get('/profile/teams').then((teams) => {
-						let myTeams = { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] };
+						let myTeams = { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [], OWNERSHIP: [] };
 						for (const team of teams) {
 								switch (team.relation.status)
 								{
@@ -44,6 +44,9 @@ class TeamsService {
 												break
 										case STATUS_ACTIVE:
 												myTeams.STATUS_ACTIVE.push(team)
+												if (team.relation.isOwner) {
+														myTeams.OWNERSHIP.push(team)
+												}
 												break
 										case STATUS_BANNED:
 												myTeams.STATUS_BANNED.push(team)
@@ -58,7 +61,7 @@ class TeamsService {
 		/**
 		 * getMembers   Retrieve all members of a team
 		 *
-		 * @param {uuid} uuid the teams uuid
+		 * @param {uuid} uuid the team uuid
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		getMembers(uuid) {
@@ -68,22 +71,43 @@ class TeamsService {
 		/**
 		 * getProjects  Retrieve all projects of a team (mandates and develops ones)
 		 *
-		 * @param {uuid} uuid the teams uuid
+		 * @param {uuid} uuid the team uuid
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		getProjects(uuid) {
 				return http.get(`/teams/${ uuid }/projects`)
 		}
 
+		/**
+		 * create   Create a new team
+		 *
+		 * @param {Object} data the new team data
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		create(data) {
+				CacheService.del('myTeams');
 				return http.post('/teams', data)
 		}
 
-		update(uuid, data) {
-				return http.patch(`/teams/${ uuid }`, data)
+		/**
+		 * update   Update a team data
+		 *
+		 * @param {Object} team the team data to update
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
+		update(team) {
+				CacheService.del('myTeams');
+				return http.patch(`/teams/${ team.uuid }`, team)
 		}
 
+		/**
+		 * delete   Remove definitely a team
+		 *
+		 * @param {uuid} uuid the team uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
 		delete(uuid) {
+				CacheService.del('myTeams');
 				return http.delete(`/teams/${ uuid }`)
 		}
 

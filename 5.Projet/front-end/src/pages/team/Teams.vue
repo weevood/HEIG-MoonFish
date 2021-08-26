@@ -12,9 +12,9 @@
         <span>{{ $t('Teams.new') }}</span>
       </button>
     </div>
-    <EditOrCreateTeam v-if="creation" @done="creation = false"/>
+    <EditOrCreateTeam v-if="creation" @done="refresh"/>
     <div v-if="!creation" class="container">
-      <ul>
+      <ul class="overflow-y-scroll" style="max-height: 80vh;">
         <li v-for="(team, i) in teams" :key="`Teams${i}`"
             class="flex justify-between items-center p-4 mb-3 bg-white border-2 border-gray-200 rounded-lg shadow-sm dark:bg-gray-800">
           <router-link :to="`/teams/${team.uuid}`" class="flex items-center">
@@ -27,7 +27,7 @@
             </div>
             <div>
               <p class="mb-2 text-sm font-medium text-gray-900">{{ team.name }}
-                - <span class="text-sm font-normal text-gray-800">7 {{ $t('Teams.members').toLowerCase() }}</span></p>
+                <span class="text-xs italic font-normal text-gray-600">- {{ team.members }} {{ $t('Teams.members').toLowerCase() }}</span></p>
               <StarRating :rating="team.grade" :rounded-corners=true :read-only=true :star-size=20 :increment=0.5
                           :show-rating=false style="margin-left: -5px"/>
             </div>
@@ -55,8 +55,8 @@
               <span v-if="inArray(team.uuid, myTeams.STATUS_BANNED)"
                     class="mt-2 text-xs italic text-gray-500">{{ $t('Teams.banned') }}</span>
             </div>
-            <button v-else @click="leave(team.uuid)"
-                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded inline-flex items-center">
+            <button v-else @click="leave(team.uuid)" :disabled="inArray(team.uuid, myTeams.OWNERSHIP)"
+                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -88,7 +88,7 @@ export default {
     return {
       creation: false,
       teams: [],
-      myTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] },
+      myTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [], OWNERSHIP: [] },
     };
   },
 
@@ -108,24 +108,38 @@ export default {
 
   methods: {
     inArray,
+
     async retrieveTeams() {
       this.teams = await request(TeamsService.getAll(STATUS_ACTIVE), this);
     },
+
     async retrieveMyTeams() {
       this.myTeams = await request(TeamsService.getMine('uuid'), this)
       for (const s in this.myTeams) {
-        this.myTeams[s] = this.myTeams[s].map(team => {return team.uuid});
+        this.myTeams[s] = this.myTeams[s].map(team => { return team.uuid });
       }
     },
-    join(uuid) {
-      TeamsService.join(uuid);
+
+    async join(uuid) {
+      this.myTeams.STATUS_INACTIVE.push(uuid);
+      await request(TeamsService.join(uuid, this));
     },
-    leave(uuid) {
-      TeamsService.leave(uuid);
+
+    async leave(uuid) {
+      this.myTeams.STATUS_ACTIVE.some(function(id, i) {
+        if (uuid === id) {
+          this.myTeams.STATUS_ACTIVE.splice(i, 1);
+          return true;
+        }
+      }, this);
+      await request(TeamsService.leave(uuid, this));
     },
-    create() {
-      TeamsService.create([]);
-    }
+
+    refresh(team) {
+      this.retrieveMyTeams();
+      this.teams.unshift(team)
+      this.creation = false;
+    },
   }
 };
 </script>
