@@ -33,7 +33,7 @@ class CacheService {
 		 * flush  Remove all cached keys
 		 */
 		flush() {
-				['myTeams'].forEach(key => this.del(key))
+				['myTeams', 'myProjects'].forEach(key => this.del(key))
 		}
 
 }

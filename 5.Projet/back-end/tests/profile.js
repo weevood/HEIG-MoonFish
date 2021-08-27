@@ -8,7 +8,7 @@ const mariadb = require('../app/models/mariadb')
 const Resource = mariadb.models.Resource
 const User = mariadb.models.User
 const { deleteItem, deleteNode } = require('../app/middleware/db')
-const faker = require("faker");
+const faker = require('faker')
 
 const loginDetails = {
     email: faker.internet.email(),

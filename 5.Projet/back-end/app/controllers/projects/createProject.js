@@ -6,7 +6,7 @@ const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { createNode } = require('../../middleware/db/createNode')
 const { findTeamNode } = require('../teams/helpers')
-const { PROJECT_STATUS_PLANNING } = require('../../models/enums/projectStatus')
+const { PROJECT_STATUS_PLANNING, PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
 const { setProjectInfo } = require('./helpers')
 const { createItem } = require('../../middleware/db')
 
@@ -35,7 +35,7 @@ const createProject = async (req, res) => {
         const projectNode = await createNode('Project', {
             ...data,
             uuid: project.uuid,
-            status: PROJECT_STATUS_PLANNING,
+            status: PROJECT_STATUS_PROPOSAL, // TODO PROJECT_STATUS_PLANNING
             deadline: new Date(data.deadline)
         })
         await team.relateTo(projectNode, 'mandates')

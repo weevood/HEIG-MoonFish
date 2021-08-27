@@ -29,7 +29,7 @@ class TeamsService {
 		}
 
 		/**
-		 * getMine  Retrieve all team linked to the connected user
+		 * getMine  Retrieve all teams linked to the connected user
 		 *
 		 * @return {Promise<{STATUS_INACTIVE: *[], STATUS_BANNED: *[], STATUS_ACTIVE: *[]}>}
 		 */

@@ -1,6 +1,7 @@
 <template>
   <section class="container mb-6">
-    <Form class="flex flex-col" @submit="updateProject" :validation-schema="schema" v-slot="{ errors }">
+    <Form class="flex flex-col" @submit="updateOrCreate" :validation-schema="schema" v-slot="{ errors }">
+      <Field hidden id="uuid" name="uuid" type="text" :value="uuid"/>
       <div class="mb-6 pt-3 rounded bg-gray-200">
         <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="title">{{ $t('title') }}</label>
         <Field id="title" name="title" type="text" :model="title"
@@ -8,7 +9,9 @@
         <ErrorMessage name="title" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
       </div>
       <div class="mb-6 pt-3 rounded bg-gray-200">
-        <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="description">{{ $t('description') }}</label>
+        <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="description">{{
+            $t('description')
+          }}</label>
         <Field id="description" name="description" type="text" :model="description"
                class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
         <ErrorMessage name="description" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
@@ -42,6 +45,8 @@
 <script>
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
+// import request from "@/utils/request";
+// import ProjectsService from "@/services/projects.service";
 
 export default {
   name: 'EditOrCreateProject',
@@ -49,6 +54,10 @@ export default {
   emits: ['done'],
 
   props: {
+    uuid: {
+      type: String,
+      default: ''
+    },
     title: {
       type: String,
       default: ''
@@ -95,10 +104,17 @@ export default {
 
   methods: {
 
-    updateProject(project) {
+    async updateOrCreate(project) {
       this.loading = true;
-      console.log(project);
-      this.$emit('done');
+      if (project.uuid) {
+        // Update existing project
+        // request(ProjectsService.update(project), this)
+      }
+      else {
+        // Create a new project
+        // project = await request(ProjectsService.create(project), this)
+      }
+      this.$emit('done', project);
     }
 
   }

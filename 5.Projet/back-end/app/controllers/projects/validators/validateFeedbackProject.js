@@ -13,14 +13,6 @@ const validateFeedbackProject = [
         .withMessage('IS_EMPTY')
         .isUUID(4)
         .withMessage('NOT_VALID_UUID'),
-    check('teamUuid')
-        .exists()
-        .withMessage('MISSING')
-        .not()
-        .isEmpty()
-        .withMessage('IS_EMPTY')
-        .isUUID(4)
-        .withMessage('NOT_VALID_UUID'),
     check('mark')
         .exists()
         .withMessage('MISSING')

@@ -9,7 +9,7 @@ const {
     PROJECT_STATUS_PLANNING,
     PROJECT_STATUS_ONGOING,
     PROJECT_STATUS_ENDED,
-    PROJECT_STATUS_ABANDONED
+    PROJECT_STATUS_ABANDONED, PROJECT_STATUS_PROPOSAL
 } = require('../app/models/enums/projectStatus')
 
 const projects = [
@@ -116,7 +116,7 @@ const projects = [
             id: 4,
             uuid: uuid.v4(),
             name: 'Project Y',
-            status: PROJECT_STATUS_ONGOING,
+            status: PROJECT_STATUS_PROPOSAL,
             deadline: new Date('01/01/2023'),
             tags: 'Java'
         },

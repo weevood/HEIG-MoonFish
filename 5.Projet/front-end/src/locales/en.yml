@@ -140,6 +140,7 @@ Profile:
 # ----- Messages -----
 VERIFY_SUCCESS: "Your email address has been verified, you can now sign-in."
 RESET_SUCCESS: "Your password has been changed, you can now sign-in."
+SIGNED_OUT: "You have been correctly signed out."
 
 # Errors
 

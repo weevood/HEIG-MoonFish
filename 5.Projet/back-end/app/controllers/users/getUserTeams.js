@@ -2,8 +2,8 @@ const { handleError } = require('../../middleware/utils')
 const { clearNodes } = require('../../middleware/utils/clearNodes')
 const { getNodeRelations } = require('../../middleware/db')
 const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
-const { matchedData } = require("express-validator");
-const { findUserByUuid } = require("./helpers");
+const { matchedData } = require('express-validator')
+const { findUserByUuid } = require('./helpers')
 
 /**
  * Get items function called by route
@@ -24,6 +24,7 @@ const getUserTeams = async (req, res) => {
                         relation: {
                             name: relations[i].type,
                             isOwner: relations[i].properties.isOwner,
+                            since: new Date(relations[i].properties.since),
                             status: relations[i].properties.status.low
                         }
                     })

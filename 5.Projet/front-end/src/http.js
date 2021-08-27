@@ -21,8 +21,10 @@ http.interceptors.response.use(
 				if (error.response.status === 401) {
 						// console.log(error.response);
 						console.log('Interceptor: You are not authorized');
-						AuthService.logout();
-						window.location.replace('/login?error=SIGN_IN_AGAIN');
+						if (localStorage.getItem('user')) {
+								AuthService.logout();
+								window.location.replace('/login?error=SIGN_IN_AGAIN');
+						}
 				}
 				else if (error.response) {
 						// The request was made and the server responded with a status code

@@ -14,6 +14,7 @@ const {
     feedbackProject,
     getProject,
     getProjectResources,
+    getProjectTeams,
     getProjects,
     updateProject,
     updateProjectStatus,
@@ -36,7 +37,7 @@ const {
  */
 
 // Get all projects
-router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getProjects)
+router.get('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getProjects)
 
 // Create a project (MANDATES)
 router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateProject, createProject)
@@ -53,14 +54,17 @@ router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR),
 // Get all project resources
 router.get('/:uuid/resources', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetProject, getProjectResources)
 
+// Get all project teams
+router.get('/:uuid/teams', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetProject, getProjectTeams)
+
 // Arbitrate a project (ARBITRATES)
-router.put('/:uuid/arbitrates', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateArbitrateProject, arbitrateProject)
+router.put('/:uuid/arbitrate', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateArbitrateProject, arbitrateProject)
 
 // Leave a project (APPLIES)
-router.put('/:uuid/applies', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateApplyProject, applyProject)
+router.put('/:uuid/apply', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateApplyProject, applyProject)
 
 // Leave a project (DEVELOPS)
-router.put('/:uuid/develops', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDevelopProject, developProject)
+router.put('/:uuid/develop', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDevelopProject, developProject)
 
 // Note and feedback a project (MANDATES mark + feedback)
 router.put('/:uuid/feedback', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateFeedbackProject, feedbackProject)

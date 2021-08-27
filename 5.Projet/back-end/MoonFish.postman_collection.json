@@ -580,6 +580,52 @@
 					"response": []
 				},
 				{
+					"name": "/profile/teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/profile/projects",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"profile",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/profile/projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/profile/teams",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"profile",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/profile",
 					"request": {
 						"method": "PATCH",
@@ -810,6 +856,30 @@
 							}
 						],
 						"url": {
+							"raw": "{{server}}/projects/c5c3aa22-5b82-40a1-9c13-05ab29fc3398/teams",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"projects",
+								"c5c3aa22-5b82-40a1-9c13-05ab29fc3398",
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/projects/:uuid/teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
 							"raw": "{{server}}/projects/c5c3aa22-5b82-40a1-9c13-05ab29fc3398/resources",
 							"host": [
 								"{{server}}"
@@ -966,7 +1036,7 @@
 					"response": []
 				},
 				{
-					"name": "/projects/:uuid/arbitrates",
+					"name": "/projects/:uuid/arbitrate",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -992,21 +1062,21 @@
 							]
 						},
 						"url": {
-							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/arbitrates",
+							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/arbitrate",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
 								"5b2eaa2e-a45f-4603-a387-e714ffa1586d",
-								"arbitrates"
+								"arbitrate"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/projects/:uuid/applies",
+					"name": "/projects/:uuid/apply",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -1037,21 +1107,21 @@
 							]
 						},
 						"url": {
-							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/applies",
+							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/apply",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
 								"5b2eaa2e-a45f-4603-a387-e714ffa1586d",
-								"applies"
+								"apply"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/projects/:uuid/develops",
+					"name": "/projects/:uuid/develop",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -1072,14 +1142,14 @@
 							]
 						},
 						"url": {
-							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/develops",
+							"raw": "{{server}}/projects/5b2eaa2e-a45f-4603-a387-e714ffa1586d/develop",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"projects",
 								"5b2eaa2e-a45f-4603-a387-e714ffa1586d",
-								"develops"
+								"develop"
 							]
 						}
 					},
@@ -1099,11 +1169,6 @@
 						"body": {
 							"mode": "urlencoded",
 							"urlencoded": [
-								{
-									"key": "teamUuid",
-									"value": "648039cb-4160-44d8-85ef-149bc54fd823",
-									"type": "text"
-								},
 								{
 									"key": "mark",
 									"value": "4",
@@ -1368,7 +1433,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/teams?orders[name]=DESC&limit=5&offset=0",
+							"raw": "{{server}}/teams?filters[status]=2&orders[name]=DESC&limit=5&offset=0",
 							"host": [
 								"{{server}}"
 							],
@@ -1378,8 +1443,7 @@
 							"query": [
 								{
 									"key": "filters[status]",
-									"value": "2",
-									"disabled": true
+									"value": "2"
 								},
 								{
 									"key": "orders[name]",
@@ -1409,13 +1473,62 @@
 							}
 						],
 						"url": {
-							"raw": "{{server}}/teams/3917aa96-59c3-4e96-86a3-92575287e23d",
+							"raw": "{{server}}/teams/3917aa96-59c3-4e96-86a3-92575287e23d/members",
 							"host": [
 								"{{server}}"
 							],
 							"path": [
 								"teams",
-								"3917aa96-59c3-4e96-86a3-92575287e23d"
+								"3917aa96-59c3-4e96-86a3-92575287e23d",
+								"members"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid/users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/430819c8-9096-4a94-9023-82b759199ab0/users",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"430819c8-9096-4a94-9023-82b759199ab0",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid/projects",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/teams/430819c8-9096-4a94-9023-82b759199ab0/projects",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"430819c8-9096-4a94-9023-82b759199ab0",
+								"projects"
 							]
 						}
 					},
@@ -1437,6 +1550,11 @@
 								{
 									"key": "name",
 									"value": "Purple Team",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "purple",
 									"type": "text"
 								}
 							]
@@ -1470,6 +1588,11 @@
 								{
 									"key": "name",
 									"value": "The Big Team",
+									"type": "text"
+								},
+								{
+									"key": "color",
+									"value": "red",
 									"type": "text"
 								}
 							]
@@ -1508,6 +1631,53 @@
 								"3917aa96-59c3-4e96-86a3-92575287e23d",
 								"status",
 								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/teams/:uuid/users/:uuid",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "action",
+									"value": "accept",
+									"type": "text"
+								},
+								{
+									"key": "action",
+									"value": "ban",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "action",
+									"value": "giveOwnership",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server}}/teams/430819c8-9096-4a94-9023-82b759199ab0/users/430819c8-9096-4a94-9023-82b759199ab0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"teams",
+								"430819c8-9096-4a94-9023-82b759199ab0",
+								"users",
+								"430819c8-9096-4a94-9023-82b759199ab0"
 							]
 						}
 					},
@@ -1730,6 +1900,30 @@
 								"users",
 								"5a45842d-d8e2-4567-b31a-ac44342d0e62",
 								"resources"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/:uuid/teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/users/5a45842d-d8e2-4567-b31a-ac44342d0e62/teams",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"5a45842d-d8e2-4567-b31a-ac44342d0e62",
+								"teams"
 							]
 						}
 					},

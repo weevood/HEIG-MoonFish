@@ -1,5 +1,4 @@
 const { findUserNode } = require('./findUserNode')
-const { buildErrObject } = require("../../../middleware/utils");
 
 /**
  * Find user by ID

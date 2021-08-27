@@ -14,7 +14,7 @@ const setProjectInfo = (req = {}, reqNode = {}) => {
         let project = {
             uuid: req.uuid,
             status: getEnumName(projectStatus, reqNode.status),
-            deadline: reqNode.deadline,
+            deadline: new Date(reqNode.deadline),
             tags: reqNode.tags.split(';')
         }
         if (typeof req['projects_translations'] !== 'undefined') {
@@ -29,7 +29,6 @@ const setProjectInfo = (req = {}, reqNode = {}) => {
         if (process.env.NODE_ENV !== 'production') {
             project = {
                 id: req.id,
-                uuid: req.uuid,
                 ...project
             }
         }

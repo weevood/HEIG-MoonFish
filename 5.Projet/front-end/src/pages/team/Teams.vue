@@ -126,9 +126,11 @@ export default {
     },
 
     async retrieveMyTeams() {
-      this.myTeams = await request(TeamsService.getMine('uuid'), this)
+      this.myTeams = await request(TeamsService.getMine(), this)
       for (const s in this.myTeams) {
-        this.myTeams[s] = this.myTeams[s].map(team => { return team.uuid });
+        if (this.myTeams[s]) {
+          this.myTeams[s] = this.myTeams[s].map(team => { return team.uuid });
+        }
       }
     },
 

@@ -5,7 +5,6 @@ const { matchedData } = require('express-validator')
 const { findTeamNode } = require('./helpers');
 const { RELATION_DEVELOPS, RELATION_MANDATES } = require('../../models/enums/relations')
 const { findProject, setProjectInfo } = require('../projects/helpers')
-const { setUserInfo, findUserByUuid } = require("../users/helpers");
 
 /**
  * Get items function called by route
@@ -23,14 +22,17 @@ const getTeamProjects = async (req, res) => {
                 for (const [i, projectNode] of projects.entries()) {
                     const project = await findProject(projectNode.uuid)
                     const projectData = await setProjectInfo(project, projectNode)
-                    let relData = {
-                        name: relations[i].type,
-                    }
-                    if (relations[i].properties.mark)
-                        relData.mark = relations[i].properties.mark.low
-                    if (relations[i].properties.feedback)
-                        relData.feedback = relations[i].properties.feedback.low
-                    teamProjects.push({ ...projectData, relation: relData })
+                    teamProjects.push({
+                        ...projectData,
+                        relation: {
+                            name: relations[i].type,
+                            startDate: relations[i].properties.startDate && new Date(relations[i].properties.startDate),
+                            endDate: relations[i].properties.endDate && new Date(relations[i].properties.endDate),
+                            publishDate: relations[i].properties.publishDate && new Date(relations[i].properties.publishDate),
+                            mark: relations[i].properties.mark?.low,
+                            feedback: relations[i].properties.feedback?.low
+                        }
+                    })
                 }
             })
         res.status(200).json(teamProjects)

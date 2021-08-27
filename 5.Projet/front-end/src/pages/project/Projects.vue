@@ -12,7 +12,7 @@
         <span>{{ $t('Projects.new') }}</span>
       </button>
     </div>
-    <EditOrCreateProject v-if="creation" @done="creation = false"/>
+    <EditOrCreateProject v-if="creation" @done="refresh"/>
     <div v-if="!creation" class="container">
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
         <li v-for="(project, i) in projects" :key="`Project${i}`"
@@ -20,51 +20,26 @@
           <div
               class="flex justify-between items-center p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm">
             <router-link :to="`/projects/${project.uuid}`" class="flex items-center">
-              <div>
+              <div class="relative">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 absolute top-0 right-0" fill="none"
+                     viewBox="-4 -4 32 32"
+                     stroke="#f1c40f" v-if="inArray(project.uuid, myProjects)">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+                </svg>
                 <p class="text-sm font-medium text-gray-900">
-                  {{ project.title }}<span class="text-gray-600"> - {{ getEnumName(project.status) }}</span>
+                  {{ project.title }}<span class="text-gray-600"> - {{ project.status.toUpperCase() }}</span>
                 </p>
                 <ul class="my-2" style="margin-left: -4px; margin-right: -4px">
-                  <li v-for="(tag, j) in project.tags.split(';')" :key="`Project-${i}-tags-${j}`"
-                      class="mx-1 text-xs inline-flex items-center font-bold leading-sm px-3 py-1 bg-blue-900 text-white rounded">{{ tag }}</li>
+                  <li v-for="(tag, j) in project.tags" :key="`Project-${i}-tags-${j}`"
+                      class="mx-1 text-xs inline-flex items-center font-bold leading-sm px-3 py-1 bg-blue-900 text-white rounded">
+                    {{ tag }}
+                  </li>
                 </ul>
                 <p class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
-                <p class="text-sm font-normal text-blue-900">Deadline: {{ format(project.deadline) }}</p>
+                <p class="text-xs font-bold text-blue-900">Deadline: {{ format(project.deadline) }}</p>
               </div>
             </router-link>
-            <!--          <div class="flex flex-col">-->
-            <!--            <button v-if="inArray(project.uuid, myProjects.STATUS_INACTIVE)" disabled-->
-            <!--                    class="bg-gray-500 text-white font-bold py-1 px-3 rounded inline-flex items-center cursor-not-allowed">-->
-            <!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"-->
-            <!--                   stroke="currentColor">-->
-            <!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-            <!--                      d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6"/>-->
-            <!--              </svg>-->
-            <!--              <span>{{ $t('Projects.requested') }}</span>-->
-            <!--            </button>-->
-            <!--            <div v-else-if="!inArray(project.uuid, myProjects.STATUS_ACTIVE)" class="flex flex-col">-->
-            <!--              <button @click="join(project.uuid)" :disabled="inArray(project.uuid, myProjects.STATUS_BANNED)"-->
-            <!--                      class="bg-green-500 hover:bg-green-600 text-white font-bold py-1 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">-->
-            <!--                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3 " fill="none" viewBox="0 0 24 24"-->
-            <!--                     stroke="currentColor">-->
-            <!--                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-            <!--                        d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>-->
-            <!--                </svg>-->
-            <!--                <span>{{ $t('Projects.join') }}</span>-->
-            <!--              </button>-->
-            <!--              <span v-if="inArray(project.uuid, myProjects.STATUS_BANNED)"-->
-            <!--                    class="mt-2 text-xs italic text-gray-500">{{ $t('Projects.banned') }}</span>-->
-            <!--            </div>-->
-            <!--            <button v-else @click="leave(project.uuid)"-->
-            <!--                    class="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-3 rounded inline-flex items-center">-->
-            <!--              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"-->
-            <!--                   stroke="currentColor">-->
-            <!--                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"-->
-            <!--                      d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6"/>-->
-            <!--              </svg>-->
-            <!--              <span>{{ $t('Projects.leave') }}</span>-->
-            <!--            </button>-->
-            <!--          </div>-->
           </div>
         </li>
       </ul>
@@ -74,13 +49,10 @@
 
 <script>
 import ProjectsService from '@/services/projects.service';
-import { STATUS_ACTIVE } from '@/enums/status';
 import inArray from '@/utils/inArray';
 import dateFormat from 'dateformat';
-import { getEnumName } from '@/enums/getEnumName';
 import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
-
-const projectStatus = require('@/enums/projectStatus')
+import request from "@/utils/request";
 
 export default {
   name: 'Projects',
@@ -110,27 +82,30 @@ export default {
 
   methods: {
     inArray,
-    async retrieveProjects() {
-      this.projects = await ProjectsService.getAll(STATUS_ACTIVE);
-    },
-    async retrieveMyProjects() {
-      this.myProjects = await ProjectsService.getMine(this.currentUser.uuid, 'uuid');
-    },
-    getEnumName(index) {
-      return getEnumName(projectStatus, index).toUpperCase()
-    },
+
     format(date) {
       return dateFormat(new Date(date), 'dd.mm.yyyy')
     },
-    join(uuid) {
-      ProjectsService.join(uuid);
+
+    refresh(project) {
+      this.retrieveMyProjects();
+      this.projects.unshift(project)
+      this.creation = false;
     },
-    leave(uuid) {
-      ProjectsService.leave(uuid);
+
+    async retrieveProjects() {
+      this.projects = await request(ProjectsService.getAll(), this);
     },
-    create(data = []) {
-      ProjectsService.create(data);
+
+    async retrieveMyProjects() {
+      this.myProjects = await request(ProjectsService.getMine(), this);
+      for (const s in this.myProjects) {
+        if (this.projects[s]) {
+          this.myProjects = this.myProjects[s].map(project => {return project.uuid});
+        }
+      }
     }
+
   }
 };
 </script>

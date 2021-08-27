@@ -1,7 +1,7 @@
 const { getNodes } = require('../app/middleware/db')
 const { findTeamsNodes } = require('../app/controllers/teams/helpers')
 const { findProjectsNodes } = require('../app/controllers/projects/helpers')
-const { STATUS_ACTIVE } = require("../app/models/enums/status");
+const { STATUS_ACTIVE } = require('../app/models/enums/status')
 
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;

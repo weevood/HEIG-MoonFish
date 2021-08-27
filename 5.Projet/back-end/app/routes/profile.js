@@ -14,6 +14,7 @@ const {
 const {
     changePassword,
     getMyTeams,
+    getMyProjects,
     getProfile,
     getTags,
     getBankAccounts,
@@ -40,6 +41,9 @@ router.get('/notifications', requireAuth, requiredRole(ROLE_USER), trimRequest.a
 
 // Get all user teams
 router.get('/teams', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getMyTeams)
+
+// Get all user projects
+router.get('/projects', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getMyProjects)
 
 // Update profile route
 router.patch('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProfile, updateProfile)

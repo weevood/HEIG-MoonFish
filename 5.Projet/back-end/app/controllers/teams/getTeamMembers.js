@@ -26,6 +26,7 @@ const getTeamMembers = async (req, res) => {
                         relation: {
                             name: relations[i].type,
                             isOwner: relations[i].properties.isOwner,
+                            since: new Date(relations[i].properties.since),
                             status: relations[i].properties.status.low
                         }
                     })
