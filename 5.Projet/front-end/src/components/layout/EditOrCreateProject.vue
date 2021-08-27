@@ -2,9 +2,26 @@
   <section class="container mb-6">
     <Form class="flex flex-col" @submit="updateOrCreate" :validation-schema="schema" v-slot="{ errors }">
       <Field hidden id="uuid" name="uuid" type="text" :value="uuid"/>
+      <div class="mb-6 pt-3 rounded bg-gray-200" :hidden="uuid !== ''">
+        <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="teamUuid">{{ $t('team') }}</label>
+        <Field id="teamUuid" name="teamUuid" type="text" v-if="teams.length === 1" :value="teams[0].uuid" disabled
+               class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3">
+          <span class="text-gray-700 px-3 md:pb-3 block">{{ teams[0].name }}</span>
+        </Field>
+        <Field id="teamUuid" name="teamUuid" v-else as="select" v-slot="{ value }"
+               class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3">
+          <option disabled class="text-gray-700 px-3 md:pb-3">- {{ $t('Teams.choose') }} -</option>
+          <option v-for="team in teams" :key="team.uuid" :value="team.uuid"
+                  :selected="value && value.includes(team.uuid)"
+                  class="text-gray-700 px-3 md:pb-3">
+            {{ team.name }}
+          </option>
+        </Field>
+        <ErrorMessage name="teamUuid" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
+      </div>
       <div class="mb-6 pt-3 rounded bg-gray-200">
         <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="title">{{ $t('title') }}</label>
-        <Field id="title" name="title" type="text" :model="title"
+        <Field id="title" name="title" type="text" :value="title"
                class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
         <ErrorMessage name="title" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
       </div>
@@ -12,20 +29,25 @@
         <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="description">{{
             $t('description')
           }}</label>
-        <Field id="description" name="description" type="text" :model="description"
-               class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
+        <Field id="description" name="description" as="textarea" :value="description" style="margin-bottom: -7px;"
+               class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none h-48 border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3 resize-none"/>
         <ErrorMessage name="description" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
       </div>
       <div class="mb-6 pt-3 rounded bg-gray-200">
         <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="deadline">{{ $t('deadline') }}</label>
-        <Field id="deadline" name="deadline" type="text" :model="deadline"
+        <Field id="deadline" name="deadline" type="date" :value="format(deadline)"
                class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
         <ErrorMessage name="deadline" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
       </div>
       <div class="mb-6 pt-3 rounded bg-gray-200">
         <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="tags">{{ $t('tags') }}</label>
-        <Field id="tags" name="tags" type="text" :model="tags"
-               class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
+        <Field id="tags" name="tags" as="select" multiple v-slot="{ value }"
+               class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3">
+          <option v-for="tag in allTags" :key="tag" :value="tag" :selected="inArray(tag, tags) || value && value.includes(tag)"
+                  class="text-gray-700 md:pb-1">
+            {{ tag }}
+          </option>
+        </Field>
         <ErrorMessage name="tags" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
       </div>
       <button :disabled="loading || Object.keys(errors).length"
@@ -45,8 +67,11 @@
 <script>
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
-// import request from "@/utils/request";
-// import ProjectsService from "@/services/projects.service";
+import { PROJECTS_TAGS } from "../../../config/constants";
+import request from "@/utils/request";
+import ProjectsService from "@/services/projects.service";
+import dateFormat from "dateformat";
+import inArray from "@/utils/inArray";
 
 export default {
   name: 'EditOrCreateProject',
@@ -58,6 +83,7 @@ export default {
       type: String,
       default: ''
     },
+    teams: Array,
     title: {
       type: String,
       default: ''
@@ -78,43 +104,55 @@ export default {
 
   data() {
     const schema = yup.object().shape({
-      name: yup
+      title: yup
           .string()
           .required(this.$t('required', { item: this.$t('name') }))
-          .max(120, this.$t('maxChars', { max: 120 })),
+          .max(120, this.$t('maxChars', { max: 120 }))
+          .min(5, this.$t('minChars', { min: 5 })),
       description: yup
           .string()
           .required(this.$t('required', { item: this.$t('description') }))
-          .max(1024, this.$t('maxChars', { max: 1024 })),
-      deadline: yup
-          .date() // TODO
-          .required(this.$t('required', { item: this.$t('deadline') })),
-      tags: yup
-          .string()
-          .required(this.$t('required', { item: this.$t('tags') }))
           .max(1024, this.$t('maxChars', { max: 1024 }))
+          .min(10, this.$t('minChars', { min: 10 })),
+      deadline: yup
+          .date()
+          .required(this.$t('required', { item: this.$t('deadline') }))
+          .min(new Date(), this.$t('futureDate')),
+      tags: yup
+          .array()
+          .required(this.$t('required', { item: this.$t('tags') }))
     });
     return {
       schema,
       loading: false,
       errorMessage: this.$route.query.error,
       message: this.$route.query.message,
+      allTags: PROJECTS_TAGS,
     };
   },
 
   methods: {
+    inArray,
+
+    format(date) {
+      if (date) {
+        return dateFormat(new Date(date), 'yyyy-mm-dd')
+      }
+    },
 
     async updateOrCreate(project) {
       this.loading = true;
+      this.$emit('done', project);
+      project.lang = (localStorage.getItem('lang') || process.env.VUE_APP_I18N_LOCALE || 'en');
+      project.tags = project.tags.join(';');
       if (project.uuid) {
         // Update existing project
-        // request(ProjectsService.update(project), this)
+        request(ProjectsService.update(project), this)
       }
       else {
         // Create a new project
-        // project = await request(ProjectsService.create(project), this)
+        project = await request(ProjectsService.create(project), this)
       }
-      this.$emit('done', project);
     }
 
   }

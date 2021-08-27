@@ -17,6 +17,7 @@ const updateProject = async (req, res) => {
     try {
         const data = matchedData(req)
         const project = await findProject(data.uuid)
+        // TODO check if user is owner
         if (await relExists(
             { model: 'Team', uuid: data.teamUuid },
             RELATION_MANDATES,

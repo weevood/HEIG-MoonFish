@@ -15,6 +15,7 @@ street: "Street"
 zipCode: "ZIP Code"
 color: "Color"
 owner: "Owner"
+team: "Team"
 email:
   email: "Email"
   your: "Your email"
@@ -43,6 +44,7 @@ required: "{item} is required!"
 invalid: "{item} is invalid!"
 minChars: "Must be at least {min} characters"
 maxChars: "Must be maximum {max} characters"
+futureDate: "Date must be in the future"
 
 # ----- Pages -----
 
@@ -105,6 +107,7 @@ Resources:
   title: "Resources"
   new: "Add a new resource"
   feedback: "Upload the feedback and assign a grade"
+  noResource: "Nothing to show"
 
 # Team
 
@@ -123,6 +126,7 @@ Teams:
   giveOwnership: "Give ownership"
   requests: "Requests"
   noRequest: "No new request"
+  choose: "Choose a team"
 TeamsEdit:
   title: "Edit teams"
 

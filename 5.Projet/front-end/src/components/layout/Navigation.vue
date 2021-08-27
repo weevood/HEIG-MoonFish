@@ -29,7 +29,7 @@
           </router-link>
 
           <ul class="pl-4">
-            <li v-for="(project, i) in projects" :key="`project-${i}`">
+            <li v-for="(project, i) in myProjects" :key="`project-${i}`">
               <router-link :to="`/projects/${project.uuid}`"
                            :class="$route.path === `/projects/${project.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
                            class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
@@ -157,7 +157,7 @@ export default {
   data() {
     return {
       error: '',
-      projects: [],
+      myProjects: [],
       myTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] },
     };
   },
@@ -193,13 +193,11 @@ export default {
     },
 
     async retrieveMyProjects() {
-      this.projects = await request(ProjectsService.getMine(), this);
-      for (const s in this.projects) {
-        if (this.projects[s]) {
-          this.projects = this.projects[s].map(project => {
-            return { uuid: project.uuid, title: project.title }
-          });
-        }
+      const myProjects = await request(ProjectsService.getMine(), this);
+      for (const s in myProjects) {
+        myProjects[s].map(project => {
+          this.myProjects.push({ uuid: project.uuid, title: project.title });
+        });
       }
     }
 

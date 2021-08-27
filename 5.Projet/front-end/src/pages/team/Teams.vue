@@ -128,15 +128,13 @@ export default {
     async retrieveMyTeams() {
       this.myTeams = await request(TeamsService.getMine(), this)
       for (const s in this.myTeams) {
-        if (this.myTeams[s]) {
-          this.myTeams[s] = this.myTeams[s].map(team => { return team.uuid });
-        }
+        this.myTeams[s] = this.myTeams[s].map(team => { return team.uuid });
       }
     },
 
     async join(uuid) {
       this.myTeams.STATUS_INACTIVE.push(uuid);
-      await request(TeamsService.join(uuid, this));
+      await request(TeamsService.join(uuid), this);
     },
 
     async leave(uuid) {
@@ -146,7 +144,7 @@ export default {
           return true;
         }
       }, this);
-      await request(TeamsService.leave(uuid, this));
+      await request(TeamsService.leave(uuid), this);
     }
 
   }

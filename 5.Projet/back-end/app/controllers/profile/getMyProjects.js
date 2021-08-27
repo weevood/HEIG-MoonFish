@@ -9,6 +9,7 @@ const {
     RELATION_APPLIES,
     RELATION_MANDATES,
 } = require('../../models/enums/relations')
+const { STATUS_ACTIVE } = require("../../models/enums/status");
 
 /**
  * Get items function called by route
@@ -37,6 +38,8 @@ const getMyProjects = async (req, res) => {
             .then(async ({ nodes, relations }) => {
                 const teams = await clearNodes(nodes)
                 for (const [i, team] of teams.entries()) {
+                    if (team.status !== STATUS_ACTIVE || relations[i].properties.status.low !== STATUS_ACTIVE)
+                        continue;
                     await getNodeRelations('Team', team.uuid, [RELATION_MANDATES, RELATION_APPLIES, RELATION_DEVELOPS])
                         .then(async ({ nodes, relations }) => {
                             const projects = await clearNodes(nodes)

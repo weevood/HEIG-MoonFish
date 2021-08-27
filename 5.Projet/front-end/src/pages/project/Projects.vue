@@ -12,7 +12,7 @@
         <span>{{ $t('Projects.new') }}</span>
       </button>
     </div>
-    <EditOrCreateProject v-if="creation" @done="refresh"/>
+    <EditOrCreateProject v-if="creation" :teams="myTeams" @done="refresh"/>
     <div v-if="!creation" class="container">
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
         <li v-for="(project, i) in projects" :key="`Project${i}`"
@@ -53,16 +53,19 @@ import inArray from '@/utils/inArray';
 import dateFormat from 'dateformat';
 import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
 import request from "@/utils/request";
+import TeamsService from "@/services/teams.service";
 
 export default {
   name: 'Projects',
   components: { EditOrCreateProject },
+  emits: ['msg'],
 
   data() {
     return {
       creation: false,
       projects: [],
-      myProjects: {},
+      myProjects: [],
+      myTeams: [],
     };
   },
 
@@ -78,6 +81,7 @@ export default {
   mounted() {
     this.retrieveProjects();
     this.retrieveMyProjects();
+    this.retrieveMyTeams();
   },
 
   methods: {
@@ -98,13 +102,17 @@ export default {
     },
 
     async retrieveMyProjects() {
-      this.myProjects = await request(ProjectsService.getMine(), this);
-      for (const s in this.myProjects) {
-        if (this.projects[s]) {
-          this.myProjects = this.myProjects[s].map(project => {return project.uuid});
-        }
+      const myProjects = await request(ProjectsService.getMine(), this);
+      for (const s in myProjects) {
+        myProjects[s].map(project => {
+          this.myProjects.push(project.uuid);
+        });
       }
-    }
+    },
+
+    async retrieveMyTeams() {
+      this.myTeams = (await request(TeamsService.getMine(), this)).OWNERSHIP;
+    },
 
   }
 };

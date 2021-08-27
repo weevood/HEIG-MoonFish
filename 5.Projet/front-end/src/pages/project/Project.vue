@@ -2,7 +2,7 @@
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
       <h1 class="text-blue-900 text-3xl font-medium">{{ project.title }}</h1>
-      <button v-if="!edition && inMyProjects(mandates)" @click="edition = true"
+      <button v-if="!edition && inMineProjects" @click="edition = true"
               class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-3 rounded inline-flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
              stroke="currentColor">
@@ -12,8 +12,9 @@
         <span>{{ $t('Projects.edit') }}</span>
       </button>
     </div>
-    <EditOrCreateProject v-if="edition" @done="edition = false" :uuid="project.uuid" :title="project.title"
-                         :description="project.description" :deadline="project.deadline" :tags="project.tags"/>
+    <EditOrCreateProject v-if="edition" @done="refresh" :uuid="project.uuid" :title="project.title" :tags="project.tags"
+                         :teams="[{uuid: mandateTeamUuid}]" :description="project.description"
+                         :deadline="project.deadline"/>
     <section class="container" v-if="!edition">
       <div>
         <span class="font-bold text-gray-600">{{ project.status?.toUpperCase() }}</span>
@@ -27,7 +28,7 @@
         <p class="text-xs font-bold text-blue-900">Deadline: {{ format(project.deadline) }}</p>
       </div>
     </section>
-    <div v-if="!inMyProjects(mandates) && project.status === 'proposal'" class="container my-6"
+    <div v-if="!inMyProjects && project.status === 'proposal'" class="container my-6"
          style="margin-left: -8px; margin-right: -8px">
       <button v-for="(team, i) in myTeams.STATUS_ACTIVE" :key="`MyTeams-${i}`"
               :disabled="hasTeamApply(team.uuid)" @click="apply(team.uuid)"
@@ -59,7 +60,7 @@
               <div>
                 <p class="text-sm font-medium text-gray-900">{{ team.name }}<span
                     class="text-gray-600 uppercase"> - {{ team.relation.name }}</span></p>
-                <div v-if="project.status === 'proposal'">
+                <div v-if="project.status === 'proposal' && team.relation.name !== 'MANDATES' ">
                   <p class="text-sm font-medium text-gray-900">$ {{ team.price }}</p>
                   <router-link :to="`/resources/${team.specifications}`" class="text-sm font-medium text-gray-900">
                     {{ $t('Projects.specifications') }} ->
@@ -67,7 +68,8 @@
                 </div>
               </div>
             </router-link>
-            <button @click="accept(team.uuid)" v-if="project.status === 'proposal' && inMyProjects(mandates)"
+            <button @click="accept(team.uuid)"
+                    v-if="project.status === 'proposal' && inMineProjects && team.relation.name !== 'MANDATES' "
                     class="justify-center bg-green-500 hover:bg-green-600 text-white mt-3 font-bold py-1 px-3 rounded inline-flex items-center">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor">
@@ -83,7 +85,7 @@
       <div class="flex justify-between items-center">
         <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Resources.title') }}</h2>
         <div class="flex justify-between items-center">
-          <button v-if="inMyProjects(mandates)" @click="onAddFeedback = true"
+          <button v-if="inMineProjects && project.status === 'ongoing'" @click="onAddFeedback = true"
                   :disabled="onAddResource || onAddFeedback"
                   class="mr-3 bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
@@ -93,7 +95,7 @@
             </svg>
             <span>{{ $t('Resources.feedback') }}</span>
           </button>
-          <button v-if="inMyProjects()" @click="onAddResource = true" :disabled="onAddResource || onAddFeedback"
+          <button v-if="inMyProjects" @click="onAddResource = true" :disabled="onAddResource || onAddFeedback"
                   class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
                  stroke="currentColor">
@@ -108,6 +110,9 @@
         <StarRating :increment=0.01 :padding=1 :rounded-corners=true v-model:rating="grade"/>
       </div>
       <DropZone v-if="onAddResource || grade > 0" @close="setGrade"/>
+      <p v-if="!resources.length && !onAddResource && !grade" class="italic text-gray-600">{{
+          $t('Resources.noResource')
+        }}</p>
     </section>
   </main>
 </template>
@@ -118,7 +123,6 @@ import ProjectsService from "@/services/projects.service";
 import DropZone from "@/components/ui/DropZone";
 import inArray from "@/utils/inArray";
 import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
-import { RELATION_ARBITRATES, RELATION_DEVELOPS, RELATION_MANDATES } from "@/enums/relations";
 import TeamsService from "@/services/teams.service";
 import StarRating from "vue-star-rating";
 import request from "@/utils/request";
@@ -127,10 +131,12 @@ import dateFormat from "dateformat";
 export default {
   name: 'Project',
   components: { DropZone, EditOrCreateProject, StarRating },
+  emits: ['msg'],
   watch: {
     $route() {
       if (this.$route.name === 'project') {
-        this.retrieveProject();
+        this.edition = false;
+        this.getProject();
         this.retrieveTeams();
       }
     }
@@ -138,15 +144,23 @@ export default {
 
   data() {
     return {
-      mandates: RELATION_MANDATES,
       edition: false,
       onAddFeedback: false,
       onAddResource: false,
+      inMineProjects: false,  // Projects that I mandates
+      inMyProjects: false,    // All projects linked with my teams
       grade: 0,
-      project: { uuid: '', title: '' },
-      myTeams: { STATUS_ACTIVE: [] },
-      myProjects: [],
+      mandateTeamUuid: '',
       teams: [],
+      resources: [],
+      myTeams: { STATUS_ACTIVE: [] },
+      project: { title: '', description: 'title', deadline: '' },
+      myProjects: {
+        RELATION_APPLIES: [],
+        RELATION_ARBITRATES: [],
+        RELATION_DEVELOPS: [],
+        RELATION_MANDATES: []
+      },
     };
   },
 
@@ -160,9 +174,8 @@ export default {
   },
 
   mounted() {
-    this.retrieveProject();
+    this.getProject();
     this.retrieveTeams();
-    this.retrieveMyProjects();
     this.retrieveMyTeams();
   },
 
@@ -175,13 +188,12 @@ export default {
       }
     },
 
-    inMyProjects(relation = 0) {
-      if (relation) {
-        return inArray(this.project.uuid, this.myProjects[relation]);
-      }
-      return (inArray(this.project.uuid, this.myProjects[RELATION_ARBITRATES]) ||
-          inArray(this.project.uuid, this.myProjects[RELATION_DEVELOPS]) ||
-          inArray(this.project.uuid, this.myProjects[RELATION_MANDATES]));
+    refresh(project) {
+      this.project.title = project.title;
+      this.project.description = project.description;
+      this.project.deadline = project.deadline;
+      this.project.tags = project.tags;
+      this.edition = false;
     },
 
     hasTeamApply(uuid) {
@@ -204,6 +216,18 @@ export default {
       }
     },
 
+    async getProject() {
+      this.retrieveProject().then(() => this.retrieveMyProjects().then(() =>
+      {
+        this.inMineProjects = inArray(this.project.uuid, this.myProjects.RELATION_MANDATES);
+        this.inMyProjects = (
+            inArray(this.project.uuid, this.myProjects.RELATION_MANDATES) ||
+            inArray(this.project.uuid, this.myProjects.RELATION_DEVELOPS) ||
+            inArray(this.project.uuid, this.myProjects.RELATION_ARBITRATES)
+        );
+      }))
+    },
+
     async retrieveProject() {
       this.project = await request(ProjectsService.get(this.$route.params.uuid), this);
     },
@@ -214,10 +238,14 @@ export default {
 
     async retrieveMyProjects() {
       this.myProjects = await request(ProjectsService.getMine(), this);
-      for (const s in this.myProjects) {
-        if (this.projects[s]) {
-          this.myProjects[s] = this.myProjects[s].map(project => { return project.uuid });
+      this.myProjects.RELATION_MANDATES.some(function(project) {
+        if (this.project.uuid === project.uuid) {
+          this.mandateTeamUuid = project.team.uuid;
+          return true;
         }
+      }, this);
+      for (const s in this.myProjects) {
+        this.myProjects[s] = this.myProjects[s].map(project => { return project.uuid });
       }
     },
 
