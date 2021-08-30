@@ -4,7 +4,8 @@
       <h1 class="text-blue-900 text-3xl font-medium">{{ welcome() }}</h1>
     </div>
     <div class="container">
-      <pre>{{ content }}</pre>
+      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Notifications.title') }}</h2>
+      <NotificationsList :notifications="notifications" :modal="false" @remove="remove"/>
     </div>
   </main>
 </template>
@@ -12,14 +13,23 @@
 <script>
 
 import capitalize from "@/utils/capitalize";
+import NotificationsList from "@/components/layout/NotificationsList";
+import request from "@/utils/request";
+import NotificationsService from "@/services/notifications.service";
 
 export default {
   name: 'Home',
+  components: { NotificationsList },
 
   data() {
     return {
       content: '',
+      notifications: [],
     };
+  },
+
+  mounted() {
+    this.retrieveNotifications();
   },
 
   computed: {
@@ -32,10 +42,20 @@ export default {
   },
 
   methods: {
+
     welcome() {
       return this.$t('Dashboard.title', {
         firstName: capitalize(this.currentUser.firstName)
       })
+    },
+
+    async remove(id, show) {
+      console.log(id)
+      console.log(show)
+    },
+
+    async retrieveNotifications() {
+      this.notifications = await request(NotificationsService.getMine(), this)
     }
   }
 

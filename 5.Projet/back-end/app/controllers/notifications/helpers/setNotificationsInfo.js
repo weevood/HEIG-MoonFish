@@ -7,11 +7,17 @@ const setNotificationsInfo = (req = {}) => {
         let notifications = []
         if (typeof req !== 'undefined') {
             notifications = req.map(function (item) {
-                return {
+                let notification = {
+                    id: item.id,
                     priority: item.priority,
                     title: item['notifications_translations'][0].title,
-                    description: item['notifications_translations'][0].description
+                    description: item['notifications_translations'][0].description,
+                    updatedAt: item.updatedAt
                 }
+                if (item.link) {
+                    notification.link = item.link
+                }
+                return notification;
             })
         }
         resolve(notifications)

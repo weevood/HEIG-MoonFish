@@ -35,7 +35,8 @@ class NotificationsService {
 		getMine() {
 				const user = JSON.parse(localStorage.getItem('user'))
 				if (user && user.user && user.user.uuid) {
-						return http.get(`/notifications?filters[userUuid]=${ user.user.uuid }`)
+						// TODO orders[updatedAt
+						return http.get(`/notifications?orders[updatedAt]=DESC&filters[userUuid]=${ user.user.uuid }`)
 				}
 				return []
 		}

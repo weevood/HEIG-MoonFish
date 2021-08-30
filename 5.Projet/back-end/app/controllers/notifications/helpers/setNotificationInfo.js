@@ -5,16 +5,16 @@
 const setNotificationInfo = (req = {}) => {
     return new Promise((resolve) => {
         if (typeof req !== 'undefined') {
-            let notification = {}
-            if (process.env.NODE_ENV !== 'production') {
-                notification.id = req.id
-            }
-            resolve({
-                ...notification,
+            let notification = {
+                id: req.id,
                 priority: req.priority,
                 title: req['notifications_translations'][0].title,
                 description: req['notifications_translations'][0].description
-            })
+            }
+            if (req.link) {
+                notification.link = req.link
+            }
+            resolve(notification)
         }
     })
 }

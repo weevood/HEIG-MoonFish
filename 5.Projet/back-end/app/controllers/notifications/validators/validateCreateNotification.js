@@ -27,6 +27,15 @@ const validateCreateNotification = [
         .withMessage('IS_EMPTY')
         .trim(),
     check('description')
+        .optional()
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .trim(),
+    check('link')
+        .optional()
         .exists()
         .withMessage('MISSING')
         .not()

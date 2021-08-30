@@ -42,6 +42,14 @@ const validateUpdateNotification = [
         .isEmpty()
         .withMessage('IS_EMPTY')
         .trim(),
+    check('link')
+        .optional()
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .trim(),
     (req, res, next) => {
         validateResult(req, res, next)
     }

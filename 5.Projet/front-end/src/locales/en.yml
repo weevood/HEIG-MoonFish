@@ -37,6 +37,10 @@ Alert:
   done: "All done!"
   error: "Error!"
 
+Notifications:
+  title: "Notifications"
+  view: "Click to view"
+
 Dropzone:
   drop: "Drop the files here ..."
   drag-n-drop: "Drag 'n' drop some files here, or click to select files"

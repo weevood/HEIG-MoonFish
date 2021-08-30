@@ -14,13 +14,13 @@ module.exports = {
 
         link: {
             type: DataTypes.STRING(128),
-            validate: { isUrl: true, max: 64 },
+            validate: { isUrl: true, max: 128 },
             allowNull: false
         },
 
         type: {
             type: DataTypes.STRING(128),
-            validate: { isAlpha: true, max: 64 },
+            validate: { isAlpha: true, max: 128 },
             allowNull: false
         },
 
