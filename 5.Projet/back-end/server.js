@@ -85,7 +85,7 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                 if (DROP_DB) {
                     // Load initial db data
                     await require('./data')
-                    await new Promise(r => setTimeout(r, 5000));
+                    await new Promise(r => setTimeout(r, 5000))
                 }
                 app.listen(app.get('port'))
                 await mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
@@ -93,7 +93,7 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                 if (DROP_DB) {
                     // Load initial Neo4j relations
                     await require('./data/relations')
-                    await new Promise(r => setTimeout(r, 2000));
+                    await new Promise(r => setTimeout(r, 2000))
                 }
                 console.log('Relations created.')
             }, function (error) {

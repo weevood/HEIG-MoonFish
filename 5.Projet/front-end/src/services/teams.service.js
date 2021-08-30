@@ -1,6 +1,7 @@
 import http from '@/http'
 import CacheService from '@/services/cache.service';
 import { STATUS_ACTIVE, STATUS_BANNED, STATUS_INACTIVE } from "@/enums/status";
+import clean from "@/utils/clean";
 
 class TeamsService {
 
@@ -29,7 +30,7 @@ class TeamsService {
 		}
 
 		/**
-		 * getMine  Retrieve all teams linked to the connected user
+		 * getMine  Retrieve all teams linked to the connected user§
 		 *
 		 * @return {Promise<{STATUS_INACTIVE: *[], STATUS_BANNED: *[], STATUS_ACTIVE: *[]}>}
 		 */
@@ -92,7 +93,7 @@ class TeamsService {
 		 */
 		create(data) {
 				CacheService.del('myTeams');
-				return http.post('/teams', data)
+				return http.post('/teams', clean(data))
 		}
 
 		/**
@@ -102,7 +103,7 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		update(team) {
-				return http.patch(`/teams/${ team.uuid }`, team)
+				return http.patch(`/teams/${ team.uuid }`, clean(team))
 		}
 
 		/**

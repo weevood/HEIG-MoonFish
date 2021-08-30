@@ -98,11 +98,11 @@ export default {
     },
 
     login() {
-      this.$router.push(`/login?email=${this.email}`);
+      this.$router.push(`/login` + (this.email ? `?email=${this.email}` : ''));
     },
 
     register() {
-      this.$router.push(`/register?email=${this.email}`);
+      this.$router.push(`/register` + (this.email ? `?email=${this.email}` : ''));
     }
   },
 };

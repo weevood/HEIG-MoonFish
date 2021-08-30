@@ -1,4 +1,5 @@
 import http from '@/http'
+import clean from "@/utils/clean";
 
 class ProfileService {
 
@@ -18,7 +19,7 @@ class ProfileService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		update(data) {
-				return http.patch(`/profile`, data)
+				return http.patch(`/profile`, clean(data))
 		}
 
 		/**

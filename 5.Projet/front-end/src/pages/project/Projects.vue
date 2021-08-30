@@ -14,6 +14,10 @@
     </div>
     <EditOrCreateProject v-if="creation" :teams="myTeams" @msg="transfer" @done="refresh"/>
     <div v-if="!creation" class="container">
+      <button v-if="!onProposal" @click.prevent="onlyOnProposal"
+              class="bg-gray-500 hover:bg-gray-600 text-white font-bold text-xs mb-3 py-1 px-2 rounded inline-flex items-center">
+        {{ $t('Projects.proposal') }}
+      </button>
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
         <li v-for="(project, i) in projects" :key="`Project${i}`"
             class="flex flex-col w-1/3 mb-4">
@@ -54,6 +58,7 @@ import dateFormat from 'dateformat';
 import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
 import request from "@/utils/request";
 import TeamsService from "@/services/teams.service";
+import { PROJECT_STATUS_PROPOSAL } from "@/enums/projectStatus";
 
 export default {
   name: 'Projects',
@@ -63,6 +68,7 @@ export default {
   data() {
     return {
       creation: false,
+      onProposal: false,
       projects: [],
       myProjects: [],
       myTeams: [],
@@ -107,8 +113,13 @@ export default {
       this.creation = false;
     },
 
-    async retrieveProjects() {
-      this.projects = await request(ProjectsService.getAll(), this);
+    onlyOnProposal() {
+      this.onProposal = true;
+      this.retrieveProjects(PROJECT_STATUS_PROPOSAL);
+    },
+
+    async retrieveProjects(status = 0) {
+      this.projects = await request(ProjectsService.getAll(status), this);
     },
 
     async retrieveMyProjects() {

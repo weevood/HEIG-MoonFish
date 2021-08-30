@@ -1,7 +1,7 @@
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { updateMandates, updateDevelops } = require('../teams/helpers')
-const { findProjectNode } = require('./helpers');
+const { findProjectNode } = require('./helpers')
 const { getNodeRelations, updateNode } = require('../../middleware/db')
 const { clearNode } = require('../../middleware/utils/clearNode')
 const { RELATION_MANDATES, RELATION_DEVELOPS } = require('../../models/enums/relations')

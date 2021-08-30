@@ -56,12 +56,15 @@ export default {
   },
 
   methods: {
+
     showSidebar(show = true) {
       this.sidebarOpen = show
     },
+
     showNotification(show = true) {
       this.notificationOpen = show
     },
+
     successMessage() {
       if (this.msg && this.msg.status === 'OK')
       {
@@ -73,10 +76,20 @@ export default {
       }
       return {}
     },
+
     getMessage(msg) {
       this.msg = msg
     },
+
     getErrorMsg(msg) {
+      if (Array.isArray(msg)) {
+        // For validation errors
+        let message = 'Validation error :'
+        for (const error of msg) {
+          message += `${ error.param }: ${ error.msg }, `
+        }
+        return message
+      }
       if (this.$te(msg)) {
         return this.$t(msg)
       }
@@ -85,6 +98,7 @@ export default {
       }
       return msg
     },
+
     errorMessage() {
       if (this.msg && this.msg.status !== 'OK')
       {

@@ -17,6 +17,7 @@ color: "Color"
 owner: "Owner"
 team: "Team"
 with: "with"
+noItems: "Nothing to show"
 email:
   email: "Email"
   your: "Your email"
@@ -103,6 +104,7 @@ Projects:
   mark: "Mark"
   price: "Enter your price"
   specs: "Upload your specifications"
+  proposal: "Show only projects on proposal"
 
 # Resource
 
@@ -110,7 +112,6 @@ Resources:
   title: "Resources"
   new: "Add a new resource"
   feedback: "Upload the feedback and assign a grade"
-  noResource: "Nothing to show"
 
 # Team
 
@@ -142,6 +143,7 @@ UsersEdit:
 Profile:
   title: "My profile"
   changePassword: "Change my password"
+  view: "View my profile"
   updated: "Your profile has been updated"
 
 # ----- Messages -----

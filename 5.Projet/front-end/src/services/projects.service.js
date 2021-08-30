@@ -2,6 +2,7 @@ import http from '@/http';
 import CacheService from "@/services/cache.service";
 import { RELATION_APPLIES, RELATION_ARBITRATES, RELATION_DEVELOPS, RELATION_MANDATES } from '@/enums/relations';
 import { PROJECT_STATUS_BANNED } from "@/enums/projectStatus";
+import clean from "@/utils/clean";
 
 class ProjectsService {
 
@@ -85,7 +86,7 @@ class ProjectsService {
 		 */
 		create(data) {
 				CacheService.del('myProjects');
-				return http.post('/projects', data)
+				return http.post('/projects', clean(data))
 		}
 
 		/**
@@ -95,7 +96,7 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		update(project) {
-				return http.patch(`/projects/${ project.uuid }`, project)
+				return http.patch(`/projects/${ project.uuid }`, clean(project))
 		}
 
 		/**

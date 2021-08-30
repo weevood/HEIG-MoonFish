@@ -25,7 +25,7 @@ const {
  */
 
 // Get all notifications
-router.get('/', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, getNotifications)
+router.get('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getNotifications)
 
 // Create a notification
 router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateNotification, createNotification)
@@ -37,6 +37,6 @@ router.get('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, valida
 router.patch('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateNotification, updateNotification)
 
 // Delete a notification
-router.delete('/:id', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteNotification, deleteNotification)
+router.delete('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDeleteNotification, deleteNotification)
 
 module.exports = router

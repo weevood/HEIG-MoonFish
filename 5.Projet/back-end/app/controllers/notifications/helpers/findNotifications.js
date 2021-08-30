@@ -3,6 +3,7 @@ const Notification = mariadb.models.Notification
 const NotificationTranslation = mariadb.models.NotificationTranslation
 const { buildErrObject } = require('../../../middleware/utils')
 const { getItems } = require('../../../middleware/db')
+const { findUserByUuid } = require("../../users/helpers");
 
 /**
  * Find user from query
@@ -12,6 +13,10 @@ const { getItems } = require('../../../middleware/db')
 const findNotifications = (options = {}, lang = 'en') => {
     return new Promise(async (resolve, reject) => {
         try {
+            if (options.filters['userUuid']) {
+                options.filters['userId'] = (await findUserByUuid(options.filters['userUuid'])).id
+                delete options.filters['userUuid']
+            }
             resolve(await getItems(Notification, {
                 ...options,
                 sort: options.sort || 'priority',

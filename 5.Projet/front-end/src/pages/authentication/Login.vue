@@ -14,7 +14,7 @@
             <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="email">{{
                 $t('email.email')
               }}</label>
-            <Field id="email" name="email" type="text" v-model="email"
+            <Field id="email" name="email" type="text" v-model="email" autocomplete="email"
                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
             <ErrorMessage name="email" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
           </div>
@@ -22,7 +22,7 @@
             <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="password">{{
                 $t('password.pwd')
               }}</label>
-            <Field id="password" name="password" type="password"
+            <Field id="password" name="password" type="password" autocomplete="current-password"
                    class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
             <ErrorMessage name="password" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
           </div>
@@ -130,11 +130,11 @@ export default {
     },
 
     register() {
-      this.$router.push(`/register?email=${this.email}`);
+      this.$router.push(`/register` + (this.email ? `?email=${this.email}` : ''));
     },
 
     forgot() {
-      this.$router.push(`/forgot?email=${this.email}`);
+      this.$router.push(`/forgot` + (this.email ? `?email=${this.email}` : ''));
     }
 
   },

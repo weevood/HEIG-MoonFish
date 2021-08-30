@@ -2,6 +2,9 @@ const { findTranslations } = require('../../translations/helpers')
 const { clearNode } = require('../../../middleware/utils')
 const { getEnumName } = require('../../../models/enums/getEnumName')
 const projectStatus = require('../../../models/enums/projectStatus')
+const { PROJECT_STATUS_ENDED, PROJECT_STATUS_BANNED } = require('../../../models/enums/projectStatus')
+const { getNodeRelations } = require('../../../middleware/db')
+const { RELATION_MANDATES } = require('../../../models/enums/relations')
 
 /**
  * Creates an object with project info
@@ -16,6 +19,17 @@ const setProjectInfo = (req = {}, reqNode = {}) => {
             status: getEnumName(projectStatus, reqNode.status),
             deadline: new Date(reqNode.deadline),
             tags: reqNode.tags.split(';')
+        }
+        if (reqNode.status >= PROJECT_STATUS_ENDED && reqNode.status < PROJECT_STATUS_BANNED) {
+            await getNodeRelations('Project', project.uuid, RELATION_MANDATES)
+                .then(async ({ nodes, relations }) => {
+                    project = {
+                        ...project,
+                        endDate: new Date(relations[0].properties.endDate),
+                        mark: relations[0].properties.mark.low,
+                        feedback: relations[0].properties.feedback.low,
+                    }
+                })
         }
         if (typeof req['projects_translations'] !== 'undefined') {
             project = {

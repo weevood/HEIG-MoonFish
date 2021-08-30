@@ -24,8 +24,25 @@
             {{ tag }}
           </li>
         </ul>
-        <p class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
-        <p class="text-xs font-bold text-blue-900">Deadline: {{ format(project.deadline) }}</p>
+        <pre class="text-sm font-normal text-gray-700 my-2" v-html="project.description"></pre>
+        <div v-if="inArray(project.status, finishedStatus)">
+          <p class="text-sm font-normal text-gray-700 mt-4 my-2">
+            {{ `${ $t('Projects.end') }: ${ project.endDate && format(project.endDate) }` }}</p>
+          <StarRating :rating="project.mark" :rounded-corners=true :read-only=true :star-size=20
+                      :increment=0.5 :show-rating=false style="margin-left: -5px" class="my-2"/>
+          <router-link :to="`/resources/${project.feedback}`"
+                       class="flex text-sm font-medium text-gray-900 hover:text-blue-900 my-2">
+            {{ $t('Projects.feedback') }}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="-4 -2 32 32"
+                 stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </router-link>
+        </div>
+        <div v-else>
+          <p class="text-xs font-bold text-blue-900">Deadline: {{ format(project.deadline) }}</p>
+        </div>
       </div>
     </section>
     <section class="container my-6" v-if="!edition && teams.length">
@@ -133,7 +150,7 @@
       </div>
       <DropZone v-if="onAddResource || grade > 0" @close="setGrade"/>
       <p v-if="!resources.length && !onAddResource && !grade" class="italic text-gray-600">{{
-          $t('Resources.noResource')
+          $t('noItems')
         }}</p>
     </section>
   </main>
@@ -187,6 +204,7 @@ export default {
       resources: [],
       myTeams: { STATUS_ACTIVE: [] },
       project: { title: '', description: '', deadline: '' },
+      finishedStatus: ['ended', 'abandoned'],
       myProjects: {
         RELATION_APPLIES: [],
         RELATION_ARBITRATES: [],

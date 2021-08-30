@@ -2,7 +2,7 @@ const { handleError } = require('../../middleware/utils')
 const { clearNodes } = require('../../middleware/utils/clearNodes')
 const { getNodeRelations } = require('../../middleware/db')
 const { matchedData } = require('express-validator')
-const { findTeamNode } = require('./helpers');
+const { findTeamNode } = require('./helpers')
 const { RELATION_DEVELOPS, RELATION_MANDATES } = require('../../models/enums/relations')
 const { findProject, setProjectInfo } = require('../projects/helpers')
 

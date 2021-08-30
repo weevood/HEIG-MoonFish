@@ -64,6 +64,9 @@
 
 <script>
 
+import request from "@/utils/request";
+import NotificationsService from "@/services/notifications.service";
+
 export default {
   name: 'Notification',
 
@@ -73,6 +76,19 @@ export default {
       default: false
     }
   },
+
+  mounted() {
+    let _this = this;
+    setInterval(function() {
+      _this.retrieveNotifications()
+    }, 3 * 1000);
+  },
+
+  methods: {
+    async retrieveNotifications() {
+      this.notifs = await request(NotificationsService.getMine(), this)
+    }
+  }
 
 };
 </script>

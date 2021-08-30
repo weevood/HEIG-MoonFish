@@ -3,7 +3,8 @@
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
       <div>
         <h1 class="text-blue-900 text-3xl font-medium pb-4">{{ team.name }}</h1>
-        <StarRating :rating=team.grade :rounded-corners=true :padding=1 :read-only=true :star-size=25 :increment=0.01
+        <StarRating v-if="team.grade" :rating=team.grade :rounded-corners=true :padding=1 :read-only=true :star-size=25
+                    :increment=0.01
                     style="margin-left: -5px"/>
       </div>
       <button v-if="!edition && isOwner()" @click="edition = true"
@@ -15,6 +16,8 @@
         </svg>
         <span>{{ $t('Teams.edit') }}</span>
       </button>
+      <JoinOrLeaveTeam v-if="!edition && !isOwner()" :team="team" :myTeams="myTeams" @msg="transfer" @join="join"
+                       @leave="leave"/>
     </div>
     <EditOrCreateTeam v-if="edition" :uuid="team.uuid" :name="team.name" :color="team.color" @msg="transfer"
                       @done="refresh"/>
@@ -24,40 +27,7 @@
         eget ligula. Mauris a est metus. Aliquam auctor est non nunc tempus, non vehicula justo gravida. Morbi nec
         sollicitudin magna. Morbi iaculis iaculis erat a fermentum. Cras vitae ipsum urna. Mauris ac mi vehicula.</p>
     </section>
-    <section class="container my-6">
-      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Projects.title') }}</h2>
-      <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
-        <li v-for="(project, i) in projects" :key="`Projects-${i}`"
-            class="flex flex-col w-1/3 mb-4">
-          <div
-              class="flex justify-between items-center p-4 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm">
-            <router-link :to="`/projects/${project.uuid}`" class="flex items-center">
-              <div>
-                <p class="text-sm font-medium text-gray-900">
-                  {{ project.title }}<span class="text-gray-600"> - {{ project.status?.toUpperCase() }}</span>
-                </p>
-                <ul class="my-2" style="margin-left: -4px; margin-right: -4px">
-                  <li v-for="(tag, j) in project.tags" :key="`Tags-${i}-tags-${j}`"
-                      class="mx-1 text-xs inline-flex items-center font-bold leading-sm px-3 py-1 bg-blue-900 text-white rounded">
-                    {{ tag }}
-                  </li>
-                </ul>
-                <div v-if="inArray(project.status, finishedStatus)">
-                  <p class="text-sm font-normal text-gray-700 my-2">
-                    {{ `${ $t('Projects.end') }: ${ project.endDate }` }}</p>
-                  <StarRating :rating="project.mark" :rounded-corners=true :read-only=true :star-size=20
-                              :increment=0.5 :show-rating=false style="margin-left: -5px"/>
-                  <router-link :to="`/resources/${project.feedback}`" class="text-sm font-medium text-gray-900">
-                    {{ $t('Projects.feedback') }} ->
-                  </router-link>
-                </div>
-                <p v-else class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
-              </div>
-            </router-link>
-          </div>
-        </li>
-      </ul>
-    </section>
+    <ProjectsList :projects="projects" @msg="transfer"/>
     <section class="container my-6">
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.members') }}</h2>
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
@@ -146,14 +116,15 @@
 import inArray from '@/utils/inArray';
 import TeamsService from "@/services/teams.service";
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
-import { PROJECT_STATUS_ABANDONED, PROJECT_STATUS_ENDED } from "@/enums/projectStatus";
 import StarRating from "vue-star-rating";
 import request from "@/utils/request";
 import { STATUS_ACTIVE, STATUS_INACTIVE } from "@/enums/status";
+import JoinOrLeaveTeam from "@/components/layout/JoinOrLeaveTeam";
+import ProjectsList from "@/components/layout/ProjectsList";
 
 export default {
   name: 'Team',
-  components: { EditOrCreateTeam, StarRating },
+  components: { ProjectsList, JoinOrLeaveTeam, EditOrCreateTeam, StarRating },
   emits: ['msg'],
   watch: {
     $route() {
@@ -170,9 +141,9 @@ export default {
     return {
       edition: false,
       team: { uuid: '', name: '', color: '', ownerUuid: '' },
+      myTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [], OWNERSHIP: [] },
       members: { STATUS_INACTIVE: [], STATUS_ACTIVE: [] },
-      projects: [],
-      finishedStatus: [PROJECT_STATUS_ABANDONED, PROJECT_STATUS_ENDED],
+      projects: []
     };
   },
 
@@ -187,6 +158,7 @@ export default {
 
   mounted() {
     this.retrieveTeam();
+    this.retrieveMyTeams();
     this.retrieveTeamMembers();
     this.retrieveTeamProjects();
     if (!this.currentUser) {
@@ -219,8 +191,28 @@ export default {
       return false;
     },
 
+    join(uuid) {
+      this.myTeams.STATUS_INACTIVE.push(uuid);
+    },
+
+    leave(uuid) {
+      this.myTeams.STATUS_ACTIVE.some(function(id, i) {
+        if (uuid === id) {
+          this.myTeams.STATUS_ACTIVE.splice(i, 1);
+          return true;
+        }
+      }, this);
+    },
+
     async retrieveTeam() {
       this.team = await request(TeamsService.get(this.$route.params.uuid), this);
+    },
+
+    async retrieveMyTeams() {
+      this.myTeams = await request(TeamsService.getMine(), this)
+      for (const s in this.myTeams) {
+        this.myTeams[s] = this.myTeams[s].map(team => { return team.uuid });
+      }
     },
 
     async retrieveTeamProjects() {
@@ -284,6 +276,7 @@ export default {
         }
       }, this);
       await request(TeamsService.giveOwnership(this.team.uuid, uuid));
+      await this.retrieveMyTeams();
     }
 
   }

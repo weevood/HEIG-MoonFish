@@ -13,6 +13,7 @@ const {
     getUserNotifications,
     getUserResources,
     getUserTeams,
+    getUserProjects,
     getUsers,
     giveUserRole,
     updateUser,
@@ -46,6 +47,9 @@ router.get('/:uuid/resources', requireAuth, requiredRole(ROLE_MODERATOR), trimRe
 
 // Get all user teams
 router.get('/:uuid/teams', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetUser, getUserTeams)
+
+// Get all user projects
+router.get('/:uuid/projects', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetUser, getUserProjects)
 
 // Update a user by id
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateUpdateUser, updateUser)

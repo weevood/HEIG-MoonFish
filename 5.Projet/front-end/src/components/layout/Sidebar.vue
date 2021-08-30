@@ -20,8 +20,8 @@
                alt="Your avatar">
         </div>
         <div class="relative block text-white text-sm">
-          <span class="block font-bold">{{ currentUser.firstName }}</span>
-          <router-link to="/profile" class="text-gray-400 hover:text-teal-500">View my profile</router-link>
+          <span class="block font-bold">{{ fullName() }}</span>
+          <router-link to="/profile" class="text-gray-400 hover:text-teal-500">{{ $t('Profile.view') }}</router-link>
         </div>
       </div>
       <Logout/>
@@ -34,6 +34,7 @@
 
 import Navigation from "@/components/layout/Navigation";
 import Logout from "@/components/ui/Logout";
+import capitalize from "@/utils/capitalize";
 
 export default {
   name: 'Sidebar',
@@ -53,6 +54,12 @@ export default {
         return this.$store.state.auth.user.user;
       }
       return false;
+    }
+  },
+
+  methods: {
+    fullName() {
+      return capitalize(this.currentUser.firstName) + ' ' + capitalize(this.currentUser.lastName)
     }
   }
 
