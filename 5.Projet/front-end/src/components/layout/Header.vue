@@ -29,10 +29,10 @@ export default {
 
   methods: {
     showSidebar(state = true) {
-      this.$emit('show-sidebar', state)
+      this.$emit('show-sidebar', state);
     },
     showNotification(state = true) {
-      this.$emit('show-notification', state)
+      this.$emit('show-notification', state);
     }
   }
 

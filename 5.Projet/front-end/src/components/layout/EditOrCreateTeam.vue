@@ -37,7 +37,7 @@ import request from "@/utils/request";
 export default {
   name: 'EditOrCreateTeam',
   components: { Form, Field, ErrorMessage },
-  emits: ['done'],
+  emits: ['msg', 'done'],
 
   props: {
     uuid: {

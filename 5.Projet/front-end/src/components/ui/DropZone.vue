@@ -17,9 +17,9 @@ export default {
 
   setup(_, { emit }) {
     function onDrop(acceptFiles, rejectReasons) {
-      console.log(acceptFiles)
-      console.log(rejectReasons)
-      emit('close')
+      console.log(acceptFiles); // TODO
+      console.log(rejectReasons);
+      emit('close');
     }
 
     const { getRootProps, getInputProps, ...rest } = useDropzone({ onDrop })

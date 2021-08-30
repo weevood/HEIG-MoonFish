@@ -12,7 +12,7 @@ module.exports = {
     },
 
     deadline: {
-        type: 'localdatetime',
+        type: 'datetime',
         required: true,
     },
 

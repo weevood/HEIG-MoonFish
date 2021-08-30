@@ -43,7 +43,8 @@
         <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="tags">{{ $t('tags') }}</label>
         <Field id="tags" name="tags" as="select" multiple v-slot="{ value }"
                class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3">
-          <option v-for="tag in allTags" :key="tag" :value="tag" :selected="inArray(tag, tags) || value && value.includes(tag)"
+          <option v-for="tag in allTags" :key="tag" :value="tag"
+                  :selected="inArray(tag, tags) || value && value.includes(tag)"
                   class="text-gray-700 md:pb-1">
             {{ tag }}
           </option>
@@ -76,7 +77,7 @@ import inArray from "@/utils/inArray";
 export default {
   name: 'EditOrCreateProject',
   components: { Form, Field, ErrorMessage },
-  emits: ['done'],
+  emits: ['msg', 'done'],
 
   props: {
     uuid: {
@@ -142,17 +143,17 @@ export default {
 
     async updateOrCreate(project) {
       this.loading = true;
-      this.$emit('done', project);
       project.lang = (localStorage.getItem('lang') || process.env.VUE_APP_I18N_LOCALE || 'en');
       project.tags = project.tags.join(';');
       if (project.uuid) {
         // Update existing project
-        request(ProjectsService.update(project), this)
+        request(ProjectsService.update(project), this);
       }
       else {
         // Create a new project
-        project = await request(ProjectsService.create(project), this)
+        project = await request(ProjectsService.create(project), this);
       }
+      this.$emit('done', project);
     }
 
   }

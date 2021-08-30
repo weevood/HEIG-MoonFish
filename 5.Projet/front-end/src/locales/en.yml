@@ -16,6 +16,7 @@ zipCode: "ZIP Code"
 color: "Color"
 owner: "Owner"
 team: "Team"
+with: "with"
 email:
   email: "Email"
   your: "Your email"
@@ -100,6 +101,8 @@ Projects:
   feedback: "Feedback"
   end: "Finished on"
   mark: "Mark"
+  price: "Enter your price"
+  specs: "Upload your specifications"
 
 # Resource
 

@@ -29,7 +29,7 @@
           </router-link>
 
           <ul class="pl-4">
-            <li v-for="(project, i) in myProjects" :key="`project-${i}`">
+            <li v-for="(project, i) in myProjects" :key="`MyProjects-${i}`">
               <router-link :to="`/projects/${project.uuid}`"
                            :class="$route.path === `/projects/${project.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
                            class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
@@ -56,7 +56,7 @@
           </router-link>
 
           <ul class="pl-4">
-            <li v-for="(team, i) in myTeams.STATUS_ACTIVE" :key="`Team-${i}`">
+            <li v-for="(team, i) in myTeams.STATUS_ACTIVE" :key="`MyTeams-${i}`">
               <router-link :to="`/teams/${team.uuid}`"
                            :class="$route.path === `/teams/${team.uuid}` ? 'bg-teal-500 text-gray-100' : 'text-gray-500'"
                            class="flex items-center my-2 py-2 px-6 hover:bg-teal-500 hover:bg-opacity-25 hover:text-gray-100 rounded m-2">
@@ -196,6 +196,7 @@ export default {
       const myProjects = await request(ProjectsService.getMine(), this);
       for (const s in myProjects) {
         myProjects[s].map(project => {
+          if (s === 'RELATION_APPLIES') { return }
           this.myProjects.push({ uuid: project.uuid, title: project.title });
         });
       }

@@ -21,7 +21,7 @@ const getProjectTeams = async (req, res) => {
         let projectTeams = []
         const data = matchedData(req)
         const project = await findProjectNode(data.uuid)
-        const rels = project.status <= PROJECT_STATUS_PROPOSAL ? [RELATION_MANDATES, RELATION_APPLIES]
+        const rels = project.get('status') <= PROJECT_STATUS_PROPOSAL ? [RELATION_MANDATES, RELATION_APPLIES]
             : [RELATION_MANDATES, RELATION_DEVELOPS, RELATION_ARBITRATES]
         await getNodeRelations('Project', project.get('uuid'), rels)
             .then(async ({ nodes, relations }) => {

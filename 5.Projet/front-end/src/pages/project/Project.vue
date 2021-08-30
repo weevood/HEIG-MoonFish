@@ -12,14 +12,14 @@
         <span>{{ $t('Projects.edit') }}</span>
       </button>
     </div>
-    <EditOrCreateProject v-if="edition" @done="refresh" :uuid="project.uuid" :title="project.title" :tags="project.tags"
+    <EditOrCreateProject v-if="edition" :uuid="project.uuid" :title="project.title" :tags="project.tags"
                          :teams="[{uuid: mandateTeamUuid}]" :description="project.description"
-                         :deadline="project.deadline"/>
+                         :deadline="project.deadline" @msg="transfer" @done="refresh"/>
     <section class="container" v-if="!edition">
       <div>
         <span class="font-bold text-gray-600">{{ project.status?.toUpperCase() }}</span>
         <ul class="my-2" style="margin-left: -4px; margin-right: -4px">
-          <li v-for="(tag, j) in project.tags" :key="`Project-${i}-tags-${j}`"
+          <li v-for="(tag, j) in tags(project.tags)" :key="`Tags-${i}-tags-${j}`"
               class="mx-1 text-xs inline-flex items-center font-bold leading-sm px-3 py-1 bg-blue-900 text-white rounded">
             {{ tag }}
           </li>
@@ -28,21 +28,37 @@
         <p class="text-xs font-bold text-blue-900">Deadline: {{ format(project.deadline) }}</p>
       </div>
     </section>
-    <div v-if="!inMyProjects && project.status === 'proposal'" class="container my-6"
-         style="margin-left: -8px; margin-right: -8px">
-      <button v-for="(team, i) in myTeams.STATUS_ACTIVE" :key="`MyTeams-${i}`"
-              :disabled="hasTeamApply(team.uuid)" @click="apply(team.uuid)"
-              :class="!team.relation.isOwner && 'hidden'"
-              class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-3 rounded inline-flex items-center m-2 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
-             stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
-        </svg>
-        <span>{{ `${ team.name } ${ $t('Projects.apply').toLowerCase() }` }}</span>
-      </button>
-    </div>
     <section class="container my-6" v-if="!edition && teams.length">
+      <div v-if="!inMyProjects && project.status === 'proposal' && !teamUuid"
+           style="margin-left: -8px; margin-right: -8px">
+        <button v-for="(team, i) in myTeams.STATUS_ACTIVE" :key="`MyTeams-${i}`"
+                :disabled="hasTeamApply(team.uuid)" @click="teamUuid = team.uuid"
+                class="text-white font-bold py-2 px-3 rounded inline-flex items-center m-2 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                :class="[!team.relation.isOwner && 'hidden', team.color ? `bg-${team.color}-500 hover:bg-${team.color}-600` : 'bg-green-500 hover:bg-green-600']">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+               stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
+          </svg>
+          <span>{{ `${ $t('Projects.apply') } ${ $t('with') } &laquo; ${ team.name } &raquo;` }}</span>
+        </button>
+      </div>
+      <Form v-if="teamUuid" class="flex flex-col my-6" :validation-schema="schema" v-slot="{ errors }">
+        <h3 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Projects.apply') }}</h3>
+        <div class="pt-3 rounded bg-gray-200">
+          <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="price">{{
+              $t('Projects.price')
+            }}</label>
+          <Field id="price" name="price" type="number" v-model="price"
+                 class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
+          <ErrorMessage name="price" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
+        </div>
+        <div v-if="teamUuid && price && !Object.keys(errors).length">
+          <label class="block text-gray-700 text-sm font-bold mt-4 mb-2"
+                 for="specs">{{ $t('Projects.specs') }}</label>
+          <DropZone id="specs" @close="apply"/>
+        </div>
+      </Form>
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.title') }}</h2>
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
         <li v-for="(team, i) in teams" :key="`Teams-${i}`"
@@ -61,9 +77,15 @@
                 <p class="text-sm font-medium text-gray-900">{{ team.name }}<span
                     class="text-gray-600 uppercase"> - {{ team.relation.name }}</span></p>
                 <div v-if="project.status === 'proposal' && team.relation.name !== 'MANDATES' ">
-                  <p class="text-sm font-medium text-gray-900">$ {{ team.price }}</p>
-                  <router-link :to="`/resources/${team.specifications}`" class="text-sm font-medium text-gray-900">
-                    {{ $t('Projects.specifications') }} ->
+                  <p class="text-sm font-medium text-gray-900">$ {{ team.relation.price }}</p>
+                  <router-link :to="`/resources/${team.relation.specifications}`"
+                               class="flex text-sm font-medium text-gray-900 hover:text-blue-900">
+                    {{ $t('Projects.specifications') }}
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="-4 -2 32 32"
+                         stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
                   </router-link>
                 </div>
               </div>
@@ -127,10 +149,12 @@ import TeamsService from "@/services/teams.service";
 import StarRating from "vue-star-rating";
 import request from "@/utils/request";
 import dateFormat from "dateformat";
+import { ErrorMessage, Field, Form } from "vee-validate";
+import * as yup from "yup";
 
 export default {
   name: 'Project',
-  components: { DropZone, EditOrCreateProject, StarRating },
+  components: { ErrorMessage, Field, Form, DropZone, EditOrCreateProject, StarRating },
   emits: ['msg'],
   watch: {
     $route() {
@@ -143,18 +167,26 @@ export default {
   },
 
   data() {
+    const schema = yup.object().shape({
+      price: yup.number().required(this.$t('required', { item: this.$t('name') }))
+    });
     return {
+      schema,
       edition: false,
+      onApply: false,
       onAddFeedback: false,
       onAddResource: false,
       inMineProjects: false,  // Projects that I mandates
       inMyProjects: false,    // All projects linked with my teams
       grade: 0,
+      price: 0,
+      specifications: 0,
+      teamUuid: 0,
       mandateTeamUuid: '',
       teams: [],
       resources: [],
       myTeams: { STATUS_ACTIVE: [] },
-      project: { title: '', description: 'title', deadline: '' },
+      project: { title: '', description: '', deadline: '' },
       myProjects: {
         RELATION_APPLIES: [],
         RELATION_ARBITRATES: [],
@@ -188,6 +220,17 @@ export default {
       }
     },
 
+    tags(tags) {
+      return tags && !Array.isArray(tags) ? tags.split(';') : tags;
+    },
+
+    transfer(msg) {
+      if (msg.status !== 'OK') {
+        this.retrieveProject();
+      }
+      this.$emit('msg', msg);
+    },
+
     refresh(project) {
       this.project.title = project.title;
       this.project.description = project.description;
@@ -200,22 +243,6 @@ export default {
       return inArray(uuid, this.teams.map(team => {return team['uuid']}));
     },
 
-    setGrade() {
-      if (!this.onAddFeedback)
-      {
-        this.onAddResource = false;
-        return;
-      }
-      else if (this.grade > 0 && this.grade <= 5)
-      {
-        const feedback = 0; // TODO
-        request(ProjectsService.feedback(this.project.uuid, { mark: this.grade, feedback }), this)
-        this.grade = 0;
-        this.onAddResource = false;
-        this.onAddFeedback = false;
-      }
-    },
-
     async getProject() {
       this.retrieveProject().then(() => this.retrieveMyProjects().then(() =>
       {
@@ -225,7 +252,23 @@ export default {
             inArray(this.project.uuid, this.myProjects.RELATION_DEVELOPS) ||
             inArray(this.project.uuid, this.myProjects.RELATION_ARBITRATES)
         );
-      }))
+      }));
+    },
+
+    setGrade() {
+      if (!this.onAddFeedback)
+      {
+        this.onAddResource = false;
+        return;
+      }
+      else if (this.grade > 0 && this.grade <= 5)
+      {
+        const feedback = 0; // TODO
+        this.feedback(this.grade, feedback);
+        this.grade = 0;
+        this.onAddResource = false;
+        this.onAddFeedback = false;
+      }
     },
 
     async retrieveProject() {
@@ -253,14 +296,32 @@ export default {
       this.myTeams = await request(TeamsService.getMine(), this);
     },
 
-    async apply(uuid) {
-      const price = 0; // TODO
-      const specifications = 0; // TODO
-      await request(ProjectsService.apply(this.project.uuid, { teamUuid: uuid, price, specifications }), this);
+    async apply() {
+      this.specifications = 42; // TODO
+      if (this.teamUuid && this.price && this.specifications)
+      {
+        await request(ProjectsService.apply(this.project.uuid, {
+          teamUuid: this.teamUuid,
+          price: this.price,
+          specifications: this.specifications
+        }), this);
+        this.teamUuid = 0;
+        this.price = 0;
+        this.specifications = 0;
+        this.onApply = false;
+        await this.retrieveTeams();
+      }
     },
 
     async accept(uuid) {
       await request(ProjectsService.accept(this.project.uuid, uuid), this);
+      await this.retrieveTeams();
+      await this.retrieveProject();
+    },
+
+    async feedback(mark, feedback) {
+      await request(ProjectsService.feedback(this.project.uuid, { mark, feedback }), this);
+      await this.retrieveProject();
     },
 
   }

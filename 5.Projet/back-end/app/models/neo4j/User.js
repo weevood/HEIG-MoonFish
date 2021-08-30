@@ -20,7 +20,7 @@ module.exports = {
         direction: 'out',
         properties: {
             since: {
-                type: 'localdatetime',
+                type: 'datetime',
                 required: true,
                 default: () => new Date,
             },
@@ -44,7 +44,7 @@ module.exports = {
         direction: 'out',
         properties: {
             date: {
-                type: 'localdatetime',
+                type: 'datetime',
                 required: true,
                 default: () => new Date,
             },

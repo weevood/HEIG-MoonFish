@@ -27,11 +27,14 @@ const updateRelation = (a = {}, relation = '', b = {}, values = {}) => {
         if (await relExists(a, relation, b)) {
             let set = ''
             Object.entries(values).forEach(([key, value]) => {
-                set += `r.${key} = ${value}, `
+                if (key.toLowerCase().includes('date'))
+                    set += `r.${key} = date(datetime({epochmillis: ${value}})), `
+                else
+                    set += `r.${key} = ${value}, `
             })
             await neo4j.writeCypher(`
                 MATCH (:${a.model} {uuid: '${a.uuid}'})-[r:${relation}]-(:${b.model} {uuid: '${b.uuid}'})
-                SET ${set.replace(/,\s*$/, "")}
+                SET ${set.replace(/,\s*$/, '')}
                 RETURN r
             `)
                 .then(res => {

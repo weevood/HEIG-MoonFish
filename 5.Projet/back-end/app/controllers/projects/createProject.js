@@ -6,7 +6,7 @@ const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { createNode } = require('../../middleware/db/createNode')
 const { findTeamNode } = require('../teams/helpers')
-const { PROJECT_STATUS_PLANNING, PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
+const { PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
 const { setProjectInfo } = require('./helpers')
 const { createItem } = require('../../middleware/db')
 

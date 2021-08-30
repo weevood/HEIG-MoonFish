@@ -12,7 +12,7 @@
         <span>{{ $t('Teams.new') }}</span>
       </button>
     </div>
-    <EditOrCreateTeam v-if="creation" @done="refresh"/>
+    <EditOrCreateTeam v-if="creation" @msg="transfer" @done="refresh"/>
     <div v-if="!creation" class="container">
       <ul class="overflow-y-scroll" style="max-height: 80vh;">
         <li v-for="(team, i) in teams" :key="`Teams${i}`"
@@ -115,9 +115,15 @@ export default {
   methods: {
     inArray,
 
+    transfer(msg) {
+      this.$emit('msg', msg);
+    },
+
     refresh(team) {
-      this.retrieveMyTeams();
-      this.teams.unshift(team)
+      if (team) {
+        this.retrieveMyTeams();
+        this.teams.unshift(team);
+      }
       this.creation = false;
     },
 

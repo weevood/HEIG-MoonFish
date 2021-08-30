@@ -36,12 +36,12 @@ module.exports = {
         direction: 'out',
         properties: {
             publishDate: {
-                type: 'localdatetime',
+                type: 'datetime',
                 required: true,
                 default: () => new Date,
             },
             endDate: {
-                type: 'localdatetime',
+                type: 'datetime',
             },
             mark: {
                 type: 'integer',
@@ -59,7 +59,7 @@ module.exports = {
         direction: 'out',
         properties: {
             date: {
-                type: 'localdatetime',
+                type: 'datetime',
                 required: true,
                 default: () => new Date,
             },
@@ -81,12 +81,12 @@ module.exports = {
         direction: 'out',
         properties: {
             startDate: {
-                type: 'localdatetime',
+                type: 'datetime',
                 required: true,
                 default: () => new Date,
             },
             endDate: {
-                type: 'localdatetime',
+                type: 'datetime',
             }
         },
     },

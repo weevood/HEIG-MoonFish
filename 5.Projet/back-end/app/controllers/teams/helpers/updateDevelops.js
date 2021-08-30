@@ -2,7 +2,7 @@ const { findTeamNode } = require('./findTeamNode')
 const { findProjectNode } = require('../../projects/helpers')
 const { updateRelation } = require('../../../middleware/db')
 const { buildErrObject } = require('../../../middleware/utils')
-const { RELATION_MANDATES } = require('../../../models/enums/relations')
+const { RELATION_DEVELOPS } = require('../../../models/enums/relations')
 const { PROJECT_STATUS_ONGOING } = require('../../../models/enums/projectStatus')
 
 /**
@@ -11,17 +11,17 @@ const { PROJECT_STATUS_ONGOING } = require('../../../models/enums/projectStatus'
  * @param {uuid} projectUuid - the project uuid
  * @param {Object} values - the values to update
  */
-const updateMandates = (teamUuid, projectUuid, values = {}) => {
+const updateDevelops = (teamUuid, projectUuid, values = {}) => {
     return new Promise(async (resolve, reject) => {
         try {
             const team = await findTeamNode(teamUuid)
             const project = await findProjectNode(projectUuid, [PROJECT_STATUS_ONGOING])
-            resolve(await updateRelation(team, RELATION_MANDATES, project, values))
-            reject(buildErrObject(403, 'TEAM_NOT_MANDATES_PROJECT'))
+            resolve(await updateRelation(team, RELATION_DEVELOPS, project, values))
+            reject(buildErrObject(403, 'TEAM_NOT_DEVELOPS_PROJECT'))
         } catch (error) {
             reject(buildErrObject(404, 'FEEDBACK_FAILED'))
         }
     })
 }
 
-module.exports = { updateMandates }
+module.exports = { updateDevelops }

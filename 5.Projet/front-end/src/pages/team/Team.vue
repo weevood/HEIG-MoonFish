@@ -16,9 +16,11 @@
         <span>{{ $t('Teams.edit') }}</span>
       </button>
     </div>
-    <EditOrCreateTeam v-if="edition" :uuid="team.uuid" :name="team.name" :color="team.color" @done="refresh"/>
+    <EditOrCreateTeam v-if="edition" :uuid="team.uuid" :name="team.name" :color="team.color" @msg="transfer"
+                      @done="refresh"/>
     <section class="container">
-      <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus est massa, interdum non laoreet quis, vehicula
+      <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus est massa, interdum non
+        laoreet quis, vehicula
         eget ligula. Mauris a est metus. Aliquam auctor est non nunc tempus, non vehicula justo gravida. Morbi nec
         sollicitudin magna. Morbi iaculis iaculis erat a fermentum. Cras vitae ipsum urna. Mauris ac mi vehicula.</p>
     </section>
@@ -32,10 +34,10 @@
             <router-link :to="`/projects/${project.uuid}`" class="flex items-center">
               <div>
                 <p class="text-sm font-medium text-gray-900">
-                  {{ project.title }}<span class="text-gray-600"> - {{ project.status.toUpperCase() }}</span>
+                  {{ project.title }}<span class="text-gray-600"> - {{ project.status?.toUpperCase() }}</span>
                 </p>
                 <ul class="my-2" style="margin-left: -4px; margin-right: -4px">
-                  <li v-for="(tag, j) in project.tags" :key="`Project-${i}-tags-${j}`"
+                  <li v-for="(tag, j) in project.tags" :key="`Tags-${i}-tags-${j}`"
                       class="mx-1 text-xs inline-flex items-center font-bold leading-sm px-3 py-1 bg-blue-900 text-white rounded">
                     {{ tag }}
                   </li>
@@ -194,6 +196,13 @@ export default {
 
   methods: {
     inArray,
+
+    transfer(msg) {
+      if (msg.status !== 'OK') {
+        this.retrieveTeam();
+      }
+      this.$emit('msg', msg);
+    },
 
     refresh(team) {
       this.team.name = team.name;

@@ -76,15 +76,24 @@ export default {
     getMessage(msg) {
       this.msg = msg
     },
+    getErrorMsg(msg) {
+      if (this.$te(msg)) {
+        return this.$t(msg)
+      }
+      else if (this.$te(`error.${ msg }`)) {
+        return this.$t(`error.${ msg }`)
+      }
+      return msg
+    },
     errorMessage() {
       if (this.msg && this.msg.status !== 'OK')
       {
         if (this.msg.data && this.msg.data.error && this.msg.data.error.msg) {
-          return { message: `[${ this.msg.status }] ${ this.$t(`error.${ this.msg.data.error.msg }`) } ` }
+          return { message: `[${ this.msg.status }] ${ this.getErrorMsg(this.msg.data.error.msg) }` }
         }
         return {
           title: this.msg.title,
-          message: this.msg.message.startsWith('error.') ? this.$t(`error.${ this.msg.message }`) : this.msg.message
+          message: this.getErrorMsg(this.msg.message)
         }
       }
       return {}
