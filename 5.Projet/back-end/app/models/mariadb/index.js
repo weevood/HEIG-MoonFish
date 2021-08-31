@@ -48,8 +48,8 @@ BankAccount.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'})
 Category.hasOne(Category, { foreignKey: 'parentId' })
 
 // Notifications => User
-User.hasMany(Notification, {foreignKey: 'userId', sourceKey: 'id'})
-Notification.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'})
+User.hasMany(Notification, {foreignKey: 'userUuid', sourceKey: 'uuid'})
+Notification.belongsTo(User, {foreignKey: 'userUuid', targetKey: 'uuid'})
 
 // Resources => Project
 Project.hasMany(Resource, {foreignKey: 'projectId', sourceKey: 'id'})

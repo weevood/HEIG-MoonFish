@@ -5,13 +5,14 @@ const { check } = require('express-validator')
  * Validates create new item request
  */
 const validateCreateNotification = [
-    check('priority')
+    check('userUuid')
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY')
-        .trim(),
+        .isUUID(4)
+        .withMessage('NOT_VALID_UUID'),
     check('lang')
         .exists()
         .withMessage('MISSING')
@@ -27,6 +28,14 @@ const validateCreateNotification = [
         .withMessage('IS_EMPTY')
         .trim(),
     check('description')
+        .optional()
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY')
+        .trim(),
+    check('priority')
         .optional()
         .exists()
         .withMessage('MISSING')

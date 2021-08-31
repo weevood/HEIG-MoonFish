@@ -32,11 +32,12 @@ class NotificationsService {
 		 *
 		 * @return {*[]|Promise<AxiosResponse<any>>}
 		 */
-		getMine() {
+		getMine(archived = false) {
 				const user = JSON.parse(localStorage.getItem('user'))
+				let endpoint = `/notifications?orders[updatedAt]=DESC&filters[userUuid]=${ user.user.uuid }`
+				endpoint += (archived ? '&limit=50' : '&filters[read]=0')
 				if (user && user.user && user.user.uuid) {
-						// TODO orders[updatedAt
-						return http.get(`/notifications?orders[updatedAt]=DESC&filters[userUuid]=${ user.user.uuid }`)
+						return http.get(endpoint)
 				}
 				return []
 		}

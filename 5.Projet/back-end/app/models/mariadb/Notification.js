@@ -13,7 +13,12 @@ module.exports = {
 
         link: {
             type: DataTypes.STRING(128),
-            validate: { isUrl: true, max: 128 },
+            validate: { max: 128 },
+        },
+
+        read: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         }
 
     },

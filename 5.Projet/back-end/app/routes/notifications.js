@@ -11,6 +11,7 @@ const {
     getNotification,
     getNotifications,
     updateNotification,
+    setNotificationRead,
 } = require('../controllers/notifications')
 
 const {
@@ -18,6 +19,7 @@ const {
     validateDeleteNotification,
     validateGetNotification,
     validateUpdateNotification,
+    validateReadNotification,
 } = require('../controllers/notifications/validators')
 
 /*
@@ -36,7 +38,8 @@ router.get('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, valida
 // Update a notification by id
 router.patch('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateNotification, updateNotification)
 
-// Delete a notification
-router.delete('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateDeleteNotification, deleteNotification)
+// Delete a notification (Mark as read)
+// router.delete('/:id', requireAuth, requiredRole(ROLE_ADMIN), trimRequest.all, validateDeleteNotification, deleteNotification)
+router.delete('/:id', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateReadNotification, setNotificationRead)
 
 module.exports = router

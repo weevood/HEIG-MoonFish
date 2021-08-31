@@ -28,7 +28,7 @@ const findUserProjects = async (uuid) => {
                             ...projectData,
                             relation: {
                                 name: relations[i].type,
-                                status: relations[i].properties.status.low,
+                                status: relations[i].properties.status?.low,
                                 type: relations[i].properties.type,
                             }
                         })

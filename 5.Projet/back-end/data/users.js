@@ -8,7 +8,7 @@ const BankAccount = mariadb.models.BankAccount
 const Notification = mariadb.models.Notification
 const Translation = mariadb.models.NotificationTranslation
 const neo4j = require('../config/neode')
-
+const anUuid = uuid.v4();
 const users = [
     {
         user: {
@@ -74,7 +74,7 @@ const users = [
     {
         user: {
             id: 5,
-            uuid: uuid.v4(),
+            uuid: anUuid,
             firstName: 'Thibaud',
             lastName: 'Alt',
             roleId: 1,
@@ -84,16 +84,26 @@ const users = [
             userId: 5,
             email: 'thibaud.alt@gmail.com',
             password: '$2a$05$7LP3W0G8PuZJ0Te.cAwfte6S5A3wQs/q3rbQQnF6U2Pms1wmTBq72' // 123456789
-        }
+        },
+        notifications: [{
+            notification: { userUuid: anUuid },
+            translation: {
+                lang: 'en',
+                title: 'Welcome',
+                description: `on MooFish Thibaud, we hope you like it!`
+            }
+        }]
     }
 ]
 
 for (let i = 6; i <= 10; i++) {
+    const userUuid = uuid.v4()
+    const firstName = faker.name.firstName(i % 2 ? 'male' : 'female')
     users.push({
         user: {
             id: i,
-            uuid: uuid.v4(),
-            firstName: faker.name.firstName(i % 2 ? 'male' : 'female'),
+            uuid: userUuid,
+            firstName,
             lastName: faker.name.lastName(i % 2 ? 'male' : 'female'),
             phone: faker.phone.phoneNumber('+## ## ### ## ##'),
             street: faker.address.streetName(),
@@ -110,7 +120,7 @@ for (let i = 6; i <= 10; i++) {
             password: faker.internet.password(40),
         },
         resume: {
-            name: 'Resume of ' + faker.name.firstName(i % 2 ? 'male' : 'female'),
+            name: 'Resume of ' + firstName,
             link: faker.internet.url(),
             type: 'docx',
             privacy: 'public',
@@ -124,9 +134,14 @@ for (let i = 6; i <= 10; i++) {
             swift: faker.finance.bic(),
         }],
         notifications: [{
-            notification: {
-                userId: i,
-            },
+            notification: { userUuid },
+            translation: {
+                lang: 'en',
+                title: 'Welcome',
+                description: `on MooFish ${firstName}, we hope you like it!`
+            }
+        }, {
+            notification: { userUuid },
             translation: {
                 lang: 'en',
                 title: faker.lorem.word(),

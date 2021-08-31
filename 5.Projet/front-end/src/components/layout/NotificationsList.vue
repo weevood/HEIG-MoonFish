@@ -1,26 +1,29 @@
 <template>
-  <ul class="top-12 right-8 w-80 rounded-lg w-full"
-      :class="modal && 'absolute bg-blue-900 shadow-xl overflow-hidden z-10'">
-    <li v-if="!notifications?.length" class="px-4 py-3 text-sm italic text-white ">{{ $t('noItems') }}</li>
+  <ul class="top-12 right-8 w-80 rounded-lg w-full" style="min-width: 20rem;"
+      :class="!history && 'absolute bg-blue-900 shadow-xl overflow-hidden z-10'">
+    <li v-if="!notifications?.length" class="text-sm italic text-gray-600" :class="!history && 'px-4 py-3 text-white'">
+      {{ $t('noItems') }}
+    </li>
     <li v-for="(notif, i) in notifications" :key="`Notif-${i}`">
       <router-link v-if="notif.link" :to="notif.link" @click.prevent="remove(notif.id, false)"
-                   class="flex items-center py-2 text-sm hover:bg-teal-600 hover:text-white" :class="modal && 'text-white px-4 py-3'">
+                   class="flex items-center px-2 py-2 text-sm hover:bg-teal-600 hover:text-white rounded"
+                   :class="!history && 'text-white px-4 py-3'">
         <img class="h-8 w-8 rounded-full object-cover mx-1" alt="avatar"
              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=334&amp;q=80">
         <p class="text-sm mx-2">
-          <span class="font-bold">{{ notif.title }}&nbsp;</span>{{ notif.description }}<span class="text-xs"> [<em>{{
+          <span class="font-bold">{{ notif.title }}&nbsp;</span>{{ notif.description }}<span v-if="!history" class="text-xs"> [<em>{{
             $t('Notifications.view')
           }}</em>]</span><span class="text-gray-600"> - {{ timeAgo(notif.updatedAt) }}</span>
         </p>
       </router-link>
-      <div v-else class="flex items-center py-2 text-sm" :class="modal && 'text-white px-4 py-3'">
+      <div v-else class="flex items-center px-2 py-2 text-sm" :class="!history && 'text-white px-4 py-3'">
         <img class="h-8 w-8 rounded-full object-cover mx-1" alt="avatar"
              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=334&amp;q=80">
         <p class="text-sm mx-2">
           <span class="font-bold">{{ notif.title }}&nbsp;</span>{{ notif.description }}<span
             class="text-gray-600"> - {{ timeAgo(notif.updatedAt) }}</span>
         </p>
-        <span @click.prevent="remove(notif.id)" class="p-2 cursor-pointer" v-if="modal">
+        <span @click.prevent="remove(notif.id)" class="p-2 cursor-pointer" v-if="!history">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="-4 -4 32 32"
                    stroke="#c0392b">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -40,7 +43,7 @@ export default {
   emits: ['remove'],
 
   props: {
-    modal: {
+    history: {
       type: Boolean,
       default: false
     },

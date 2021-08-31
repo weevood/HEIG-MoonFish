@@ -4,8 +4,8 @@
       <h1 class="text-blue-900 text-3xl font-medium">{{ welcome() }}</h1>
     </div>
     <div class="container">
-      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Notifications.title') }}</h2>
-      <NotificationsList :notifications="notifications" :modal="false" @remove="remove"/>
+      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Notifications.activity') }}</h2>
+      <NotificationsList :notifications="notifications" :history="true" @remove="remove"/>
     </div>
   </main>
 </template>
@@ -55,7 +55,7 @@ export default {
     },
 
     async retrieveNotifications() {
-      this.notifications = await request(NotificationsService.getMine(), this)
+      this.notifications = await request(NotificationsService.getMine(true), this)
     }
   }
 

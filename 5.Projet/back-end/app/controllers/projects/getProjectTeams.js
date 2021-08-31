@@ -8,7 +8,7 @@ const {
     RELATION_APPLIES,
     RELATION_MANDATES,
     RELATION_DEVELOPS,
-    RELATION_ARBITRATES
+    RELATION_ARBITRATES, RELATION_IS_MEMBER_OF
 } = require('../../models/enums/relations')
 
 /**
@@ -22,11 +22,18 @@ const getProjectTeams = async (req, res) => {
         const data = matchedData(req)
         const project = await findProjectNode(data.uuid)
         const rels = project.get('status') <= PROJECT_STATUS_PROPOSAL ? [RELATION_MANDATES, RELATION_APPLIES]
-            : [RELATION_MANDATES, RELATION_DEVELOPS, RELATION_ARBITRATES]
+            : [RELATION_MANDATES, RELATION_DEVELOPS/*, RELATION_ARBITRATES*/]
         await getNodeRelations('Project', project.get('uuid'), rels)
             .then(async ({ nodes, relations }) => {
                 const teams = await clearNodes(nodes)
                 for (const [i, team] of teams.entries()) {
+                    await getNodeRelations('Team', team.uuid, RELATION_IS_MEMBER_OF)
+                        .then(({ nodes, relations }) => {
+                            for (const [j, relation] of relations.entries()) {
+                                if (relation.properties.isOwner)
+                                    team.ownerUuid = nodes[j].properties.uuid
+                            }
+                        })
                     projectTeams.push({
                         ...team,
                         relation: {

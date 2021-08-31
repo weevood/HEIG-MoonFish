@@ -73,7 +73,7 @@
         <div v-if="teamUuid && price && !Object.keys(errors).length">
           <label class="block text-gray-700 text-sm font-bold mt-4 mb-2"
                  for="specs">{{ $t('Projects.specs') }}</label>
-          <DropZone id="specs" @close="apply"/>
+          <DropZone id="specs" :project="project" :ownerUuid="ownerUuid" @close="apply"/>
         </div>
       </Form>
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.title') }}</h2>
@@ -82,8 +82,22 @@
             class="flex flex-col w-1/3 mb-4">
           <div
               class="flex flex-col px-4 py-6 mx-2 content-center bg-white border-2 border-gray-200 rounded-lg shadow-sm">
-            <router-link :to="`/teams/${team.uuid}`" class="flex items-center">
-              <div :class="`p-3 mr-4 bg-${team.color}-500 text-white rounded-full`">
+            <router-link v-if="team.relation.name === 'ARBITRATES'" :set="user = team"
+                         :to="`/users/${user.uuid}`" class="flex items-center">
+              <div class="p-3 mr-4 bg-gray-500 text-white rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+              </div>
+              <div>
+                <p class="text-sm font-medium text-gray-900">{{ user.firstName }} {{ user.lastName }} <span
+                    class="text-gray-600 uppercase"> - {{ user.relation.name }}</span></p>
+              </div>
+            </router-link>
+            <router-link v-else :to="`/teams/${team.uuid}`" class="flex items-center">
+              <div class="p-3 mr-4 bg-gray-500 text-white rounded-full" :class="team.color && `bg-${team.color}-500`">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                      stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -148,7 +162,7 @@
       <div v-if="onAddFeedback" class="mb-4 flex flex-col">
         <StarRating :increment=0.01 :padding=1 :rounded-corners=true v-model:rating="grade"/>
       </div>
-      <DropZone v-if="onAddResource || grade > 0" @close="setGrade"/>
+      <DropZone v-if="onAddResource || grade > 0" :project="project" :ownerUuid="ownerUuid" @close="setGrade"/>
       <p v-if="!resources.length && !onAddResource && !grade" class="italic text-gray-600">{{
           $t('noItems')
         }}</p>
@@ -168,6 +182,8 @@ import request from "@/utils/request";
 import dateFormat from "dateformat";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
+import { RELATION_MANDATES } from "@/enums/relations";
+import NotificationsService from "@/services/notifications.service";
 
 export default {
   name: 'Project',
@@ -198,6 +214,7 @@ export default {
       grade: 0,
       price: 0,
       specifications: 0,
+      ownerUuid: '',
       teamUuid: 0,
       mandateTeamUuid: '',
       teams: [],
@@ -295,6 +312,12 @@ export default {
 
     async retrieveTeams() {
       this.teams = await request(ProjectsService.getTeams(this.$route.params.uuid), this);
+      this.teams.some(function(team) {
+        if (team.relation.name === RELATION_MANDATES) {
+          this.ownerUuid = team.ownerUuid;
+          return true;
+        }
+      }, this);
     },
 
     async retrieveMyProjects() {
@@ -335,6 +358,16 @@ export default {
       await request(ProjectsService.accept(this.project.uuid, uuid), this);
       await this.retrieveTeams();
       await this.retrieveProject();
+      const members = await request(TeamsService.getMembers(uuid), this);
+      for (const user of members) {
+        await request(NotificationsService.create({
+          userUuid: user.uuid,
+          lang: 'en', // user.lang
+          title: this.$t('Projects.notification.accepted.title'),
+          description: this.$t('Projects.notification.accepted.desc', { project: this.project.title }),
+          link: '/projects/' + this.project.uuid
+        }), this);
+      }
     },
 
     async feedback(mark, feedback) {

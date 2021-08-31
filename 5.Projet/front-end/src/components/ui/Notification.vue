@@ -14,8 +14,8 @@
       </button>
       <div :class="open ? 'block' : 'hidden'" @click="$emit('show-notification', false)"
            class="fixed inset-0 h-full w-full z-10"></div>
-      <div :class="open ? 'block' : 'hidden'" style="width: 20rem;">
-        <NotificationsList :notifications="notifications" :modal="true" @remove="remove"/>
+      <div :class="open ? 'inline' : 'hidden'">
+        <NotificationsList :notifications="notifications" @remove="remove"/>
       </div>
     </div>
   </div>

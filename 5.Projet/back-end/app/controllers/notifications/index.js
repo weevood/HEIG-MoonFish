@@ -3,6 +3,7 @@ const { deleteNotification } = require('./deleteNotification')
 const { getNotification } = require('./getNotification')
 const { getNotifications } = require('./getNotifications')
 const { updateNotification } = require('./updateNotification')
+const { setNotificationRead } = require('./setNotificationRead')
 
 module.exports = {
     createNotification,
@@ -10,4 +11,5 @@ module.exports = {
     getNotification,
     getNotifications,
     updateNotification,
+    setNotificationRead,
 }

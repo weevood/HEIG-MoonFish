@@ -39,6 +39,7 @@ Alert:
 
 Notifications:
   title: "Notifications"
+  activity: "Activity history"
   view: "Click to view"
 
 Dropzone:
@@ -109,6 +110,10 @@ Projects:
   price: "Enter your price"
   specs: "Upload your specifications"
   proposal: "Show only projects on proposal"
+  notification:
+    accepted:
+      title: "Good job"
+      desc: 'Your team has been selected to develop the project "{project}"'
 
 # Resource
 
@@ -116,6 +121,10 @@ Resources:
   title: "Resources"
   new: "Add a new resource"
   feedback: "Upload the feedback and assign a grade"
+  notification:
+    newFile:
+      title: "New file uploaded"
+      desc: '{name} upload a new file ({file}) on project "{project}".'
 
 # Team
 

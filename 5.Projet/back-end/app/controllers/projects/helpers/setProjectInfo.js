@@ -26,8 +26,8 @@ const setProjectInfo = (req = {}, reqNode = {}) => {
                     project = {
                         ...project,
                         endDate: new Date(relations[0].properties.endDate),
-                        mark: relations[0].properties.mark.low,
-                        feedback: relations[0].properties.feedback.low,
+                        mark: relations[0].properties.mark?.low,
+                        feedback: relations[0].properties.feedback?.low,
                     }
                 })
         }

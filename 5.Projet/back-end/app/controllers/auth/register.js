@@ -1,8 +1,12 @@
 const { matchedData } = require('express-validator')
+const mariadb = require('../../models/mariadb')
+const Notification = mariadb.models.Notification
+const Trans = mariadb.models.NotificationTranslation
 const { registerUser, generateToken } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 const { emailExists, sendRegistrationEmail } = require('../../middleware/emailer')
 const { setUserInfo } = require('../users/helpers')
+const { createItem } = require("../../middleware/db");
 
 /**
  * Register function called by route
@@ -17,6 +21,17 @@ const register = async (req, res) => {
         if (!doesEmailExists) {
             const [user, auth] = await registerUser(data)
             const userInfo = await setUserInfo(user)
+            // Create welcome notification
+            const notification = await createItem(Notification, {
+                lang: user.lang || 'en',
+                userUuid: user.uuid,
+            })
+            await createItem(Trans, {
+                lang: user.lang || 'en',
+                notificationId: notification.id,
+                title: "Welcome",
+                description: `on MooFish ${user.firstName}, we hope you like it!`
+            })
             sendRegistrationEmail(locale, {
                 firstName: user.firstName,
                 lastName: user.lastName,
