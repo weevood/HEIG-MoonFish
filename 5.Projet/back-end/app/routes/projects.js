@@ -52,7 +52,7 @@ router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, va
 router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateUpdateProjectStatus, updateProjectStatus)
 
 // Get all project resources
-router.get('/:uuid/resources', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateGetProject, getProjectResources)
+router.get('/:uuid/resources', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetProject, getProjectResources)
 
 // Get all project teams
 router.get('/:uuid/teams', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetProject, getProjectTeams)

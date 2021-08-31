@@ -11,16 +11,16 @@
 <script>
 import { useDropzone } from 'vue3-dropzone'
 import NotificationsService from "@/services/notifications.service";
+import ResourcesService from "@/services/resources.service";
 import capitalize from "@/utils/capitalize";
-import axios from 'axios';
-import { API_BASE_URL } from '/config/constants'
 import request from "@/utils/request";
 
 export default {
   name: 'DropZone',
-  emits: ['close'],
+  emits: ['msg', 'close'],
 
   props: {
+    type: String,
     project: Object,
     ownerUuid: String
   },
@@ -29,28 +29,49 @@ export default {
 
     // eslint-disable-next-line no-unused-vars
     const saveFiles = (files) => {
-      const formData = new FormData(); // pass data as a form
-      for (let x = 0; x < files.length; x++) {
-        // append files as array to the form, feel free to change the array name
-        formData.append("images[]", files[x]);
-      }
+      // eslint-disable-next-line no-async-promise-executor
+      return new Promise(async(resolve, reject) => {
+        try {
+          const formData = new FormData(); // pass data as a form
+          let uploaded = [], filesNames = [];
+          for (const file of files) {
+            filesNames.push(file.name)
+            formData.append("files[]", file);
+            const prefix = (_.type === 'feedback' ? '[Feedback] ' : (_.type === 'apply' ? '[Specifications] ' : ''));
+            uploaded.push(await request(ResourcesService.create({
+              projectUuid: _.project.uuid,
+              name: prefix + file.name,
+              type: file.type,
+              size: file.size,
+              link: '#' // TODO
+            }), null, emit));
+          }
 
-      // post the formData to your backend where storage is processed. In the backend, you will need to loop through the array and save each file through the loop.
-      axios.post(API_BASE_URL, formData, { headers: { 'Content-Type': 'multipart/form-data', } })
-           .then((response) => { console.info(response.data) })
-           .catch((err) => { console.error(err) });
+          // TODO Post the formData to your backend where storage is processed.
+          // In the backend, loop through the array and save each file through the loop.
+          // axios.post(API_BASE_URL, formData, { headers: { 'Content-Type': 'multipart/form-data', } })
+          //      .then((response) => { console.info(response.data) })
+          //      .catch((err) => { console.error(err) });
+
+          await creatNotif(filesNames);
+          resolve(uploaded)
+        } catch (error) {
+          reject([])
+        }
+      })
     };
 
     function onDrop(acceptFiles, rejectReasons) {
-      console.log(acceptFiles);
-      console.log(rejectReasons);
-
-      // saveFiles(acceptFiles); // TODO
-
-      let filesNames = [];
-      acceptFiles.forEach((file) => { filesNames.push(file.name) });
-      creatNotif(filesNames);
-      emit('close');
+      if ((_.type === 'feedback' || _.type === 'apply') && acceptFiles.length !== 1) {
+        emit('msg', { status: 'KO', message: 'Please select only one file' });
+      }
+      else if (rejectReasons.length) {
+        console.log(rejectReasons);
+        emit('msg', { status: 'KO', message: 'Files rejected' });
+      }
+      else {
+        saveFiles(acceptFiles).then((files) => emit('upload', _.type, files));
+      }
     }
 
     function fullName(user) {
@@ -67,7 +88,7 @@ export default {
           description: `${ fullName(user.user) } upload ${ filesNames.length > 1 ? 'new files' : 'a new file' } (${ filesNames.join(', ') }) on project "${ _.project.title }".`,
           // $t('Resources.newFileDesc', { name: fullName(user), file: filesNames.join(', '), project: _.project.title })
           link: '/projects/' + _.project.uuid
-        }), this);
+        }), null, emit);
       }
     }
 

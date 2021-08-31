@@ -73,7 +73,7 @@
         <div v-if="teamUuid && price && !Object.keys(errors).length">
           <label class="block text-gray-700 text-sm font-bold mt-4 mb-2"
                  for="specs">{{ $t('Projects.specs') }}</label>
-          <DropZone id="specs" :project="project" :ownerUuid="ownerUuid" @close="apply"/>
+          <DropZone id="specs" :project="project" :ownerUuid="ownerUuid" type="apply" @msg="transfer" @upload="upload"/>
         </div>
       </Form>
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.title') }}</h2>
@@ -162,10 +162,33 @@
       <div v-if="onAddFeedback" class="mb-4 flex flex-col">
         <StarRating :increment=0.01 :padding=1 :rounded-corners=true v-model:rating="grade"/>
       </div>
-      <DropZone v-if="onAddResource || grade > 0" :project="project" :ownerUuid="ownerUuid" @close="setGrade"/>
+      <DropZone v-if="onAddResource || grade > 0" :project="project" :ownerUuid="ownerUuid"
+                :type="grade > 0 ? 'feedback' : 'upload'"
+                @msg="transfer" @upload="upload"/>
       <p v-if="!resources.length && !onAddResource && !grade" class="italic text-gray-600">{{
           $t('noItems')
         }}</p>
+      <ul class="flex flex-wrap items-center mt-3" style="margin-left: -8px; margin-right: -8px">
+        <li v-for="(resource, i) in resources" :key="`Resources-${i}`"
+            class="w-full mb-1">
+          <div class="px-4 py-1 mx-2 bg-white border-2 border-gray-200 rounded-lg shadow-sm">
+            <router-link :to="`/resource/${resource.id}`" class="flex items-center justify-between">
+              <p class="text-sm font-medium text-gray-900">
+                {{ resource.name }}<span class="text-gray-600"> - {{ resource.privacy?.toUpperCase() }}</span>
+              </p>
+              <a href="{{resource.link}}"
+                 class="flex text-xs font-medium text-blue-900 hover:text-teal-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="-4 -2 32 32"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                <span class="mt-1 ml-1">{{ $t('Resources.link') }}</span>
+              </a>
+            </router-link>
+          </div>
+        </li>
+      </ul>
     </section>
   </main>
 </template>
@@ -195,6 +218,7 @@ export default {
         this.edition = false;
         this.getProject();
         this.retrieveTeams();
+        this.retrieveResources();
       }
     }
   },
@@ -213,7 +237,6 @@ export default {
       inMyProjects: false,    // All projects linked with my teams
       grade: 0,
       price: 0,
-      specifications: 0,
       ownerUuid: '',
       teamUuid: 0,
       mandateTeamUuid: '',
@@ -244,6 +267,7 @@ export default {
     this.getProject();
     this.retrieveTeams();
     this.retrieveMyTeams();
+    this.retrieveResources();
   },
 
   methods: {
@@ -290,24 +314,32 @@ export default {
       }));
     },
 
-    setGrade() {
-      if (!this.onAddFeedback)
-      {
-        this.onAddResource = false;
-        return;
+    upload(type, files = []) {
+      for (const file of files) {
+        this.resources.push(file);
       }
-      else if (this.grade > 0 && this.grade <= 5)
+      if (type === 'apply' && this.teamUuid && this.price && files.length)
       {
-        const feedback = 0; // TODO
-        this.feedback(this.grade, feedback);
-        this.grade = 0;
-        this.onAddResource = false;
-        this.onAddFeedback = false;
+        this.apply(files[0].id);
       }
+      else if (type === 'feedback' && this.onAddFeedback && files.length && this.grade > 0 && this.grade <= 5)
+      {
+        this.feedback(this.grade, files[0].id);
+      }
+      this.teamUuid = 0;
+      this.price = 0;
+      this.grade = 0;
+      this.onApply = false;
+      this.onAddResource = false;
+      this.onAddFeedback = false;
     },
 
     async retrieveProject() {
       this.project = await request(ProjectsService.get(this.$route.params.uuid), this);
+    },
+
+    async retrieveResources() {
+      this.resources = await request(ProjectsService.getResources(this.$route.params.uuid), this);
     },
 
     async retrieveTeams() {
@@ -337,23 +369,6 @@ export default {
       this.myTeams = await request(TeamsService.getMine(), this);
     },
 
-    async apply() {
-      this.specifications = 42; // TODO
-      if (this.teamUuid && this.price && this.specifications)
-      {
-        await request(ProjectsService.apply(this.project.uuid, {
-          teamUuid: this.teamUuid,
-          price: this.price,
-          specifications: this.specifications
-        }), this);
-        this.teamUuid = 0;
-        this.price = 0;
-        this.specifications = 0;
-        this.onApply = false;
-        await this.retrieveTeams();
-      }
-    },
-
     async accept(uuid) {
       await request(ProjectsService.accept(this.project.uuid, uuid), this);
       await this.retrieveTeams();
@@ -370,9 +385,24 @@ export default {
       }
     },
 
+    async apply(specifications) {
+      if (specifications) {
+        await request(ProjectsService.apply(this.project.uuid, {
+          teamUuid: this.teamUuid,
+          price: this.price,
+          specifications
+        }), this);
+        await this.retrieveTeams();
+        await this.retrieveResources();
+      }
+    },
+
     async feedback(mark, feedback) {
-      await request(ProjectsService.feedback(this.project.uuid, { mark, feedback }), this);
-      await this.retrieveProject();
+      if (mark && feedback) {
+        await request(ProjectsService.feedback(this.project.uuid, { mark, feedback }), this);
+        await this.retrieveProject();
+        await this.retrieveResources();
+      }
     },
 
   }

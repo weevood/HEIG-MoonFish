@@ -79,6 +79,16 @@ class ProjectsService {
 		}
 
 		/**
+		 * getResources   Retrieve all resources of a project
+		 *
+		 * @param {uuid} uuid the project uuid
+		 * @return {Promise<AxiosResponse<any>>}
+		 */
+		getResources(uuid) {
+				return http.get(`/projects/${ uuid }/resources`);
+		}
+
+		/**
 		 * create   Create a new project
 		 *
 		 * @param {Object} data the new project data

@@ -121,6 +121,7 @@ Resources:
   title: "Resources"
   new: "Add a new resource"
   feedback: "Upload the feedback and assign a grade"
+  link: "Download the file"
   notification:
     newFile:
       title: "New file uploaded"

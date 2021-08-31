@@ -5,6 +5,12 @@ const { check } = require('express-validator')
  * Validates create new item request
  */
 const validateCreateResource = [
+    check('projectUuid')
+        .exists()
+        .withMessage('MISSING')
+        .not()
+        .isEmpty()
+        .withMessage('IS_EMPTY'),
     check('name')
         .exists()
         .withMessage('MISSING')
@@ -27,12 +33,14 @@ const validateCreateResource = [
         .withMessage('IS_EMPTY')
         .trim(),
     check('privacy')
+        .optional()
         .exists()
         .withMessage('MISSING')
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY'),
     check('visibility')
+        .optional()
         .exists()
         .withMessage('MISSING')
         .not()
