@@ -6,160 +6,62 @@ const Trans = mariadb.models.ProjectTranslation
 const Resource = mariadb.models.Resource
 const neo4j = require('../config/neode')
 const {
-    PROJECT_STATUS_PLANNING,
-    PROJECT_STATUS_ONGOING,
-    PROJECT_STATUS_ENDED,
-    PROJECT_STATUS_ABANDONED, PROJECT_STATUS_PROPOSAL
+    PROJECT_STATUS_ABANDONED,
+    PROJECT_STATUS_PROPOSAL,
+    PROJECT_STATUS_ONGOING
 } = require('../app/models/enums/projectStatus')
 
-const projects = [
-    {
+const random = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+const allTags = ['.NET', 'AMOS BASIC', 'AMPL', 'ANS Forth', 'ANSI Common Lisp', 'ActionScript', 'Ada', 'Agda', 'Alma-0',
+    'Amiga E', 'AppleScript', 'AspectJ', 'Ballerina', 'Boo', 'Delphi', 'Pascal', 'Bosque', 'Brainfuck', 'C#', 'C++',
+    'Ceylon', 'Chapel', 'Claire', 'Clojure', 'Cobra', 'CoffeeScript', 'ColdFusion', 'Crystal', 'Cuneiform', 'Curl',
+    'D', 'Dafny', 'DarkBasic', 'Dart', 'Dylan', 'E', 'ECMAScript', 'Elixir', 'Elm', 'EuLisp', 'Euphoria', 'F#',
+    'F-Script', 'Factor', 'Fantom', 'Fortran', 'Fortress', 'FreeBASIC', 'GDScript', 'GNU E', 'Gambas', 'Genie',
+    'Go', 'Gosu', 'Groovy', 'Hack', 'Harbour', 'Haskell', 'Haxe', 'Hopscotch', 'ISLISP', 'Idris', 'Io', 'J', 'Java',
+    'JavaScript', 'Join Java', 'Joy', 'Julia', 'K', 'Kotlin', 'LOLCODE', 'Lasso', 'Little b', 'LiveCode', 'LiveScript',
+    'Logtalk', 'Lua', 'Mercury', 'Nemerle', 'NetRexx', 'NewtonScript', 'Nim', 'OCaml', 'Oberon-07', 'Oberon-2',
+    'Object Oberon', 'Opa', 'OptimJ', 'Oxygene', 'Oz', 'P', 'P4', 'PHP', 'PWCT', 'Parasail', 'Perl', 'Pico', 'Pike',
+    'PowerShell', 'Processing', 'Pure', 'PureBasic', 'PureScript', 'Python', 'Q', 'QB64', 'R', 'RAPID', 'REBOL',
+    'Racket', 'Raku', 'Reason', 'Red', 'Ruby', 'Rust', 'S-Lang', 'Sather', 'Scala', 'Scratch', 'Seed7', 'Squeak',
+    'Squirrel', 'Subtext', 'Swift', 'Swift', 'Tea', 'Transcript', 'TypeScript', 'UnrealScript', 'VBScript', 'Vala',
+    'Visual Basic', 'Whiley', 'Xojo', 'Z Shell', 'ZPL', 'Zig']
+
+const projects = [];
+for (let i = 1; i <= 100; i++) {
+    const tags = [], resources = []
+    const status = random(PROJECT_STATUS_PROPOSAL, PROJECT_STATUS_ABANDONED)
+    for (let j = 0; j <= random(0, 4); j++)
+        tags.push(allTags[random(0, allTags.length - 1)])
+    for (let j = 0; j <= random(0, 2); j++)
+        resources.push({
+            name: (!j && status > PROJECT_STATUS_ONGOING ? '[Feedback] ' : '') + faker.system.commonFileName(),
+            link: faker.internet.url(),
+            type: faker.system.commonFileType(),
+            privacy: random(0, 1) ? 'public' : 'private',
+            authorId: 1
+        })
+    projects.push({
+        resources,
         project: {
-            id: 1,
+            id: i,
             uuid: uuid.v4(),
-            status: PROJECT_STATUS_ONGOING,
-            deadline: new Date('10/17/2021'),
-            tags: 'Web Design'
+            status: status,
+            deadline: status <= PROJECT_STATUS_ONGOING ? faker.date.future() : faker.date.past(),
+            tags: JSON.stringify(tags)
         },
         trans: [
             {
-                projectId: 1,
+                projectId: i,
                 lang: 'en',
-                title: 'Project V',
-                description: faker.commerce.productDescription()
-            },
-            {
-                projectId: 1,
-                lang: 'fr',
-                title: 'Projet V',
-                description: faker.commerce.productDescription()
-            }
-        ],
-        resources: [
-            {
-                name: faker.lorem.word(),
-                link: faker.internet.url(),
-                type: 'docx',
-                privacy: 'public',
-                visibility: 1,
-                authorId: 5
-            },
-            {
-                name: faker.lorem.word(),
-                link: faker.internet.url(),
-                type: 'xlxs',
-                privacy: 'private',
-                visibility: 1,
-                authorId: 6
-            }
-        ]
-    },
-    {
-        project: {
-            id: 2,
-            uuid: uuid.v4(),
-            status: PROJECT_STATUS_PLANNING,
-            deadline: new Date('12/17/2021'),
-            tags: 'JavaScript;TypeScript'
-        },
-        trans: [
-            {
-                projectId: 2,
-                lang: 'en',
-                title: 'Project W',
-                description: faker.commerce.productDescription()
-            },
-            {
-                projectId: 2,
-                lang: 'fr',
-                title: 'Projet W',
-                description: faker.commerce.productDescription()
-            }
-        ],
-        resources: [
-            {
-                name: faker.lorem.word(),
-                link: faker.internet.url(),
-                type: 'pdf',
-                privacy: 'public',
-                visibility: 1,
-                authorId: 6
-            }
-        ]
-    },
-    {
-        project: {
-            id: 3,
-            uuid: uuid.v4(),
-            name: 'Project X',
-            status: PROJECT_STATUS_ABANDONED,
-            deadline: new Date('01/10/2021'),
-            tags: 'PHP;Laravel'
-        },
-        trans: [
-            {
-                projectId: 3,
-                lang: 'en',
-                title: 'Project X',
-                description: faker.commerce.productDescription()
-            },
-            {
-                projectId: 3,
-                lang: 'fr',
-                title: 'Projet X',
+                title: 'Project ' + faker.lorem.word(),
                 description: faker.commerce.productDescription()
             }
         ]
-    },
-    {
-        project: {
-            id: 4,
-            uuid: uuid.v4(),
-            name: 'Project Y',
-            status: PROJECT_STATUS_PROPOSAL,
-            deadline: new Date('01/01/2023'),
-            tags: 'Java'
-        },
-        trans: [
-            {
-                projectId: 4,
-                lang: 'en',
-                title: 'Project Y',
-                description: faker.commerce.productDescription()
-            },
-            {
-                projectId: 4,
-                lang: 'fr',
-                title: 'Projet Y',
-                description: faker.commerce.productDescription()
-            }
-        ]
-    },
-    {
-        project: {
-            id: 5,
-            uuid: uuid.v4(),
-            name: 'Project Z',
-            status: PROJECT_STATUS_ENDED,
-            deadline: new Date('03/30/2021'),
-            tags: 'iOS;Android'
-        },
-        trans: [
-            {
-                projectId: 5,
-                lang: 'en',
-                title: 'Project Z',
-                description: faker.commerce.productDescription()
-            },
-            {
-                projectId: 5,
-                lang: 'fr',
-                title: 'Projet Z',
-                description: faker.commerce.productDescription()
-            }
-        ]
-    }
-]
+    })
+}
 
 neo4j.deleteAll('Project')
 projects.forEach((project) => {
@@ -170,7 +72,10 @@ projects.forEach((project) => {
                 if (project.resources)
                     project.resources.forEach(resource => {
                         resource.projectId = item.id
-                        Resource.create(resource)
+                        try {
+                            Resource.create(resource)
+                        } catch (e) {
+                        }
                     })
             })
             .then(() => {

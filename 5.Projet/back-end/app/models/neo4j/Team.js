@@ -44,7 +44,7 @@ module.exports = {
                 type: 'datetime',
             },
             mark: {
-                type: 'integer',
+                type: 'float',
             },
             feedback: {
                 type: 'integer'

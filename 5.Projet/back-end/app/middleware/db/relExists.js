@@ -21,7 +21,8 @@ const relExists = (a = {}, relation = '', b = {}, properties = {}) => {
 
     return new Promise(async (resolve, reject) => {
         await neo4j.cypher(
-            `RETURN EXISTS( (:${a.model} {uuid: '${a.uuid}'})-[:${relation}]-(:${b.model} {uuid: '${b.uuid}'}) ) as count`
+            `RETURN EXISTS( (:${a.model} {uuid: '${a.uuid}'})-[:${relation}]-(:${b.model} {uuid: '${b.uuid}'}) ) as count`,
+            {}
         )
             .then(res => {
                 if (properties) {

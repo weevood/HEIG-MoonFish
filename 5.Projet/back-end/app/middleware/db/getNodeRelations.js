@@ -12,7 +12,7 @@ const getNodeRelations = async (model, uuid, relation = '') => {
         if (Array.isArray(relation))
             relation = relation.join('|')
         const rel = relation ? `r:${relation}` : 'r';
-        await neo4j.cypher(`MATCH (a:${model} {uuid: '${uuid}'})-[${rel}]-(b) RETURN b, r`)
+        await neo4j.cypher(`MATCH (a:${model} {uuid: '${uuid}'})-[${rel}]-(b) RETURN b, r`, {})
             .then(async res => {
                 if (res.records.length) {
                     let nodes = [], relations = []

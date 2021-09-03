@@ -96,7 +96,7 @@ const users = [
     }
 ]
 
-for (let i = 6; i <= 10; i++) {
+for (let i = 6; i <= 100; i++) {
     const userUuid = uuid.v4()
     const firstName = faker.name.firstName(i % 2 ? 'male' : 'female')
     users.push({
@@ -120,7 +120,7 @@ for (let i = 6; i <= 10; i++) {
             password: faker.internet.password(40),
         },
         resume: {
-            name: 'Resume of ' + firstName,
+            name: '[Resume] ' + firstName,
             link: faker.internet.url(),
             type: 'docx',
             privacy: 'public',
@@ -139,13 +139,6 @@ for (let i = 6; i <= 10; i++) {
                 lang: 'en',
                 title: 'Welcome',
                 description: `on MooFish ${firstName}, we hope you like it!`
-            }
-        }, {
-            notification: { userUuid },
-            translation: {
-                lang: 'en',
-                title: faker.lorem.word(),
-                description: faker.lorem.sentence()
             }
         }]
     })
@@ -175,7 +168,7 @@ for (const user of users) {
                         BankAccount.create(account)
                     })
             })
-            .then(() => {
+            .then(async () => {
                 if (user.notifications)
                     user.notifications.forEach(notification => {
                         Notification.create(notification.notification)

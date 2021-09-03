@@ -1,10 +1,22 @@
 const { getNodes } = require('../app/middleware/db')
 const { findTeamsNodes } = require('../app/controllers/teams/helpers')
 const { findProjectsNodes } = require('../app/controllers/projects/helpers')
-const { STATUS_ACTIVE } = require('../app/models/enums/status')
+const { STATUS_ACTIVE, STATUS_INACTIVE } = require('../app/models/enums/status')
+const faker = require("faker");
+const { PROJECT_STATUS_ONGOING, PROJECT_STATUS_ENDED } = require("../app/models/enums/projectStatus");
 
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const inArray = (needle, haystack) => {
+    const length = haystack.length;
+    for (let i = 0; i < length; i++) {
+        if (haystack[i] === needle) {
+            return true;
+        }
+    }
+    return false;
 }
 
 getNodes('User').then(users => {
@@ -15,14 +27,19 @@ getNodes('User').then(users => {
 
             // isMemberOf
             for (const team of teams) {
+                let added = []
                 let u1 = random(0, max)
-                let u2 = random(0, max)
-                let u3 = random(0, max)
                 users[u1].relateTo(team, 'isMemberOf', { isOwner: true, status: STATUS_ACTIVE })
-                if (u1 !== u2)
-                    users[u2].relateTo(team, 'isMemberOf', { isOwner: false, status: STATUS_ACTIVE })
-                if (u1 !== u3 && u2 !== u3)
-                    users[u2].relateTo(team, 'isMemberOf', { isOwner: false })
+                added.push(u1)
+                for (let i = 0; i <= random(0, 10); i++) {
+                    let u2 = random(0, max)
+                    if (!inArray(u2, added))
+                        users[u2].relateTo(team, 'isMemberOf', {
+                            isOwner: false,
+                            status: random(0, 1) ? STATUS_ACTIVE : STATUS_INACTIVE
+                        })
+                    added.push(u2)
+                }
             }
 
             // arbitrates
@@ -31,21 +48,35 @@ getNodes('User').then(users => {
 
             max = (teams.length - 1)
             for (const project of projects) {
+                const endDate = faker.date.past()
                 // mandates
                 let t1 = random(0, max)
-                teams[t1].relateTo(project, 'mandates', { endDate: new Date(), mark: random(1, 10) })
+                let props = { publishDate: faker.date.past() }
+                if (project.get('status') >= PROJECT_STATUS_ENDED)
+                    props = { ...props, endDate, mark: (Math.random() * (5 - 1) + 1).toFixed(2) }
+                teams[t1].relateTo(project, 'mandates', props)
+
                 // applies
-                let t2 = random(0, max)
-                while (t1 === t2)
-                    t2 = random(0, max)
-                teams[t2].relateTo(project, 'applies', { price: random(1, 100000), specifications: random(1, 500) })
-                let t3 = random(0, max)
-                if (t1 !== t3 && t2 !== t3)
-                    teams[t3].relateTo(project, 'applies', { price: random(1, 100000), specifications: random(1, 500) })
+                let applies = []
+                for (let i = 0; i <= random(0, 3); i++) {
+                    let t2 = random(0, max)
+                    if (t2 !== t1 && !inArray(t2, applies))
+                        teams[t2].relateTo(project, 'applies', {
+                            price: random(1, 100000),
+                            specifications: random(1, 100)
+                        })
+                    applies.push(t2)
+                }
+
                 // develops
-                let t4 = random(t2, t3)
-                if (t4 !== t1)
-                    teams[t4].relateTo(project, 'develops')
+                let t3 = random(0, applies.length - 1)
+                props = {}
+                if (project.get('status') >= PROJECT_STATUS_ONGOING)
+                    props = { startDate: faker.date.past() }
+                if (project.get('status') >= PROJECT_STATUS_ENDED)
+                    props = { ...props, endDate }
+                if (t3 !== t1)
+                    teams[t3].relateTo(project, 'develops', props)
             }
         })
     })

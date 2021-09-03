@@ -18,7 +18,7 @@ const setProjectInfo = (req = {}, reqNode = {}) => {
             uuid: req.uuid,
             status: getEnumName(projectStatus, reqNode.status),
             deadline: new Date(reqNode.deadline),
-            tags: reqNode.tags.split(';')
+            tags: JSON.parse(reqNode.tags)
         }
         if (reqNode.status >= PROJECT_STATUS_ENDED && reqNode.status < PROJECT_STATUS_BANNED) {
             await getNodeRelations('Project', project.uuid, RELATION_MANDATES)

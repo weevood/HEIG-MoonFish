@@ -2,55 +2,29 @@ const uuid = require('uuid')
 const { STATUS_ACTIVE, STATUS_BANNED } = require('../app/models/enums/status')
 const neo4j = require('../config/neode')
 
-const teams = [
-    {
+const teams = [{
+    uuid: uuid.v4(),
+    name: 'Red Team',
+    color: 'red',
+    grade: 3.21,
+    status: STATUS_BANNED
+}]
+
+const capitalize = (word) => {
+    return word.toLowerCase().charAt(0).toUpperCase() + word.toLowerCase().slice(1);
+}
+
+const colors = ['blueGray', 'coolGray', 'gray', 'trueGray', 'warmGray', 'orange', 'amber', 'yellow', 'lime', 'green',
+    'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+for (let i = 0; i < colors.length; i++) {
+    teams.push({
         uuid: uuid.v4(),
-        name: 'Blue Team',
-        color: 'blue',
-        grade: 4.74,
+        name: capitalize(colors[i]) + ' Team',
+        color: colors[i],
+        grade: 0.0,
         status: STATUS_ACTIVE
-    },
-    {
-        uuid: uuid.v4(),
-        name: 'Red Team',
-        color: 'red',
-        grade: 3.21,
-        status: STATUS_BANNED
-    },
-    {
-        uuid: uuid.v4(),
-        name: 'Yellow Team',
-        color: 'yellow',
-        grade: 1.91,
-        status: STATUS_ACTIVE
-    },
-    {
-        uuid: uuid.v4(),
-        name: 'Green Team',
-        color: 'green',
-        grade: 3.79,
-        status: STATUS_ACTIVE
-    },
-    {
-        uuid: uuid.v4(),
-        name: 'Pink Team',
-        color: 'pink',
-        grade: 4.81,
-        status: STATUS_ACTIVE
-    },
-    {
-        uuid: uuid.v4(),
-        name: 'Orange Team',
-        color: 'orange',
-        status: STATUS_ACTIVE
-    },
-    {
-        uuid: uuid.v4(),
-        name: 'Indigo Team',
-        color: 'indigo',
-        status: STATUS_ACTIVE
-    }
-]
+    })
+}
 
 neo4j.deleteAll('Team')
 teams.forEach((team) => {

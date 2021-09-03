@@ -85,7 +85,7 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                 if (DROP_DB) {
                     // Load initial db data
                     await require('./data')
-                    await new Promise(r => setTimeout(r, 5000))
+                    await new Promise(r => setTimeout(r, 10000))
                 }
                 app.listen(app.get('port'))
                 await mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')

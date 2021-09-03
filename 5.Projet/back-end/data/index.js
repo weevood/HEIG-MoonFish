@@ -7,11 +7,19 @@ const { removeExtensionFromFile } = require('../app/middleware/utils')
  */
 
 // Loop models data path and loads every file except this file
-fs.readdirSync(dataPath).filter((file) => {
+fs.readdirSync(dataPath).filter(async (file) => {
+    // Creat users first
+    await require('./languages')
+    await require('./roles')
+    await require('./status')
+    await require('./teams')
+    await require('./users')
+    await require('./users')
+    await require('./projects')
     // Take filename and remove last part (extension)
     const dataFile = removeExtensionFromFile(file)
     // Prevents loading of this files
-    if (dataFile !== 'index' && dataFile !== 'relations' && file !== '.DS_Store') {
-        require(`./${dataFile}`)
-    }
+    // if (dataFile !== 'index' && dataFile !== 'users' && dataFile !== 'relations' && file !== '.DS_Store') {
+    //     await require(`./${dataFile}`)
+    // }
 })
