@@ -115,6 +115,11 @@ Projects:
       title: "Good job"
       desc: 'Your team has been selected to develop the project "{project}"'
 
+# Recommendations
+
+Recommendations:
+  title: "Projects specially selected for you"
+
 # Resource
 
 Resources:

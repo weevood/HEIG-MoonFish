@@ -3,20 +3,11 @@ const { findTeamsNodes } = require('../app/controllers/teams/helpers')
 const { findProjectsNodes } = require('../app/controllers/projects/helpers')
 const { STATUS_ACTIVE, STATUS_INACTIVE } = require('../app/models/enums/status')
 const faker = require("faker");
-const { PROJECT_STATUS_ONGOING, PROJECT_STATUS_ENDED } = require("../app/models/enums/projectStatus");
+const { PROJECT_STATUS_ONGOING, PROJECT_STATUS_ENDED } = require('../app/models/enums/projectStatus')
+const { inArray } = require('../app/middleware/utils/inArray')
 
 const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-const inArray = (needle, haystack) => {
-    const length = haystack.length;
-    for (let i = 0; i < length; i++) {
-        if (haystack[i] === needle) {
-            return true;
-        }
-    }
-    return false;
 }
 
 getNodes('User').then(users => {

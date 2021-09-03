@@ -1,7 +1,6 @@
 const { handleError } = require('../../middleware/utils')
 const { findUserByUuid } = require('../users/helpers')
-const { findProjectsRecommendations } = require('../recommendations/helpers')
-const { RECO_PROJECT_MANDATES } = require('../../models/enums/recommendations')
+const { findProjectsRecosByMandates } = require('../recommendations/helpers')
 
 /**
  * Get projects recommendations by tags similarities when called by route
@@ -12,7 +11,7 @@ const { RECO_PROJECT_MANDATES } = require('../../models/enums/recommendations')
 const getProjectsRecosByMandates = async (req, res) => {
     try {
         const user = await findUserByUuid(req.user.uuid)
-        res.status(200).json(await findProjectsRecommendations(user.uuid, RECO_PROJECT_MANDATES))
+        res.status(200).json(await findProjectsRecosByMandates(user.uuid))
     } catch (error) {
         handleError(res, error)
     }

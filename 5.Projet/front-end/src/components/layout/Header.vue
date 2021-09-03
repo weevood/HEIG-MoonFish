@@ -1,6 +1,6 @@
 <template>
   <header class="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-teal-600">
-    <SideBarButton @show-sidebar="showSidebar"/>
+    <SidebarButton @show-sidebar="showSidebar"/>
     <Search/>
     <Notification :open="notificationOpen" @show-notification="showNotification"/>
   </header>
@@ -8,12 +8,12 @@
 
 <script>
 import Notification from "@/components/ui/Notification";
-import SideBarButton from "@/components/ui/SideBarButton";
+import SidebarButton from "@/components/ui/SidebarButton";
 import Search from "@/components/ui/Search";
 
 export default {
   name: 'Header',
-  components: { Notification, SideBarButton, Search },
+  components: { Notification, SidebarButton, Search },
   emits: ['show-sidebar', 'show-notification'],
 
   props: {

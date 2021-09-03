@@ -6,6 +6,7 @@ const { requiredRole } = require('../controllers/auth')
 const { ROLE_USER } = require('../models/enums/roles')
 
 const {
+    getProjectsRecommendations,
     getProjectsRecosByTags,
     getProjectsRecosByMandates,
     getProjectsRecosByApplies,
@@ -14,6 +15,9 @@ const {
 /*
  * Define all "Recommendations" routes
  */
+
+// Get a set of projects recommendations
+router.get('/projects', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getProjectsRecommendations)
 
 // Get projects recommendations by tags similarities
 router.get('/projects/tags', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getProjectsRecosByTags)

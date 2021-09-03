@@ -1,5 +1,6 @@
 const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
+const { MIN_PROJECT_MARK, MAX_PROJECT_MARK } = require('../../../../config/constants')
 
 /**
  * Validates update item request
@@ -19,6 +20,8 @@ const validateFeedbackProject = [
         .not()
         .isEmpty()
         .withMessage('IS_EMPTY')
+        .isFloat({ min: MIN_PROJECT_MARK, max: MAX_PROJECT_MARK })
+        .withMessage('NOT_IN_RANGE')
         .trim(),
     check('feedback')
         .exists()

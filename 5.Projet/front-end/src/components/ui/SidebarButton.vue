@@ -14,7 +14,7 @@
 <script>
 
 export default {
-  name: 'SideBarButton',
+  name: 'SidebarButton',
   emits: ['show-sidebar']
 };
 </script>

@@ -34,7 +34,11 @@
         </li>
       </ul>
     </section>
-    <ProjectsList :projects="projects"/>
+    <section class="container my-6">
+      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Projects.title') }}</h2>
+      <p v-if="!projects?.length" class="italic text-gray-600">{{ $t('noItems') }}</p>
+      <ProjectsList :projects="projects" @msg="transfer"/>
+    </section>
   </main>
 </template>
 

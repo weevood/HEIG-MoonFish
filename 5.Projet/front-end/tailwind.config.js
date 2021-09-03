@@ -5,6 +5,7 @@ module.exports = {
 				fontFamily: {
 						display: ['Raleway', 'sans-serif'],
 						body: ['Poppins', 'sans-serif'],
+						'allison': ['"Allison"', 'cursive']
 				},
 				container: {
 						padding: '1.5rem',
