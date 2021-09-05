@@ -2,7 +2,12 @@ const { handleError } = require('../../middleware/utils')
 const { findProjectsRecosByApplies, findProjectsRecosByMandates, findProjectsRecosByTags } = require('./helpers');
 const { getEnumValues } = require('../../models/enums/getEnumValues')
 const { findUserByUuid } = require('../users/helpers')
-const { NB_OF_TAGS_FOR_100_PERCENT, MIN_PROJECT_MARK, MAX_PROJECT_MARK } = require('../../../config/constants')
+const {
+    NB_OF_TAGS_FOR_100_PERCENT,
+    NB_OF_APPLIES_FOR_100_PERCENT,
+    MIN_PROJECT_MARK,
+    MAX_PROJECT_MARK
+} = require('../../../config/constants')
 const NB_OF_RECOMMENDATIONS = getEnumValues(require('../../models/enums/recommendations')).length
 
 /**
@@ -20,11 +25,15 @@ const getProjectsRecommendations = async (req, res) => {
 
         await findProjectsRecosByApplies(user.uuid, limit).then((projects) => {
             for (const project of projects) {
-                const recommendedAt = percentage
-                if (recommendedProjects[project.uuid] === undefined)
-                    recommendedProjects[project.uuid] = { recommendedAt, ...project }
-                else
-                    recommendedProjects[project.uuid].recommendedAt += recommendedAt
+                if (project.nbOfApplies >= 1) {
+                    const recommendedAt = percentage * ((project.nbOfApplies >= NB_OF_APPLIES_FOR_100_PERCENT ?
+                        NB_OF_APPLIES_FOR_100_PERCENT : project.nbOfApplies) / NB_OF_APPLIES_FOR_100_PERCENT)
+                    if (recommendedProjects[project.uuid] === undefined) {
+                        delete project.nbOfApplies
+                        recommendedProjects[project.uuid] = { recommendedAt, ...project }
+                    } else
+                        recommendedProjects[project.uuid].recommendedAt += recommendedAt
+                }
             }
         })
 
