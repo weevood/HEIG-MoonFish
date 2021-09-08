@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
+const { requireAuth } = require('../middleware/auth')
 const { requiredRole } = require('../controllers/auth')
 const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../models/enums/roles')
 
@@ -39,23 +39,23 @@ const {
 // Get all projects
 router.get('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getProjects)
 
-// Create a project (MANDATES)
-router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateProject, createProject)
-
 // Get a project by uuid
 router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetProject, getProject)
-
-// Update a project by uuid
-router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProject, updateProject)
-
-// Update a project status
-router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateUpdateProjectStatus, updateProjectStatus)
 
 // Get all project resources
 router.get('/:uuid/resources', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetProject, getProjectResources)
 
 // Get all project teams
 router.get('/:uuid/teams', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetProject, getProjectTeams)
+
+// Create a project (MANDATES)
+router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateProject, createProject)
+
+// Update a project by uuid
+router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateProject, updateProject)
+
+// Update a project status
+router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR), trimRequest.all, validateUpdateProjectStatus, updateProjectStatus)
 
 // Arbitrate a project (ARBITRATES)
 router.put('/:uuid/arbitrate', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateArbitrateProject, arbitrateProject)

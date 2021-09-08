@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
+const { requireAuth } = require('../middleware/auth')
 const { ROLE_USER } = require('../models/enums/roles')
 
 const {

@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const { requireAuth } = require('../middleware/auth')
 const trimRequest = require('trim-request')
+const { requireAuth } = require('../middleware/auth')
 const { requiredRole } = require('../controllers/auth')
 const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../models/enums/roles')
 
@@ -36,9 +36,6 @@ const {
 // Get all teams
 router.get('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, getTeams)
 
-// Create a team
-router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateTeam, createTeam)
-
 // Get a team by uuid
 router.get('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeam)
 
@@ -47,6 +44,9 @@ router.get('/:uuid/users', requireAuth, requiredRole(ROLE_USER), trimRequest.all
 
 // Get all team projects
 router.get('/:uuid/projects', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateGetTeam, getTeamProjects)
+
+// Create a team
+router.post('/', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateCreateTeam, createTeam)
 
 // Update a team by uuid
 router.patch('/:uuid', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateUpdateTeam, updateTeam)
