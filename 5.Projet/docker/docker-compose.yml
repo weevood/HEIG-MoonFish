@@ -28,7 +28,7 @@ services:
       - mariadb-data:/var/lib/mysql
       - ./mariadb/init.sql:/data/application/init.sql
     environment:
-      - ALLOW_EMPTY_PASSWORD: yes
+      - ALLOW_EMPTY_PASSWORD:true
 
   phpmyadmin:
     image: phpmyadmin
