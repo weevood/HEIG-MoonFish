@@ -9,8 +9,11 @@ module.exports = {
         required: true,
     },
 
-    tags: {
-        type: 'string',
+    tags: 'string',
+
+    createdAt: {
+        type: 'datetime',
+        default: () => new Date,
     },
 
     isMemberOf: {
@@ -57,11 +60,6 @@ module.exports = {
                 required: true
             }
         },
-    },
-
-    createdAt: {
-        type: 'datetime',
-        default: () => new Date,
     }
 
 };

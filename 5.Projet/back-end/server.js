@@ -72,7 +72,7 @@ app.use(helmet())
 app.use(express.static('public'))
 app.use(require('./app/routes'))
 
-// Init MongoDB
+// Init MongoDB (unused for the moment)
 // initMongo()
 
 // Init Sequelize

@@ -60,7 +60,7 @@ router.patch('/:uuid/status/:status', requireAuth, requiredRole(ROLE_MODERATOR),
 // Arbitrate a project (ARBITRATES)
 router.put('/:uuid/arbitrate', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateArbitrateProject, arbitrateProject)
 
-// Leave a project (APPLIES)
+// Join a project (APPLIES)
 router.put('/:uuid/apply', requireAuth, requiredRole(ROLE_USER), trimRequest.all, validateApplyProject, applyProject)
 
 // Leave a project (DEVELOPS)

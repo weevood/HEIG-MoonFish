@@ -5,6 +5,7 @@ module.exports = {
     attributes: {
 
         uuid: {
+            primaryKey: true,
             type: DataTypes.STRING(36),
             validate: { isUUID: 4, len: 36 },
             allowNull: false,

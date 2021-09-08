@@ -13,7 +13,7 @@ fs.readdirSync(modelsPath).filter((file) => {
     // Take filename and remove last part (extension)
     const modelFile = removeExtensionFromFile(file)
     // Prevents loading of this files
-    if (modelFile !== 'index' && file !== '.DS_Store') {
+    if (modelFile !== 'index' && modelFile !== 'relations' && file !== '.DS_Store') {
         const modelData = require(`./${modelFile}`)
         models[modelFile] = sequelize.define(modelData.name, modelData.attributes, modelData.options)
     }
