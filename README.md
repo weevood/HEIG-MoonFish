@@ -7,6 +7,12 @@ _Étude et mise en place d’une plateforme web facilitant la gestion de projets
 ###### Enseignant responsable : _Patrick Lachaize_
 ###### Année académique : _2020-2021_
 
+## Code source
+
+-	Le code source compilable de la partie back-end de l’application réalisé avec Express est disponible dans le dossier [5.Projet/back-end](/5.Projet/back-end).
+-	Le code source exécutable de la partie front-end de l’application réalisé avec Vue.js est disponible dans le dossier [5.Projet/front-end](/5.Projet/front-end).
+-	Le code source du containeur Docker utilisant docker-compose est consultable dans le dossier [5.Projet/docker](/5.Projet/docker).
+
 ## Documentation et suivis du projet
 
 ### Rapport général
@@ -14,12 +20,12 @@ Ce projet est documenté dans un rapport, la dernière version de celui-ci se tr
 
 #### Annexes
  - Un journal de travail, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation/Annexes : [TB_Planning_Alt-Thibaud.xlsx](/2.Documentation/Annexes/TB_Planning_Alt-Thibaud.xlsx).
- - Des maquettes statiques ont été réalisées, les sources de celles-ci sont disponibles dans le dossier [3.Maquettes](/3.Maquettes).
+ - Des maquettes HTML statiques ont été réalisées, les sources de celles-ci sont disponibles dans le dossier [3.Maquettes](/3.Maquettes).
  - La définition des routes de l'API réalisé à l'aide de Postman : [MoonFish - Express.js REST API with JWT](https://documenter.getpostman.com/view/8210926/TzseHmCz)
+ - Pour les suivis des tâches, un Trello est mis à jour à l'adresse suivante : [trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor](https://trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor).
 
-### Suivis du projet
- - Pour les suivis des tâches, un trello est mis à jour à l'adresse suivante : [trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor](https://trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor).
- - L'état actuel du projet peut être consulté via l’URL suivant [heig-tb.netlify.app](https://heig-tb.netlify.app/).
+### Démonstration fonctionnelle
+ - L'état actuel du projet peut être consulté via l’URL suivant [heig-tb-moonfish.netlify.app](https://heig-tb-moonfish.netlify.app).
 
 ## Cahier des charges
 
