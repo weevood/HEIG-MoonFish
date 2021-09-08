@@ -19,6 +19,7 @@ npm run test
 ## Documentation
 - [Postman API](https://documenter.getpostman.com/view/8210926/TzseHmCz)
 
-###### Forked from 
-- [node-express-mongodb-jwt-rest-api-skeleton](https://www.npmjs.com/package/node-express-mongodb-jwt-rest-api-skeleton)
+###### Forked from
+- [sequelize](http://sequelize.org/)
 - [neode](https://github.com/adam-cowley/neode)
+- [node-express-mongodb-jwt-rest-api-skeleton](https://www.npmjs.com/package/node-express-mongodb-jwt-rest-api-skeleton)
