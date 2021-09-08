@@ -3,8 +3,8 @@ import App from './App.vue'
 import router from './router';
 import store from './store';
 import './assets/tailwind.css'
-import { FontAwesomeIcon } from './plugins/font-awesome'
-import i18n from './i18n'
+import { FontAwesomeIcon } from './assets/font-awesome'
+import i18n from '@/config/i18n'
 
 createApp(App)
 		.use(router)

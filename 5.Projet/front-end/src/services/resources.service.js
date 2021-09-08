@@ -1,4 +1,4 @@
-import http from '@/http';
+import http from '@/config/http';
 import clean from "@/utils/clean";
 
 class ResourcesService {

@@ -68,7 +68,7 @@
 <script>
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
-import { PROJECTS_TAGS } from "../../../config/constants";
+import { PROJECTS_TAGS } from '@/config/constants';
 import request from "@/utils/request";
 import ProjectsService from "@/services/projects.service";
 import dateFormat from "dateformat";

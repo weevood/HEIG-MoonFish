@@ -1,4 +1,4 @@
-import http from '@/http';
+import http from '@/config/http';
 import CacheService from "@/services/cache.service";
 import { RELATION_APPLIES, RELATION_ARBITRATES, RELATION_DEVELOPS, RELATION_MANDATES } from '@/enums/relations';
 import { PROJECT_STATUS_BANNED } from "@/enums/projectStatus";

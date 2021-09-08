@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { LANGUAGES } from '/config/constants';
+import { LANGUAGES } from '@/config/constants';
 
 export default {
   name: 'LanguageSwitcher',
