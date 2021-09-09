@@ -1,7 +1,8 @@
 const { queryToOptions } = require('../utils')
 
 /**
- * Get items from database
+ * Get items from MariaDB database matching the query options
+ *
  * @param {Object} model - the Sequelize model
  * @param {Object} options - build and query options
  */

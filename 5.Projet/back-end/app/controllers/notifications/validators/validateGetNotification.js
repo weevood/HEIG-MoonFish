@@ -2,7 +2,7 @@ const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
 
 /**
- * Validates get item request
+ * Validates the "get notification" request
  */
 const validateGetNotification = [
     check('id')

@@ -1,13 +1,13 @@
 const neo4j = require('../../../config/neode')
 
 /**
- * Get nodes from database
+ * Get all nodes relations from database
+ *
  * @param {string} model - the Neo4j model
  * @param {uuid} uuid - the node uuid
  * @param {string|array} relation - a specific relation (IS_MEMBER_OF)
  */
 const getNodeRelations = async (model, uuid, relation = '') => {
-
     return new Promise(async (resolve, reject) => {
         if (Array.isArray(relation))
             relation = relation.join('|')
@@ -17,8 +17,8 @@ const getNodeRelations = async (model, uuid, relation = '') => {
                 if (res.records.length) {
                     let nodes = [], relations = []
                     for (const record of res.records) {
-                        nodes.push(record.get(0))
-                        relations.push(record.get(1))
+                        nodes.push(record.get('b'))
+                        relations.push(record.get('r'))
                     }
                     resolve({ nodes, relations })
                 } else

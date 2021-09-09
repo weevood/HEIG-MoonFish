@@ -5,7 +5,8 @@ const { buildErrObject } = require('../../../middleware/utils')
 const { getItem } = require('../../../middleware/db')
 
 /**
- * Find notification by id
+ * Find a notification by its id and include the translations
+ *
  * @param {int} id - the notification´s id
  * @param {string} lang - the translation to load
  */

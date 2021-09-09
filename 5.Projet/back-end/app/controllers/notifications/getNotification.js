@@ -3,7 +3,8 @@ const { handleError } = require('../../middleware/utils')
 const { findNotification, setNotificationInfo } = require('./helpers')
 
 /**
- * Get item function called by route
+ * Retrieve a single notification based on its id
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
