@@ -1,4 +1,4 @@
-const { checkPermissions, isUserBlocked } = require('./helpers')
+const { checkPermissions } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../../models/enums/roles')
 

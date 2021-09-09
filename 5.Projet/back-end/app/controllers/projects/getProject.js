@@ -1,7 +1,6 @@
 const { matchedData } = require('express-validator')
-const { handleError, clearNode } = require('../../middleware/utils')
+const { handleError } = require('../../middleware/utils')
 const { findProjectNode, findProject, setProjectInfo } = require('./helpers')
-const { getEnumValues } = require('../../models/enums/getEnumValues')
 
 /**
  * Get item function called by route

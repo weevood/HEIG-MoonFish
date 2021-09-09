@@ -1,7 +1,7 @@
 const passport = require('passport')
+const JwtStrategy = require('passport-jwt').Strategy
 const { decrypt } = require('../app/middleware/auth/decrypt')
 const { findUserByUuid } = require('../app/controllers/users/helpers')
-const JwtStrategy = require('passport-jwt').Strategy
 
 /**
  * Extracts token from: header, body or query

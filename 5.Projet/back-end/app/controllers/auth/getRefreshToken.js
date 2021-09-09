@@ -1,4 +1,4 @@
-const { getUserIdFromToken, getUserToken } = require('./helpers')
+const { getUserIdFromToken, generateToken } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 const { findUserByUuid } = require('../users/helpers')
 
@@ -13,8 +13,7 @@ const getRefreshToken = async (req, res) => {
             const tokenEncrypted = req.headers.authorization.replace('Bearer ', '').trim()
             const userId = await getUserIdFromToken(tokenEncrypted)
             const user = await findUserByUuid(userId)
-            const token = await getUserToken(req, user)
-            delete token.user // Removes user info from response
+            const token = generateToken(user.uuid)
             res.status(200).json(token)
         }
     } catch (error) {

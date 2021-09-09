@@ -36,6 +36,7 @@ const register = async (req, res) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 email: auth.email,
+                verification: auth.verification,
             })
             let response = {
                 user: userInfo,

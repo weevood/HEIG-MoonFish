@@ -5,7 +5,6 @@ const { findUserAuth } = require('./findUserAuth')
 const { findUserAuthByEmail } = require('./findUserAuthByEmail')
 const { generateToken } = require('./generateToken')
 const { getUserIdFromToken } = require('./getUserIdFromToken')
-const { getUserToken } = require('./getUserToken')
 const { isUserBlocked } = require('./isUserBlocked')
 const { passwordsDoNotMatch } = require('./passwordsDoNotMatch')
 const { registerUser } = require('./registerUser')
@@ -21,7 +20,6 @@ module.exports = {
     findUserAuthByEmail,
     generateToken,
     getUserIdFromToken,
-    getUserToken,
     isUserBlocked,
     passwordsDoNotMatch,
     registerUser,

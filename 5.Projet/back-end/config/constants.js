@@ -8,5 +8,5 @@ module.exports = Object.freeze({
     NB_OF_APPLIES_FOR_100_PERCENT: 5,
     MIN_PROJECT_MARK: 0.1,
     MAX_PROJECT_MARK: 5.0,
-
+    NB_OF_SEEDS: 100,
 })

@@ -23,11 +23,13 @@ const setProjectInfo = (req = {}, reqNode = {}) => {
         if (reqNode.status >= PROJECT_STATUS_ENDED && reqNode.status < PROJECT_STATUS_BANNED) {
             await getNodeRelations('Project', project.uuid, RELATION_MANDATES)
                 .then(async ({ nodes, relations }) => {
-                    project = {
-                        ...project,
-                        endDate: new Date(relations[0].properties.endDate),
-                        mark: relations[0].properties.mark?.low,
-                        feedback: relations[0].properties.feedback?.low,
+                    if (relations && relations.length) {
+                        project = {
+                            ...project,
+                            endDate: new Date(relations[0].properties.endDate),
+                            mark: relations[0].properties.mark?.low,
+                            feedback: relations[0].properties.feedback?.low,
+                        }
                     }
                 })
         }

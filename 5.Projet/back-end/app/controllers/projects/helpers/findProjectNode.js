@@ -9,11 +9,11 @@ const { getNode } = require('../../../middleware/db')
 const findProjectNode = (uuid = '', status = []) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const project = await getNode('Project', uuid)
-            if (status.length && !status.includes(project.get('status').toNumber())) {
+            const projectNode = await getNode('Project', uuid)
+            if (status.length && !status.includes(projectNode.get('status').toNumber())) {
                 reject(buildErrObject(422, 'PROJECT_HAS_NOT_STATUS'))
             }
-            resolve(project)
+            resolve(projectNode)
         } catch (error) {
             reject(buildErrObject(404, 'PROJECT_DOES_NOT_EXIST'))
         }

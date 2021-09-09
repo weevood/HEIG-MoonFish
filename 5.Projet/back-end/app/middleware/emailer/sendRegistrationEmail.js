@@ -11,7 +11,7 @@ const sendRegistrationEmail = (locale = '', userData = {}) => {
     const subject = i18n.__('registration.SUBJECT')
     const htmlMessage = i18n.__(
         'registration.MESSAGE',
-        userData.firstname,
+        userData.firstName,
         process.env.FRONTEND_URL,
         userData.verification
     )

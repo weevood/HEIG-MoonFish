@@ -12,7 +12,9 @@ const { buildErrObject } = require('./buildErrObject')
 const validateResult = (req, res, next) => {
     try {
         validationResult(req).throw()
-        if (req.body.email) { req.body.email = req.body.email.toLowerCase() }
+        if (req.body.email) {
+            req.body.email = req.body.email.toLowerCase()
+        }
         return next()
     } catch (error) {
         return handleError(res, buildErrObject(422, error.array()))

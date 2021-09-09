@@ -16,7 +16,6 @@ const passwordsDoNotMatch = async (authentication = {}) => {
             if (authentication.loginAttempts <= MAX_LOGIN_ATTEMPTS) {
                 return reject(buildErrObject(409, 'WRONG_PASSWORD'))
             }
-
             resolve(await blockUser(authentication))
         } catch (error) {
             throw error

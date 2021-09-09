@@ -5,6 +5,7 @@ const Project = mariadb.models.Project
 const Trans = mariadb.models.ProjectTranslation
 const Resource = mariadb.models.Resource
 const neo4j = require('../config/neode')
+const { NB_OF_SEEDS } = require('../config/constants')
 const {
     PROJECT_STATUS_ABANDONED,
     PROJECT_STATUS_PROPOSAL,
@@ -30,7 +31,7 @@ const allTags = ['.NET', 'AMOS BASIC', 'AMPL', 'ANS Forth', 'ANSI Common Lisp', 
     'Visual Basic', 'Whiley', 'Xojo', 'Z Shell', 'ZPL', 'Zig']
 
 const projects = [];
-for (let i = 1; i <= 100; i++) {
+for (let i = 1; i <= NB_OF_SEEDS; i++) {
     const tags = [], resources = []
     const status = random(PROJECT_STATUS_PROPOSAL, PROJECT_STATUS_ABANDONED)
     for (let j = 0; j <= random(0, 4); j++)
@@ -79,9 +80,8 @@ projects.forEach((project) => {
                     })
             })
             .then(() => {
-                for (const trans of project.trans) {
+                for (const trans of project.trans)
                     Trans.create(trans)
-                }
             })
     } catch (error) {
         console.error(error)

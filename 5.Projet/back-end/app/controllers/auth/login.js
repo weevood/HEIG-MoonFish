@@ -1,14 +1,14 @@
 const { matchedData } = require('express-validator')
 const { handleError, buildErrObject } = require('../../middleware/utils')
 const { checkPassword } = require('../../middleware/auth')
-const { findUser } = require('../users/helpers')
+const { findUser, setUserInfo } = require('../users/helpers')
 const {
     findUserAuthByEmail,
     isUserBlocked,
     checkLoginAttempts,
     passwordsDoNotMatch,
     saveLoginAttempts,
-    getUserToken
+    generateToken
 } = require('./helpers')
 
 /**
@@ -31,7 +31,11 @@ const login = async (req, res) => {
             // all ok, register access and return token
             userAuth.loginAttempts = 0
             await saveLoginAttempts(userAuth, true)
-            res.status(200).json(await getUserToken(req, user))
+            const userInfo = await setUserInfo(user)
+            res.status(200).json({
+                token: generateToken(user.uuid),
+                user: userInfo
+            })
         }
     } catch (error) {
         // handleError(res, error)
