@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken')
 const { encrypt } = require('../../../middleware/auth')
 
 /**
- * Generates a token
+ * Generates a token with uuid, secret and expiration
+ *
  * @param {uuid} uuid - the user´s uuid
  */
 const generateToken = (uuid) => {

@@ -4,28 +4,31 @@ const { decrypt } = require('../app/middleware/auth/decrypt')
 const { findUserByUuid } = require('../app/controllers/users/helpers')
 
 /**
- * Extracts token from: header, body or query
+ * Extracts token from request
+ *
  * @param {Object} req - request object
  * @returns {string|null} token - decrypted token
  */
 const jwtExtractor = (req) => {
     let token = null
-    if (req.headers.authorization) {
+
+    // Extracts token from headers, body or query
+    if (req.headers.authorization)
         token = req.headers.authorization.replace('Bearer ', '').trim()
-    } else if (req.body.token) {
+    else if (req.body.token)
         token = req.body.token.trim()
-    } else if (req.query.token) {
+    else if (req.query.token)
         token = req.query.token.trim()
-    }
+
     // Decrypts token
-    if (token) {
+    if (token)
         token = decrypt(token)
-    }
+
     return token
 }
 
 /**
- * Options object for jwt middleware
+ * Options object for JWT middleware
  */
 const jwtOptions = {
     jwtFromRequest: jwtExtractor,
@@ -38,11 +41,12 @@ const jwtOptions = {
 const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
     findUserByUuid(payload.data._id)
         .then(async (user) => {
-            return !user ? done(null, false) : done(null, user)
+            return user ? done(null, user) : done(null, false)
         })
         .catch(error => {
             return done(error, false)
         })
 })
 
-passport.use(jwtLogin)
+// Intercept all protected requests
+passport.use('jwt', jwtLogin)
