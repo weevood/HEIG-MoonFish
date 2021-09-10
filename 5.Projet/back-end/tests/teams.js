@@ -175,7 +175,7 @@ describe('*********** TEAMS ***********', () => {
                     done()
                 })
         })
-        it('it should NOT leave a team before join it', (done) => {
+        it('it should NOT LEAVE a team before join it', (done) => {
             const uuid = createdTeams.slice(-1).pop()
             chai.request(server)
                 .put(`/teams/${uuid}/leave`)
