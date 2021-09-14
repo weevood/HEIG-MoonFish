@@ -12,7 +12,7 @@ Ce projet utilise *docker-compose*.
 
 `docker-compose up --build` Création, initialisation puis démarrage des containers
 
-`docker-compose down --volumes && docker volume rm -f CONTAINER_NAME ` Réinitialisation d'un volume de données
+`docker-compose down --volumes && docker volume rm -f CONTAINER_NAME` Réinitialisation d'un volume de données
 
 ### `docker exec`
 
