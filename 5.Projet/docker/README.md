@@ -7,8 +7,11 @@ Ce projet utilise *docker-compose*.
 ### `docker-compose`
 
 `docker-compose up` Initialisation et démarrage des containers
+
 `docker-compose up -d` Initialisation et démarrage des containers en mode *deamon*
+
 `docker-compose up --build` Création, initialisation puis démarrage des containers
+
 `docker-compose down --volumes && docker volume rm -f CONTAINER_NAME ` Réinitialisation d'un volume de données
 
 ### `docker exec`
@@ -16,6 +19,7 @@ Ce projet utilise *docker-compose*.
 *MariaDB*
 
 `docker exec -i mariadb mysql -uroot -ppwd moonfish < db_dump.sql` Importation
+
 `docker exec -i mariadb mysql -uroot -ppwd moonfish > db_dump.sql` Exportation
 
 
