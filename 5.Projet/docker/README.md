@@ -10,6 +10,8 @@ Ce projet utilise *docker-compose*.
 
 `docker-compose up -d` Initialisation et démarrage des containers en mode *deamon*
 
+`docker-compose up --build` Création, initialisation puis démarrage des containers
+
 ### `docker exec`
 
 *MariaDB*
