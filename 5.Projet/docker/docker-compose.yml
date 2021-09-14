@@ -3,12 +3,12 @@ services:
 
   moonfish-backend:
     container_name: moonfish-backend
-    restart: unless-stopped
+    restart: unless-stopped # Similar to always, except that when the container is stopped it is not restarted even after Docker daemon restarts.
     build:
       context: ../back-end/
       target: dev
     volumes:
-      - ../back-end:/src
+      - ../back-end:/app
     command: npm run start # 'npm run dev' : for development mode
     ports:
       - 3000:3000
@@ -22,7 +22,7 @@ services:
   mariadb:
     image: mariadb
     container_name: moonfish-mariadb
-    restart: always
+    restart: always # Always restart the container if it stops
     ports:
       - 3306:3306
     command: "mysqld --init-file /data/application/init.sql"
@@ -30,15 +30,15 @@ services:
       - mariadb-data:/var/lib/mysql
       - ./mariadb/init.sql:/data/application/init.sql
     environment:
-      # ALLOW_EMPTY_PASSWORD: true
-      MYSQL_DATABASE: moonfish
-      MYSQL_USER: moonfish
-      MYSQL_PASSWORD: moonfishPwd
+      MARIADB_RANDOM_ROOT_PASSWORD: 1
+      MARIADB_DATABASE: moonfish
+      MARIADB_USER: "moonfish"
+      MARIADB_PASSWORD: "moonfishPwd"
 
   phpmyadmin:
     image: phpmyadmin
     container_name: moonfish-phpmyadmin
-    restart: unless-stopped
+    restart: unless-stopped # Similar to always, except that when the container is stopped it is not restarted even after Docker daemon restarts.
     ports:
       - 8000:80
     environment:
@@ -50,7 +50,7 @@ services:
   neo4j:
     image: neo4j
     container_name: moonfish-neo4j
-    restart: always
+    restart: always # Always restart the container if it stops
     hostname: neo4j
     ports:
       - 7474:7474
