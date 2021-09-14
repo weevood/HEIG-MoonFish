@@ -2,6 +2,7 @@ version: "3.0"
 services:
 
   moonfish-backend:
+    container_name: moonfish-backend
     restart: unless-stopped
     build:
       context: ../back-end/
