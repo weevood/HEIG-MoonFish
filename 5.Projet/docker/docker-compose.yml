@@ -25,15 +25,13 @@ services:
     restart: always # Always restart the container if it stops
     ports:
       - 3306:3306
-    command: "mysqld --init-file /data/application/init.sql"
     volumes:
       - mariadb-data:/var/lib/mysql
-      - ./mariadb/init.sql:/data/application/init.sql
     environment:
       MARIADB_RANDOM_ROOT_PASSWORD: 1
       MARIADB_DATABASE: moonfish
-      MARIADB_USER: "moonfish"
-      MARIADB_PASSWORD: "moonfishPwd"
+      MARIADB_USER: moonfish
+      MARIADB_PASSWORD: moonfishPwd
 
   phpmyadmin:
     image: phpmyadmin
