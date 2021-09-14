@@ -1,10 +1,9 @@
 import axios from 'axios';
-import { API_BASE_URL } from '@/config/constants'
 import authHeader from '@/services/auth-header';
 import AuthService from "@/services/auth.service";
 
 // Create axios instance
-const http = axios.create({ baseURL: API_BASE_URL });
+const http = axios.create({ baseURL: process.env.VUE_APP_API_BASE_URL });
 
 // Add authentication headers to requests via interceptor
 http.interceptors.request.use(function(config) {

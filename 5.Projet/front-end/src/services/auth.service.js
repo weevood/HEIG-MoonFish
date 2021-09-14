@@ -1,11 +1,10 @@
 import axios from 'axios';
-import { API_BASE_URL } from '@/config/constants';
 import CacheService from "@/services/cache.service";
 
 class AuthService {
 
 		register(user) {
-				return axios.post(API_BASE_URL + '/register', {
+				return axios.post(process.env.VUE_APP_API_BASE_URL + '/register', {
 						firstName: user.firstName,
 						lastName: user.lastName,
 						email: user.email,
@@ -15,13 +14,13 @@ class AuthService {
 		}
 
 		verify(data) {
-				return axios.post(API_BASE_URL + '/verify', data);
+				return axios.post(process.env.VUE_APP_API_BASE_URL + '/verify', data);
 		}
 
 		login(user) {
-				console.log(API_BASE_URL + '/login')
+				console.log(process.env.VUE_APP_API_BASE_URL + '/login')
 				return axios
-						.post(API_BASE_URL + '/login', {
+						.post(process.env.VUE_APP_API_BASE_URL + '/login', {
 								email: user.email,
 								password: user.password
 						})
@@ -39,11 +38,11 @@ class AuthService {
 		}
 
 		forgot(email) {
-				return axios.post(API_BASE_URL + '/forgot', { email });
+				return axios.post(process.env.VUE_APP_API_BASE_URL + '/forgot', { email });
 		}
 
 		reset(data) {
-				return axios.post(API_BASE_URL + '/reset', data);
+				return axios.post(process.env.VUE_APP_API_BASE_URL + '/reset', data);
 		}
 }
 

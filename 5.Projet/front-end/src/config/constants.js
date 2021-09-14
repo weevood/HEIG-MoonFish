@@ -1,5 +1,4 @@
 module.exports = Object.freeze({
-		API_BASE_URL: 'http://localhost:3000',
 		LANGUAGES: ['en', 'fr', 'de', 'it'],
 		PROJECTS_TAGS: ['.NET', 'AMOS BASIC', 'AMPL', 'ANS Forth', 'ANSI Common Lisp', 'ActionScript', 'Ada', 'Agda', 'Alma-0',
 				'Amiga E', 'AppleScript', 'AspectJ', 'Ballerina', 'Boo', 'Delphi', 'Pascal', 'Bosque', 'Brainfuck', 'C#', 'C++',

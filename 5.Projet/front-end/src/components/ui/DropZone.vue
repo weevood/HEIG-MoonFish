@@ -49,7 +49,7 @@ export default {
 
           // TODO Post the formData to your backend where storage is processed.
           // In the backend, loop through the array and save each file through the loop.
-          // axios.post(API_BASE_URL, formData, { headers: { 'Content-Type': 'multipart/form-data', } })
+          // axios.post(process.env.VUE_APP_API_BASE_URL, formData, { headers: { 'Content-Type': 'multipart/form-data', } })
           //      .then((response) => { console.info(response.data) })
           //      .catch((err) => { console.error(err) });
 
