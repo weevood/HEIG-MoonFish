@@ -9,14 +9,14 @@ services:
       target: dev
     volumes:
       - ../back-end:/src
-    command: npm run dev # 'npm run start' : for production mode
+    command: npm run start # 'npm run dev' : for development mode
     ports:
       - 3000:3000
     depends_on:
       - mariadb
       - neo4j
     environment:
-      NODE_ENV: development # 'production' : for production mode
+      NODE_ENV: production # 'development' : for production mode
       DEBUG: nodejs-docker-express:*
 
   mariadb:
