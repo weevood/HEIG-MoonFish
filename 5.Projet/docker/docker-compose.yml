@@ -65,3 +65,7 @@ services:
 
 volumes:
   mariadb-data: #  This is where all db data will be stored, even if container is restarted, data will be there.
+
+networks:
+  default:
+    name: moonfish
