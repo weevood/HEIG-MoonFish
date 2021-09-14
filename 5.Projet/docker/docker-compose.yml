@@ -1,7 +1,7 @@
 services:
 
-  web:
-    container_name: moonfish-backend
+  moonfish-backend:
+    restart: unless-stopped
     build:
       context: ../back-end/
       target: dev
@@ -11,15 +11,15 @@ services:
     ports:
       - 3000:3000
     depends_on:
-      - mariadb
-      - neo4j
+      - moonfish-mariadb
+      - moonfish-neo4j
     environment:
       NODE_ENV: development # 'production' : for production mode
       DEBUG: nodejs-docker-express:*
 
   mariadb:
     image: mariadb
-    container_name: mariadb
+    container_name: moonfish-mariadb
     restart: always
     ports:
       - 3306:3306
@@ -28,12 +28,15 @@ services:
       - mariadb-data:/var/lib/mysql
       - ./mariadb/init.sql:/data/application/init.sql
     environment:
-      - ALLOW_EMPTY_PASSWORD:true
+      # ALLOW_EMPTY_PASSWORD: true
+      MYSQL_DATABASE: moonfish
+      MYSQL_USER: moonfish
+      MYSQL_PASSWORD: moonfishPwd
 
   phpmyadmin:
     image: phpmyadmin
-    container_name: phpmyadmin
-    restart: always
+    container_name: moonfish-phpmyadmin
+    restart: unless-stopped
     ports:
       - 8000:80
     environment:
@@ -44,8 +47,8 @@ services:
 
   neo4j:
     image: neo4j
-    container_name: neo4j
-    restart: unless-stopped
+    container_name: moonfish-neo4j
+    restart: always
     hostname: neo4j
     ports:
       - 7474:7474
