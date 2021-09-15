@@ -4,12 +4,17 @@
 
 ### Running in development mode
 ```bash
-npm run serve
+npm run dev
 ```
 
-### Build app for production
+### Run app on production
 ```bash
-npm run build
+npm run start
+```
+
+### Drop DB and run app on production 
+```bash
+npm run start-drop
 ```
 
 ## Visualisation
