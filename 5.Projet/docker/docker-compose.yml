@@ -60,7 +60,7 @@ services:
       - ./neo4j/logs:/logs
       - ./neo4j/plugins:/plugins
     environment:
-      NEO4J_AUTH: moonfish/wwjPLuSVVKFZ3QRa
+      NEO4J_AUTH: neo4j/wwjPLuSVVKFZ3QRa
       NEO4J_dbms_logs_debug_level: DEBUG
 
 volumes:
