@@ -10,7 +10,7 @@ class ResourcesService {
 		 * @return {Promise<unknown>}
 		 */
 		get(uuid) {
-				return http.get(`/resources/${ uuid }`);
+				return http.get(`/resources/${ uuid }`)
 		}
 
 		/**
@@ -59,4 +59,4 @@ class ResourcesService {
 
 }
 
-export default new ResourcesService();
+export default new ResourcesService()

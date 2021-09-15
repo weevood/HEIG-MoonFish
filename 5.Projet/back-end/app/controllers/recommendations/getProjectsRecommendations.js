@@ -1,5 +1,9 @@
 const { handleError } = require('../../middleware/utils')
-const { findProjectsRecosByApplies, findProjectsRecosByMandates, findProjectsRecosByTags } = require('./helpers');
+const {
+    findProjectsRecosByApplies,
+    findProjectsRecosByMandates,
+    findProjectsRecosByTags
+} = require('./helpers')
 const { getEnumValues } = require('../../models/enums/getEnumValues')
 const { findUserByUuid } = require('../users/helpers')
 const {

@@ -9,7 +9,7 @@ const Notification = mariadb.models.Notification
 const Translation = mariadb.models.NotificationTranslation
 const neo4j = require('../config/neode')
 const { NB_OF_SEEDS } = require('../config/constants')
-const anUuid = uuid.v4();
+const anUuid = uuid.v4()
 const users = [
     {
         user: {
@@ -118,7 +118,7 @@ for (let i = 6; i <= NB_OF_SEEDS; i++) {
         auth: {
             userId: i,
             email: faker.internet.email(),
-            password: faker.internet.password(40),
+            password: '$2a$05$7LP3W0G8PuZJ0Te.cAwfte6S5A3wQs/q3rbQQnF6U2Pms1wmTBq72' // 123456789
         },
         resume: {
             name: '[Resume] ' + firstName,
@@ -145,42 +145,51 @@ for (let i = 6; i <= NB_OF_SEEDS; i++) {
     })
 }
 
-neo4j.deleteAll('User')
-for (const user of users) {
+return new Promise(async (resolve, reject) => {
     try {
-
-        neo4j.create('User', {
-            uuid: user.user.uuid,
-            tags: user.user.tags || null
-        })
-        User.create(user.user)
-            .then((item) => {
-                Authentication.create(user.auth)
-                if (user.resume)
-                    Resource.create(user.resume)
-                        .then((resource) => {
-                            // item.update({ resumeId: resource.id }, { where: item.id })
+        await neo4j.deleteAll('User').then(() => {
+            for (const user of users) {
+                try {
+                    User.create(user.user)
+                        .then(() => {
+                            Authentication.create(user.auth)
+                                .then(() => {
+                                    neo4j.create('User', {
+                                        uuid: user.user.uuid,
+                                        tags: user.user.tags || null
+                                    })
+                                })
+                            if (user.resume) {
+                                Resource.create(user.resume)
+                                    .then((resource) => {
+                                        // item.update({ resumeId: resource.id }, { where: item.id })
+                                    })
+                            }
                         })
-            })
-            .then(() => {
-                if (user.bankAccounts)
-                    user.bankAccounts.forEach(account => {
-                        account.owner = user.user.lastName + ' ' + user.user.firstName
-                        BankAccount.create(account)
-                    })
-            })
-            .then(async () => {
-                if (user.notifications)
-                    user.notifications.forEach(notification => {
-                        Notification.create(notification.notification)
-                            .then((item) => {
-                                notification.translation.notificationId = item.id
-                                Translation.create(notification.translation)
-                            })
-                    })
-            })
-
+                        .then(() => {
+                            if (user.bankAccounts)
+                                user.bankAccounts.forEach(account => {
+                                    account.owner = user.user.lastName + ' ' + user.user.firstName
+                                    BankAccount.create(account)
+                                })
+                        })
+                        .then(() => {
+                            if (user.notifications)
+                                user.notifications.forEach(notification => {
+                                    Notification.create(notification.notification)
+                                        .then((item) => {
+                                            notification.translation.notificationId = item.id
+                                            Translation.create(notification.translation)
+                                        })
+                                })
+                        })
+                } catch (error) {
+                    console.error(error)
+                }
+            }
+        })
+        resolve()
     } catch (error) {
-        console.error(error)
+        reject(error)
     }
-}
+})

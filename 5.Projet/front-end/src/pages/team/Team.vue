@@ -181,6 +181,7 @@ export default {
     },
 
     refresh(team) {
+      this.$emit('refresh', 'teams');
       this.team.name = team.name;
       this.team.color = team.color;
       this.edition = false;
@@ -200,6 +201,7 @@ export default {
     },
 
     leave(uuid) {
+      this.$emit('refresh', 'teams');
       this.myTeams.STATUS_ACTIVE.some(function(id, i) {
         if (uuid === id) {
           this.myTeams.STATUS_ACTIVE.splice(i, 1);

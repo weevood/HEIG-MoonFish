@@ -9,9 +9,9 @@ class RecommendationsService {
 		 * @return {Promise<unknown>}
 		 */
 		getProjects(limit = 10) {
-				return http.get(`/recommendations/projects?limit=${ limit }`);
+				return http.get(`/recommendations/projects?limit=${ limit }`)
 		}
 
 }
 
-export default new RecommendationsService();
+export default new RecommendationsService()

@@ -14,11 +14,17 @@ const { RELATION_MANDATES } = require('../../../models/enums/relations')
 const setProjectInfo = (req = {}, reqNode = {}) => {
     return new Promise(async (resolve) => {
         reqNode = await clearNode(reqNode)
+        let parsedTags = [reqNode.tags]
+        try {
+            parsedTags = JSON.parse(reqNode.tags)
+        } catch (error) {
+            console.log(error)
+        }
         let project = {
             uuid: req.uuid,
             status: getEnumName(projectStatus, reqNode.status),
             deadline: new Date(reqNode.deadline),
-            tags: JSON.parse(reqNode.tags)
+            tags: parsedTags
         }
         if (reqNode.status >= PROJECT_STATUS_ENDED && reqNode.status < PROJECT_STATUS_BANNED) {
             await getNodeRelations('Project', project.uuid, RELATION_MANDATES)

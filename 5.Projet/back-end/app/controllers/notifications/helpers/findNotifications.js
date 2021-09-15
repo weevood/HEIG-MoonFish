@@ -3,7 +3,7 @@ const Notification = mariadb.models.Notification
 const NotificationTranslation = mariadb.models.NotificationTranslation
 const { buildErrObject } = require('../../../middleware/utils')
 const { getItems } = require('../../../middleware/db')
-const { findUser } = require('../../users/helpers');
+const { findUser } = require('../../users/helpers')
 
 /**
  * Find user from query

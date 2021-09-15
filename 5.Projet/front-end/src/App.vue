@@ -3,7 +3,7 @@
 
     <!-- Main pages-->
     <div v-if="currentUser" class="flex w-screen h-screen bg-gray-100">
-      <Sidebar :open="sidebarOpen" @show-sidebar="showSidebar"/>
+      <Sidebar :open="sidebarOpen" @show-sidebar="showSidebar" :key="sidebarKey"/>
       <div class="flex-1 flex flex-col overflow-hidden relative">
         <Header :sidebarOpen="sidebarOpen" @show-sidebar="showSidebar"
                 :notificationOpen="notificationOpen" @show-notification="showNotification"/>
@@ -14,7 +14,7 @@
                       @clear="msg = null" :can-close="true"/>
         </div>
         <div class="container">
-          <router-view @msg="getMessage"/>
+          <router-view @msg="getMessage" @refresh="refresh"/>
         </div>
       </div>
     </div>
@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       msg: null,
+      sidebarKey: 'sidebar-initial',
       sidebarOpen: false,
       notificationOpen: false,
     };
@@ -56,6 +57,12 @@ export default {
   },
 
   methods: {
+
+    refresh(item) {
+      console.log('Refresh: ' + item)
+      // Changing sidebarKey will rerender it
+      this.sidebarKey = Math.ceil(Math.random() * 10 ** 5)
+    },
 
     showSidebar(show = true) {
       this.sidebarOpen = show

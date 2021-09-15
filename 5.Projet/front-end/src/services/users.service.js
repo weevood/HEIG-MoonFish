@@ -19,7 +19,7 @@ class UsersService {
 		 * @return {Promise<unknown>}
 		 */
 		getTeams(uuid) {
-				return http.get(`/users/${ uuid }/teams`);
+				return http.get(`/users/${ uuid }/teams`)
 		}
 
 		/**
@@ -29,8 +29,8 @@ class UsersService {
 		 * @return {Promise<unknown>}
 		 */
 		getProjects(uuid) {
-				return http.get(`/users/${ uuid }/projects`);
+				return http.get(`/users/${ uuid }/projects`)
 		}
 }
 
-export default new UsersService();
+export default new UsersService()

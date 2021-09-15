@@ -197,6 +197,7 @@ export default {
       for (const s in myProjects) {
         myProjects[s].map(project => {
           if (s === 'RELATION_APPLIES') { return }
+          if (project.status !== "ongoing") { return } // TODO status passed
           this.myProjects.push({ uuid: project.uuid, title: project.title });
         });
       }

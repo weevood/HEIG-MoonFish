@@ -12,8 +12,6 @@ const path = require('path')                // Provides utilities for working wi
 const fs = require('fs')                    // Make file system operations apis simple
 const https = require('https')              // Enabling HTTPS things
 
-const DROP_DB = (process.env.NODE_ENV === 'production') // For development only
-
 // Configure databases connections
 const mariadb = require('./app/models/mariadb')
 const neo4j = require('./app/models/neo4j')
@@ -81,11 +79,11 @@ app.use(require('./app/routes'))
 mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
     .then(function () {
         return mariadb.sequelize.sync(
-            { force: DROP_DB } // On dev, drop and re-sync db
+            { force: process.env.DROP_DB } // On dev, drop and re-sync db
         )
             .then(async () => {
 
-                if (DROP_DB) {
+                if (process.env.DROP_DB) {
                     // Load initial db data
                     await require('./data')
                     await new Promise(r => setTimeout(r, 10000))
@@ -107,6 +105,8 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                         cert: fs.readFileSync('./config/server.cert')
                     }, app).listen(app.get('port'))
                 }
+
+                console.log('The databases (MariaDB & Neo4j) are ready.')
 
             }, function (error) {
                 console.error(error)

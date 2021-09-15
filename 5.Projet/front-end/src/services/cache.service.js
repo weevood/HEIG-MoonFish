@@ -7,7 +7,7 @@ class CacheService {
 		 * @return {any}
 		 */
 		get(key) {
-				return JSON.parse(localStorage.getItem(key));
+				return JSON.parse(localStorage.getItem(key))
 		}
 
 		/**
@@ -26,7 +26,7 @@ class CacheService {
 		 * @param {string} key the key of the item to remove
 		 */
 		del(key) {
-				localStorage.removeItem(key);
+				localStorage.removeItem(key)
 		}
 
 		/**

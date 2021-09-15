@@ -4,8 +4,8 @@ const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { setResourceInfo } = require('./helpers')
 const { createItem } = require('../../middleware/db')
-const { findProject } = require("../projects/helpers");
-const { findUserByUuid } = require("../users/helpers");
+const { findProject } = require('../projects/helpers')
+const { findUserByUuid } = require('../users/helpers')
 
 /**
  * Create item function called by route

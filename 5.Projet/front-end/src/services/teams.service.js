@@ -18,13 +18,13 @@ class TeamsService {
 		/**
 		 * getAll   Get all teams, optionally with a specified status
 		 *
-		 * @param {int} status
+		 * @param {Array} options
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
-		getAll(status) {
+		getAll(options) {
 				let endpoint = '/teams'
-				if (status) {
-						endpoint += `?filters[status]=${ status }`
+				for (let i = 0; i < options.length; i++) {
+						endpoint += (i ? '&' : '?') + options[i]
 				}
 				return http.get(endpoint)
 		}
@@ -92,7 +92,7 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		create(data) {
-				CacheService.del('myTeams');
+				CacheService.del('myTeams')
 				return http.post('/teams', clean(data))
 		}
 
@@ -103,6 +103,7 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		update(team) {
+				CacheService.del('myTeams')
 				return http.patch(`/teams/${ team.uuid }`, clean(team))
 		}
 
@@ -113,7 +114,7 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		delete(uuid) {
-				CacheService.del('myTeams');
+				CacheService.del('myTeams')
 				return http.delete(`/teams/${ uuid }`)
 		}
 
@@ -124,7 +125,7 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		join(uuid) {
-				CacheService.del('myTeams');
+				CacheService.del('myTeams')
 				return http.put(`/teams/${ uuid }/join`)
 		}
 
@@ -135,7 +136,7 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		leave(uuid) {
-				CacheService.del('myTeams');
+				CacheService.del('myTeams')
 				return http.put(`/teams/${ uuid }/leave`)
 		}
 
@@ -169,7 +170,7 @@ class TeamsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		giveOwnership(teamUuid, userUuid) {
-				CacheService.del('myTeams');
+				CacheService.del('myTeams')
 				return http.patch(`/teams/${ teamUuid }/users/${ userUuid }`, { action: 'giveOwnership' })
 		}
 

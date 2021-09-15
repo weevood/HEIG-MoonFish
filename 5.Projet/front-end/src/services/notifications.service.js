@@ -10,7 +10,7 @@ class NotificationsService {
 		 * @return {Promise<unknown>}
 		 */
 		get(uuid) {
-				return http.get(`/notifications/${ uuid }`);
+				return http.get(`/notifications/${ uuid }`)
 		}
 
 		/**
@@ -74,4 +74,4 @@ class NotificationsService {
 
 }
 
-export default new NotificationsService();
+export default new NotificationsService()

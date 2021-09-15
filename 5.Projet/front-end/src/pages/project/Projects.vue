@@ -73,7 +73,7 @@ import { PROJECTS_PER_PAGE } from "@/config/constants";
 export default {
   name: 'Projects',
   components: { EditOrCreateProject },
-  emits: ['msg'],
+  emits: ['msg', 'refresh'],
 
   data() {
     return {
@@ -117,6 +117,7 @@ export default {
     },
 
     refresh(project) {
+      this.$emit('refresh', 'projects');
       if (project) {
         this.projects.unshift(project);
         this.retrieveMyProjects();

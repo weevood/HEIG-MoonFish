@@ -53,7 +53,7 @@ import JoinOrLeaveTeam from "@/components/layout/JoinOrLeaveTeam";
 export default {
   name: 'Teams',
   components: { JoinOrLeaveTeam, EditOrCreateTeam, StarRating },
-  emits: ['msg'],
+  emits: ['msg', 'refresh'],
 
   data() {
     return {
@@ -85,6 +85,7 @@ export default {
     },
 
     refresh(team) {
+      this.$emit('refresh', 'teams');
       if (team) {
         this.retrieveMyTeams();
         this.teams.unshift(team);
@@ -97,6 +98,7 @@ export default {
     },
 
     leave(uuid) {
+      this.$emit('refresh', 'teams');
       this.myTeams.STATUS_ACTIVE.some(function(id, i) {
         if (uuid === id) {
           this.myTeams.STATUS_ACTIVE.splice(i, 1);
@@ -106,7 +108,8 @@ export default {
     },
 
     async retrieveTeams() {
-      this.teams = await request(TeamsService.getAll(STATUS_ACTIVE), this);
+      const options = [`filters[status]=${ STATUS_ACTIVE }`, `limit=50`,]
+      this.teams = await request(TeamsService.getAll(options), this);
     },
 
     async retrieveMyTeams() {

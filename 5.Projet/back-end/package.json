@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "cross-env NODE_ENV=production node server.js",
+    "start-drop": "cross-env NODE_ENV=production DROP_DB=true node server.js",
     "dev": "cross-env NODE_ENV=development nodemon --inspect=9230 --trace-warnings server.js",
     "test": "cross-env NODE_ENV=test npm run mocha",
     "mocha": "mocha tests/*.js --timeout=5000 --exit"

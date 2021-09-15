@@ -6,7 +6,7 @@ const { registerUser, generateToken } = require('./helpers')
 const { handleError } = require('../../middleware/utils')
 const { emailExists, sendRegistrationEmail } = require('../../middleware/emailer')
 const { setUserInfo } = require('../users/helpers')
-const { createItem } = require("../../middleware/db");
+const { createItem } = require('../../middleware/db')
 
 /**
  * Register function called by route

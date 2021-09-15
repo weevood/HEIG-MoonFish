@@ -144,7 +144,6 @@ export default {
     async updateOrCreate(project) {
       this.loading = true;
       project.lang = (localStorage.getItem('lang') || process.env.VUE_APP_I18N_LOCALE || 'en');
-      project.tags = project.tags.join(';');
       if (project.uuid) {
         // Update existing project
         request(ProjectsService.update(project), this);

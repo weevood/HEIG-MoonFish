@@ -11,7 +11,7 @@ const teams = [{
 }]
 
 const capitalize = (word) => {
-    return word.toLowerCase().charAt(0).toUpperCase() + word.toLowerCase().slice(1);
+    return word.toLowerCase().charAt(0).toUpperCase() + word.toLowerCase().slice(1)
 }
 
 const colors = ['blueGray', 'coolGray', 'gray', 'trueGray', 'warmGray', 'orange', 'amber', 'yellow', 'lime', 'green',
@@ -26,11 +26,20 @@ for (let i = 0; i < colors.length; i++) {
     })
 }
 
-neo4j.deleteAll('Team')
-teams.forEach((team) => {
+return new Promise(async (resolve, reject) => {
     try {
-        neo4j.create('Team', team)
+        await neo4j.deleteAll('Team').then(() => {
+            teams.forEach((team) => {
+                try {
+                    neo4j.create('Team', team)
+                } catch (error) {
+                    console.error(error)
+                }
+            })
+        })
+        resolve()
     } catch (error) {
-        console.error(error)
+        reject(error)
     }
 })
+

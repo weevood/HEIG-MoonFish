@@ -10,11 +10,11 @@ class AuthService {
 						email: user.email,
 						password: user.password,
 						lang: user.lang || 'en'
-				});
+				})
 		}
 
 		verify(data) {
-				return axios.post(process.env.VUE_APP_API_BASE_URL + '/verify', data);
+				return axios.post(process.env.VUE_APP_API_BASE_URL + '/verify', data)
 		}
 
 		login(user) {
@@ -29,21 +29,21 @@ class AuthService {
 										localStorage.setItem('user', JSON.stringify(response.data))
 								}
 								return response.data;
-						});
+						})
 		}
 
 		logout() {
-				CacheService.flush();
-				localStorage.removeItem('user');
+				CacheService.flush()
+				localStorage.removeItem('user')
 		}
 
 		forgot(email) {
-				return axios.post(process.env.VUE_APP_API_BASE_URL + '/forgot', { email });
+				return axios.post(process.env.VUE_APP_API_BASE_URL + '/forgot', { email })
 		}
 
 		reset(data) {
-				return axios.post(process.env.VUE_APP_API_BASE_URL + '/reset', data);
+				return axios.post(process.env.VUE_APP_API_BASE_URL + '/reset', data)
 		}
 }
 
-export default new AuthService();
+export default new AuthService()

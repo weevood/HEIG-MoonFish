@@ -14,7 +14,6 @@ fs.readdirSync(dataPath).filter(async (file) => {
     await require('./status')
     await require('./teams')
     await require('./users')
-    await require('./users')
     await require('./projects')
     // Take filename and remove last part (extension)
     // const dataFile = removeExtensionFromFile(file)

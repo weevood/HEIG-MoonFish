@@ -180,3 +180,4 @@ error:
   SIGN_IN_AGAIN: "Please sign in again."
   OLD_PASSWORD_INCORRECT: "Your old password is incorrect, please try again."
   USER_BLOCKED: "This user is actually blocked, please try again later."
+  TEAM_ALREADY_EXISTS: "This team name already exists, please choose another one."

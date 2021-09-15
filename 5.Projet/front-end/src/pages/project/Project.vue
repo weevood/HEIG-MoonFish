@@ -24,7 +24,7 @@
             {{ tag }}
           </li>
         </ul>
-        <pre class="text-sm font-normal text-gray-700 my-2" v-html="project.description"></pre>
+        <p class="text-sm font-normal text-gray-700 my-2" v-html="project.description"></p>
         <div v-if="inArray(project.status, finishedStatus)">
           <p class="text-sm font-normal text-gray-700 mt-4 my-2">
             {{ `${ $t('Projects.end') }: ${ project.endDate && format(project.endDate) }` }}</p>
@@ -291,6 +291,7 @@ export default {
     },
 
     refresh(project) {
+      this.$emit('refresh', 'projects');
       this.project.title = project.title;
       this.project.description = project.description;
       this.project.deadline = project.deadline;

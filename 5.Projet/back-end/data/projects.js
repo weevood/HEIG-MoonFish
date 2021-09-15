@@ -64,26 +64,36 @@ for (let i = 1; i <= NB_OF_SEEDS; i++) {
     })
 }
 
-neo4j.deleteAll('Project')
-projects.forEach((project) => {
+return new Promise(async (resolve, reject) => {
     try {
-        neo4j.create('Project', project.project)
-        Project.create(project.project)
-            .then((item) => {
-                if (project.resources)
-                    project.resources.forEach(resource => {
-                        resource.projectId = item.id
-                        try {
-                            Resource.create(resource)
-                        } catch (e) {
-                        }
-                    })
+        await neo4j.deleteAll('Project').then((() => {
+            projects.forEach((project) => {
+                try {
+                    Project.create(project.project)
+                        .then((item) => {
+                            if (project.resources)
+                                project.resources.forEach(resource => {
+                                    resource.projectId = item.id
+                                    try {
+                                        Resource.create(resource)
+                                    } catch (e) {
+                                    }
+                                })
+                        })
+                        .then(() => {
+                            for (const trans of project.trans)
+                                Trans.create(trans)
+                        })
+                        .then(() => {
+                            neo4j.create('Project', project.project)
+                        })
+                } catch (error) {
+                    console.error(error)
+                }
             })
-            .then(() => {
-                for (const trans of project.trans)
-                    Trans.create(trans)
-            })
+            resolve()
+        }))
     } catch (error) {
-        console.error(error)
+        reject(error)
     }
 })

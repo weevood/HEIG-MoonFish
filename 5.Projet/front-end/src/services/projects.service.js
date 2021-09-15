@@ -13,7 +13,7 @@ class ProjectsService {
 		 * @return {Promise<unknown>}
 		 */
 		get(uuid) {
-				return http.get(`/projects/${ uuid }`);
+				return http.get(`/projects/${ uuid }`)
 		}
 
 		/**
@@ -75,7 +75,7 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		getTeams(uuid) {
-				return http.get(`/projects/${ uuid }/teams`);
+				return http.get(`/projects/${ uuid }/teams`)
 		}
 
 		/**
@@ -85,7 +85,7 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		getResources(uuid) {
-				return http.get(`/projects/${ uuid }/resources`);
+				return http.get(`/projects/${ uuid }/resources`)
 		}
 
 		/**
@@ -95,7 +95,7 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		create(data) {
-				CacheService.del('myProjects');
+				CacheService.del('myProjects')
 				return http.post('/projects', clean(data))
 		}
 
@@ -106,6 +106,7 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		update(project) {
+				CacheService.del('myProjects')
 				return http.patch(`/projects/${ project.uuid }`, clean(project))
 		}
 
@@ -116,7 +117,7 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		delete(uuid) {
-				CacheService.del('myProjects');
+				CacheService.del('myProjects')
 				return http.delete(`/projects/${ uuid }`)
 		}
 
@@ -128,8 +129,8 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		apply(projectUuid, data) {
-				CacheService.del('myProjects');
-				return http.put(`/projects/${ projectUuid }/apply`, data);
+				CacheService.del('myProjects')
+				return http.put(`/projects/${ projectUuid }/apply`, data)
 		}
 
 		/**
@@ -156,4 +157,4 @@ class ProjectsService {
 
 }
 
-export default new ProjectsService();
+export default new ProjectsService()

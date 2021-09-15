@@ -132,6 +132,13 @@ const languages = {
     // 'zu': 'isiZulu'
 }
 
-Object.entries(languages).forEach(([code, name]) => {
-    Language.create({ code, name })
+return new Promise(async (resolve, reject) => {
+    try {
+        await Object.entries(languages).forEach(([code, name]) => {
+            Language.create({ code, name })
+        })
+        resolve()
+    } catch (error) {
+        reject(error)
+    }
 })
