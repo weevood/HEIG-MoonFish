@@ -1,14 +1,16 @@
 require('dotenv-safe').config()
 const morgan = require('morgan')            // An HTTP request logger middleware for Node.js
 const compression = require('compression')  // Node.js compression middleware
-const cors = require('cors')                // CORS providing a middleware that can be used to enable CORS with various
-                                            // options
+const cors = require('cors')                // CORS providing a middleware that can be used to enable CORS with options
+
 const express = require('express')          // Fast, unopinionated, minimalist web framework for Node.js
 const bodyParser = require('body-parser')   // Node.js body parsing middleware
 const helmet = require('helmet')            // Helmet helps you secure your Express apps by setting various HTTP headers
 const passport = require('passport')        // Passport is Express-compatible authentication middleware for Node.js
 const i18n = require('i18n')                // Lightweight simple translation module with dynamic JSON storage
 const path = require('path')                // Provides utilities for working with file and directory paths
+const fs = require('fs')                    // Make file system operations apis simple
+const https = require('https')              // Enabling HTTPS things
 
 const DROP_DB = (process.env.NODE_ENV === 'production') // For development only
 
@@ -82,20 +84,25 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
             { force: DROP_DB } // On dev, drop and re-sync db
         )
             .then(async () => {
+
                 if (DROP_DB) {
                     // Load initial db data
                     await require('./data')
                     await new Promise(r => setTimeout(r, 10000))
-                }
-                app.listen(app.get('port'))
-                await mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
-                console.log('Database synchronised.')
-                if (DROP_DB) {
+                    console.log('Database synchronised.')
+
                     // Load initial Neo4j relations
                     await require('./data/relations')
                     await new Promise(r => setTimeout(r, 2000))
+                    await mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+                    console.log('Relations created.')
                 }
-                console.log('Relations created.')
+
+                https.createServer({
+                    key: fs.readFileSync('./config/server.key'),
+                    cert: fs.readFileSync('./config/server.cert')
+                }, app).listen(app.get('port'))
+
             }, function (error) {
                 console.error(error)
             })
