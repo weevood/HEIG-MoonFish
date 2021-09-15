@@ -3,13 +3,13 @@ services:
 
   moonfish-backend:
     container_name: moonfish-backend
-    restart: unless-stopped # Similar to always, except that when the container is stopped it is not restarted even after Docker daemon restarts.
+    restart: always # Always restart the container if it stops
     build:
       context: ../back-end/
       target: dev
     volumes:
       - ../back-end:/app
-    command: npm run start # 'npm run dev' : for development mode
+    command: sh -c "sleep 60 && npm run start" # 'npm run dev' : for development mode
     ports:
       - 3000:3000
     depends_on:
@@ -31,7 +31,7 @@ services:
       MARIADB_RANDOM_ROOT_PASSWORD: 1
       MARIADB_DATABASE: moonfish
       MARIADB_USER: moonfish
-      MARIADB_PASSWORD: moonfishPwd
+      MARIADB_PASSWORD: Ebqcqzh79qeRedPb
 
   phpmyadmin:
     image: phpmyadmin
@@ -60,6 +60,7 @@ services:
       - ./neo4j/logs:/logs
       - ./neo4j/plugins:/plugins
     environment:
+      NEO4J_AUTH: neo4j/wwjPLuSVVKFZ3QRa #  username (must be neo4j) / password
       NEO4J_dbms_logs_debug_level: DEBUG
 
 volumes:
