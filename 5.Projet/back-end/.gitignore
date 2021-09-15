@@ -85,3 +85,6 @@ typings/
 .env.production
 
 .history/
+
+config/*.cert
+config/*.key
