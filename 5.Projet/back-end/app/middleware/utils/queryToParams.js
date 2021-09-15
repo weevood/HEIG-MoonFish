@@ -1,4 +1,3 @@
-const { buildErrObject } = require('../../middleware/utils')
 const { ITEMS_LIMIT } = require('../../../config/constants')
 
 /**
@@ -42,8 +41,7 @@ const queryToParams = (query = {}) => {
                 offset
             })
         } catch (error) {
-            console.log(error.msg)
-            reject(buildErrObject(422, 'ERROR_WITH_FILTER'))
+            reject(error)
         }
     })
 }

@@ -1,6 +1,6 @@
 <template>
   <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
-    <AlertSuccess :message="message"/>
+    <AlertSuccess v-if="!errorMessage" :message="message"/>
     <AlertError :message="errorMessage && $t(`error.${ errorMessage }`)"/>
     <div class="container mx-auto px-6 py-8">
       <h1 class="text-blue-900 text-3xl font-medium">{{ $t('Profile.title') }}</h1>

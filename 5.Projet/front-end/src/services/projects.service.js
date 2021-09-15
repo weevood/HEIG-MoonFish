@@ -19,13 +19,13 @@ class ProjectsService {
 		/**
 		 * getAll   Get all projects, optionally with a specified status
 		 *
-		 * @param {int} status
+		 * @param {Array} options
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
-		getAll(status = 0) {
+		getAll(options = []) {
 				let endpoint = '/projects'
-				if (status) {
-						endpoint += `?filters[status]=${ status }`
+				for (let i = 0; i < options.length; i++) {
+						endpoint += (i ? '&' : '?') + options[i]
 				}
 				return http.get(endpoint)
 		}

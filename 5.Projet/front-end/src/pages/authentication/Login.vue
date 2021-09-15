@@ -6,7 +6,7 @@
         <h3 class="text-blue-900 text-3xl font-medium">{{ $t('Login.title') }}</h3>
       </section>
       <hr class="border-blue-900 border-t-2 w-1/4 mt-3"/>
-      <AlertSuccess :message="message"/>
+      <AlertSuccess v-if="!errorMessage" :message="message"/>
       <AlertError :message="errorMessage && $t(`error.${ errorMessage }`)"/>
       <section class="mt-10">
         <Form class="flex flex-col" @submit="handleLogin" :validation-schema="schema" v-slot="{ errors }">

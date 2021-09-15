@@ -91,7 +91,7 @@ const users = [
             translation: {
                 lang: 'en',
                 title: 'Welcome',
-                description: `on MooFish Thibaud, we hope you like it!`
+                description: `on MoonFish Thibaud, we hope you like it!`
             }
         }]
     }
@@ -139,7 +139,7 @@ for (let i = 6; i <= NB_OF_SEEDS; i++) {
             translation: {
                 lang: 'en',
                 title: 'Welcome',
-                description: `on MooFish ${firstName}, we hope you like it!`
+                description: `on MoonFish ${firstName}, we hope you like it!`
             }
         }]
     })

@@ -39,7 +39,6 @@ const login = async (req, res) => {
         }
     } catch (error) {
         // handleError(res, error)
-
         // Catch error and replace it by a general one to not give specific information
         handleError(res, buildErrObject(401, 'INVALID_CREDENTIALS'))
     }

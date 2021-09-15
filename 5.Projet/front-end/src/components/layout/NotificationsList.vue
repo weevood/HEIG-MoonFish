@@ -13,7 +13,7 @@
         <p class="text-sm mx-2">
           <span class="font-bold">{{ notif.title }}&nbsp;</span>{{ notif.description }}<span v-if="!history" class="text-xs"> [<em>{{
             $t('Notifications.view')
-          }}</em>]</span><span class="text-gray-600"> - {{ timeAgo(notif.updatedAt) }}</span>
+          }}</em>]</span><span class="text-gray-600"> - {{ timeAgo(history ? notif.createdAt : notif.updatedAt) }}</span>
         </p>
       </router-link>
       <div v-else class="flex items-center px-2 py-2 text-sm" :class="!history && 'text-white px-4 py-3'">
@@ -21,7 +21,7 @@
              src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=334&amp;q=80">
         <p class="text-sm mx-2">
           <span class="font-bold">{{ notif.title }}&nbsp;</span>{{ notif.description }}<span
-            class="text-gray-600"> - {{ timeAgo(notif.updatedAt) }}</span>
+            class="text-gray-600"> - {{ timeAgo(history ? notif.createdAt : notif.updatedAt) }}</span>
         </p>
         <span @click.prevent="remove(notif.id)" class="p-2 cursor-pointer" v-if="!history">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="-4 -4 32 32"

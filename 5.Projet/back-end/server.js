@@ -98,10 +98,15 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                     console.log('Relations created.')
                 }
 
-                https.createServer({
-                    key: fs.readFileSync('./config/server.key'),
-                    cert: fs.readFileSync('./config/server.cert')
-                }, app).listen(app.get('port'))
+                // Disable HTTPs on development
+                if (process.env.NODE_ENV === 'development') {
+                    app.listen(app.get('port'))
+                } else {
+                    https.createServer({
+                        key: fs.readFileSync('./config/server.key'),
+                        cert: fs.readFileSync('./config/server.cert')
+                    }, app).listen(app.get('port'))
+                }
 
             }, function (error) {
                 console.error(error)

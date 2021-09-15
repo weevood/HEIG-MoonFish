@@ -1,4 +1,5 @@
 module.exports = Object.freeze({
+		PROJECTS_PER_PAGE: 9,
 		LANGUAGES: ['en', 'fr', 'de', 'it'],
 		PROJECTS_TAGS: ['.NET', 'AMOS BASIC', 'AMPL', 'ANS Forth', 'ANSI Common Lisp', 'ActionScript', 'Ada', 'Agda', 'Alma-0',
 				'Amiga E', 'AppleScript', 'AspectJ', 'Ballerina', 'Boo', 'Delphi', 'Pascal', 'Bosque', 'Brainfuck', 'C#', 'C++',

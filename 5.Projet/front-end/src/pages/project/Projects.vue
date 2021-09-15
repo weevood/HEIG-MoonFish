@@ -18,6 +18,7 @@
               class="bg-gray-500 hover:bg-gray-600 text-white font-bold text-xs mb-3 py-1 px-2 rounded inline-flex items-center">
         {{ $t('Projects.proposal') }}
       </button>
+      <p v-if="!projects?.length" class="mb-3 italic text-gray-600">{{ $t('noItems') }}</p>
       <ul class="flex flex-wrap items-center" style="margin-left: -8px; margin-right: -8px">
         <li v-for="(project, i) in projects" :key="`Project${i}`"
             class="flex flex-col w-1/3 mb-4">
@@ -47,6 +48,14 @@
           </div>
         </li>
       </ul>
+      <button @click.prevent="retrievePrev" v-if="offset"
+              class="mr-2 bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs mb-3 py-1 px-2 rounded inline-flex items-center">
+        &laquo; {{ $t('prev') + ' ' + $t('projects') }}
+      </button>
+      <button @click.prevent="retrieveNext" v-if="projects?.length >= 9"
+              class="bg-teal-500 hover:bg-teal-600 text-white font-bold text-xs mb-3 py-1 px-2 rounded inline-flex items-center">
+        {{ $t('next') + ' ' + $t('projects') }} &raquo;
+      </button>
     </div>
   </main>
 </template>
@@ -59,6 +68,7 @@ import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
 import request from "@/utils/request";
 import TeamsService from "@/services/teams.service";
 import { PROJECT_STATUS_PROPOSAL } from "@/enums/projectStatus";
+import { PROJECTS_PER_PAGE } from "@/config/constants";
 
 export default {
   name: 'Projects',
@@ -69,6 +79,7 @@ export default {
     return {
       creation: false,
       onProposal: false,
+      offset: 0,
       projects: [],
       myProjects: [],
       myTeams: [],
@@ -114,12 +125,29 @@ export default {
     },
 
     onlyOnProposal() {
+      this.offset = 0;
       this.onProposal = true;
-      this.retrieveProjects(PROJECT_STATUS_PROPOSAL);
+      this.retrieveProjects();
     },
 
-    async retrieveProjects(status = 0) {
-      this.projects = await request(ProjectsService.getAll(status), this);
+    retrievePrev() {
+      this.offset -= PROJECTS_PER_PAGE;
+      this.retrieveProjects();
+    },
+
+    retrieveNext() {
+      this.offset += PROJECTS_PER_PAGE;
+      this.retrieveProjects();
+    },
+
+    async retrieveProjects() {
+      let options = []
+      if (this.onProposal) {
+        options.push([`filters[status]=${ PROJECT_STATUS_PROPOSAL }`]);
+      }
+      options.push(`limit=${ PROJECTS_PER_PAGE }`);
+      options.push(`offset=${ this.offset }`);
+      this.projects = await request(ProjectsService.getAll(options), this);
     },
 
     async retrieveMyProjects() {

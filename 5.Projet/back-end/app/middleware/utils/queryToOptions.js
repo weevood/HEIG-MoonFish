@@ -1,4 +1,3 @@
-const { buildErrObject } = require('../../middleware/utils')
 const { ITEMS_LIMIT } = require('../../../config/constants')
 
 /**
@@ -40,8 +39,7 @@ const queryToOptions = (query = {}) => {
                 limit
             })
         } catch (error) {
-            console.log(error.msg)
-            reject(buildErrObject(422, 'ERROR_WITH_FILTER'))
+            reject(error)
         }
     })
 }

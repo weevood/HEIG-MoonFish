@@ -30,7 +30,7 @@ const register = async (req, res) => {
                 lang: user.lang || 'en',
                 notificationId: notification.id,
                 title: "Welcome",
-                description: `on MooFish ${user.firstName}, we hope you like it!`
+                description: `on MoonFish ${user.firstName}, we hope you like it!`
             })
             sendRegistrationEmail(locale, {
                 firstName: user.firstName,

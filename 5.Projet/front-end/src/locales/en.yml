@@ -18,6 +18,8 @@ owner: "Owner"
 team: "Team"
 with: "with"
 noItems: "Nothing to show"
+prev: "Previous"
+next: "Next"
 email:
   email: "Email"
   your: "Your email"
@@ -177,3 +179,4 @@ error:
   EMAIL_ALREADY_EXISTS: "This email is already associated with an account, you can connect with it."
   SIGN_IN_AGAIN: "Please sign in again."
   OLD_PASSWORD_INCORRECT: "Your old password is incorrect, please try again."
+  USER_BLOCKED: "This user is actually blocked, please try again later."

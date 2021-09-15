@@ -9,7 +9,9 @@ const setNotificationInfo = (req = {}) => {
                 id: req.id,
                 priority: req.priority,
                 title: req['notifications_translations'][0].title,
-                description: req['notifications_translations'][0].description
+                description: req['notifications_translations'][0].description,
+                createdAt: item.createdAt,
+                updatedAt: item.updatedAt
             }
             if (req.link) {
                 notification.link = req.link

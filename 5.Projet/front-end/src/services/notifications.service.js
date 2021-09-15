@@ -34,8 +34,8 @@ class NotificationsService {
 		 */
 		getMine(archived = false) {
 				const user = JSON.parse(localStorage.getItem('user'))
-				let endpoint = `/notifications?orders[updatedAt]=DESC&filters[userUuid]=${ user.user.uuid }`
-				endpoint += (archived ? '&limit=50' : '&filters[read]=0')
+				let endpoint = `/notifications?filters[userUuid]=${ user.user.uuid }`
+				endpoint += (archived ? '&orders[createdAt]=DESC&limit=50' : '&orders[updatedAt]=DESC&filters[read]=0')
 				if (user && user.user && user.user.uuid) {
 						return http.get(endpoint)
 				}

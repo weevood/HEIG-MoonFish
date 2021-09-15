@@ -3,7 +3,7 @@ const Authentication = mariadb.models.Authentication
 const { updateItem } = require('../../middleware/db')
 const { matchedData } = require('express-validator')
 const { updatePassword, findUserAuthByEmail, isUserBlocked } = require('./helpers')
-const { handleError } = require('../../middleware/utils')
+const { handleError, buildErrObject } = require('../../middleware/utils')
 const { findUser } = require('../users/helpers')
 
 /**
@@ -17,12 +17,16 @@ const resetPassword = async (req, res) => {
         const userAuth = await findUserAuthByEmail(data.email)
         const user = await findUser(userAuth.userId)
         await isUserBlocked(user, userAuth)
-        if (userAuth.verification !== data.verification)
+        if (userAuth.verification !== data.verification) {
             res.status(403).json({ error: { msg: 'FORBIDDEN' } })
+            return
+        }
         await updateItem(Authentication, userAuth.userId, { verification: null })
         res.status(200).json(await updatePassword(user.id, data.password))
     } catch (error) {
-        handleError(res, error)
+        // handleError(res, error)
+        // Catch error and replace it by a general one to not give specific information
+        handleError(res, buildErrObject(401, 'INVALID_CREDENTIALS'))
     }
 }
 

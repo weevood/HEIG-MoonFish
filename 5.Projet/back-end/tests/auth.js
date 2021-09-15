@@ -129,7 +129,8 @@ describe('*********** AUTH ***********', () => {
                 .end((err, res) => {
                     res.should.have.status(200)
                     res.body.should.be.an('object')
-                    res.body.should.include.keys('msg', 'verification')
+                    res.body.should.include.keys('msg', 'data')
+                    res.body.data.should.include.keys('email', 'verification')
                     verificationForgot = res.body.verification
                     done()
                 })
