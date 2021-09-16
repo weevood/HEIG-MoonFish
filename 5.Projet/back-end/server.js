@@ -79,8 +79,7 @@ app.use(require('./app/routes'))
 mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
     .then(function () {
         return mariadb.sequelize.sync(
-            { force: process.env.DROP_DB } // On dev, drop and re-sync db
-        )
+            { force: process.env.DROP_DB }) // On dev, drop and re-sync db
             .then(async () => {
 
                 if (process.env.DROP_DB) {
@@ -92,7 +91,6 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                     // Load initial Neo4j relations
                     await require('./data/relations')
                     await new Promise(r => setTimeout(r, 2000))
-                    await mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
                     console.log('Relations created.')
                 }
 
@@ -106,6 +104,8 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                     }, app).listen(app.get('port'))
                 }
 
+                mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
+                await new Promise(r => setTimeout(r, 1000))
                 console.log('The databases (MariaDB & Neo4j) are ready.')
 
             }, function (error) {
