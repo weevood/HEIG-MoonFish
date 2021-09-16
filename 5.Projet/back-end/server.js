@@ -85,7 +85,7 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                 if (process.env.DROP_DB) {
                     // Load initial db data
                     await require('./data')
-                    await new Promise(r => setTimeout(r, process.env.RELDB_NB_OF_SEEDS * 100))
+                    await new Promise(r => setTimeout(r, process.env.RELDB_NB_OF_SEEDS * 200))
                     console.log('Database synchronised.')
 
                     // Load initial Neo4j relations
