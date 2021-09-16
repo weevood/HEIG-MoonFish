@@ -29,7 +29,7 @@ http.interceptors.response.use(
 						console.log(error.response);
 						if (localStorage.getItem('user')) {
 								AuthService.logout();
-								window.location.replace('/login');
+								window.location.replace('/login?error=SERVER_ERROR');
 						}
 				}
 				else if (error.response) {

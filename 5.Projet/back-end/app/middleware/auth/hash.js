@@ -8,7 +8,7 @@ const bcrypt = require('bcryptjs')
  */
 const hash = async (password) => {
     return await new Promise((resolve, reject) => {
-        bcrypt.hash(password, process.env.JWT_SALT_FACTOR, function (error, hash) {
+        bcrypt.hash(password, parseInt(process.env.JWT_SALT_FACTOR), function (error, hash) {
             if (error) {
                 reject(error)
             }

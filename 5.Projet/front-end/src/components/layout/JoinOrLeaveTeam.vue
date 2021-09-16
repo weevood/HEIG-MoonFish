@@ -42,6 +42,8 @@
 import TeamsService from "@/services/teams.service";
 import request from "@/utils/request";
 import inArray from "@/utils/inArray";
+import NotificationsService from "@/services/notifications.service";
+import capitalize from "@/utils/capitalize";
 
 export default {
   name: 'JoinOrLeaveTeam',
@@ -52,17 +54,52 @@ export default {
     myTeams: Object
   },
 
+  computed: {
+    currentUser() {
+      if (this.$store.state.auth.user) {
+        return this.$store.state.auth.user.user;
+      }
+      return false;
+    }
+  },
+
   methods: {
     inArray,
+
+    fullName() {
+      return capitalize(this.currentUser.firstName) + ' ' + capitalize(this.currentUser.lastName)
+    },
 
     async join(uuid) {
       this.$emit('join', uuid);
       await request(TeamsService.join(uuid), this);
+      await request(NotificationsService.create({
+        userUuid: this.team.ownerUuid,
+        lang: 'en', // user.lang
+        title: this.$t('Teams.notification.join.title'),
+        description: this.$t('Teams.notification.join.desc', {
+          user: this.fullName(),
+          team: this.team.name
+        }),
+        link: '/teams/' + this.team.uuid
+      }), this);
     },
 
     async leave(uuid) {
       this.$emit('leave', uuid);
       await request(TeamsService.leave(uuid), this);
+      const members = await request(TeamsService.getMembers(this.team.uuid), this);
+      for (const user of members) {
+        await request(NotificationsService.create({
+          userUuid: user.uuid,
+          lang: 'en', // user.lang
+          title: this.$t('Teams.notification.leave.title'),
+          description: this.$t('Teams.notification.leave.desc', {
+            user: this.fullName(),
+            team: this.team.name
+          }),
+        }), this);
+      }
     }
 
   }

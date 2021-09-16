@@ -4,12 +4,8 @@ const { getNodeRelations } = require('../../middleware/db')
 const { findProjectNode } = require('./helpers')
 const { matchedData } = require('express-validator')
 const { PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
-const {
-    RELATION_APPLIES,
-    RELATION_MANDATES,
-    RELATION_DEVELOPS,
-    RELATION_ARBITRATES, RELATION_IS_MEMBER_OF
-} = require('../../models/enums/relations')
+const { findTeamOwner } = require('../teams/helpers')
+const { RELATION_APPLIES, RELATION_MANDATES, RELATION_DEVELOPS } = require('../../models/enums/relations')
 
 /**
  * Get items function called by route
@@ -27,13 +23,7 @@ const getProjectTeams = async (req, res) => {
             .then(async ({ nodes, relations }) => {
                 const teams = await clearNodes(nodes)
                 for (const [i, team] of teams.entries()) {
-                    await getNodeRelations('Team', team.uuid, RELATION_IS_MEMBER_OF)
-                        .then(({ nodes, relations }) => {
-                            for (const [j, relation] of relations.entries()) {
-                                if (relation.properties.isOwner)
-                                    team.ownerUuid = nodes[j].properties.uuid
-                            }
-                        })
+                    team.ownerUuid = await findTeamOwner(team.uuid)
                     projectTeams.push({
                         ...team,
                         relation: {

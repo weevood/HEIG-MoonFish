@@ -152,6 +152,22 @@ Teams:
   requests: "Requests"
   noRequest: "No new request"
   choose: "Choose a team"
+  notification:
+    accepted:
+      title: "Congratulations"
+      desc: 'Your request to join the "{team}" team has been accepted'
+    banned:
+      title: "Damn"
+      desc: 'You have been banned from the "{team}" team'
+    ownershiped:
+      title: "Tada"
+      desc: 'You are now the owner of the team "{team}"'
+    join:
+      title: "Hey"
+      desc: '{user} ask to join your team "{team}"'
+    leave:
+      title: "Oh no"
+      desc: '{user} just leave your team "{team}"'
 TeamsEdit:
   title: "Edit teams"
 
@@ -178,6 +194,7 @@ error:
   INVALID_CREDENTIALS: "You have entered an invalid username or password."
   EMAIL_ALREADY_EXISTS: "This email is already associated with an account, you can connect with it."
   SIGN_IN_AGAIN: "Please sign in again."
+  SERVER_ERROR: "An error occurred with the server connection, please sign in again."
   OLD_PASSWORD_INCORRECT: "Your old password is incorrect, please try again."
   USER_BLOCKED: "This user is actually blocked, please try again later."
   TEAM_ALREADY_EXISTS: "This team name already exists, please choose another one."

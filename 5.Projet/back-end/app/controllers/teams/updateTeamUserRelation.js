@@ -23,20 +23,22 @@ const updateTeamUserRelation = async (req, res) => {
                     case 'accept':
                         await updateRelation(member, RELATION_IS_MEMBER_OF, team, { status: STATUS_ACTIVE })
                         res.status(200).json(buildSuccObject('USER_ACCEPTED'))
-                        break;
+                        return
                     case 'ban':
                         await updateRelation(member, RELATION_IS_MEMBER_OF, team, { status: STATUS_BANNED })
                         res.status(200).json(buildSuccObject('USER_BANNED'))
-                        break;
+                        return
                     case 'giveOwnership':
                         await updateRelation(member, RELATION_IS_MEMBER_OF, team, { isOwner: true })
                         await updateRelation(user, RELATION_IS_MEMBER_OF, team, { isOwner: false })
                         res.status(200).json(buildSuccObject('OWNERSHIP_TRANSMITTED'))
-                        break;
+                        return
                 }
             }
             res.status(403).json({ error: { msg: 'USER_NOT_IN_TEAM' } })
+            return
         }
+
         res.status(403).json({ error: { msg: 'USER_NOT_OWNER' } })
     } catch (error) {
         handleError(res, error)

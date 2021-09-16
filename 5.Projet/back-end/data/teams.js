@@ -14,8 +14,8 @@ const capitalize = (word) => {
     return word.toLowerCase().charAt(0).toUpperCase() + word.toLowerCase().slice(1)
 }
 
-const colors = ['blueGray', 'coolGray', 'gray', 'trueGray', 'warmGray', 'orange', 'amber', 'yellow', 'lime', 'green',
-    'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink', 'rose']
+const colors = ['green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink',
+    'rose', 'blueGray', 'coolGray', 'gray', 'trueGray', 'warmGray', 'orange', 'amber', 'yellow', 'lime', ]
 for (let i = 0; i < colors.length; i++) {
     teams.push({
         uuid: uuid.v4(),

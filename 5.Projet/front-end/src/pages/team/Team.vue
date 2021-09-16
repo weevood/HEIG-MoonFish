@@ -125,6 +125,7 @@ import request from "@/utils/request";
 import { STATUS_ACTIVE, STATUS_INACTIVE } from "@/enums/status";
 import JoinOrLeaveTeam from "@/components/layout/JoinOrLeaveTeam";
 import ProjectsList from "@/components/layout/ProjectsList";
+import NotificationsService from "@/services/notifications.service";
 
 export default {
   name: 'Team',
@@ -258,6 +259,13 @@ export default {
         }
       }, this);
       await request(TeamsService.accept(this.team.uuid, uuid));
+      await request(NotificationsService.create({
+        userUuid: uuid,
+        lang: 'en', // user.lang
+        title: this.$t('Teams.notification.accepted.title'),
+        description: this.$t('Teams.notification.accepted.desc', { team: this.team.name }),
+        link: '/teams/' + this.team.uuid
+      }), this);
     },
 
     async ban(uuid) {
@@ -268,6 +276,12 @@ export default {
         }
       }, this);
       await request(TeamsService.ban(this.team.uuid, uuid));
+      await request(NotificationsService.create({
+        userUuid: uuid,
+        lang: 'en', // user.lang
+        title: this.$t('Teams.notification.banned.title'),
+        description: this.$t('Teams.notification.banned.desc', { team: this.team.name }),
+      }), this);
     },
 
     async giveOwnership(uuid) {
@@ -284,6 +298,13 @@ export default {
         }
       }, this);
       await request(TeamsService.giveOwnership(this.team.uuid, uuid));
+      await request(NotificationsService.create({
+        userUuid: uuid,
+        lang: 'en', // user.lang
+        title: this.$t('Teams.notification.ownershiped.title'),
+        description: this.$t('Teams.notification.ownershiped.desc', { team: this.team.name }),
+        link: '/teams/' + this.team.uuid
+      }), this);
       await this.retrieveMyTeams();
     }
 
