@@ -21,8 +21,10 @@ const developProject = async (req, res) => {
                 await team.relateTo(project, 'develops')
                 await updateNode('Project', data.uuid, { status: PROJECT_STATUS_ONGOING })
                 res.status(200).json(buildSuccObject('TEAM_DEVELOPS_PROJECT'))
+                return
             }
             res.status(403).json({ error: { msg: 'TEAM_ALREADY_DEVELOPS_PROJECT' } })
+            return
         }
         res.status(403).json({ error: { msg: 'TEAM_DOESNT_APPLY_FOR_PROJECT' } })
     } catch (error) {

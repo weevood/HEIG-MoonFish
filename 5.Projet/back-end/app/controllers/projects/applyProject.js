@@ -22,6 +22,7 @@ const applyProject = async (req, res) => {
                 specifications: parseInt(data.specifications),
             })
             res.status(200).json(buildSuccObject('TEAM_APPLIES_FOR_PROJECT'))
+            return
         }
         res.status(403).json({ error: { msg: 'TEAM_ALREADY_APPLIES_FOR_PROJECT' } })
     } catch (error) {

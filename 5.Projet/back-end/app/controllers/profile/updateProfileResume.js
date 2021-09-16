@@ -14,8 +14,10 @@ const updateProfileResume = async (req, res) => {
     try {
         const data = matchedData(req)
         const resume = await getItem(Resource, data.resumeId)
-        if (resume.authorId !== req.user.id)
+        if (resume.authorId !== req.user.id) {
             res.status(403).json({ error: { msg: 'FORBIDDEN' } })
+            return
+        }
         await updateItem(User, req.user.id, { resumeId: resume.id })
         res.status(200).json(buildSuccObject('RESUME_UPDATED'))
     } catch (error) {

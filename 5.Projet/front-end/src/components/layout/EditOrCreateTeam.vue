@@ -80,7 +80,7 @@ export default {
       team.color = team.color.toLowerCase()
       if (team.uuid) {
         // Update existing team
-        request(TeamsService.update(team), this)
+        await request(TeamsService.update(team), this)
       }
       else {
         // Create a new team

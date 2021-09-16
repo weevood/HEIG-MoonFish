@@ -12,7 +12,11 @@ const getProjectResources = async (req, res) => {
     try {
         const data = matchedData(req)
         const project = await findProject(data.uuid)
-        const resources = await findResources({ where: { projectId: project.id } })
+        const resources = await findResources({
+            where: { projectId: project.id },
+            sort: 'name',
+            limit: 50,
+        })
         res.status(200).json(await setResourcesInfo(resources))
     } catch (error) {
         handleError(res, error)

@@ -4,7 +4,7 @@
       <h1 class="text-blue-900 text-3xl font-medium">{{ $t('Resources.title') }}</h1>
     </div>
     <div class="container">
-      <pre>{{ content }}</pre>
+      <p v-if="!resources?.length" class="mb-3 italic text-gray-600">{{ $t('noItems') }}</p>
     </div>
   </main>
 </template>
@@ -15,7 +15,7 @@ export default {
   name: 'Resources',
   data() {
     return {
-      content: '',
+      resources: [],
     };
   },
   mounted() {

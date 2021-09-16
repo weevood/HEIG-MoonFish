@@ -42,7 +42,7 @@
       <div class="mb-6 pt-3 rounded bg-gray-200">
         <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="tags">{{ $t('tags') }}</label>
         <Field id="tags" name="tags" as="select" multiple v-slot="{ value }"
-               class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3">
+               class="bg-gray-200 rounded w-full text-gray-700 h-48 border-b-4 border-gray-300 focus:outline-none focus:border-teal-600 transition duration-500 px-3 md:pb-3">
           <option v-for="tag in allTags" :key="tag" :value="tag"
                   :selected="inArray(tag, tags) || value && value.includes(tag)"
                   class="text-gray-700 md:pb-1">
@@ -146,7 +146,7 @@ export default {
       project.lang = (localStorage.getItem('lang') || process.env.VUE_APP_I18N_LOCALE || 'en');
       if (project.uuid) {
         // Update existing project
-        request(ProjectsService.update(project), this);
+       await request(ProjectsService.update(project), this);
       }
       else {
         // Create a new project

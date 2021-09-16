@@ -16,7 +16,7 @@
         </svg>
         <span>{{ $t('Teams.edit') }}</span>
       </button>
-      <JoinOrLeaveTeam v-if="!edition && !isOwner()" :team="team" :myTeams="myTeams" @msg="transfer" @join="join"
+      <JoinOrLeaveTeam v-if="isActive && !edition && !isOwner()" :team="team" :myTeams="myTeams" @msg="transfer" @join="join"
                        @leave="leave"/>
     </div>
     <EditOrCreateTeam v-if="edition" :uuid="team.uuid" :name="team.name" :color="team.color" @msg="transfer"
@@ -144,6 +144,7 @@ export default {
   data() {
     return {
       edition: false,
+      isActive: false,
       team: { uuid: '', name: '', color: '', ownerUuid: '' },
       myTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [], OWNERSHIP: [] },
       members: { STATUS_INACTIVE: [], STATUS_ACTIVE: [] },
@@ -212,6 +213,7 @@ export default {
 
     async retrieveTeam() {
       this.team = await request(TeamsService.get(this.$route.params.uuid), this);
+      this.isActive = (this.team.status === STATUS_ACTIVE);
     },
 
     async retrieveMyTeams() {

@@ -14,6 +14,7 @@ import NotificationsService from "@/services/notifications.service";
 import ResourcesService from "@/services/resources.service";
 import capitalize from "@/utils/capitalize";
 import request from "@/utils/request";
+import inArray from "@/utils/inArray";
 
 export default {
   name: 'DropZone',
@@ -22,10 +23,13 @@ export default {
   props: {
     type: String,
     project: Object,
+    resources: Object,
     ownerUuid: String
   },
 
   setup(_, { emit }) {
+
+    let filesNames = _.resources.map(resource => { return resource.name });
 
     // eslint-disable-next-line no-unused-vars
     const saveFiles = (files) => {
@@ -33,18 +37,27 @@ export default {
       return new Promise(async(resolve, reject) => {
         try {
           const formData = new FormData(); // pass data as a form
-          let uploaded = [], filesNames = [];
+          let uploaded = [], newFilesNames = [];
           for (const file of files) {
-            filesNames.push(file.name)
             formData.append("files[]", file);
             const prefix = (_.type === 'feedback' ? '[Feedback] ' : (_.type === 'apply' ? '[Specifications] ' : ''));
+            const namePart = file.name.split('.')
+            const extension = '.' + namePart[namePart.length - 1];
+            let version = ''
+            let fileName = (prefix + namePart[0] + version + extension); // add extension, ignore middle if name contains other points
+            while (inArray(fileName, filesNames)) {
+              version = (version === '' ? 1 : ++version);
+              fileName = (prefix + namePart[0] + '_v' + version + extension);
+            }
             uploaded.push(await request(ResourcesService.create({
               projectUuid: _.project.uuid,
-              name: prefix + file.name,
+              name: fileName,
               type: file.type,
               size: file.size,
               link: '#'
             }), null, emit));
+            newFilesNames.push(fileName);
+            filesNames.push(fileName);
           }
 
           // TODO Post the formData to your backend where storage is processed.
@@ -53,7 +66,7 @@ export default {
           //      .then((response) => { console.info(response.data) })
           //      .catch((err) => { console.error(err) });
 
-          await creatNotif(filesNames);
+          await creatNotif(newFilesNames);
           resolve(uploaded)
         } catch (error) {
           reject([])

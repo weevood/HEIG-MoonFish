@@ -73,7 +73,7 @@
         <div v-if="teamUuid && price && !Object.keys(errors).length">
           <label class="block text-gray-700 text-sm font-bold mt-4 mb-2"
                  for="specs">{{ $t('Projects.specs') }}</label>
-          <DropZone id="specs" :project="project" :ownerUuid="ownerUuid" type="apply" @msg="transfer" @upload="upload"/>
+          <DropZone id="specs" :project="project" :resources="resources" :ownerUuid="ownerUuid" type="apply" @msg="transfer" @upload="upload"/>
         </div>
       </Form>
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.title') }}</h2>
@@ -162,7 +162,7 @@
       <div v-if="onAddFeedback" class="mb-4 flex flex-col">
         <StarRating :increment=0.01 :padding=1 :rounded-corners=true v-model:rating="grade"/>
       </div>
-      <DropZone v-if="onAddResource || grade > 0" :project="project" :ownerUuid="ownerUuid"
+      <DropZone v-if="onAddResource || grade > 0" :project="project" :resources="resources" :ownerUuid="ownerUuid"
                 :type="grade > 0 ? 'feedback' : 'upload'"
                 @msg="transfer" @upload="upload"/>
       <p v-if="!resources.length && !onAddResource && !grade" class="italic text-gray-600">{{
