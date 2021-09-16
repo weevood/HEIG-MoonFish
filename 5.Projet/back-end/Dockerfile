@@ -8,6 +8,7 @@ EXPOSE 3000
 # Bundle production app source
 FROM base as production
 ENV NODE_ENV=production
+ENV DROP_DB=true
 RUN npm ci
 COPY . /
 CMD ["node", "bin/www"]
