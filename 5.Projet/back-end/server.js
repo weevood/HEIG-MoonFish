@@ -90,19 +90,19 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
 
                     // Load initial Neo4j relations
                     await require('./data/relations')
-                    await new Promise(r => setTimeout(r, 2000))
+                    await new Promise(r => setTimeout(r, 5000))
                     console.log('Relations created.')
                 }
 
                 // Disable HTTPs on development
-                if (process.env.NODE_ENV === 'development') {
+                // if (process.env.NODE_ENV === 'development') {
                     app.listen(app.get('port'))
-                } else {
-                    https.createServer({
-                        key: fs.readFileSync('./config/server.key'),
-                        cert: fs.readFileSync('./config/server.cert')
-                    }, app).listen(app.get('port'))
-                }
+                // } else {
+                //     https.createServer({
+                //         key: fs.readFileSync('./config/server.key'),
+                //         cert: fs.readFileSync('./config/server.cert')
+                //     }, app).listen(app.get('port'))
+                // }
 
                 mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
                 await new Promise(r => setTimeout(r, 1000))
