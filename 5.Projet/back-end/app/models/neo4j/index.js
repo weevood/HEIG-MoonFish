@@ -19,6 +19,13 @@ fs.readdirSync(modelsPath).filter((file) => {
     }
 })
 
+// Drop existing nodes
+if (process.env.DROP_DB) {
+    neode.deleteAll('Project')
+        .then(() => neode.deleteAll('User')
+            .then(() => neode.deleteAll('Team')))
+}
+
 module.exports = {
     neode, models
 };

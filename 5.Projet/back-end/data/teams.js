@@ -4,7 +4,7 @@ const neo4j = require('../config/neode')
 
 const teams = [{
     uuid: uuid.v4(),
-    name: 'Red Team',
+    name: 'The Red Team',
     color: 'red',
     grade: 3.21,
     status: STATUS_BANNED
@@ -19,7 +19,7 @@ const colors = ['blueGray', 'coolGray', 'gray', 'trueGray', 'warmGray', 'orange'
 for (let i = 0; i < colors.length; i++) {
     teams.push({
         uuid: uuid.v4(),
-        name: capitalize(colors[i]) + ' Team',
+        name: `The ${capitalize(colors[i])} Team`,
         color: colors[i],
         grade: 0.0,
         status: STATUS_ACTIVE
