@@ -25,6 +25,13 @@ http.interceptors.response.use(
 								window.location.replace('/login?error=SIGN_IN_AGAIN');
 						}
 				}
+				else if (error.response.status === 500) {
+						console.log(error.response);
+						if (localStorage.getItem('user')) {
+								AuthService.logout();
+								window.location.replace('/login');
+						}
+				}
 				else if (error.response) {
 						// The request was made and the server responded with a status code
 						// that falls out of the range of 2xx
