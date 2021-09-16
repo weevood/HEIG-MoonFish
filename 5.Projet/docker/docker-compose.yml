@@ -9,14 +9,14 @@ services:
       target: dev
     volumes:
       - ../back-end:/app
-    command: sh -c "sleep 60 && npm run start" # 'npm run dev' : for development mode
+    command: sh -c "sleep 60 && npm run ${EXPRESS_CMD}" # 'start' : for production mode, 'dev' : for development mode
     ports:
       - 3000:3000
     depends_on:
       - mariadb
       - neo4j
     environment:
-      NODE_ENV: production # 'development' : for production mode
+      NODE_ENV: ${NODE_ENV} # 'development' or 'production' mode
       DEBUG: nodejs-docker-express:*
 
   mariadb:
