@@ -8,7 +8,6 @@ const BankAccount = mariadb.models.BankAccount
 const Notification = mariadb.models.Notification
 const Translation = mariadb.models.NotificationTranslation
 const neo4j = require('../config/neode')
-const { NB_OF_SEEDS } = require('../config/constants')
 const anUuid = uuid.v4()
 const users = [
     {
@@ -97,7 +96,7 @@ const users = [
     }
 ]
 
-for (let i = 6; i <= NB_OF_SEEDS; i++) {
+for (let i = 6; i <= process.env.RELDB_NB_OF_SEEDS; i++) {
     const userUuid = uuid.v4()
     const firstName = faker.name.firstName(i % 2 ? 'male' : 'female')
     users.push({

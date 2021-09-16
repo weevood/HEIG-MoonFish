@@ -1,7 +1,6 @@
 const faker = require('faker')
 const { inArray } = require('../app/middleware/utils/inArray')
 const { getNodes } = require('../app/middleware/db')
-const { NB_OF_SEEDS } = require('../config/constants')
 const { STATUS_ACTIVE, STATUS_INACTIVE } = require('../app/models/enums/status')
 const { PROJECT_STATUS_ONGOING, PROJECT_STATUS_ENDED } = require('../app/models/enums/projectStatus')
 
@@ -9,9 +8,9 @@ const random = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-getNodes('User', { limit: NB_OF_SEEDS + 1 }).then(users => {
-    getNodes('Team', { limit: NB_OF_SEEDS + 1 }).then(teams => {
-        getNodes('Project', { limit: NB_OF_SEEDS + 1 }).then(projects => {
+getNodes('User', { limit: process.env.RELDB_NB_OF_SEEDS + 1 }).then(users => {
+    getNodes('Team', { limit: process.env.RELDB_NB_OF_SEEDS + 1 }).then(teams => {
+        getNodes('Project', { limit: process.env.RELDB_NB_OF_SEEDS + 1 }).then(projects => {
 
             let max = (users.length - 1)
 

@@ -1,5 +1,4 @@
 const bcrypt = require('bcryptjs')
-const { SALT_FACTOR } = require('../../../config/constants')
 
 /**
  * Hash a user password
@@ -9,7 +8,7 @@ const { SALT_FACTOR } = require('../../../config/constants')
  */
 const hash = async (password) => {
     return await new Promise((resolve, reject) => {
-        bcrypt.hash(password, SALT_FACTOR, function (error, hash) {
+        bcrypt.hash(password, process.env.JWT_SALT_FACTOR, function (error, hash) {
             if (error) {
                 reject(error)
             }
