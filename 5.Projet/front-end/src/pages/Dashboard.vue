@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+  <main class="flex-1 bg-gray-100">
     <div class="container mx-auto px-6 py-8">
       <h1 class="text-blue-900 text-3xl font-medium">{{ welcome() }}</h1>
     </div>
@@ -8,7 +8,7 @@
     </div>
     <div class="container">
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Notifications.activity') }}</h2>
-      <NotificationsList :notifications="notifications" :history="true" @remove="remove"/>
+      <NotificationsList :notifications="notifications" :history="true"/>
     </div>
   </main>
 </template>
@@ -55,11 +55,6 @@ export default {
       return this.$t('Dashboard.title', {
         firstName: capitalize(this.currentUser.firstName)
       })
-    },
-
-    async remove(id, show) {
-      console.log(id)
-      console.log(show)
     },
 
     async retrieveNotifications() {

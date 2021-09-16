@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+  <main class="flex-1 bg-gray-100">
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
       <h1 class="text-blue-900 text-3xl font-medium">{{ creation ? $t('Teams.new') : $t('Teams.title') }}</h1>
       <button v-if="!creation" @click="creation = true"
@@ -14,7 +14,7 @@
     </div>
     <EditOrCreateTeam v-if="creation" @msg="transfer" @done="refresh"/>
     <div v-if="!creation" class="container">
-      <ul class="overflow-y-scroll" style="max-height: 80vh;">
+      <ul>
         <li v-for="(team, i) in teams" :key="`Teams${i}`"
             class="flex justify-between items-center p-4 mb-3 bg-white border-2 border-gray-200 rounded-lg shadow-sm">
           <router-link :to="`/teams/${team.uuid}`" class="flex items-center">

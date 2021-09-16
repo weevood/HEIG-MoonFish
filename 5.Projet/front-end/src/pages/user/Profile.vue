@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+  <main class="flex-1 bg-gray-100">
     <AlertSuccess v-if="!errorMessage" :message="message"/>
     <AlertError :message="errorMessage && $t(`error.${ errorMessage }`)"/>
     <div class="container mx-auto px-6 py-8">
@@ -14,16 +14,25 @@
         {{ token && token.substr(token.length - 20) }}
       </p>
     </section>
+    <section class="container mb-6">
+      <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
+              @click="changePassword">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+        </svg>
+        <span>{{ $t('Profile.changePassword') }}</span>
+      </button>
+    </section>
     <section class="container">
       <Form class="flex flex-col" @submit="updateUser" :validation-schema="schema" v-slot="{ errors }">
-        <div class="overflow-y-auto" style="max-height: 60vh">
-          <div v-for="(value, key) in profile" :key="`UserKey-${key}`">
-            <div v-if="inArray(key, whiteList)" class="mb-6 pt-3 rounded bg-gray-200">
-              <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" :for="`${key}`">{{ $t(key) }}</label>
-              <Field :id="`${key}`" :name="`${key}`" type="text" :value="value && `${value}`"
-                     class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
-              <ErrorMessage :name="`${key}`" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
-            </div>
+        <div v-for="(value, key) in profile" :key="`UserKey-${key}`">
+          <div v-if="inArray(key, whiteList)" class="mb-6 pt-3 rounded bg-gray-200">
+            <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" :for="`${key}`">{{ $t(key) }}</label>
+            <Field :id="`${key}`" :name="`${key}`" type="text" :value="value && `${value}`"
+                   class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
+            <ErrorMessage :name="`${key}`" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
           </div>
         </div>
         <button :disabled="loading || Object.keys(errors).length"
@@ -37,17 +46,6 @@
           <span>{{ $t('save') }}</span>
         </button>
       </Form>
-    </section>
-    <section class="container my-6">
-      <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center"
-              @click="changePassword">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-3" fill="none" viewBox="0 0 24 24"
-             stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
-        </svg>
-        <span>{{ $t('Profile.changePassword') }}</span>
-      </button>
     </section>
   </main>
 </template>

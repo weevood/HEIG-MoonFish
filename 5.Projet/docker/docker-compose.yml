@@ -9,10 +9,11 @@ services:
       target: dev
     volumes:
       - ../back-end:/app
-    command: sh -c "sleep 60 && npm run ${EXPRESS_CMD}" # 'start' : for production mode, 'dev' : for development mode
+    command: sh -c "sleep 60 && npm run ${EXPRESS_CMD}" # 'npm run start' : for production mode,
+                                                        # 'npm run dev' : for development mode, etc
     ports:
       - 3000:3000
-    depends_on:
+    depends_on: # Wait on databases before start
       - mariadb
       - neo4j
     environment:
@@ -36,7 +37,8 @@ services:
   phpmyadmin:
     image: phpmyadmin
     container_name: moonfish-phpmyadmin
-    restart: unless-stopped # Similar to always, except that when the container is stopped it is not restarted even after Docker daemon restarts.
+    restart: unless-stopped # Similar to always, except that when the container is stopped
+                            # it is not restarted even after Docker daemon restarts.
     ports:
       - 8000:80
     environment:
@@ -64,8 +66,9 @@ services:
       NEO4J_dbms_logs_debug_level: DEBUG
 
 volumes:
-  mariadb-data: #  This is where all db data will be stored, even if container is restarted, data will be there.
+  mariadb-data: #  This is where all MariaDB data will be stored,
+                # even if container is restarted, data will be there.
 
 networks:
-  default:
+  default: #  This is the shared network between the fourth containers
     name: moonfish

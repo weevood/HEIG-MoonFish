@@ -4,7 +4,7 @@
     <!-- Main pages-->
     <div v-if="currentUser" class="flex w-screen h-screen bg-gray-100">
       <Sidebar :open="sidebarOpen" @show-sidebar="showSidebar" :key="sidebarKey"/>
-      <div class="flex-1 flex flex-col overflow-hidden relative">
+      <div class="flex-1 flex flex-col relative">
         <Header :sidebarOpen="sidebarOpen" @show-sidebar="showSidebar"
                 :notificationOpen="notificationOpen" @show-notification="showNotification"/>
         <div class="container absolute">
@@ -13,7 +13,7 @@
           <AlertError :title="errorMessage().title" :message="errorMessage().message"
                       @clear="msg = null" :can-close="true"/>
         </div>
-        <div class="container">
+        <div class="container overflow-y-auto no-scrollbar">
           <router-view @msg="getMessage" @refresh="refresh"/>
         </div>
       </div>

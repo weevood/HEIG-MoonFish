@@ -43,7 +43,7 @@ export default {
               name: prefix + file.name,
               type: file.type,
               size: file.size,
-              link: '#' // TODO
+              link: '#'
             }), null, emit));
           }
 

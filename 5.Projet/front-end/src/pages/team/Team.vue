@@ -1,5 +1,5 @@
 <template>
-  <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
+  <main class="flex-1 bg-gray-100">
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
       <div>
         <h1 class="text-blue-900 text-3xl font-medium pb-4">{{ team.name }}</h1>
@@ -26,11 +26,6 @@
         laoreet quis, vehicula
         eget ligula. Mauris a est metus. Aliquam auctor est non nunc tempus, non vehicula justo gravida. Morbi nec
         sollicitudin magna. Morbi iaculis iaculis erat a fermentum. Cras vitae ipsum urna. Mauris ac mi vehicula.</p>
-    </section>
-    <section class="container my-6">
-      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Projects.title') }}</h2>
-      <p v-if="!projects?.length" class="italic text-gray-600">{{ $t('noItems') }}</p>
-      <ProjectsList :projects="projects" @msg="transfer"/>
     </section>
     <section class="container my-6">
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.members') }}</h2>
@@ -112,6 +107,11 @@
           </li>
         </ul>
       </div>
+    </section>
+    <section class="container my-6">
+      <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Projects.title') }}</h2>
+      <p v-if="!projects?.length" class="italic text-gray-600">{{ $t('noItems') }}</p>
+      <ProjectsList :projects="projects" @msg="transfer"/>
     </section>
   </main>
 </template>
