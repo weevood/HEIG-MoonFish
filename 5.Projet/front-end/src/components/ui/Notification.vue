@@ -27,10 +27,13 @@
 import request from "@/utils/request";
 import NotificationsService from "@/services/notifications.service";
 import NotificationsList from "@/components/layout/NotificationsList";
+import CacheService from "@/services/cache.service";
 
 export default {
   name: 'Notification',
   components: { NotificationsList },
+  emits: ['refresh', 'show-notification'],
+
   props: {
     open: {
       type: Boolean,
@@ -55,7 +58,15 @@ export default {
   methods: {
 
     async retrieveNotifications() {
-      this.notifications = await request(NotificationsService.getMine(), this)
+      const oldLength = this.notifications.length
+      this.notifications = await request(NotificationsService.getMine(), this);
+      console.log(oldLength)
+      console.log(this.notifications.length)
+      if (this.notifications.length > oldLength)
+      {
+        CacheService.flush();
+        this.$emit('refresh');
+      }
     },
 
     async remove(id, show) {

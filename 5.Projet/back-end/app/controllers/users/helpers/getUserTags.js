@@ -4,7 +4,7 @@ const { findUserNode } = require('./findUserNode')
  * Find user by ID
  * @param {uuid} uuid - the user´s uuid
  */
-const getUserTags = (uuid = '') => {
+const getUserTags = (uuid) => {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await findUserNode(uuid)

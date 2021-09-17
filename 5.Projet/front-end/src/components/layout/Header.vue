@@ -2,7 +2,7 @@
   <header class="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-teal-600">
     <SidebarButton @show-sidebar="showSidebar"/>
     <Search/>
-    <Notification :open="notificationOpen" @show-notification="showNotification"/>
+    <Notification :open="notificationOpen" @show-notification="showNotification" @refresh="this.$emit('refresh')"/>
   </header>
 </template>
 
@@ -14,7 +14,7 @@ import Search from "@/components/ui/Search";
 export default {
   name: 'Header',
   components: { Notification, SidebarButton, Search },
-  emits: ['show-sidebar', 'show-notification'],
+  emits: ['refresh', 'show-sidebar', 'show-notification'],
 
   props: {
     sidebarOpen: {

@@ -108,7 +108,7 @@ export default {
     },
 
     async retrieveTeams() {
-      const options = [`filters[status]=${ STATUS_ACTIVE }`, `limit=50`, 'orders[createdAt]=DESC']
+      const options = [`filters[status]=${ STATUS_ACTIVE }`, `limit=50`, 'orders[grade]=DESC']
       this.teams = await request(TeamsService.getAll(options), this);
     },
 

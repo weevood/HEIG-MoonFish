@@ -71,8 +71,8 @@ export default {
     },
 
     async join(uuid) {
-      this.$emit('join', uuid);
       await request(TeamsService.join(uuid), this);
+      this.$emit('join', uuid);
       await request(NotificationsService.create({
         userUuid: this.team.ownerUuid,
         lang: 'en', // user.lang
@@ -86,8 +86,8 @@ export default {
     },
 
     async leave(uuid) {
-      this.$emit('leave', uuid);
       await request(TeamsService.leave(uuid), this);
+      this.$emit('leave', uuid);
       const members = await request(TeamsService.getMembers(this.team.uuid), this);
       for (const user of members) {
         await request(NotificationsService.create({

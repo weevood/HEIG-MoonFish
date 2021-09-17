@@ -116,6 +116,9 @@ Projects:
     accepted:
       title: "Good job"
       desc: 'Your team has been selected to develop the project "{project}"'
+    graduated:
+      title: "The end"
+      desc: 'Your project "{project}" just ended, find out what grade you got...'
 
 # Recommendations
 
@@ -198,3 +201,4 @@ error:
   OLD_PASSWORD_INCORRECT: "Your old password is incorrect, please try again."
   USER_BLOCKED: "This user is actually blocked, please try again later."
   TEAM_ALREADY_EXISTS: "This team name already exists, please choose another one."
+  TEAM_DOES_NOT_EXIST: "This team does not exist."

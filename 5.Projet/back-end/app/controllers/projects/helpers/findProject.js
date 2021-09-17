@@ -9,7 +9,7 @@ const { getItemByUuid } = require('../../../middleware/db')
  * @param {uuid} uuid - the project´s uuid
  * @param {string} lang - the translation to load
  */
-const findProject = (uuid = '', lang = 'en') => {
+const findProject = (uuid, lang = 'en') => {
     return new Promise(async (resolve, reject) => {
         try {
             resolve(await getItemByUuid(Project, uuid, {

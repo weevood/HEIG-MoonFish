@@ -105,7 +105,7 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                 }
 
                 mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 1')
-                await new Promise(r => setTimeout(r, 1000))
+                await new Promise(r => setTimeout(r, 500))
                 console.log('The databases (MariaDB & Neo4j) are ready.')
 
             }, function (error) {

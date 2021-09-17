@@ -5,7 +5,7 @@
     <div v-if="currentUser" class="flex w-screen h-screen bg-gray-100">
       <Sidebar :open="sidebarOpen" @show-sidebar="showSidebar" :key="sidebarKey"/>
       <div class="flex-1 flex flex-col relative">
-        <Header :sidebarOpen="sidebarOpen" @show-sidebar="showSidebar"
+        <Header @refresh="refresh" :sidebarOpen="sidebarOpen" @show-sidebar="showSidebar"
                 :notificationOpen="notificationOpen" @show-notification="showNotification"/>
         <div class="container absolute">
           <AlertSuccess :title="successMessage().title" :message="successMessage().message"

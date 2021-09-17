@@ -4,7 +4,7 @@
       <div>
         <h1 class="text-blue-900 text-3xl font-medium pb-4">{{ team.name }}</h1>
         <StarRating v-if="team.grade" :rating=team.grade :rounded-corners=true :padding=1 :read-only=true :star-size=25
-                    :increment=0.01
+                    :increment=0.1
                     style="margin-left: -5px"/>
       </div>
       <button v-if="!edition && isOwner()" @click="edition = true"

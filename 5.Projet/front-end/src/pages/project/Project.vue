@@ -29,7 +29,7 @@
           <p class="text-sm font-normal text-gray-700 mt-4 my-2">
             {{ `${ $t('Projects.end') }: ${ project.endDate && format(project.endDate) }` }}</p>
           <StarRating :rating="project.mark" :rounded-corners=true :read-only=true :star-size=20
-                      :increment=0.5 :show-rating=false style="margin-left: -5px" class="my-2"/>
+                      :increment=0.1 :show-rating=true style="margin-left: -5px" class="my-2"/>
           <router-link :to="`/resources/${project.feedback}`"
                        class="flex text-sm font-medium text-gray-900 hover:text-blue-900 my-2">
             {{ $t('Projects.feedback') }}
@@ -73,7 +73,8 @@
         <div v-if="teamUuid && price && !Object.keys(errors).length">
           <label class="block text-gray-700 text-sm font-bold mt-4 mb-2"
                  for="specs">{{ $t('Projects.specs') }}</label>
-          <DropZone id="specs" :project="project" :resources="resources" :ownerUuid="ownerUuid" type="apply" @msg="transfer" @upload="upload"/>
+          <DropZone id="specs" :project="project" :resources="resources" :ownerUuid="ownerUuid" type="apply"
+                    @msg="transfer" @upload="upload"/>
         </div>
       </Form>
       <h2 class="py-4 text-blue-900 text-2xl font-medium">{{ $t('Teams.title') }}</h2>
@@ -205,7 +206,7 @@ import request from "@/utils/request";
 import dateFormat from "dateformat";
 import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
-import { RELATION_MANDATES } from "@/enums/relations";
+import { RELATION_DEVELOPS, RELATION_MANDATES } from "@/enums/relations";
 import NotificationsService from "@/services/notifications.service";
 
 export default {
@@ -238,6 +239,7 @@ export default {
       grade: 0,
       price: 0,
       ownerUuid: '',
+      devTeamUuid: 0,
       teamUuid: 0,
       mandateTeamUuid: '',
       teams: [],
@@ -348,6 +350,11 @@ export default {
       this.teams.some(function(team) {
         if (team.relation.name === RELATION_MANDATES) {
           this.ownerUuid = team.ownerUuid;
+        }
+        else if (team.relation.name === RELATION_DEVELOPS) {
+          this.devTeamUuid = team.uuid;
+        }
+        if (this.ownerUuid && this.devTeamUuid) {
           return true;
         }
       }, this);
@@ -403,6 +410,16 @@ export default {
         await request(ProjectsService.feedback(this.project.uuid, { mark, feedback }), this);
         await this.retrieveProject();
         await this.retrieveResources();
+        const members = await request(TeamsService.getMembers(this.devTeamUuid), this);
+        for (const user of members) {
+          await request(NotificationsService.create({
+            userUuid: user.uuid,
+            lang: 'en', // user.lang
+            title: this.$t('Projects.notification.graduated.title'),
+            description: this.$t('Projects.notification.graduated.desc', { project: this.project.title }),
+            link: '/projects/' + this.project.uuid
+          }), this);
+        }
       }
     },
 

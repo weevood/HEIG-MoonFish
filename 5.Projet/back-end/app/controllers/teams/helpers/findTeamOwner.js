@@ -6,7 +6,7 @@ const { RELATION_IS_MEMBER_OF } = require('../../../models/enums/relations')
  * Find team by uuid
  * @param {uuid} uuid - the teams´s uuid
  */
-const findTeamOwner = (uuid = '') => {
+const findTeamOwner = (uuid) => {
     return new Promise(async (resolve, reject) => {
         try {
             let ownerUuid = ''

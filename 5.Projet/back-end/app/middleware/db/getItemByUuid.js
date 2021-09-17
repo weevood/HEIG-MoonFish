@@ -7,7 +7,7 @@ const { queryToOptions } = require('../utils')
  * @param {uuid} uuid - the item uuid
  * @param {Object} options - build and query options
  */
-const getItemByUuid = (model, uuid = '', options = {}) => {
+const getItemByUuid = (model, uuid, options = {}) => {
     return new Promise(async (resolve, reject) => {
         options = await queryToOptions(options)
         options.where = {...options.where, uuid}

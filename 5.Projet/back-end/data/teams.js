@@ -6,7 +6,7 @@ const teams = [{
     uuid: uuid.v4(),
     name: 'The Red Team',
     color: 'red',
-    grade: 3.21,
+    grade: 0.0,
     status: STATUS_BANNED
 }]
 

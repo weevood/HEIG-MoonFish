@@ -7,7 +7,7 @@ const { getItemByUuid } = require('../../../middleware/db')
  * Find user by uuid
  * @param {uuid} uuid - the user´s uuid
  */
-const findUserByUuid = (uuid = '') => {
+const findUserByUuid = (uuid) => {
     return new Promise(async (resolve, reject) => {
         try {
             resolve(await getItemByUuid(User, uuid, { include: ['role', 'status'] }))

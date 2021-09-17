@@ -6,7 +6,7 @@ const { getNode } = require('../../../middleware/db')
  * @param {uuid} uuid - the projects´s uuid
  * @param {array} status - the projects´s needed status
  */
-const findProjectNode = (uuid = '', status = []) => {
+const findProjectNode = (uuid, status = []) => {
     return new Promise(async (resolve, reject) => {
         try {
             const projectNode = await getNode('Project', uuid)
