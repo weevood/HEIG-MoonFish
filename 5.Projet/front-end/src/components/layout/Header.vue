@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Notification from "@/components/ui/Notification";
+import Notification from "@/components/layout/Notification";
 import SidebarButton from "@/components/ui/SidebarButton";
 import Search from "@/components/ui/Search";
 

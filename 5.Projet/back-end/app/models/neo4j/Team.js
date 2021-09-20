@@ -29,6 +29,11 @@ module.exports = {
         required: true,
     },
 
+    createdAt: {
+        type: 'datetime',
+        default: () => new Date,
+    },
+
     mandates: {
         type: 'relationship',
         relationship: RELATION_MANDATES,
@@ -89,11 +94,6 @@ module.exports = {
                 type: 'datetime',
             }
         },
-    },
-
-    createdAt: {
-        type: 'datetime',
-        default: () => new Date,
     }
 
 };

@@ -50,7 +50,7 @@ import { STATUS_ACTIVE } from "@/enums/status";
 import inArray from "@/utils/inArray";
 import clean from "@/utils/clean";
 import capitalize from "@/utils/capitalize";
-import ProjectsList from "@/components/layout/ProjectsList";
+import ProjectsList from "@/components/ui/ProjectsList";
 
 export default {
   name: 'User',

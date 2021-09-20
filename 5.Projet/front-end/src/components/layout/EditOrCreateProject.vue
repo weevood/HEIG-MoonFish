@@ -35,7 +35,7 @@
       </div>
       <div class="mb-6 pt-3 rounded bg-gray-200">
         <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" for="deadline">{{ $t('deadline') }}</label>
-        <Field id="deadline" name="deadline" type="date" :value="format(deadline)"
+        <Field id="deadline" name="deadline" type="date" :value="formatDate(deadline, 'yyyy-mm-dd')"
                class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
         <ErrorMessage name="deadline" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
       </div>
@@ -66,13 +66,13 @@
 </template>
 
 <script>
-import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
-import { PROJECTS_TAGS } from '@/config/constants';
+import { ErrorMessage, Field, Form } from "vee-validate";
+import inArray from "@/utils/inArray";
+import formatDate from "@/utils/formatDate";
 import request from "@/utils/request";
 import ProjectsService from "@/services/projects.service";
-import dateFormat from "dateformat";
-import inArray from "@/utils/inArray";
+import { PROJECTS_TAGS } from '@/config/constants';
 
 export default {
   name: 'EditOrCreateProject',
@@ -133,20 +133,14 @@ export default {
   },
 
   methods: {
-    inArray,
-
-    format(date) {
-      if (date) {
-        return dateFormat(new Date(date), 'yyyy-mm-dd')
-      }
-    },
+    inArray, formatDate,
 
     async updateOrCreate(project) {
       this.loading = true;
       project.lang = (localStorage.getItem('lang') || process.env.VUE_APP_I18N_LOCALE || 'en');
       if (project.uuid) {
         // Update existing project
-       await request(ProjectsService.update(project), this);
+        await request(ProjectsService.update(project), this);
       }
       else {
         // Create a new project

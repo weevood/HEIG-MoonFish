@@ -124,7 +124,7 @@ import StarRating from "vue-star-rating";
 import request from "@/utils/request";
 import { STATUS_ACTIVE, STATUS_INACTIVE } from "@/enums/status";
 import JoinOrLeaveTeam from "@/components/layout/JoinOrLeaveTeam";
-import ProjectsList from "@/components/layout/ProjectsList";
+import ProjectsList from "@/components/ui/ProjectsList";
 import NotificationsService from "@/services/notifications.service";
 
 export default {

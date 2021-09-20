@@ -27,7 +27,7 @@
         <p class="text-sm font-normal text-gray-700 my-2" v-html="project.description"></p>
         <div v-if="inArray(project.status, finishedStatus)">
           <p class="text-sm font-normal text-gray-700 mt-4 my-2">
-            {{ `${ $t('Projects.end') }: ${ project.endDate && format(project.endDate) }` }}</p>
+            {{ `${ $t('Projects.end') }: ${ project.endDate && formatDate(project.endDate) }` }}</p>
           <StarRating :rating="project.mark" :rounded-corners=true :read-only=true :star-size=20
                       :increment=0.1 :show-rating=true style="margin-left: -5px" class="my-2"/>
           <router-link :to="`/resources/${project.feedback}`"
@@ -41,7 +41,7 @@
           </router-link>
         </div>
         <div v-else>
-          <p class="text-xs font-bold text-blue-900">Deadline: {{ format(project.deadline) }}</p>
+          <p class="text-xs font-bold text-blue-900">Deadline: {{ formatDate(project.deadline) }}</p>
         </div>
       </div>
     </section>
@@ -196,18 +196,18 @@
 
 <script>
 
-import ProjectsService from "@/services/projects.service";
-import DropZone from "@/components/ui/DropZone";
-import inArray from "@/utils/inArray";
-import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
-import TeamsService from "@/services/teams.service";
-import StarRating from "vue-star-rating";
-import request from "@/utils/request";
-import dateFormat from "dateformat";
-import { ErrorMessage, Field, Form } from "vee-validate";
 import * as yup from "yup";
-import { RELATION_DEVELOPS, RELATION_MANDATES } from "@/enums/relations";
+import StarRating from "vue-star-rating";
+import { ErrorMessage, Field, Form } from "vee-validate";
+import request from "@/utils/request";
+import inArray from "@/utils/inArray";
+import formatDate from '@/utils/formatDate';
+import DropZone from "@/components/ui/DropZone";
+import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
+import ProjectsService from "@/services/projects.service";
+import TeamsService from "@/services/teams.service";
 import NotificationsService from "@/services/notifications.service";
+import { RELATION_DEVELOPS, RELATION_MANDATES } from "@/enums/relations";
 
 export default {
   name: 'Project',
@@ -273,13 +273,7 @@ export default {
   },
 
   methods: {
-    inArray,
-
-    format(date) {
-      if (date) {
-        return dateFormat(new Date(date), 'dd.mm.yyyy')
-      }
-    },
+    inArray, formatDate,
 
     tags(tags) {
       return tags && !Array.isArray(tags) ? tags.split(';') : tags;

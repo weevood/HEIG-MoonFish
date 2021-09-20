@@ -42,7 +42,7 @@
                   </li>
                 </ul>
                 <p class="text-sm font-normal text-gray-700 my-2">{{ project.description }}</p>
-                <p class="text-xs font-bold text-blue-900">Deadline: {{ format(project.deadline) }}</p>
+                <p class="text-xs font-bold text-blue-900">Deadline: {{ formatDate(project.deadline) }}</p>
               </div>
             </router-link>
           </div>
@@ -61,11 +61,11 @@
 </template>
 
 <script>
-import ProjectsService from '@/services/projects.service';
 import inArray from '@/utils/inArray';
-import dateFormat from 'dateformat';
-import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
+import formatDate from '@/utils/formatDate';
 import request from "@/utils/request";
+import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
+import ProjectsService from '@/services/projects.service';
 import TeamsService from "@/services/teams.service";
 import { PROJECT_STATUS_PROPOSAL } from "@/enums/projectStatus";
 import { PROJECTS_PER_PAGE } from "@/config/constants";
@@ -102,11 +102,7 @@ export default {
   },
 
   methods: {
-    inArray,
-
-    format(date) {
-      return dateFormat(new Date(date), 'dd.mm.yyyy');
-    },
+    inArray, formatDate,
 
     tags(tags) {
       return tags && !Array.isArray(tags) ? tags.split(';') : tags;
@@ -144,7 +140,7 @@ export default {
     async retrieveProjects() {
       let options = []
       if (this.onProposal) {
-        options.push([`filters[status]=${ PROJECT_STATUS_PROPOSAL }`]);
+        options.push(`filters[status]=${ PROJECT_STATUS_PROPOSAL }`);
       }
       options.push(`limit=${ PROJECTS_PER_PAGE }`);
       options.push(`offset=${ this.offset }`);

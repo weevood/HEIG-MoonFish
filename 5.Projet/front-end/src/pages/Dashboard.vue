@@ -16,13 +16,13 @@
 <script>
 
 import capitalize from "@/utils/capitalize";
-import NotificationsList from "@/components/layout/NotificationsList";
 import request from "@/utils/request";
+import NotificationsList from "@/components/ui/NotificationsList";
 import NotificationsService from "@/services/notifications.service";
 import Recommendations from "@/components/layout/Recommendations";
 
 export default {
-  name: 'Home',
+  name: 'Dashboard',
   components: { NotificationsList, Recommendations },
 
   data() {
