@@ -84,7 +84,6 @@ export default {
       type: String,
       default: ''
     },
-    teams: Array,
     title: {
       type: String,
       default: ''
@@ -100,7 +99,8 @@ export default {
     tags: {
       type: String,
       default: ''
-    }
+    },
+    teams: Array
   },
 
   data() {
@@ -126,8 +126,8 @@ export default {
     return {
       schema,
       loading: false,
-      errorMessage: this.$route.query.error,
       message: this.$route.query.message,
+      errorMessage: this.$route.query.error,
       allTags: PROJECTS_TAGS,
     };
   },

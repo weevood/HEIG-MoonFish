@@ -9,13 +9,12 @@
 </template>
 
 <script>
-import { useDropzone } from 'vue3-dropzone'
-import NotificationsService from "@/services/notifications.service";
-import ResourcesService from "@/services/resources.service";
-import capitalize from "@/utils/capitalize";
 import request from "@/utils/request";
 import inArray from "@/utils/inArray";
 import formatName from "@/utils/formatName";
+import { useDropzone } from 'vue3-dropzone'
+import NotificationsService from "@/services/notifications.service";
+import ResourcesService from "@/services/resources.service";
 
 export default {
   name: 'DropZone',
@@ -88,10 +87,6 @@ export default {
       }
     }
 
-    function fullName(user) {
-      return capitalize(user.firstName) + ' ' + capitalize(user.lastName)
-    }
-
     async function creatNotif(filesNames) {
       const user = JSON.parse(localStorage.getItem('user'))
       if (user && user.user && user.user.uuid !== _.ownerUuid) {
@@ -99,8 +94,8 @@ export default {
           userUuid: _.ownerUuid,
           lang: 'en', // owner.lang
           title: 'New file uploaded', // $t('Resources.newFile'),
-          description: `${ fullName(user.user) } upload ${ filesNames.length > 1 ? 'new files' : 'a new file' } (${ filesNames.join(', ') }) on project "${ _.project.title }".`,
-          // $t('Resources.newFileDesc', { name: fullName(user), file: filesNames.join(', '), project: _.project.title })
+          description: `${ formatName(user.firstName, user.lastName) } upload ${ filesNames.length > 1 ? 'new files' : 'a new file' } (${ filesNames.join(', ') }) on project "${ _.project.title }".`,
+          // $t('Resources.newFileDesc', { name: formatName(user.firstName, user.lastName), file: filesNames.join(', '), project: _.project.title })
           link: '/projects/' + _.project.uuid
         }), null, emit);
       }
