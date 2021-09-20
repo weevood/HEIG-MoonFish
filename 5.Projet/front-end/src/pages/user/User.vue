@@ -1,7 +1,7 @@
 <template>
   <main class="flex-1 bg-gray-100">
     <div class="container mx-auto px-6 py-8 flex justify-between items-center">
-      <h1 class="text-blue-900 text-3xl font-medium">{{ fullName() }}</h1>
+      <h1 class="text-blue-900 text-3xl font-medium">{{ formatName(user.firstName, user.lastName) }}</h1>
     </div>
     <section class="container">
       <ul>
@@ -44,13 +44,14 @@
 
 <script>
 
-import UsersService from "@/services/users.service";
 import request from "@/utils/request";
-import { STATUS_ACTIVE } from "@/enums/status";
 import inArray from "@/utils/inArray";
+import formatName from "@/utils/formatName";
 import clean from "@/utils/clean";
 import capitalize from "@/utils/capitalize";
 import ProjectsList from "@/components/ui/ProjectsList";
+import UsersService from "@/services/users.service";
+import { STATUS_ACTIVE } from "@/enums/status";
 
 export default {
   name: 'User',
@@ -80,8 +81,13 @@ export default {
   },
 
   methods: {
-    inArray,
+    inArray, formatName,
+
     capitalize(word) { return capitalize(word) },
+
+    transfer(msg) {
+      this.$emit('msg', msg);
+    },
 
     clean(obj) {
       return clean({
@@ -91,10 +97,6 @@ export default {
         firstName: null,
         lastName: null
       })
-    },
-
-    fullName() {
-      return capitalize(this.user.firstName) + ' ' + capitalize(this.user.lastName)
     },
 
     async retrieveUser() {

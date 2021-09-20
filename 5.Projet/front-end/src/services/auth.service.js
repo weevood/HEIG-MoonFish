@@ -18,7 +18,7 @@ class AuthService {
 		}
 
 		login(user) {
-				console.log(process.env.VUE_APP_API_BASE_URL + '/login')
+				console.log(process.env.VUE_APP_API_BASE_URL + '/login') // TODO REMOVE CONSOLELOG
 				return axios
 						.post(process.env.VUE_APP_API_BASE_URL + '/login', {
 								email: user.email,

@@ -66,8 +66,8 @@
 </template>
 
 <script>
-import * as yup from "yup";
-import { ErrorMessage, Field, Form } from "vee-validate";
+import * as yup from 'yup';
+import { ErrorMessage, Field, Form } from 'vee-validate';
 import inArray from "@/utils/inArray";
 import formatDate from "@/utils/formatDate";
 import request from "@/utils/request";

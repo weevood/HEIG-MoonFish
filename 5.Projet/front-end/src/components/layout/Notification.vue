@@ -60,8 +60,6 @@ export default {
     async retrieveNotifications() {
       const oldLength = this.notifications.length
       this.notifications = await request(NotificationsService.getMine(), this);
-      console.log(oldLength)
-      console.log(this.notifications.length)
       if (this.notifications.length > oldLength)
       {
         CacheService.flush();
@@ -70,7 +68,7 @@ export default {
     },
 
     async remove(id, show) {
-      this.$emit('show-notification', show)
+      this.$emit('show-notification', show);
       this.notifications.some(function(notif, i) {
         if (notif.id === id) {
           this.notifications.splice(i, 1);
@@ -78,7 +76,7 @@ export default {
         }
       }, this);
       await request(NotificationsService.delete(id), this)
-    },
+    }
 
   }
 

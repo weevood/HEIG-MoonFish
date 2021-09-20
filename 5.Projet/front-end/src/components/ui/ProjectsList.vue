@@ -41,7 +41,7 @@
 <script>
 import inArray from "@/utils/inArray";
 import formatDate from "@/utils/formatDate";
-import StarRating from "vue-star-rating";
+import StarRating from 'vue-star-rating';
 
 export default {
   name: 'ProjectsList',
@@ -56,7 +56,7 @@ export default {
       finishedStatus: ['ended', 'abandoned'],
     };
   },
-  
+
   methods: {
     inArray, formatDate
   }

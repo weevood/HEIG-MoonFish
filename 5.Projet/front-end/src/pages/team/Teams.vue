@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import TeamsService from '@/services/teams.service';
-import { STATUS_ACTIVE } from '@/enums/status';
 import inArray from "@/utils/inArray";
 import request from "@/utils/request";
+import StarRating from 'vue-star-rating';
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
-import StarRating from "vue-star-rating";
 import JoinOrLeaveTeam from "@/components/layout/JoinOrLeaveTeam";
+import TeamsService from '@/services/teams.service';
+import { STATUS_ACTIVE } from '@/enums/status';
 
 export default {
   name: 'Teams',

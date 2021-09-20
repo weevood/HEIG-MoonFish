@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import { ErrorMessage, Field, Form } from "vee-validate";
-import * as yup from "yup";
-import TeamsService from "@/services/teams.service";
+import * as yup from 'yup';
+import { ErrorMessage, Field, Form } from 'vee-validate';
 import request from "@/utils/request";
+import TeamsService from "@/services/teams.service";
 
 export default {
   name: 'EditOrCreateTeam',
@@ -68,27 +68,23 @@ export default {
     return {
       schema,
       loading: false,
-      errorMessage: this.$route.query.error,
       message: this.$route.query.message,
+      errorMessage: this.$route.query.error,
     };
   },
 
   methods: {
-
     async updateOrCreate(team) {
       this.loading = true;
       team.color = team.color.toLowerCase()
-      if (team.uuid) {
-        // Update existing team
+      if (team.uuid) { // Update existing team
         await request(TeamsService.update(team), this)
       }
-      else {
-        // Create a new team
+      else { // Create a new team
         team = await request(TeamsService.create(team), this)
       }
       this.$emit('done', team);
     }
-
   }
 
 };

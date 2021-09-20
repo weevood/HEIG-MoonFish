@@ -118,14 +118,14 @@
 
 <script>
 import inArray from '@/utils/inArray';
-import TeamsService from "@/services/teams.service";
-import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
-import StarRating from "vue-star-rating";
 import request from "@/utils/request";
-import { STATUS_ACTIVE, STATUS_INACTIVE } from "@/enums/status";
+import StarRating from 'vue-star-rating';
+import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
 import JoinOrLeaveTeam from "@/components/layout/JoinOrLeaveTeam";
 import ProjectsList from "@/components/ui/ProjectsList";
+import TeamsService from "@/services/teams.service";
 import NotificationsService from "@/services/notifications.service";
+import { STATUS_ACTIVE, STATUS_INACTIVE } from "@/enums/status";
 
 export default {
   name: 'Team',

@@ -15,6 +15,7 @@ import ResourcesService from "@/services/resources.service";
 import capitalize from "@/utils/capitalize";
 import request from "@/utils/request";
 import inArray from "@/utils/inArray";
+import formatName from "@/utils/formatName";
 
 export default {
   name: 'DropZone',

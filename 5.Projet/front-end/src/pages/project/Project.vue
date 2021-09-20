@@ -196,9 +196,9 @@
 
 <script>
 
-import * as yup from "yup";
-import StarRating from "vue-star-rating";
-import { ErrorMessage, Field, Form } from "vee-validate";
+import * as yup from 'yup';
+import StarRating from 'vue-star-rating';
+import { ErrorMessage, Field, Form } from 'vee-validate';
 import request from "@/utils/request";
 import inArray from "@/utils/inArray";
 import formatDate from '@/utils/formatDate';

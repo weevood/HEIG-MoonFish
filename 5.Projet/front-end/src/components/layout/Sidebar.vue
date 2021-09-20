@@ -32,9 +32,9 @@
 
 <script>
 
+import formatName from "@/utils/formatName";
 import Navigation from "@/components/layout/Navigation";
 import Logout from "@/components/ui/Logout";
-import capitalize from "@/utils/capitalize";
 
 export default {
   name: 'Sidebar',
@@ -58,8 +58,10 @@ export default {
   },
 
   methods: {
+    formatName,
+
     fullName() {
-      return capitalize(this.currentUser.firstName) + ' ' + capitalize(this.currentUser.lastName)
+      return formatName(this.currentUser.firstName, this.currentUser.lastName)
     }
   }
 

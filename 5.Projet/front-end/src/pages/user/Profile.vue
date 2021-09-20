@@ -53,8 +53,8 @@
 <script>
 import AlertSuccess from "@/components/ui/AlertSuccess";
 import AlertError from "@/components/ui/AlertError";
-import { ErrorMessage, Field, Form } from "vee-validate";
-import * as yup from "yup";
+import { ErrorMessage, Field, Form } from 'vee-validate';
+import * as yup from 'yup';
 import inArray from '@/utils/inArray';
 import request from "@/utils/request";
 import ProfileService from "@/services/profile.service";

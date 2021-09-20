@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import TeamsService from "@/services/teams.service";
-import request from "@/utils/request";
 import inArray from "@/utils/inArray";
+import formatName from "@/utils/formatName";
+import request from "@/utils/request";
+import TeamsService from "@/services/teams.service";
 import NotificationsService from "@/services/notifications.service";
-import capitalize from "@/utils/capitalize";
 
 export default {
   name: 'JoinOrLeaveTeam',
@@ -64,11 +64,7 @@ export default {
   },
 
   methods: {
-    inArray,
-
-    fullName() {
-      return capitalize(this.currentUser.firstName) + ' ' + capitalize(this.currentUser.lastName)
-    },
+    inArray, formatName,
 
     async join(uuid) {
       await request(TeamsService.join(uuid), this);
@@ -78,7 +74,7 @@ export default {
         lang: 'en', // user.lang
         title: this.$t('Teams.notification.join.title'),
         description: this.$t('Teams.notification.join.desc', {
-          user: this.fullName(),
+          user: formatName(this.currentUser.firstName, this.currentUser.lastName),
           team: this.team.name
         }),
         link: '/teams/' + this.team.uuid
@@ -95,7 +91,7 @@ export default {
           lang: 'en', // user.lang
           title: this.$t('Teams.notification.leave.title'),
           description: this.$t('Teams.notification.leave.desc', {
-            user: this.fullName(),
+            user: formatName(this.currentUser.firstName, this.currentUser.lastName),
             team: this.team.name
           }),
         }), this);
