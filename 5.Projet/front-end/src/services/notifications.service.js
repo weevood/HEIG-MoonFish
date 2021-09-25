@@ -1,6 +1,11 @@
+import clean from '@/utils/clean';
 import http from '@/config/http';
-import clean from "@/utils/clean";
 
+/**
+ * NotificationsService
+ *
+ * Define all available routes for "Notifications"
+ */
 class NotificationsService {
 
 		/**

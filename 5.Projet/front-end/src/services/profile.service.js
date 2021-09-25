@@ -1,6 +1,11 @@
+import clean from '@/utils/clean';
 import http from '@/config/http'
-import clean from "@/utils/clean";
 
+/**
+ * ProfileService
+ *
+ * Define all available routes for "Profile"
+ */
 class ProfileService {
 
 		/**

@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import inArray from "@/utils/inArray";
-import formatName from "@/utils/formatName";
-import request from "@/utils/request";
-import TeamsService from "@/services/teams.service";
 import NotificationsService from "@/services/notifications.service";
+import TeamsService from "@/services/teams.service";
+import formatName from "@/utils/formatName";
+import inArray from "@/utils/inArray";
+import request from "@/utils/request";
 
 export default {
   name: 'JoinOrLeaveTeam',
@@ -64,7 +64,8 @@ export default {
   },
 
   methods: {
-    inArray, formatName,
+    inArray,
+    formatName,
 
     async join(uuid) {
       await request(TeamsService.join(uuid), this);

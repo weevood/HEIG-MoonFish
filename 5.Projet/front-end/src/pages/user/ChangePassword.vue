@@ -47,12 +47,12 @@
 </template>
 
 <script>
-import AlertSuccess from "@/components/ui/AlertSuccess";
-import AlertError from "@/components/ui/AlertError";
-import { ErrorMessage, Field, Form } from 'vee-validate';
 import * as yup from 'yup';
-import request from "@/utils/request";
+import AlertError from "@/components/ui/AlertError";
+import AlertSuccess from "@/components/ui/AlertSuccess";
 import ProfileService from "@/services/profile.service";
+import request from "@/utils/request";
+import { ErrorMessage, Field, Form } from 'vee-validate';
 
 export default {
   name: 'ChangePassword',
@@ -78,10 +78,10 @@ export default {
           .max(40, this.$t('maxChars', { max: 40 })),
     });
     return {
+      schema,
       loading: false,
       errorMessage: this.$route.query.error,
-      message: this.$route.query.message,
-      schema
+      message: this.$route.query.message
     };
   },
 

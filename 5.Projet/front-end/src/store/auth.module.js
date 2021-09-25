@@ -9,28 +9,29 @@ function handleError(err) {
 		if (err.response && err.response.data.error) {
 				// The request was made and the server responded with a status code
 				// that falls out of the range of 2xx
-				console.log(err.response.data.error);
-				// console.log(err.response.status);
-				// console.log(err.response.headers);
+				console.error(err.response.data.error);
+				// console.error(err.response.status);
+				// console.error(err.response.headers);
 				return Promise.reject(err.response.data.error);
 		}
 		else if (err.request) {
 				// The request was made but no response was received
 				// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
 				// http.ClientRequest in node.js
-				console.log(err.request);
+				console.error(err.request);
 		}
 		else {
 				// Something happened in setting up the request that triggered an Error
 				console.error('Error', err.message);
 		}
-		console.log(err.config);
+		console.error(err.config);
 		return Promise.reject(err);
 }
 
 export const auth = {
 		namespaced: true,
 		state: initialState,
+
 		actions: {
 				register({ commit }, user) {
 						return AuthService.register(user).then(
@@ -97,6 +98,7 @@ export const auth = {
 						);
 				},
 		},
+
 		mutations: {
 				success(state) {
 						state.status.loggedIn = false;
@@ -118,4 +120,5 @@ export const auth = {
 						state.user = null;
 				}
 		}
+
 };

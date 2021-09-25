@@ -1,7 +1,7 @@
 const uuid = require('uuid')
 const { STATUS_ACTIVE } = require('../../models/enums/status')
 const { createNode } = require('../../middleware/db/createNode')
-const { findUserNode } = require("../users/helpers")
+const { findUserNode } = require('../users/helpers')
 const { handleError, clearNode } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { teamExists } = require('./helpers')

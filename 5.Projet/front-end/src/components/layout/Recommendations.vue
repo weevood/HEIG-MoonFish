@@ -1,5 +1,5 @@
 <template>
-  <section  class="container mb-6 shadow-inner">
+  <section class="container mb-6 shadow-inner">
     <h2 class="py-4 text-2xl font-medium" :class="podium && 'mb-6 text-white text-center font-allison italic text-6xl'"
         style="color: #DAA520">
       {{ $t('Recommendations.title') }}</h2>
@@ -39,10 +39,10 @@
 </template>
 
 <script>
-import request from "@/utils/request";
-import inArray from "@/utils/inArray";
-import RecommendationsService from "@/services/recommendations.service";
 import ProjectsList from "@/components/ui/ProjectsList";
+import RecommendationsService from "@/services/recommendations.service";
+import inArray from "@/utils/inArray";
+import request from "@/utils/request";
 
 export default {
   name: 'Recommendations',

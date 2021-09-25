@@ -1,5 +1,5 @@
 const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
-const { STATUS_ACTIVE } = require("../../models/enums/status")
+const { STATUS_ACTIVE } = require('../../models/enums/status')
 const { findTeamNode } = require('./helpers')
 const { findUserNode } = require('../users/helpers')
 const { handleError, buildSuccObject } = require('../../middleware/utils')

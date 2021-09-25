@@ -22,9 +22,7 @@
   </div>
 </template>
 
-
 <script>
-
 export default {
   name: 'AlertError',
   emits: ['clear'],
@@ -39,6 +37,7 @@ export default {
     },
     message: String
   }
+
 };
 </script>
 

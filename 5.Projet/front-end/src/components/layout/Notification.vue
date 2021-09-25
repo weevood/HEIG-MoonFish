@@ -21,13 +21,11 @@
   </div>
 </template>
 
-
 <script>
-
-import request from "@/utils/request";
-import NotificationsService from "@/services/notifications.service";
-import NotificationsList from "@/components/ui/NotificationsList";
 import CacheService from "@/services/cache.service";
+import NotificationsList from "@/components/ui/NotificationsList";
+import NotificationsService from "@/services/notifications.service";
+import request from "@/utils/request";
 
 export default {
   name: 'Notification',

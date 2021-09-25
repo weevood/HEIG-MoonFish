@@ -14,12 +14,11 @@
 </template>
 
 <script>
-
-import capitalize from "@/utils/capitalize";
-import request from "@/utils/request";
 import NotificationsList from "@/components/ui/NotificationsList";
 import NotificationsService from "@/services/notifications.service";
 import Recommendations from "@/components/layout/Recommendations";
+import capitalize from "@/utils/capitalize";
+import request from "@/utils/request";
 
 export default {
   name: 'Dashboard',

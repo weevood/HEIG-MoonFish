@@ -1,9 +1,14 @@
+import CacheService from '@/services/cache.service';
+import clean from '@/utils/clean';
 import http from '@/config/http';
-import CacheService from "@/services/cache.service";
+import { PROJECT_STATUS_BANNED } from '@/enums/projectStatus';
 import { RELATION_APPLIES, RELATION_ARBITRATES, RELATION_DEVELOPS, RELATION_MANDATES } from '@/enums/relations';
-import { PROJECT_STATUS_BANNED } from "@/enums/projectStatus";
-import clean from "@/utils/clean";
 
+/**
+ * ProjectsService
+ *
+ * Define all available routes for "Projects"
+ */
 class ProjectsService {
 
 		/**

@@ -30,9 +30,9 @@
 
 <script>
 import * as yup from 'yup';
-import { ErrorMessage, Field, Form } from 'vee-validate';
-import request from "@/utils/request";
 import TeamsService from "@/services/teams.service";
+import request from "@/utils/request";
+import { ErrorMessage, Field, Form } from 'vee-validate';
 
 export default {
   name: 'EditOrCreateTeam',

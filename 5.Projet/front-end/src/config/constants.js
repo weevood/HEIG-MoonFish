@@ -1,4 +1,5 @@
 module.exports = Object.freeze({
+
 		PROJECTS_PER_PAGE: 9,
 		LANGUAGES: ['en', 'fr', 'de', 'it'],
 		PROJECTS_TAGS: ['.NET', 'AMOS BASIC', 'AMPL', 'ANS Forth', 'ANSI Common Lisp', 'ActionScript', 'Ada', 'Agda', 'Alma-0',
@@ -13,5 +14,6 @@ module.exports = Object.freeze({
 				'PowerShell', 'Processing', 'Pure', 'PureBasic', 'PureScript', 'Python', 'Q', 'QB64', 'R', 'RAPID', 'REBOL',
 				'Racket', 'Raku', 'Reason', 'Red', 'Ruby', 'Rust', 'S-Lang', 'Sather', 'Scala', 'Scratch', 'Seed7', 'Squeak',
 				'Squirrel', 'Subtext', 'Swift', 'Swift', 'Tea', 'Transcript', 'TypeScript', 'UnrealScript', 'VBScript', 'Vala',
-				'Visual Basic', 'Whiley', 'Xojo', 'Z Shell', 'ZPL', 'Zig'],
+				'Visual Basic', 'Whiley', 'Xojo', 'Z Shell', 'ZPL', 'Zig']
+
 })

@@ -1,5 +1,10 @@
 import http from '@/config/http';
 
+/**
+ * UsersService
+ *
+ * Define all available routes for "Users"
+ */
 class UsersService {
 
 		/**

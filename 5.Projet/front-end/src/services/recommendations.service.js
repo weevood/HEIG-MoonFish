@@ -1,5 +1,10 @@
 import http from '@/config/http';
 
+/**
+ * RecommendationsService
+ *
+ * Define all available routes for "Recommendations"
+ */
 class RecommendationsService {
 
 		/**

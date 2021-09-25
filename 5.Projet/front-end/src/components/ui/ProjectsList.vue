@@ -58,7 +58,8 @@ export default {
   },
 
   methods: {
-    inArray, formatDate
+    inArray,
+    formatDate
   }
 
 };

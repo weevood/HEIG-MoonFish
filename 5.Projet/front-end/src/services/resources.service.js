@@ -1,6 +1,11 @@
 import http from '@/config/http';
-import clean from "@/utils/clean";
+import clean from '@/utils/clean';
 
+/**
+ * ResourcesService
+ *
+ * Define all available routes for "Resources"
+ */
 class ResourcesService {
 
 		/**

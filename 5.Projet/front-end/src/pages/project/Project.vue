@@ -195,18 +195,17 @@
 </template>
 
 <script>
-
 import * as yup from 'yup';
-import StarRating from 'vue-star-rating';
-import { ErrorMessage, Field, Form } from 'vee-validate';
-import request from "@/utils/request";
-import inArray from "@/utils/inArray";
-import formatDate from '@/utils/formatDate';
 import DropZone from "@/components/ui/DropZone";
 import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
-import ProjectsService from "@/services/projects.service";
-import TeamsService from "@/services/teams.service";
 import NotificationsService from "@/services/notifications.service";
+import ProjectsService from "@/services/projects.service";
+import StarRating from 'vue-star-rating';
+import TeamsService from "@/services/teams.service";
+import formatDate from '@/utils/formatDate';
+import inArray from "@/utils/inArray";
+import request from "@/utils/request";
+import { ErrorMessage, Field, Form } from 'vee-validate';
 import { RELATION_DEVELOPS, RELATION_MANDATES } from "@/enums/relations";
 
 export default {
@@ -273,7 +272,8 @@ export default {
   },
 
   methods: {
-    inArray, formatDate,
+    inArray,
+    formatDate,
 
     tags(tags) {
       return tags && !Array.isArray(tags) ? tags.split(';') : tags;
@@ -418,5 +418,6 @@ export default {
     },
 
   }
+
 };
 </script>

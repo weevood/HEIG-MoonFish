@@ -12,11 +12,13 @@ import { LANGUAGES } from '@/config/constants';
 
 export default {
   name: 'LanguageSwitcher',
+
   data() {
     return {
       languages: LANGUAGES
     }
   },
+
   computed: {
     flags: function() {
       let flags = {};
@@ -43,6 +45,7 @@ export default {
       return flags;
     }
   },
+
   methods: {
     onChange(event) {
       localStorage.setItem('lang', event.target.value);

@@ -10,15 +10,16 @@
 </template>
 
 <script>
-
 export default {
   name: 'Admin',
+
   data() {
     return {
       content: '',
     };
   },
-  mounted() {
-  },
+
+  mounted() {}
+
 };
 </script>

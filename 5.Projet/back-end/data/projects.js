@@ -29,7 +29,7 @@ const allTags = ['.NET', 'AMOS BASIC', 'AMPL', 'ANS Forth', 'ANSI Common Lisp', 
     'Squirrel', 'Subtext', 'Swift', 'Swift', 'Tea', 'Transcript', 'TypeScript', 'UnrealScript', 'VBScript', 'Vala',
     'Visual Basic', 'Whiley', 'Xojo', 'Z Shell', 'ZPL', 'Zig']
 
-const projects = [];
+const projects = []
 for (let i = 1; i <= process.env.RELDB_NB_OF_SEEDS; i++) {
     const tags = [], resources = []
     const status = random(PROJECT_STATUS_PROPOSAL, PROJECT_STATUS_ABANDONED)

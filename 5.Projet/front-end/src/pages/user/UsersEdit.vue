@@ -10,16 +10,15 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'UsersEdit',
+
   data() {
     return {
       content: '',
     };
   },
-  mounted() {
-  },
+
+  mounted() {}
 };
 </script>

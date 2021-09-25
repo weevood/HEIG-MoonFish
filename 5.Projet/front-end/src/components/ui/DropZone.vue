@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import request from "@/utils/request";
-import inArray from "@/utils/inArray";
-import formatName from "@/utils/formatName";
-import { useDropzone } from 'vue3-dropzone'
 import NotificationsService from "@/services/notifications.service";
 import ResourcesService from "@/services/resources.service";
+import formatName from "@/utils/formatName";
+import inArray from "@/utils/inArray";
+import request from "@/utils/request";
+import { useDropzone } from 'vue3-dropzone'
 
 export default {
   name: 'DropZone',
@@ -31,7 +31,6 @@ export default {
 
     let filesNames = _.resources.map(resource => { return resource.name });
 
-    // eslint-disable-next-line no-unused-vars
     const saveFiles = (files) => {
       // eslint-disable-next-line no-async-promise-executor
       return new Promise(async(resolve, reject) => {
@@ -60,7 +59,7 @@ export default {
             filesNames.push(fileName);
           }
 
-          // TODO Post the formData to your backend where storage is processed.
+          // Todo in an improved version: Post the formData to the backend where storage is processed.
           // In the backend, loop through the array and save each file through the loop.
           // axios.post(process.env.VUE_APP_API_BASE_URL, formData, { headers: { 'Content-Type': 'multipart/form-data', } })
           //      .then((response) => { console.info(response.data) })
@@ -79,7 +78,6 @@ export default {
         emit('msg', { status: 'KO', message: 'Please select only one file' });
       }
       else if (rejectReasons.length) {
-        console.log(rejectReasons);
         emit('msg', { status: 'KO', message: 'Files rejected' });
       }
       else {

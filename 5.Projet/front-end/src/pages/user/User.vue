@@ -43,14 +43,13 @@
 </template>
 
 <script>
-
-import request from "@/utils/request";
-import inArray from "@/utils/inArray";
-import formatName from "@/utils/formatName";
-import clean from "@/utils/clean";
-import capitalize from "@/utils/capitalize";
 import ProjectsList from "@/components/ui/ProjectsList";
 import UsersService from "@/services/users.service";
+import capitalize from "@/utils/capitalize";
+import clean from "@/utils/clean";
+import formatName from "@/utils/formatName";
+import inArray from "@/utils/inArray";
+import request from "@/utils/request";
 import { STATUS_ACTIVE } from "@/enums/status";
 
 export default {
@@ -81,7 +80,8 @@ export default {
   },
 
   methods: {
-    inArray, formatName,
+    inArray,
+    formatName,
 
     capitalize(word) { return capitalize(word) },
 
@@ -118,5 +118,6 @@ export default {
     }
 
   }
+
 };
 </script>

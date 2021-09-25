@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import Forgot from './pages/authentication/Forgot.vue';
 import Login from './pages/authentication/Login.vue';
 import Register from './pages/authentication/Register.vue';
-import Verify from './pages/authentication/Verify.vue';
-import Forgot from './pages/authentication/Forgot.vue';
 import Reset from './pages/authentication/Reset.vue';
+import Verify from './pages/authentication/Verify.vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
 // Then, lazy-loaded components
 const BoardAdmin = () => import('./pages/admin/BoardAdmin.vue')
@@ -22,11 +22,11 @@ const UsersEdit = () => import('./pages/user/UsersEdit.vue')
 
 const routes = [
 		{ path: '/', name: 'login', component: Login },
+		{ path: '/forgot', component: Forgot },
 		{ path: '/login', component: Login },
 		{ path: '/register', component: Register },
-		{ path: '/verify/:uuid', component: Verify },
-		{ path: '/forgot', component: Forgot },
 		{ path: '/reset/:uuid', component: Reset },
+		{ path: '/verify/:uuid', component: Verify },
 		// Then, lazy-loaded components
 		{ path: '/admin', name: 'admin', component: BoardAdmin },
 		{ path: '/admin/users', name: 'admin-users', component: UsersEdit },
@@ -54,7 +54,7 @@ router.beforeEach((to, from, next) => {
 		const authRequired = !(publicPages.includes(to.path) || to.path.match(regex));
 		const loggedIn = localStorage.getItem('user');
 
-		// trying to access a restricted page + not logged in = redirect to login page
+		// Trying to access a restricted page + not logged in = redirect to login page
 		if (authRequired && !loggedIn) {
 				next('/login');
 		}

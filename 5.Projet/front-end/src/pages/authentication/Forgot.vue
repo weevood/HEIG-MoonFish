@@ -41,12 +41,12 @@
 </template>
 
 <script>
-import { ErrorMessage, Field, Form } from 'vee-validate';
 import * as yup from 'yup';
-import AuthFooter from '@/components/layout/AuthFooter';
-import AlertSuccess from "@/components/ui/AlertSuccess";
 import AlertError from "@/components/ui/AlertError";
+import AlertSuccess from "@/components/ui/AlertSuccess";
+import AuthFooter from '@/components/layout/AuthFooter';
 import AuthHeader from "@/components/layout/AuthHeader";
+import { ErrorMessage, Field, Form } from 'vee-validate';
 
 export default {
   name: 'Forgot',
@@ -104,12 +104,13 @@ export default {
     },
 
     login() {
-      this.$router.push(`/login` + (this.email ? `?email=${this.email}` : ''));
+      this.$router.push(`/login` + (this.email ? `?email=${ this.email }` : ''));
     },
 
     register() {
-      this.$router.push(`/register` + (this.email ? `?email=${this.email}` : ''));
+      this.$router.push(`/register` + (this.email ? `?email=${ this.email }` : ''));
     }
-  },
+  }
+
 };
 </script>

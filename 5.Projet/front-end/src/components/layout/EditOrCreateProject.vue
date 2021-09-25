@@ -67,11 +67,11 @@
 
 <script>
 import * as yup from 'yup';
-import { ErrorMessage, Field, Form } from 'vee-validate';
-import inArray from "@/utils/inArray";
-import formatDate from "@/utils/formatDate";
-import request from "@/utils/request";
 import ProjectsService from "@/services/projects.service";
+import formatDate from "@/utils/formatDate";
+import inArray from "@/utils/inArray";
+import request from "@/utils/request";
+import { ErrorMessage, Field, Form } from 'vee-validate';
 import { PROJECTS_TAGS } from '@/config/constants';
 
 export default {
@@ -133,7 +133,8 @@ export default {
   },
 
   methods: {
-    inArray, formatDate,
+    inArray,
+    formatDate,
 
     async updateOrCreate(project) {
       this.loading = true;

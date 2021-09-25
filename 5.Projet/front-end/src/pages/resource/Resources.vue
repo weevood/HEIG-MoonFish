@@ -10,15 +10,15 @@
 </template>
 
 <script>
-
 export default {
   name: 'Resources',
+
   data() {
     return {
       resources: [],
     };
   },
-  mounted() {
-  },
+
+  mounted() {}
 };
 </script>

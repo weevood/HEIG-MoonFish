@@ -6,7 +6,7 @@ const { removeExtensionFromFile } = require('../../middleware/utils')
 /*
  * Load all models dynamically
  */
-const models = {};
+const models = {}
 
 // Loop models path and loads every file as a model except this file
 fs.readdirSync(modelsPath).filter((file) => {

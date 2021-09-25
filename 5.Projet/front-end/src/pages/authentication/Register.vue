@@ -77,12 +77,12 @@
 </template>
 
 <script>
-import { ErrorMessage, Field, Form } from 'vee-validate';
 import * as yup from 'yup';
-import AuthFooter from '@/components/layout/AuthFooter';
 import AlertError from "@/components/ui/AlertError";
 import AlertSuccess from "@/components/ui/AlertSuccess";
+import AuthFooter from '@/components/layout/AuthFooter';
 import AuthHeader from "@/components/layout/AuthHeader";
+import { ErrorMessage, Field, Form } from 'vee-validate';
 
 export default {
   name: 'Register',

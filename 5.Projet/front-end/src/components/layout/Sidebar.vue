@@ -31,10 +31,9 @@
 </template>
 
 <script>
-
-import formatName from "@/utils/formatName";
-import Navigation from "@/components/layout/Navigation";
 import Logout from "@/components/ui/Logout";
+import Navigation from "@/components/layout/Navigation";
+import formatName from "@/utils/formatName";
 
 export default {
   name: 'Sidebar',

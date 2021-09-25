@@ -19,7 +19,7 @@ const setNotificationsInfo = (req = {}) => {
                 if (item.link) {
                     notification.link = item.link
                 }
-                return notification;
+                return notification
             })
         }
         resolve(notifications)

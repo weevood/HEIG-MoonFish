@@ -8,8 +8,8 @@
 
 <script>
 import Notification from "@/components/layout/Notification";
-import SidebarButton from "@/components/ui/SidebarButton";
 import Search from "@/components/ui/Search";
+import SidebarButton from "@/components/ui/SidebarButton";
 
 export default {
   name: 'Header',

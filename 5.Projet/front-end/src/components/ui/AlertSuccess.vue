@@ -23,7 +23,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'AlertSuccess',
   props: {
@@ -38,6 +37,7 @@ export default {
     message: String,
     garnish: String
   }
+
 };
 </script>
 

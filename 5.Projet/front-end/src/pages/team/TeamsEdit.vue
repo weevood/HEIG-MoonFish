@@ -10,15 +10,15 @@
 </template>
 
 <script>
-
 export default {
   name: 'TeamsEdit',
+
   data() {
     return {
       content: '',
     };
   },
-  mounted() {
-  },
+
+  mounted() {}
 };
 </script>

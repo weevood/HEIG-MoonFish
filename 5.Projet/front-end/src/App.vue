@@ -27,13 +27,11 @@
   </div>
 </template>
 
-
 <script>
-
-import Sidebar from "@/components/layout/Sidebar";
-import Header from "@/components/layout/Header";
-import AlertSuccess from "@/components/ui/AlertSuccess";
 import AlertError from "@/components/ui/AlertError";
+import AlertSuccess from "@/components/ui/AlertSuccess";
+import Header from "@/components/layout/Header";
+import Sidebar from "@/components/layout/Sidebar";
 
 export default {
   components: { AlertSuccess, AlertError, Sidebar, Header },
@@ -59,9 +57,8 @@ export default {
   methods: {
 
     refresh(item) {
-      console.log('Refresh: ' + item)
-      // Changing sidebarKey will rerender it
-      this.sidebarKey = Math.ceil(Math.random() * 10 ** 5)
+      // Changing the sidebarKey value will rerender it
+      this.sidebarKey = item + Math.ceil(Math.random() * 10 ** 5)
     },
 
     showSidebar(show = true) {

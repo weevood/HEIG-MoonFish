@@ -61,14 +61,14 @@
 </template>
 
 <script>
-import inArray from '@/utils/inArray';
-import formatDate from '@/utils/formatDate';
-import request from "@/utils/request";
 import EditOrCreateProject from "@/components/layout/EditOrCreateProject";
 import ProjectsService from '@/services/projects.service';
 import TeamsService from "@/services/teams.service";
-import { PROJECT_STATUS_PROPOSAL } from "@/enums/projectStatus";
+import formatDate from '@/utils/formatDate';
+import inArray from '@/utils/inArray';
+import request from "@/utils/request";
 import { PROJECTS_PER_PAGE } from "@/config/constants";
+import { PROJECT_STATUS_PROPOSAL } from "@/enums/projectStatus";
 
 export default {
   name: 'Projects',
@@ -102,7 +102,8 @@ export default {
   },
 
   methods: {
-    inArray, formatDate,
+    inArray,
+    formatDate,
 
     tags(tags) {
       return tags && !Array.isArray(tags) ? tags.split(';') : tags;
@@ -158,8 +159,9 @@ export default {
 
     async retrieveMyTeams() {
       this.myTeams = (await request(TeamsService.getMine(), this)).OWNERSHIP;
-    },
+    }
 
   }
+
 };
 </script>

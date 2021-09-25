@@ -1,3 +1,8 @@
+/**
+ * CacheService
+ *
+ * Define all available routes for "Caching"
+ */
 class CacheService {
 
 		/**

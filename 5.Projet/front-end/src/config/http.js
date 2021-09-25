@@ -18,7 +18,7 @@ http.interceptors.response.use(
 		},
 		(error) => {
 				if (error.response.status === 401) {
-						// console.log(error.response);
+						// console.error(error.response);
 						console.log('Interceptor: You are not authorized');
 						if (localStorage.getItem('user')) {
 								AuthService.logout();
@@ -26,7 +26,7 @@ http.interceptors.response.use(
 						}
 				}
 				else if (error.response.status === 500) {
-						console.log(error.response);
+						console.error(error.response);
 						if (localStorage.getItem('user')) {
 								AuthService.logout();
 								window.location.replace('/login?error=SERVER_ERROR');
@@ -35,22 +35,22 @@ http.interceptors.response.use(
 				else if (error.response) {
 						// The request was made and the server responded with a status code
 						// that falls out of the range of 2xx
-						console.log(error.response.status);
-						console.log(error.response.data);
-						// console.log(error.response.headers);
+						console.error(error.response.status);
+						console.error(error.response.data);
+						// console.error(error.response.headers);
 						return Promise.reject(error.response);
 				}
 				else if (error.request) {
 						// The request was made but no response was received
 						// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
 						// http.ClientRequest in node.js
-						console.log(error.request);
+						console.error(error.request);
 				}
 				else {
 						// Something happened in setting up the request that triggered an Error
-						console.log('Error', error.message);
+						console.error('Error', error.message);
 				}
-				// console.log(error.config);
+				// console.error(error.config);
 				return Promise.reject(error);
 		});
 

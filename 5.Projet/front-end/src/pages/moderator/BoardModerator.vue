@@ -10,15 +10,15 @@
 </template>
 
 <script>
-
 export default {
   name: 'Moderator',
+
   data() {
     return {
       content: '',
     };
   },
-  mounted() {
-  },
+
+  mounted() {}
 };
 </script>

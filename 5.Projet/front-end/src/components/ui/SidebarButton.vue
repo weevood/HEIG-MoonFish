@@ -10,9 +10,7 @@
   </div>
 </template>
 
-
 <script>
-
 export default {
   name: 'SidebarButton',
   emits: ['show-sidebar']

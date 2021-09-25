@@ -42,12 +42,12 @@
 </template>
 
 <script>
-import inArray from "@/utils/inArray";
-import request from "@/utils/request";
-import StarRating from 'vue-star-rating';
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
 import JoinOrLeaveTeam from "@/components/layout/JoinOrLeaveTeam";
+import StarRating from 'vue-star-rating';
 import TeamsService from '@/services/teams.service';
+import inArray from "@/utils/inArray";
+import request from "@/utils/request";
 import { STATUS_ACTIVE } from '@/enums/status';
 
 export default {
@@ -120,5 +120,6 @@ export default {
     }
 
   }
+
 };
 </script>

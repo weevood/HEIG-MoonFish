@@ -146,9 +146,8 @@
   </nav>
 </template>
 <script>
-
-import TeamsService from "@/services/teams.service";
 import ProjectsService from "@/services/projects.service";
+import TeamsService from "@/services/teams.service";
 import request from "@/utils/request";
 
 export default {

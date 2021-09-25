@@ -16,7 +16,8 @@
         </svg>
         <span>{{ $t('Teams.edit') }}</span>
       </button>
-      <JoinOrLeaveTeam v-if="isActive && !edition && !isOwner()" :team="team" :myTeams="myTeams" @msg="transfer" @join="join"
+      <JoinOrLeaveTeam v-if="isActive && !edition && !isOwner()" :team="team" :myTeams="myTeams" @msg="transfer"
+                       @join="join"
                        @leave="leave"/>
     </div>
     <EditOrCreateTeam v-if="edition" :uuid="team.uuid" :name="team.name" :color="team.color" @msg="transfer"
@@ -117,14 +118,14 @@
 </template>
 
 <script>
-import inArray from '@/utils/inArray';
-import request from "@/utils/request";
-import StarRating from 'vue-star-rating';
 import EditOrCreateTeam from "@/components/layout/EditOrCreateTeam";
 import JoinOrLeaveTeam from "@/components/layout/JoinOrLeaveTeam";
-import ProjectsList from "@/components/ui/ProjectsList";
-import TeamsService from "@/services/teams.service";
 import NotificationsService from "@/services/notifications.service";
+import ProjectsList from "@/components/ui/ProjectsList";
+import StarRating from 'vue-star-rating';
+import TeamsService from "@/services/teams.service";
+import inArray from '@/utils/inArray';
+import request from "@/utils/request";
 import { STATUS_ACTIVE, STATUS_INACTIVE } from "@/enums/status";
 
 export default {

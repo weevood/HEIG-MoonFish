@@ -9,6 +9,28 @@
 			"name": "Auth",
 			"item": [
 				{
+					"name": "/token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/token",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/login",
 					"event": [
 						{
@@ -267,28 +289,6 @@
 							],
 							"path": [
 								"reset"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/token",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer {{authToken}}"
-							}
-						],
-						"url": {
-							"raw": "{{server}}/token",
-							"host": [
-								"{{server}}"
-							],
-							"path": [
-								"token"
 							]
 						}
 					},
@@ -924,7 +924,7 @@
 							"urlencoded": [
 								{
 									"key": "teamUuid",
-									"value": "648039cb-4160-44d8-85ef-149bc54fd823",
+									"value": "060ce82d-47c2-4838-83e2-5215357bdfc8",
 									"type": "text"
 								},
 								{
@@ -949,7 +949,7 @@
 								},
 								{
 									"key": "tags",
-									"value": "C#;.Net",
+									"value": "[\".NET\", \"C#\", \"AMPL\"]",
 									"type": "text"
 								}
 							]

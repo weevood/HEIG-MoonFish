@@ -1,8 +1,13 @@
-import http from '@/config/http'
 import CacheService from '@/services/cache.service';
-import { STATUS_ACTIVE, STATUS_BANNED, STATUS_INACTIVE } from "@/enums/status";
-import clean from "@/utils/clean";
+import clean from '@/utils/clean';
+import http from '@/config/http'
+import { STATUS_ACTIVE, STATUS_BANNED, STATUS_INACTIVE } from '@/enums/status';
 
+/**
+ * TeamsService
+ *
+ * Define all available routes for "Teams"
+ */
 class TeamsService {
 
 		/**
