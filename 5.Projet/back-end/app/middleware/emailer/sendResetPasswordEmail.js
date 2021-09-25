@@ -3,6 +3,7 @@ const { beforeSendEmail } = require('./beforeSendEmail')
 
 /**
  * Sends reset password email
+ *
  * @param {string} locale - locale
  * @param {Object} userData - userData object
  */

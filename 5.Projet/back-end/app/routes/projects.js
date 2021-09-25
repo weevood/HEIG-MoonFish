@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const trimRequest = require('trim-request')
+const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../models/enums/roles')
 const { requireAuth } = require('../middleware/auth')
 const { requiredRole } = require('../controllers/auth')
-const { ROLE_ADMIN, ROLE_USER, ROLE_MODERATOR } = require('../models/enums/roles')
 
 const {
     applyProject,

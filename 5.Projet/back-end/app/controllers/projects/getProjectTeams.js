@@ -1,14 +1,15 @@
-const { handleError } = require('../../middleware/utils')
-const { clearNodes } = require('../../middleware/utils/clearNodes')
-const { getNodeRelations } = require('../../middleware/db')
-const { findProjectNode } = require('./helpers')
-const { matchedData } = require('express-validator')
 const { PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
-const { findTeamOwner } = require('../teams/helpers')
 const { RELATION_APPLIES, RELATION_MANDATES, RELATION_DEVELOPS } = require('../../models/enums/relations')
+const { clearNodes } = require('../../middleware/utils/clearNodes')
+const { findProjectNode } = require('./helpers')
+const { findTeamOwner } = require('../teams/helpers')
+const { getNodeRelations } = require('../../middleware/db')
+const { handleError } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 
 /**
  * Get items function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

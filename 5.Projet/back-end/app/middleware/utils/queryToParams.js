@@ -2,6 +2,7 @@ const { ITEMS_LIMIT } = require('../../../config/constants')
 
 /**
  * Convert the query string to Sequelize options
+ *
  * @param {Object} query - query object
  */
 const queryToParams = (query = {}) => {
@@ -17,12 +18,12 @@ const queryToParams = (query = {}) => {
                 })
             }
 
-            // Convert relations
-            if (typeof query.relations !== 'undefined') {
-                // TODO
-            }
+            // Convert relations to attributes
+            // if (typeof query.relations !== 'undefined') {
+            //     params['relations'] = Array.isArray(query.relations) ? query.relations : query.relations.split(',')
+            // }
 
-            // // Convert fields to attributes
+            // Convert fields to attributes
             // if (query.fields && query.fields.length) {
             //     params['attributes'] = Array.isArray(query.fields) ? query.fields : query.fields.split(',')
             // }

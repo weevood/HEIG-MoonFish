@@ -2,6 +2,7 @@ const { itemNotFound } = require('../../middleware/utils')
 
 /**
  * Gets item from database by id
+ *
  * @param {Object} model - the Sequelize model
  * @param {int} id - the item id
  * @param {Object} options - build and query options

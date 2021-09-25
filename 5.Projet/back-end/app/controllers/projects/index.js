@@ -23,5 +23,5 @@ module.exports = {
     getProjectTeams,
     getProjects,
     updateProject,
-    updateProjectStatus,
+    updateProjectStatus
 }

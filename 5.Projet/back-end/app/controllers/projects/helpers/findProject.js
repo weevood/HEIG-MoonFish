@@ -6,6 +6,7 @@ const { getItemByUuid } = require('../../../middleware/db')
 
 /**
  * Find project by uuid
+ *
  * @param {uuid} uuid - the project´s uuid
  * @param {string} lang - the translation to load
  */

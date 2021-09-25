@@ -1,7 +1,8 @@
 const { findUserNode } = require('./findUserNode')
 
 /**
- * Find user by ID
+ * Find user tags by user uuid
+ *
  * @param {uuid} uuid - the user´s uuid
  */
 const getUserTags = (uuid) => {

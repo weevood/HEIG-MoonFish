@@ -4,6 +4,7 @@ const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
 
 /**
  * Update an item in database by id
+ *
  * @param {Object} model - the Sequelize model
  * @param {int|Object} id - the item id
  * @param {Object} values - the values to update

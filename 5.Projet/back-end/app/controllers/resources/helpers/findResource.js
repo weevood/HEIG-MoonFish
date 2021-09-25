@@ -6,6 +6,7 @@ const { getItem } = require('../../../middleware/db')
 
 /**
  * Find resource by id
+ *
  * @param {int} id - the resource´s id
  * @param {string} lang - the translation to load
  */

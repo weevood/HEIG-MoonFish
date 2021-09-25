@@ -2,6 +2,7 @@ const { ITEMS_LIMIT } = require('../../../config/constants')
 
 /**
  * Convert the query string to Sequelize options
+ *
  * @param {Object} query - query object
  */
 const queryToOptions = (query = {}) => {

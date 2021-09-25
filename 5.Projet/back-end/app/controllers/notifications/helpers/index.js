@@ -7,5 +7,5 @@ module.exports = {
     findNotification,
     findNotifications,
     setNotificationInfo,
-    setNotificationsInfo,
+    setNotificationsInfo
 }

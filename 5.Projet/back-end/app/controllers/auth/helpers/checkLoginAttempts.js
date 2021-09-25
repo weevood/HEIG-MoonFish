@@ -1,9 +1,9 @@
 const { MAX_LOGIN_ATTEMPTS } = require('../../../../config/constants')
 const { saveLoginAttempts } = require('./saveLoginAttempts')
 
-
 /**
  * Let user try to login again after blockUntil expires, resets user loginAttempts
+ *
  * @param {Object} authentication - linked authentication object
  */
 const checkLoginAttempts = (authentication = {}) => {

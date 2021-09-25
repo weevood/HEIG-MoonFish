@@ -1,12 +1,13 @@
 const mariadb = require('../../models/mariadb')
 const Resource = mariadb.models.Resource
-const { matchedData } = require('express-validator')
-const { handleError, buildSuccObject } = require('../../middleware/utils')
-const { deleteNode, deleteItem } = require('../../middleware/db')
+const { deleteItem } = require('../../middleware/db')
 const { findResource } = require('./helpers')
+const { handleError, buildSuccObject } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 
 /**
  * Delete item function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

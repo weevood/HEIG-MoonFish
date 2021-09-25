@@ -4,6 +4,7 @@ const { itemNotFound } = require('../../../middleware/utils')
 
 /**
  * Find user authentication by user id
+ *
  * @param {string} email - the user mail
  */
 const findUserAuthByEmail = (email = '') => {

@@ -1,7 +1,7 @@
 const fs = require('fs')
 const modelsPath = `${__dirname}/`
-const { removeExtensionFromFile } = require('../../middleware/utils')
 const neode = require('../../../config/neode')
+const { removeExtensionFromFile } = require('../../middleware/utils')
 
 /*
  * Load all models dynamically

@@ -1,9 +1,9 @@
-const { handleError } = require('../../middleware/utils')
 const { findProjectsRecosByApplies } = require('../recommendations/helpers')
 const { findUserByUuid } = require('../users/helpers')
+const { handleError } = require('../../middleware/utils')
 
 /**
- * Get projects recommendations by tags similarities when called by route
+ * Get projects recommendations by applies when called by route
  *
  * @param {Object} req - request object
  * @param {Object} res - response object

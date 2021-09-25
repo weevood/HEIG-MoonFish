@@ -6,6 +6,7 @@ const { updateItem } = require('../../../middleware/db')
 
 /**
  * Updates a user password in database
+ *
  * @param {int} id - user id
  * @param {string} password - the new password
  */

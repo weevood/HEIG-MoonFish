@@ -1,8 +1,8 @@
-const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
+const { validateResult } = require('../../../middleware/utils')
 
 /**
- * Validates update item request
+ * Validates join/leave item request
  */
 const validateJoinLeaveTeam = [
     check('uuid')

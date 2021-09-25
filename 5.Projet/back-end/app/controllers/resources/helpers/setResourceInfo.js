@@ -1,5 +1,6 @@
 /**
- * Creates an object with user info
+ * Creates a resource with object info
+ *
  * @param {Object} req - request object
  */
 const setResourceInfo = (req = {}) => {

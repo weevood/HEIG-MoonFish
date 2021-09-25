@@ -5,13 +5,14 @@ const { updateItem } = require('../../../middleware/db')
 
 /**
  * Saves login attempts
+ *
  * @param {Object} authentication - linked authentication object
- * @param {boolean} withLastlogin - Update date of last login if true
+ * @param {boolean} withLastLogin - Update date of last login if true
  */
-const saveLoginAttempts = (authentication = {}, withLastlogin = false) => {
+const saveLoginAttempts = (authentication = {}, withLastLogin = false) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const values = withLastlogin
+            const values = withLastLogin
                 ? { lastLogin: new Date(), loginAttempts: authentication.loginAttempts }
                 : { loginAttempts: authentication.loginAttempts };
             resolve(updateItem(Authentication, authentication.userId, values))

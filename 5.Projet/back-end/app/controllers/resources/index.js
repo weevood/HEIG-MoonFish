@@ -9,5 +9,5 @@ module.exports = {
     deleteResource,
     getResource,
     getResources,
-    updateResource,
+    updateResource
 }

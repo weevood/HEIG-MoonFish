@@ -1,9 +1,9 @@
-const { findProjectsRecosByTags } = require('./findProjectsRecosByTags')
-const { findProjectsRecosByMandates } = require('./findProjectsRecosByMandates')
 const { findProjectsRecosByApplies } = require('./findProjectsRecosByApplies')
+const { findProjectsRecosByMandates } = require('./findProjectsRecosByMandates')
+const { findProjectsRecosByTags } = require('./findProjectsRecosByTags')
 
 module.exports = {
-    findProjectsRecosByTags,
-    findProjectsRecosByMandates,
     findProjectsRecosByApplies,
+    findProjectsRecosByMandates,
+    findProjectsRecosByTags
 }

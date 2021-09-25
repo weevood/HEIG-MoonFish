@@ -7,10 +7,10 @@ const { getCountry } = require('./getCountry')
 const { getIP } = require('./getIP')
 const { handleError } = require('./handleError')
 const { itemNotFound } = require('./itemNotFound')
-const { removeExtensionFromFile } = require('./removeExtensionFromFile')
-const { validateResult } = require('./validateResult')
 const { queryToOptions } = require('./queryToOptions')
 const { queryToParams } = require('./queryToParams')
+const { removeExtensionFromFile } = require('./removeExtensionFromFile')
+const { validateResult } = require('./validateResult')
 
 module.exports = {
     buildErrObject,
@@ -22,8 +22,8 @@ module.exports = {
     getIP,
     handleError,
     itemNotFound,
-    removeExtensionFromFile,
-    validateResult,
     queryToOptions,
     queryToParams,
+    removeExtensionFromFile,
+    validateResult
 }

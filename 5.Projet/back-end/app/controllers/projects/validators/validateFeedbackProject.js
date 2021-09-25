@@ -1,5 +1,5 @@
-const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
+const { validateResult } = require('../../../middleware/utils')
 const { MIN_PROJECT_MARK, MAX_PROJECT_MARK } = require('../../../../config/constants')
 
 /**

@@ -1,13 +1,14 @@
-const { handleError } = require('../../middleware/utils')
-const { clearNodes } = require('../../middleware/utils/clearNodes')
-const { getNodeRelations } = require('../../middleware/db')
-const { findTeamNode } = require('./helpers')
-const { matchedData } = require('express-validator')
 const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
+const { clearNodes } = require('../../middleware/utils/clearNodes')
+const { findTeamNode } = require('./helpers')
 const { findUserByUuid, setUserInfo } = require('../users/helpers')
+const { getNodeRelations } = require('../../middleware/db')
+const { handleError } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 
 /**
- * Get items function called by route
+ * Get all team members when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

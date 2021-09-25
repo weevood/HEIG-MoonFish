@@ -1,10 +1,10 @@
-const uuid = require('uuid')
-const faker = require('faker')
 const mariadb = require('../app/models/mariadb')
 const Project = mariadb.models.Project
-const Trans = mariadb.models.ProjectTranslation
 const Resource = mariadb.models.Resource
+const Trans = mariadb.models.ProjectTranslation
+const faker = require('faker')
 const neo4j = require('../config/neode')
+const uuid = require('uuid')
 const {
     PROJECT_STATUS_ABANDONED,
     PROJECT_STATUS_PROPOSAL,
@@ -86,8 +86,8 @@ return new Promise(async (resolve, reject) => {
                         .then(() => {
                             neo4j.create('Project', project.project)
                         })
-                } catch (error) {
-                    console.error(error)
+                } catch (err) {
+                    console.error(err)
                 }
             })
             resolve()

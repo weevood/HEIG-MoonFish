@@ -3,6 +3,7 @@ const { getNode } = require('./getNode')
 
 /**
  * Update an node in database by uuid
+ *
  * @param {string} model - the Neo4j model
  * @param {uuid} uuid - the node uuid
  * @param {Object} values - the values to update

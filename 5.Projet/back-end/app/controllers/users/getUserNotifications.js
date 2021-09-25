@@ -1,10 +1,11 @@
-const { matchedData } = require('express-validator')
-const { handleError } = require('../../middleware/utils')
-const { setNotificationsInfo, findNotifications } = require('../notifications/helpers')
 const { findUserByUuid } = require('../users/helpers')
+const { handleError } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
+const { setNotificationsInfo, findNotifications } = require('../notifications/helpers')
 
 /**
- * Get items function called by route
+ * Get user notifications when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

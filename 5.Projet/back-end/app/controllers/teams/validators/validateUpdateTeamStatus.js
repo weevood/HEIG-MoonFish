@@ -1,10 +1,10 @@
-const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
-const { getEnumValues } = require('../../../models/enums/getEnumValues')
+const { getEnumValues } = require('../../../models/enums/utils')
+const { validateResult } = require('../../../middleware/utils')
 const status = getEnumValues(require('../../../models/enums/status'))
 
 /**
- * Validates update item request
+ * Validates update team status request
  */
 const validateUpdateTeamStatus = [
     check('uuid')

@@ -2,6 +2,7 @@ const { buildErrObject } = require('./buildErrObject')
 
 /**
  * Item not found
+ *
  * @param {Object} item - item result object
  * @param {string} msg - message
  * @param {Object} error - error object

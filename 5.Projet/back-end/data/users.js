@@ -1,13 +1,14 @@
-const uuid = require('uuid')
-const faker = require('faker')
 const mariadb = require('../app/models/mariadb')
-const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
-const Resource = mariadb.models.Resource
 const BankAccount = mariadb.models.BankAccount
 const Notification = mariadb.models.Notification
+const Resource = mariadb.models.Resource
 const Translation = mariadb.models.NotificationTranslation
+const User = mariadb.models.User
+const uuid = require('uuid')
+const faker = require('faker')
 const neo4j = require('../config/neode')
+
 const anUuid = uuid.v4()
 const users = [
     {
@@ -182,8 +183,8 @@ return new Promise(async (resolve, reject) => {
                                         })
                                 })
                         })
-                } catch (error) {
-                    console.error(error)
+                } catch (err) {
+                    console.error(err)
                 }
             }
         })

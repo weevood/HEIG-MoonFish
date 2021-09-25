@@ -1,13 +1,12 @@
 const mariadb = require('../../models/mariadb')
 const Notification = mariadb.models.Notification
-const Trans = mariadb.models.NotificationTranslation
-const { updateItem } = require('../../middleware/db')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { findNotification } = require('./helpers')
+const { updateItem } = require('../../middleware/db')
 
 /**
  * Update item function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

@@ -1,12 +1,12 @@
-const { emailExists } = require('./emailExists')
 const { beforeSendEmail } = require('./beforeSendEmail')
+const { emailExists } = require('./emailExists')
 const { sendEmail } = require('./sendEmail')
 const { sendRegistrationEmail } = require('./sendRegistrationEmail')
 const { sendResetPasswordEmail } = require('./sendResetPasswordEmail')
 
 module.exports = {
-    emailExists,
     beforeSendEmail,
+    emailExists,
     sendEmail,
     sendRegistrationEmail,
     sendResetPasswordEmail

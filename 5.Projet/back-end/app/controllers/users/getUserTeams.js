@@ -1,9 +1,10 @@
+const { findUserTeams } = require('../teams/helpers')
 const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { findUserTeams } = require('../teams/helpers')
 
 /**
  * Get items function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

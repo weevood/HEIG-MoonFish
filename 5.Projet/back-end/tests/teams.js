@@ -1,26 +1,24 @@
 process.env.NODE_ENV = 'test'
 
-// const mariadb = require('../app/models/mariadb')
-// const Team = mariadb.models.Team
-const faker = require('faker')
-const chai = require('chai')
-const chaiHttp = require('chai-http')
-const server = require('../server')
-const should = chai.should()
 const mariadb = require('../app/models/mariadb')
 const Team = mariadb.models.Team
+const chai = require('chai')
+const chaiHttp = require('chai-http')
+const faker = require('faker')
+const server = require('../server')
+const should = chai.should()
 const { deleteNode, deleteItem } = require('../app/middleware/db')
 
+const createdTeams = []
+const lang = 'en'
+const name = faker.random.words()
+const newName = faker.random.words()
 const loginDetails = {
     email: 'admin@example.com',
     password: 'admin1234'
 }
 
 let token = ''
-const createdTeams = []
-const lang = 'en'
-const name = faker.random.words()
-const newName = faker.random.words()
 
 chai.use(chaiHttp)
 

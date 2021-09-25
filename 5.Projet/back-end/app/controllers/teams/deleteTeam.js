@@ -1,9 +1,10 @@
-const { matchedData } = require('express-validator')
-const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { deleteNode } = require('../../middleware/db')
+const { handleError, buildSuccObject } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 
 /**
  * Delete item function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

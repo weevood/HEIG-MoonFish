@@ -1,9 +1,9 @@
 const neo4j = require('../../../../config/neode')
-const { clearNode } = require('../../../middleware/utils')
-const { setProjectInfo, findProject } = require('../../projects/helpers')
-const { STATUS_ACTIVE } = require('../../../models/enums/status')
 const { PROJECT_STATUS_ENDED, PROJECT_STATUS_PROPOSAL } = require('../../../models/enums/projectStatus')
 const { REF_PROJECTS_LIMIT } = require('../../../../config/constants')
+const { STATUS_ACTIVE } = require('../../../models/enums/status')
+const { clearNode } = require('../../../middleware/utils')
+const { setProjectInfo, findProject } = require('../../projects/helpers')
 
 /**
  * Find recommended projects by tags similarities
@@ -13,19 +13,6 @@ const { REF_PROJECTS_LIMIT } = require('../../../../config/constants')
  */
 const findProjectsRecosByTags = (uuid, limit = 10) => {
     return new Promise(async (resolve, reject) => {
-        // const query = `MATCH (u:User {uuid: '${uuid}'})-[rmo:IS_MEMBER_OF {status: ${STATUS_ACTIVE}}]
-        //                     ->(t:Team)-[rd:DEVELOPS]->(p:Project)<-[rm:MANDATES]-(m:Team)
-        //                 WHERE p.status = ${PROJECT_STATUS_ENDED}
-        //                 WITH p
-        //                 ORDER BY rm.mark DESC
-        //                 LIMIT ${REF_PROJECTS_LIMIT}
-        //                 WITH COLLECT(apoc.convert.fromJsonList(p.tags)) AS tags
-        //                 WITH REDUCE(output = [], t IN tags | output + t) AS flatTags
-        //                 MATCH (recs:Project)
-        //                 WHERE recs.status = ${PROJECT_STATUS_PROPOSAL}
-        //                     AND any(t IN apoc.convert.fromJsonList(recs.tags) WHERE t IN flatTags)
-        //                 RETURN recs AS recommendations, flatTags
-        //                 LIMIT ${limit}`
         const query = `MATCH (u:User {uuid: '${uuid}'})-[rmo:IS_MEMBER_OF {status: ${STATUS_ACTIVE}}]
                             ->(t:Team)-[rd:DEVELOPS]->(p:Project)<-[rm:MANDATES]-(m:Team)
                         WHERE p.status = ${PROJECT_STATUS_ENDED}

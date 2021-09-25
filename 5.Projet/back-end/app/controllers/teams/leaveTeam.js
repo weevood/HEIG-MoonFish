@@ -1,13 +1,14 @@
-const { relExists } = require('../../middleware/db')
+const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
+const { STATUS_ACTIVE } = require('../../models/enums/status')
+const { findTeamNode } = require('./helpers')
+const { findUserNode } = require('../users/helpers')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { findUserNode } = require("../users/helpers")
-const { findTeamNode } = require('./helpers')
-const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
-const { STATUS_ACTIVE } = require("../../models/enums/status")
+const { relExists } = require('../../middleware/db')
 
 /**
- * Update item function called by route
+ * Leave a team when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

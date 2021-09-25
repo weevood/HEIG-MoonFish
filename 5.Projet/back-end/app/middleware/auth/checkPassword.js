@@ -3,6 +3,7 @@ const { buildErrObject } = require('../../middleware/utils')
 
 /**
  * Compare if two password matches
+ *
  * @param {Object} authentication - linked authentication object
  * @param {string} passwordAttempt - password
  * @param {function} cb
@@ -15,6 +16,7 @@ const comparePassword = function (authentication, passwordAttempt, cb) {
 
 /**
  * Checks is password matches
+ *
  * @param {string} password - password
  * @param {Object} authentication - linked authentication object
  */

@@ -1,18 +1,19 @@
-const { getNodeRelations } = require('../../../middleware/db')
-const { clearNodes, buildErrObject } = require('../../../middleware/utils')
-const { setProjectInfo } = require('./setProjectInfo')
-const { findProject } = require('./findProject')
 const { STATUS_ACTIVE } = require('../../../models/enums/status')
+const { clearNodes, buildErrObject } = require('../../../middleware/utils')
+const { findProject } = require('./findProject')
+const { getNodeRelations } = require('../../../middleware/db')
+const { setProjectInfo } = require('./setProjectInfo')
 const {
-    RELATION_ARBITRATES,
-    RELATION_IS_MEMBER_OF,
-    RELATION_MANDATES,
     RELATION_APPLIES,
-    RELATION_DEVELOPS
+    RELATION_ARBITRATES,
+    RELATION_DEVELOPS,
+    RELATION_IS_MEMBER_OF,
+    RELATION_MANDATES
 } = require('../../../models/enums/relations')
 
 /**
  * Get items function called by route
+ *
  * @param {uuid} uuid - the user´s uuid
  */
 const findUserProjects = async (uuid) => {

@@ -1,5 +1,5 @@
-const fs = require('fs')
 const dataPath = `${__dirname}/`
+const fs = require('fs')
 const { removeExtensionFromFile } = require('../app/middleware/utils')
 
 /*

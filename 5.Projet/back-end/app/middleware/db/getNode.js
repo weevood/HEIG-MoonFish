@@ -1,8 +1,9 @@
-const { itemNotFound } = require('../../middleware/utils')
 const neo4j = require('../../../config/neode')
+const { itemNotFound } = require('../../middleware/utils')
 
 /**
  * Get node from database by uuid
+ *
  * @param {string} model - the Neo4j model
  * @param {uuid} uuid - the node uuid
  */

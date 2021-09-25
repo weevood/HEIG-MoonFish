@@ -1,9 +1,10 @@
+const { RELATION_IS_MEMBER_OF } = require('../../../models/enums/relations')
 const { buildErrObject } = require('../../../middleware/utils')
 const { getNodeRelations } = require('../../../middleware/db')
-const { RELATION_IS_MEMBER_OF } = require('../../../models/enums/relations')
 
 /**
- * Find team by uuid
+ * Find team owner by team uuid
+ *
  * @param {uuid} uuid - the teams´s uuid
  */
 const findTeamOwner = (uuid) => {

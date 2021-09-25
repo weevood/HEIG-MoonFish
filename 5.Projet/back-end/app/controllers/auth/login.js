@@ -1,19 +1,19 @@
-const { matchedData } = require('express-validator')
-const { handleError, buildErrObject } = require('../../middleware/utils')
 const { checkPassword } = require('../../middleware/auth')
 const { findUser, setUserInfo } = require('../users/helpers')
+const { handleError, buildErrObject } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 const {
-    findUserAuthByEmail,
-    isUserBlocked,
     checkLoginAttempts,
+    findUserAuthByEmail,
+    generateToken,
+    isUserBlocked,
     passwordsDoNotMatch,
-    saveLoginAttempts,
-    generateToken
+    saveLoginAttempts
 } = require('./helpers')
 
 /**
- *
  * Login function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

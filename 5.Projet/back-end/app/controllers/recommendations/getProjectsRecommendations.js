@@ -1,21 +1,17 @@
-const { handleError } = require('../../middleware/utils')
-const {
-    findProjectsRecosByApplies,
-    findProjectsRecosByMandates,
-    findProjectsRecosByTags
-} = require('./helpers')
-const { getEnumValues } = require('../../models/enums/getEnumValues')
+const { findProjectsRecosByApplies, findProjectsRecosByMandates, findProjectsRecosByTags } = require('./helpers')
 const { findUserByUuid } = require('../users/helpers')
+const { getEnumValues } = require('../../models/enums/utils')
+const { handleError } = require('../../middleware/utils')
+const NB_OF_RECOMMENDATIONS = getEnumValues(require('../../models/enums/recommendations')).length
 const {
     NB_OF_TAGS_FOR_100_PERCENT,
     NB_OF_APPLIES_FOR_100_PERCENT,
     MIN_PROJECT_MARK,
     MAX_PROJECT_MARK
 } = require('../../../config/constants')
-const NB_OF_RECOMMENDATIONS = getEnumValues(require('../../models/enums/recommendations')).length
 
 /**
- * Get projects recommendations by tags similarities when called by route
+ * Get a combination of projects recommendations
  *
  * @param {Object} req - request object
  * @param {Object} res - response object

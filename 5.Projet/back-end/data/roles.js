@@ -1,6 +1,6 @@
 const mariadb = require('../app/models/mariadb')
-const Role = mariadb.models.Role
 const ROLES = require('../app/models/enums/roles')
+const Role = mariadb.models.Role
 
 return new Promise(async (resolve, reject) => {
     try {

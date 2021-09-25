@@ -1,9 +1,9 @@
 const neo4j = require('../../../../config/neode')
-const { clearNode } = require('../../../middleware/utils')
-const { setProjectInfo, findProject } = require('../../projects/helpers')
-const { getNodeRelations } = require('../../../middleware/db')
 const { RELATION_MANDATES } = require('../../../models/enums/relations')
 const { STATUS_ACTIVE } = require('../../../models/enums/status')
+const { clearNode } = require('../../../middleware/utils')
+const { getNodeRelations } = require('../../../middleware/db')
+const { setProjectInfo, findProject } = require('../../projects/helpers')
 const {
     PROJECT_STATUS_ENDED,
     PROJECT_STATUS_PROPOSAL,
@@ -11,7 +11,8 @@ const {
 } = require('../../../models/enums/projectStatus')
 
 /**
- * Find user by ID
+ * Find projects recommendations by applies
+ *
  * @param {uuid} uuid - the node uuid
  * @param {int} limit - the maximum number of recommendations to retrieve
  */

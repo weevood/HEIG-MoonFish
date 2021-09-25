@@ -1,13 +1,14 @@
+const { PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
+const { RELATION_APPLIES } = require('../../models/enums/relations')
+const { findProjectNode } = require('./helpers')
+const { findTeamNode } = require('../teams/helpers')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { findTeamNode } = require('../teams/helpers')
-const { findProjectNode } = require('./helpers')
 const { relExists } = require('../../middleware/db')
-const { RELATION_APPLIES } = require('../../models/enums/relations')
-const { PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
 
 /**
- * Update item function called by route
+ * Apply to project when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

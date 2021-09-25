@@ -1,9 +1,10 @@
-const { matchedData } = require('express-validator')
-const { handleError, clearNode } = require('../../middleware/utils')
 const { findTeamNode, findTeamOwner } = require('./helpers')
+const { handleError, clearNode } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 
 /**
  * Get item function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

@@ -1,11 +1,12 @@
-const { saveLoginAttempts } = require('./saveLoginAttempts')
+const { MAX_LOGIN_ATTEMPTS } = require('../../../../config/constants')
 const { blockUser } = require('./blockUser')
 const { buildErrObject } = require('../../../middleware/utils')
-const { MAX_LOGIN_ATTEMPTS } = require('../../../../config/constants')
+const { saveLoginAttempts } = require('./saveLoginAttempts')
 
 /**
  * Adds one attempt to loginAttempts, then compares loginAttempts with the constant LOGIN_ATTEMPTS,
  * if is less returns wrong password, else returns blockUser function
+ *
  * @param {Object} authentication - linked authentication object
  */
 const passwordsDoNotMatch = async (authentication = {}) => {

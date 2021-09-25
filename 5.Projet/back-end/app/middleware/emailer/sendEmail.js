@@ -1,8 +1,9 @@
-const nodemailer = require('nodemailer')
 const mg = require('nodemailer-mailgun-transport')
+const nodemailer = require('nodemailer')
 
 /**
- * Sends email
+ * Sends an email
+ *
  * @param {Object} data - data
  * @param {boolean} callback - callback
  */

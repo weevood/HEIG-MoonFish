@@ -1,5 +1,6 @@
 /**
  * Handles error by printing to console in development env and builds and sends an error response
+ *
  * @param {Object} res - response object
  * @param {Object} error - error object
  */
@@ -19,7 +20,7 @@ const handleError = (res = {}, error = {}) => {
         }
     }
 
-    if(typeof error.code === 'undefined')
+    if (typeof error.code === 'undefined')
         error.code = 422
 
     // Sends error to user

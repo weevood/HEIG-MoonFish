@@ -1,9 +1,9 @@
 const faker = require('faker')
-const { inArray } = require('../app/middleware/utils/inArray')
-const { getNodes } = require('../app/middleware/db')
-const { updateGrade } = require('../app/controllers/teams/helpers')
-const { clearNode } = require('../app/middleware/utils')
 const { STATUS_ACTIVE, STATUS_INACTIVE } = require('../app/models/enums/status')
+const { clearNode } = require('../app/middleware/utils')
+const { getNodes } = require('../app/middleware/db')
+const { inArray } = require('../app/middleware/utils/inArray')
+const { updateGrade } = require('../app/controllers/teams/helpers')
 const {
     PROJECT_STATUS_ONGOING,
     PROJECT_STATUS_ENDED,

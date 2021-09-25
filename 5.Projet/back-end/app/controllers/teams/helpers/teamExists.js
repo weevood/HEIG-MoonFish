@@ -3,6 +3,7 @@ const { getNodes } = require('../../../middleware/db/getNodes')
 
 /**
  * Checks if a team already exists in database
+ *
  * @param {string} name - name of item
  */
 const teamExists = (name = '') => {

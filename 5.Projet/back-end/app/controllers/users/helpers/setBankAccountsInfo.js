@@ -1,5 +1,6 @@
 /**
- * Creates an object with user info
+ * Creates a bank account with object info
+ *
  * @param {Object} req - request object
  */
 const setBankAccountsInfo = (req = {}) => {

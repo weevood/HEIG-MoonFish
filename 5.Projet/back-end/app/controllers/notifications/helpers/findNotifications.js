@@ -2,11 +2,12 @@ const mariadb = require('../../../models/mariadb')
 const Notification = mariadb.models.Notification
 const NotificationTranslation = mariadb.models.NotificationTranslation
 const { buildErrObject } = require('../../../middleware/utils')
-const { getItems } = require('../../../middleware/db')
 const { findUser } = require('../../users/helpers')
+const { getItems } = require('../../../middleware/db')
 
 /**
- * Find user from query
+ * Find notifications from query
+ *
  * @param {Object} options - build and query options
  * @param {string} lang - the translation to load
  */

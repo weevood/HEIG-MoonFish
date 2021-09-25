@@ -29,5 +29,5 @@ module.exports = {
     relExists,
     updateItem,
     updateNode,
-    updateRelation,
+    updateRelation
 }

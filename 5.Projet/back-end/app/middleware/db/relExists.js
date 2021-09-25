@@ -1,7 +1,8 @@
 const neo4j = require('../../../config/neode')
 
 /**
- * Check if a relation exist between entities
+ * Check if a relation exist between two entities
+ *
  * @param {Object} a - the first entity { model: 'A', uuid: uuid }
  * @param {string} relation - the relation name (IS_MEMBER_OF)
  * @param {Object} b - the second entity { model: 'B', uuid: uuid }
@@ -26,7 +27,7 @@ const relExists = (a = {}, relation = '', b = {}, properties = {}) => {
         )
             .then(res => {
                 if (properties) {
-                    // TODO check properties
+                    // Todo in an improved version: Check properties within cypher query
                 }
                 resolve(res.records.length && res.records[0].get('count'))
             })

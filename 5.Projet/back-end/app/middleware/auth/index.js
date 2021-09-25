@@ -9,5 +9,5 @@ module.exports = {
     decrypt,
     encrypt,
     hash,
-    requireAuth,
+    requireAuth
 }

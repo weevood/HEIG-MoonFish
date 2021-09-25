@@ -1,15 +1,16 @@
+const uuid = require('uuid')
 const mariadb = require('../../models/mariadb')
 const Authentication = mariadb.models.Authentication
 const { updateItem } = require('../../middleware/db')
 const { matchedData } = require('express-validator')
-const { findUserAuthByEmail, generateToken } = require('./helpers')
+const { findUserAuthByEmail } = require('./helpers')
 const { getIP, getBrowserInfo, getCountry, buildErrObject } = require('../../middleware/utils')
 const { handleError } = require('../../middleware/utils')
 const { sendResetPasswordEmail } = require('../../middleware/emailer')
-const uuid = require('uuid')
 
 /**
  * Forgot password function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

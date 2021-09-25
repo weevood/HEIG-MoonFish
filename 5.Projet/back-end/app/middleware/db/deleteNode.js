@@ -3,6 +3,7 @@ const { getNode } = require('./getNode')
 
 /**
  * Delete a node from database by uuid
+ *
  * @param {string} model - the Neo4j model
  * @param {uuid} uuid - the node uuid
  */

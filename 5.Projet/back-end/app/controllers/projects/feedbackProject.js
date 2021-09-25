@@ -1,14 +1,15 @@
+const { PROJECT_STATUS_ENDED } = require('../../models/enums/projectStatus')
+const { RELATION_MANDATES, RELATION_DEVELOPS } = require('../../models/enums/relations')
+const { clearNode } = require('../../middleware/utils/clearNode')
+const { findProjectNode } = require('./helpers')
+const { getNodeRelations, updateNode } = require('../../middleware/db')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { updateMandates, updateDevelops, updateGrade } = require('../teams/helpers')
-const { findProjectNode } = require('./helpers')
-const { getNodeRelations, updateNode } = require('../../middleware/db')
-const { clearNode } = require('../../middleware/utils/clearNode')
-const { RELATION_MANDATES, RELATION_DEVELOPS } = require('../../models/enums/relations')
-const { PROJECT_STATUS_ENDED } = require('../../models/enums/projectStatus')
 
 /**
- * Create item function called by route
+ * Feedback a project when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

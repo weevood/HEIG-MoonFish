@@ -2,7 +2,8 @@ const { buildErrObject } = require('../../../middleware/utils')
 const { getNode } = require('../../../middleware/db')
 
 /**
- * Find user by ID
+ * Find user node by uuid
+ *
  * @param {uuid} uuid - the user´s uuid
  */
 const findUserNode = uuid => {

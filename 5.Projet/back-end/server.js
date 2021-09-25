@@ -1,16 +1,16 @@
 require('dotenv-safe').config()
-const morgan = require('morgan')            // An HTTP request logger middleware for Node.js
 const compression = require('compression')  // Node.js compression middleware
 const cors = require('cors')                // CORS providing a middleware that can be used to enable CORS with options
+const morgan = require('morgan')            // An HTTP request logger middleware for Node.js
 
-const express = require('express')          // Fast, unopinionated, minimalist web framework for Node.js
 const bodyParser = require('body-parser')   // Node.js body parsing middleware
-const helmet = require('helmet')            // Helmet helps you secure your Express apps by setting various HTTP headers
-const passport = require('passport')        // Passport is Express-compatible authentication middleware for Node.js
-const i18n = require('i18n')                // Lightweight simple translation module with dynamic JSON storage
-const path = require('path')                // Provides utilities for working with file and directory paths
+const express = require('express')          // Fast, unopinionated, minimalist web framework for Node.js
 const fs = require('fs')                    // Make file system operations apis simple
+const helmet = require('helmet')            // Helmet helps you secure your Express apps by setting various HTTP headers
 const https = require('https')              // Enabling HTTPS things
+const i18n = require('i18n')                // Lightweight simple translation module with dynamic JSON storage
+const passport = require('passport')        // Passport is Express-compatible authentication middleware for Node.js
+const path = require('path')                // Provides utilities for working with file and directory paths
 
 // Configure databases connections
 const mariadb = require('./app/models/mariadb')
@@ -108,8 +108,8 @@ mariadb.sequelize.query('SET FOREIGN_KEY_CHECKS = 0')
                 await new Promise(r => setTimeout(r, 500))
                 console.log('The databases (MariaDB & Neo4j) are ready.')
 
-            }, function (error) {
-                console.error(error)
+            }, function (err) {
+                console.error(err)
             })
     })
 

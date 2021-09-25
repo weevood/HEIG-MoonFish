@@ -1,7 +1,6 @@
 const mariadb = require('../app/models/mariadb')
-const Status = mariadb.models.Status
 const STATUS = require('../app/models/enums/status')
-
+const Status = mariadb.models.Status
 
 return new Promise(async (resolve, reject) => {
     try {

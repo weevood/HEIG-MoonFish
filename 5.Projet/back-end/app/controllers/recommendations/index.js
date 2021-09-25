@@ -1,11 +1,11 @@
 const { getProjectsRecommendations } = require('./getProjectsRecommendations')
-const { getProjectsRecosByTags } = require('./getProjectsRecosByTags')
-const { getProjectsRecosByMandates } = require('./getProjectsRecosByMandates')
 const { getProjectsRecosByApplies } = require('./getProjectsRecosByApplies')
+const { getProjectsRecosByMandates } = require('./getProjectsRecosByMandates')
+const { getProjectsRecosByTags } = require('./getProjectsRecosByTags')
 
 module.exports = {
     getProjectsRecommendations,
-    getProjectsRecosByTags,
-    getProjectsRecosByMandates,
     getProjectsRecosByApplies,
+    getProjectsRecosByMandates,
+    getProjectsRecosByTags
 }

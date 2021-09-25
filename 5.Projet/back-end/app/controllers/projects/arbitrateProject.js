@@ -1,11 +1,12 @@
+const { PROJECT_STATUS_ONGOING } = require('../../models/enums/projectStatus')
+const { findProjectNode } = require('./helpers')
+const { findUserNode } = require('../users/helpers')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { findUserNode } = require('../users/helpers')
-const { findProjectNode } = require('./helpers')
-const { PROJECT_STATUS_ONGOING } = require('../../models/enums/projectStatus')
 
 /**
- * Update item function called by route
+ * Arbitrate project when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

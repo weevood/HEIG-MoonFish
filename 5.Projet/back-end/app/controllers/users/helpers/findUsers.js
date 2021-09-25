@@ -4,7 +4,8 @@ const { buildErrObject } = require('../../../middleware/utils')
 const { getItems } = require('../../../middleware/db')
 
 /**
- * Find user from query
+ * Find users from query
+ *
  * @param {Object} options - build and query options
  */
 const findUsers = (options = {}) => {

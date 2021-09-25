@@ -3,6 +3,7 @@ const { getNode } = require('../../../middleware/db')
 
 /**
  * Find project by uuid
+ *
  * @param {uuid} uuid - the projects´s uuid
  * @param {array} status - the projects´s needed status
  */

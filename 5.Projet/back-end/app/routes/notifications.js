@@ -1,25 +1,25 @@
 const express = require('express')
 const router = express.Router()
 const trimRequest = require('trim-request')
+const { ROLE_USER } = require('../models/enums/roles')
 const { requireAuth } = require('../middleware/auth')
 const { requiredRole } = require('../controllers/auth')
-const { ROLE_USER } = require('../models/enums/roles')
 
 const {
     createNotification,
     deleteNotification,
     getNotification,
     getNotifications,
-    updateNotification,
     setNotificationRead,
+    updateNotification,
 } = require('../controllers/notifications')
 
 const {
     validateCreateNotification,
     validateDeleteNotification,
     validateGetNotification,
-    validateUpdateNotification,
     validateReadNotification,
+    validateUpdateNotification,
 } = require('../controllers/notifications/validators')
 
 /*

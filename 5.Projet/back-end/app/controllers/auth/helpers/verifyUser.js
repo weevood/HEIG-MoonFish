@@ -3,11 +3,12 @@ const Authentication = mariadb.models.Authentication
 const User = mariadb.models.User
 const { STATUS_ACTIVE } = require('../../../models/enums/status')
 const { buildErrObject, buildSuccObject } = require('../../../middleware/utils')
-const { updateItem } = require('../../../middleware/db')
 const { findUser } = require('../../users/helpers')
+const { updateItem } = require('../../../middleware/db')
 
 /**
  * Verifies an user
+ *
  * @param {Object} authentication - linked authentication object
  */
 const verifyUser = (authentication = {}) => {

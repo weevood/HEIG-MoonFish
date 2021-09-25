@@ -1,15 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const trimRequest = require('trim-request')
+const { ROLE_USER } = require('../models/enums/roles')
 const { requireAuth } = require('../middleware/auth')
 const { requiredRole } = require('../controllers/auth')
-const { ROLE_USER } = require('../models/enums/roles')
 
 const {
     getProjectsRecommendations,
-    getProjectsRecosByTags,
-    getProjectsRecosByMandates,
     getProjectsRecosByApplies,
+    getProjectsRecosByMandates,
+    getProjectsRecosByTags,
 } = require('../controllers/recommendations')
 
 /*

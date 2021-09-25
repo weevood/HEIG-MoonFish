@@ -1,13 +1,14 @@
 const mariadb = require('../../models/mariadb')
 const Authentication = mariadb.models.Authentication
-const { updateItem } = require('../../middleware/db')
-const { matchedData } = require('express-validator')
-const { updatePassword, findUserAuthByEmail, isUserBlocked } = require('./helpers')
-const { handleError, buildErrObject } = require('../../middleware/utils')
 const { findUser } = require('../users/helpers')
+const { handleError, buildErrObject } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
+const { updateItem } = require('../../middleware/db')
+const { updatePassword, findUserAuthByEmail, isUserBlocked } = require('./helpers')
 
 /**
  * Reset password function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

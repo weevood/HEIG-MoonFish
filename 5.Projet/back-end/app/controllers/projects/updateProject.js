@@ -1,15 +1,15 @@
 const mariadb = require('../../models/mariadb')
 const Project = mariadb.models.Project
 const Trans = mariadb.models.ProjectTranslation
-const { updateNode, relExists, updateItem } = require('../../middleware/db')
+const { RELATION_MANDATES } = require('../../models/enums/relations')
+const { findProject } = require('./helpers')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { findProject } = require('./helpers')
-const { RELATION_MANDATES } = require('../../models/enums/relations')
-const { PROJECT_STATUS_PLANNING } = require("../../models/enums/projectStatus")
+const { updateNode, relExists, updateItem } = require('../../middleware/db')
 
 /**
  * Update item function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
@@ -17,11 +17,11 @@ const updateProject = async (req, res) => {
     try {
         const data = matchedData(req)
         const project = await findProject(data.uuid)
-        // TODO check if user is owner
         if (await relExists(
             { model: 'Team', uuid: data.teamUuid },
             RELATION_MANDATES,
-            { model: 'Project', uuid: data.uuid })
+            { model: 'Project', uuid: data.uuid },
+            { isOwner: true })
         ) {
             await updateItem(Project, project.id, data)
             await updateItem(Trans, { projectId: project.id }, data)

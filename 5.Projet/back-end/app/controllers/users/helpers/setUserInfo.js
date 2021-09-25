@@ -1,5 +1,6 @@
 /**
- * Creates an object with user info
+ * Creates a user with object info
+ *
  * @param {Object} req - request object
  */
 const setUserInfo = (req = {}) => {

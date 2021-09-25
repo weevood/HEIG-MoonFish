@@ -1,9 +1,10 @@
+const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { verifyUser, findUserAuthByEmail } = require('./helpers')
-const { handleError } = require('../../middleware/utils')
 
 /**
  * Verify function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

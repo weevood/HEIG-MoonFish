@@ -1,11 +1,12 @@
 const mariadb = require('../../models/mariadb')
 const Resource = mariadb.models.Resource
-const { updateItem } = require('../../middleware/db')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
+const { updateItem } = require('../../middleware/db')
 
 /**
  * Update item function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

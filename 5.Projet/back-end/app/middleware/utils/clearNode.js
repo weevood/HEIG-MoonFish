@@ -1,6 +1,7 @@
 /**
  * Clear a node
- @param {object} node - the node to clear
+ *
+ * @param {object} node - the node to clear
  */
 const clearNode = (node = {}) => {
     return new Promise(async (resolve, reject) => {

@@ -2,6 +2,7 @@ const { sendEmail } = require('./sendEmail')
 
 /**
  * Prepares to send email
+ *
  * @param {Object} userData - userData object
  * @param {string} subject - subject
  * @param {string} htmlMessage - html message

@@ -1,6 +1,6 @@
-const { updateNode, getNodeRelations } = require('../../../middleware/db')
-const { buildErrObject } = require('../../../middleware/utils')
 const { RELATION_DEVELOPS, RELATION_MANDATES } = require('../../../models/enums/relations')
+const { buildErrObject } = require('../../../middleware/utils')
+const { updateNode, getNodeRelations } = require('../../../middleware/db')
 
 /**
  * Calculate and update a team grade

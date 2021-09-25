@@ -1,12 +1,13 @@
 const mariadb = require('../../models/mariadb')
-const User = mariadb.models.User
 const Resource = mariadb.models.Resource
-const { handleError, buildErrObject, buildSuccObject } = require('../../middleware/utils')
+const User = mariadb.models.User
+const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
 const { updateItem, getItem } = require('../../middleware/db')
 
 /**
  * Update profile function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

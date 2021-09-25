@@ -1,17 +1,18 @@
-const uuid = require('uuid')
 const mariadb = require('../../models/mariadb')
 const Project = mariadb.models.Project
 const Trans = mariadb.models.ProjectTranslation
-const { handleError } = require('../../middleware/utils')
-const { matchedData } = require('express-validator')
+const uuid = require('uuid')
+const { PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
+const { createItem } = require('../../middleware/db')
 const { createNode } = require('../../middleware/db/createNode')
 const { findTeamNode } = require('../teams/helpers')
-const { PROJECT_STATUS_PROPOSAL } = require('../../models/enums/projectStatus')
+const { handleError } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 const { setProjectInfo } = require('./helpers')
-const { createItem } = require('../../middleware/db')
 
 /**
  * Create item function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */
@@ -35,7 +36,7 @@ const createProject = async (req, res) => {
         const projectNode = await createNode('Project', {
             ...data,
             uuid: project.uuid,
-            status: PROJECT_STATUS_PROPOSAL, // TODO PROJECT_STATUS_PLANNING
+            status: PROJECT_STATUS_PROPOSAL,
             deadline: new Date(data.deadline)
         })
         await team.relateTo(projectNode, 'mandates')

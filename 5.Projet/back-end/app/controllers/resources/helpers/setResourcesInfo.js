@@ -1,7 +1,6 @@
-const { setResourceInfo } = require('./setResourceInfo')
-
 /**
- * Creates an object with user info
+ * Creates resources with objects info
+ *
  * @param {Object} req - request object
  */
 const setResourcesInfo = (req = {}) => {

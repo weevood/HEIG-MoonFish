@@ -1,12 +1,13 @@
-const { findTeamNode } = require('./findTeamNode')
-const { findProjectNode } = require('../../projects/helpers')
-const { updateRelation } = require('../../../middleware/db')
-const { buildErrObject } = require('../../../middleware/utils')
-const { RELATION_MANDATES } = require('../../../models/enums/relations')
 const { PROJECT_STATUS_ONGOING } = require('../../../models/enums/projectStatus')
+const { RELATION_MANDATES } = require('../../../models/enums/relations')
+const { buildErrObject } = require('../../../middleware/utils')
+const { findProjectNode } = require('../../projects/helpers')
+const { findTeamNode } = require('./findTeamNode')
+const { updateRelation } = require('../../../middleware/db')
 
 /**
- * Checks if a project already exists in database
+ * Update the mandates relation
+ *
  * @param {uuid} teamUuid - the team uuid
  * @param {uuid} projectUuid - the project uuid
  * @param {Object} values - the values to update

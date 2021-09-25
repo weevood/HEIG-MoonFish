@@ -1,8 +1,9 @@
-const { handleError, itemNotFound } = require('../../middleware/utils')
 const { findUser, setUserInfo } = require('../users/helpers')
+const { handleError, itemNotFound } = require('../../middleware/utils')
 
 /**
  * Get profile function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

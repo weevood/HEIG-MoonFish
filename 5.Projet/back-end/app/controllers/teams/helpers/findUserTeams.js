@@ -1,10 +1,11 @@
+const { RELATION_IS_MEMBER_OF } = require('../../../models/enums/relations')
+const { clearNodes, buildErrObject } = require('../../../middleware/utils')
 const { findUserByUuid } = require('../../users/helpers')
 const { getNodeRelations } = require('../../../middleware/db')
-const { clearNodes, buildErrObject } = require('../../../middleware/utils')
-const { RELATION_IS_MEMBER_OF } = require('../../../models/enums/relations')
 
 /**
- * Get items function called by route
+ * Get all teams linked with an user by user uuid
+ *
  * @param {uuid} uuid - the user´s uuid
  */
 const findUserTeams = (uuid) => {

@@ -1,5 +1,6 @@
 /**
- * Creates an object with user info
+ * Creates notifications with objects info
+ *
  * @param {Object} req - request object
  */
 const setNotificationsInfo = (req = {}) => {

@@ -1,9 +1,10 @@
+const { findUserProjects } = require('../projects/helpers')
 const { handleError } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { findUserProjects } = require('../projects/helpers')
 
 /**
- * Get items function called by route
+ * Get user projects when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

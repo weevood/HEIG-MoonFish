@@ -1,10 +1,11 @@
-const { updateNode, relExists } = require('../../middleware/db')
+const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
 const { handleError, buildSuccObject } = require('../../middleware/utils')
 const { matchedData } = require('express-validator')
-const { RELATION_IS_MEMBER_OF } = require('../../models/enums/relations')
+const { updateNode, relExists } = require('../../middleware/db')
 
 /**
  * Update item function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

@@ -1,5 +1,6 @@
 /**
  * Removes extension from file
+ *
  * @param {string} file - filename
  */
 const removeExtensionFromFile = (file) => {

@@ -1,7 +1,7 @@
 const fs = require('fs')
 const modelsPath = `${__dirname}/`
-const { removeExtensionFromFile } = require('../../middleware/utils')
 const sequelize = require('../../../config/sequelize')
+const { removeExtensionFromFile } = require('../../middleware/utils')
 
 /*
  * Load all models dynamically
@@ -37,36 +37,36 @@ const User = models.User
 // Associations and dependencies
 
 // Authentication => User
-User.hasOne(Authentication, {foreignKey: 'userId', sourceKey: 'id'})
-Authentication.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'})
+User.hasOne(Authentication, { foreignKey: 'userId', sourceKey: 'id' })
+Authentication.belongsTo(User, { foreignKey: 'userId', targetKey: 'id' })
 
 // BankAccounts => User
-User.hasMany(BankAccount, {foreignKey: 'userId', sourceKey: 'id'})
-BankAccount.belongsTo(User, {foreignKey: 'userId', targetKey: 'id'})
+User.hasMany(BankAccount, { foreignKey: 'userId', sourceKey: 'id' })
+BankAccount.belongsTo(User, { foreignKey: 'userId', targetKey: 'id' })
 
 // Category => Category
 Category.hasOne(Category, { foreignKey: 'parentId' })
 
 // Notifications => User
-User.hasMany(Notification, {foreignKey: 'userUuid', sourceKey: 'uuid'})
-Notification.belongsTo(User, {foreignKey: 'userUuid', targetKey: 'uuid'})
+User.hasMany(Notification, { foreignKey: 'userUuid', sourceKey: 'uuid' })
+Notification.belongsTo(User, { foreignKey: 'userUuid', targetKey: 'uuid' })
 
 // Resources => Project
-Project.hasMany(Resource, {foreignKey: 'projectId', sourceKey: 'id'})
-Resource.belongsTo(Project, {foreignKey: 'projectId', targetKey: 'id'})
+Project.hasMany(Resource, { foreignKey: 'projectId', sourceKey: 'id' })
+Resource.belongsTo(Project, { foreignKey: 'projectId', targetKey: 'id' })
 Resource.belongsToMany(Category, { through: 'resources_categories' })
 
 // User => Role
-Role.hasMany(User, {foreignKey: 'roleId', sourceKey: 'id'})
-User.belongsTo(Role, {foreignKey: 'roleId', targetKey: 'id'})
+Role.hasMany(User, { foreignKey: 'roleId', sourceKey: 'id' })
+User.belongsTo(Role, { foreignKey: 'roleId', targetKey: 'id' })
 
 // User => Status
-Status.hasMany(User, {foreignKey: 'statusId', sourceKey: 'id'})
-User.belongsTo(Status, {foreignKey: 'statusId', targetKey: 'id'})
+Status.hasMany(User, { foreignKey: 'statusId', sourceKey: 'id' })
+User.belongsTo(Status, { foreignKey: 'statusId', targetKey: 'id' })
 
 // Resource => User
-User.hasMany(Resource, { foreignKey: 'authorId', sourceKey: 'id'})
-Resource.belongsTo(User, {foreignKey: 'authorId', targetKey: 'id'})
+User.hasMany(Resource, { foreignKey: 'authorId', sourceKey: 'id' })
+Resource.belongsTo(User, { foreignKey: 'authorId', targetKey: 'id' })
 
 // Translations
 Language.hasMany(CategoryTranslation, { foreignKey: 'lang' })

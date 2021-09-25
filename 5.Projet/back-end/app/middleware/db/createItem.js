@@ -2,6 +2,7 @@ const { buildErrObject } = require('../../middleware/utils')
 
 /**
  * Creates a new item in database
+ *
  * @param {Object} model - the Sequelize model
  * @param {Object} values - the values to update
  * @param {Object} options - build and query options

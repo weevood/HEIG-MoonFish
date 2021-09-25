@@ -1,8 +1,9 @@
-const { handleError } = require('../../middleware/utils')
 const { findUserProjects } = require('../projects/helpers')
+const { handleError } = require('../../middleware/utils')
 
 /**
  * Get items function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

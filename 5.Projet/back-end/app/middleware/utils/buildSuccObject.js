@@ -1,5 +1,6 @@
 /**
  * Builds success object
+ *
  * @param {string} msg - success text
  */
 const buildSuccObject = (msg = '') => {

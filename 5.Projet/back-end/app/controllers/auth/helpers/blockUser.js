@@ -4,8 +4,10 @@ const { HOURS_TO_BLOCK } = require('../../../../config/constants')
 const { addHours } = require('date-fns')
 const { buildErrObject } = require('../../../middleware/utils')
 const { updateItem } = require('../../../middleware/db')
+
 /**
  * Blocks a user by setting blockExpires to the specified date based on constant HOURS_TO_BLOCK
+ *
  * @param {Object} authentication - linked authentication object
  */
 const blockUser = (authentication = {}) => {

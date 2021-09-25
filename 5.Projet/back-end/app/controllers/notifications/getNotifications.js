@@ -3,6 +3,7 @@ const { findNotifications, setNotificationsInfo } = require('./helpers')
 
 /**
  * Get items function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

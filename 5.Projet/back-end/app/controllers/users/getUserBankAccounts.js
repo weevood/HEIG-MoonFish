@@ -1,9 +1,10 @@
-const { matchedData } = require('express-validator')
 const { handleError } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 const { setBankAccountsInfo, findUserBankAccounts } = require('./helpers')
 
 /**
- * Get items function called by route
+ * Get user bank accounts when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

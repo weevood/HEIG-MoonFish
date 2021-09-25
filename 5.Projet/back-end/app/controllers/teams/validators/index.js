@@ -13,5 +13,5 @@ module.exports = {
     validateJoinLeaveTeam,
     validateTeamUserRelation,
     validateUpdateTeam,
-    validateUpdateTeamStatus,
+    validateUpdateTeamStatus
 }

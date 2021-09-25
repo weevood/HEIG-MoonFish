@@ -1,7 +1,8 @@
 const { setUserInfo } = require('./setUserInfo')
 
 /**
- * Creates an object with user info
+ * Creates users  with objects info
+ *
  * @param {Object} req - request object
  */
 const setUsersInfo = (req = {}) => {

@@ -1,5 +1,5 @@
 const DataTypes = require('sequelize')
-const { getEnumValues } = require('../enums/getEnumValues')
+const { getEnumValues } = require('../enums/utils')
 const roles = getEnumValues(require('../enums/roles'))
 
 module.exports = {

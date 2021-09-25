@@ -4,6 +4,7 @@ const { decrypt } = require('../../../middleware/auth')
 
 /**
  * Gets user id from token
+ *
  * @param {string} token - Encrypted and encoded token
  */
 const getUserIdFromToken = (token = '') => {

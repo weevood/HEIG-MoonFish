@@ -4,6 +4,7 @@ const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
 
 /**
  * Delete an item from database by id
+ *
  * @param {Object} model - the Sequelize model
  * @param {int} id - the item id
  */

@@ -5,6 +5,7 @@ const { getItemByUuid } = require('../../../middleware/db')
 
 /**
  * Find user bank accounts by uuid
+ *
  * @param {uuid} uuid - the user´s uuid
  */
 const findUserBankAccounts = (uuid) => {

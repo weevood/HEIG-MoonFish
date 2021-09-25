@@ -1,6 +1,6 @@
-const { matchedData } = require('express-validator')
-const { handleError } = require('../../middleware/utils')
 const { findNotification, setNotificationInfo } = require('./helpers')
+const { handleError } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 
 /**
  * Retrieve a single notification based on its id

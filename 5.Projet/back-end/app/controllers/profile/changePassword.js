@@ -1,10 +1,11 @@
-const { handleError, buildErrObject } = require('../../middleware/utils')
-const { matchedData } = require('express-validator')
 const { checkPassword } = require('../../middleware/auth')
 const { findUserAuth, updatePassword } = require('../auth/helpers')
+const { handleError, buildErrObject } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
 
 /**
  * Change password function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

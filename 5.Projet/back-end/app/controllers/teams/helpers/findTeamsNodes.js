@@ -2,7 +2,8 @@ const { buildErrObject } = require('../../../middleware/utils')
 const { getNodes } = require('../../../middleware/db')
 
 /**
- * Find teams by query
+ * Find teams nodes by query
+ *
  * @param {Object} query - the search query
  */
 const findTeamsNodes = (query = {}) => {

@@ -1,13 +1,14 @@
-const { findTranslations } = require('../../translations/helpers')
-const { clearNode } = require('../../../middleware/utils')
-const { getEnumName } = require('../../../models/enums/getEnumName')
 const projectStatus = require('../../../models/enums/projectStatus')
 const { PROJECT_STATUS_ENDED, PROJECT_STATUS_BANNED } = require('../../../models/enums/projectStatus')
-const { getNodeRelations } = require('../../../middleware/db')
 const { RELATION_MANDATES } = require('../../../models/enums/relations')
+const { clearNode } = require('../../../middleware/utils')
+const { findProjectTranslations } = require('./findProjectTranslations')
+const { getEnumName } = require('../../../models/enums/utils')
+const { getNodeRelations } = require('../../../middleware/db')
 
 /**
  * Creates an object with project info
+ *
  * @param {Object} req - request object
  * @param {Object} reqNode - request Node object
  */
@@ -17,8 +18,8 @@ const setProjectInfo = (req = {}, reqNode = {}) => {
         let parsedTags = [reqNode.tags]
         try {
             parsedTags = JSON.parse(reqNode.tags)
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            console.error(err)
         }
         let project = {
             uuid: req.uuid,
@@ -44,7 +45,7 @@ const setProjectInfo = (req = {}, reqNode = {}) => {
                 ...project,
                 title: req['projects_translations'][0].title,
                 description: req['projects_translations'][0].description,
-                translations: findTranslations(req['projects_translations'])
+                translations: findProjectTranslations(req['projects_translations'])
             }
         }
         // Adds verification for testing purposes

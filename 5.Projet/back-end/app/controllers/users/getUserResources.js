@@ -1,10 +1,11 @@
-const { matchedData } = require('express-validator')
-const { handleError } = require('../../middleware/utils')
-const { setResourcesInfo, findResources } = require('../resources/helpers')
 const { findUserByUuid } = require('../users/helpers')
+const { handleError } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
+const { setResourcesInfo, findResources } = require('../resources/helpers')
 
 /**
- * Get items function called by route
+ * Get user resources when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

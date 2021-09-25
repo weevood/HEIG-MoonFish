@@ -3,7 +3,8 @@ const { buildErrObject, buildSuccObject } = require('../../middleware/utils')
 const { relExists } = require('./relExists')
 
 /**
- * Update an node in database by uuid
+ * Update a relation in database
+ *
  * @param {Object} a - the first entity { model: 'A', uuid: uuid }
  * @param {string} relation - the relation name (IS_MEMBER_OF)
  * @param {Object} b - the second entity { model: 'B', uuid: uuid }

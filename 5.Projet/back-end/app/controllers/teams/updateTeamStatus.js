@@ -1,12 +1,13 @@
-const { matchedData } = require('express-validator')
-const { handleError, buildSuccObject } = require('../../middleware/utils')
-const { updateNode } = require('../../middleware/db')
-const { requiredRole } = require('../auth')
 const { ROLE_ADMIN } = require('../../models/enums/roles')
 const { STATUS_INACTIVE, STATUS_ACTIVE, STATUS_BANNED } = require('../../models/enums/status')
+const { handleError, buildSuccObject } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
+const { requiredRole } = require('../auth')
+const { updateNode } = require('../../middleware/db')
 
 /**
- * Update item function called by route
+ * Update a team status when called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

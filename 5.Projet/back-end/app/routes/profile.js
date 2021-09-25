@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const trimRequest = require('trim-request')
+const { ROLE_USER } = require('../models/enums/roles')
 const { requireAuth } = require('../middleware/auth')
 const { requiredRole } = require('../controllers/auth')
-const { ROLE_USER } = require('../models/enums/roles')
 
 const {
     validateChangePassword,
@@ -13,19 +13,18 @@ const {
 
 const {
     changePassword,
-    getMyTeams,
+    getBankAccounts,
     getMyProjects,
+    getMyTeams,
+    getNotifications,
     getProfile,
     getTags,
-    getBankAccounts,
-    getNotifications,
     updateProfile,
     updateProfileResume,
 } = require('../controllers/profile')
 
 /*
  * Define all "Profile" routes
- *
  * Data is retrieved based on the currently logged in user.
  */
 

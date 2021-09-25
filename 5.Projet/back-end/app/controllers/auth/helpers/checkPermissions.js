@@ -1,10 +1,11 @@
-const { itemNotFound, buildErrObject } = require('../../../middleware/utils')
 const { findUser } = require('../../users/helpers')
 const { findUserAuth } = require('./findUserAuth')
 const { isUserBlocked } = require('./isUserBlocked')
+const { itemNotFound, buildErrObject } = require('../../../middleware/utils')
 
 /**
  * Checks against user if has quested role
+ *
  * @param {Object} data - data object
  * @param {*} next - next callback
  */

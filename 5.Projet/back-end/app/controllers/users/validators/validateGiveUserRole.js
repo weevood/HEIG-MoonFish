@@ -1,6 +1,6 @@
-const { validateResult } = require('../../../middleware/utils')
 const { check } = require('express-validator')
-const { getEnumValues } = require('../../../models/enums/getEnumValues')
+const { getEnumValues } = require('../../../models/enums/utils')
+const { validateResult } = require('../../../middleware/utils')
 const roles = getEnumValues(require('../../../models/enums/roles'))
 
 /**

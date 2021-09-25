@@ -1,6 +1,6 @@
+const neo4j = require('../config/neode')
 const uuid = require('uuid')
 const { STATUS_ACTIVE, STATUS_BANNED } = require('../app/models/enums/status')
-const neo4j = require('../config/neode')
 
 const teams = [{
     uuid: uuid.v4(),
@@ -15,7 +15,8 @@ const capitalize = (word) => {
 }
 
 const colors = ['green', 'emerald', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet', 'purple', 'fuchsia', 'pink',
-    'rose', 'blueGray', 'coolGray', 'gray', 'trueGray', 'warmGray', 'orange', 'amber', 'yellow', 'lime', ]
+    'rose', 'blueGray', 'coolGray', 'gray', 'trueGray', 'warmGray', 'orange', 'amber', 'yellow', 'lime',]
+
 for (let i = 0; i < colors.length; i++) {
     teams.push({
         uuid: uuid.v4(),
@@ -32,8 +33,8 @@ return new Promise(async (resolve, reject) => {
             teams.forEach((team) => {
                 try {
                     neo4j.create('Team', team)
-                } catch (error) {
-                    console.error(error)
+                } catch (err) {
+                    console.error(err)
                 }
             })
         })

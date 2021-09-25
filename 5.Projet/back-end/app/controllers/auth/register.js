@@ -1,15 +1,16 @@
-const { matchedData } = require('express-validator')
 const mariadb = require('../../models/mariadb')
 const Notification = mariadb.models.Notification
 const Trans = mariadb.models.NotificationTranslation
-const { registerUser, generateToken } = require('./helpers')
-const { handleError } = require('../../middleware/utils')
-const { emailExists, sendRegistrationEmail } = require('../../middleware/emailer')
-const { setUserInfo } = require('../users/helpers')
 const { createItem } = require('../../middleware/db')
+const { emailExists, sendRegistrationEmail } = require('../../middleware/emailer')
+const { handleError } = require('../../middleware/utils')
+const { matchedData } = require('express-validator')
+const { registerUser, generateToken } = require('./helpers')
+const { setUserInfo } = require('../users/helpers')
 
 /**
  * Register function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

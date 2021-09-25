@@ -17,5 +17,5 @@ module.exports = {
     validateFeedbackProject,
     validateGetProject,
     validateUpdateProject,
-    validateUpdateProjectStatus,
+    validateUpdateProjectStatus
 }

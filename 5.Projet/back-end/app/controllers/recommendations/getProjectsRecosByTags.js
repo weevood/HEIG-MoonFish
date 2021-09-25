@@ -1,6 +1,6 @@
-const { handleError } = require('../../middleware/utils')
-const { findUserByUuid } = require('../users/helpers')
 const { findProjectsRecosByTags } = require('../recommendations/helpers')
+const { findUserByUuid } = require('../users/helpers')
+const { handleError } = require('../../middleware/utils')
 
 /**
  * Get projects recommendations by tags similarities when called by route

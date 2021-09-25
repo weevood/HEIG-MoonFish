@@ -1,5 +1,6 @@
 /**
  * Count the number of records matching the provided where clause
+ *
  * @param {Object} model - the Sequelize model
  * @param {Object} filter - the filter
  */

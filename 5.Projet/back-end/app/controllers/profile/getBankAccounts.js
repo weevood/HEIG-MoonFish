@@ -1,5 +1,5 @@
-const { handleError } = require('../../middleware/utils')
 const { findUserBankAccounts, setBankAccountsInfo } = require('../users/helpers')
+const { handleError } = require('../../middleware/utils')
 
 /**
  * Get profile function called by route

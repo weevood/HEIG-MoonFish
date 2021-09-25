@@ -5,6 +5,7 @@ const { getItem } = require('../../../middleware/db')
 
 /**
  * Find user by ID
+ *
  * @param {int} id - the user´s id
  */
 const findUser = (id = 0) => {

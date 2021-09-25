@@ -2,7 +2,8 @@ const i18n = require('i18n')
 const { beforeSendEmail } = require('./beforeSendEmail')
 
 /**
- * Sends registration email
+ * Sends a registration email
+ *
  * @param {string} locale - locale
  * @param {Object} userData - userData object
  */

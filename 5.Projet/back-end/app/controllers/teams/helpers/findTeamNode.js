@@ -3,6 +3,7 @@ const { getNode } = require('../../../middleware/db')
 
 /**
  * Find team by uuid
+ *
  * @param {uuid} uuid - the teams´s uuid
  * @param {array} status - the teams´s needed status
  */

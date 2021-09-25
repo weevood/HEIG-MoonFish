@@ -1,13 +1,18 @@
 process.env.NODE_ENV = 'test'
 
-const faker = require('faker')
+const mariadb = require('../app/models/mariadb')
 const chai = require('chai')
 const chaiHttp = require('chai-http')
+const faker = require('faker')
 const server = require('../server')
 const should = chai.should()
-const mariadb = require('../app/models/mariadb')
-const User = mariadb.models.User
-const { deleteNode, deleteItem } = require('../app/middleware/db')
+
+const createdUsers = []
+const tokens = {
+    admin: '',
+    moderator: '',
+    user: ''
+}
 
 const loginDetails = {
     admin: {
@@ -23,15 +28,6 @@ const loginDetails = {
         password: 'user1234'
     }
 }
-
-const tokens = {
-    admin: '',
-    moderator: '',
-    user: ''
-}
-
-const email = faker.internet.email()
-const createdUsers = []
 
 chai.use(chaiHttp)
 
@@ -310,10 +306,10 @@ describe('*********** USERS ***********', () => {
         })
     })
 
-    // after(() => {
-    //     createdUsers.forEach(uuid => {
-    //         deleteItem(User, uuid)
-    //         deleteNode('User', uuid)
-    //     })
-    // })
+    after(() => {
+        createdUsers.forEach(uuid => {
+            deleteItem(User, uuid)
+            deleteNode('User', uuid)
+        })
+    })
 })

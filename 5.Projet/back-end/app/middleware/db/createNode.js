@@ -1,8 +1,9 @@
-const { buildErrObject } = require('../../middleware/utils')
 const neo4j = require('../../../config/neode')
+const { buildErrObject } = require('../../middleware/utils')
 
 /**
  * Creates a new node in database
+ *
  * @param {string} model - the Neo4j model
  * @param {Object} values - the values to update
  * @return {Node}

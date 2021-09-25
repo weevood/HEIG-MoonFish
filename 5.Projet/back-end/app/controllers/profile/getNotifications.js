@@ -1,9 +1,10 @@
+const { findUserByUuid } = require('../users/helpers')
 const { handleError } = require('../../middleware/utils')
 const { setNotificationsInfo, findNotifications } = require('../notifications/helpers')
-const { findUserByUuid } = require('../users/helpers')
 
 /**
- * Get profile function called by route
+ * Get items function called by route
+ *
  * @param {Object} req - request object
  * @param {Object} res - response object
  */

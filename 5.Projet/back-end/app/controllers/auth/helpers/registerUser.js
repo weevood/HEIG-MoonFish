@@ -1,13 +1,14 @@
-const uuid = require('uuid')
-const { hash } = require('../../../middleware/auth')
-const { buildErrObject } = require('../../../middleware/utils')
 const mariadb = require('../../../models/mariadb')
-const { createNode } = require('../../../middleware/db')
-const User = mariadb.models.User
 const Authentication = mariadb.models.Authentication
+const User = mariadb.models.User
+const uuid = require('uuid')
+const { buildErrObject } = require('../../../middleware/utils')
+const { createNode } = require('../../../middleware/db')
+const { hash } = require('../../../middleware/auth')
 
 /**
  * Registers a new user in database
+ *
  * @param {Object} req - request object
  */
 const registerUser = (req = {}) => {

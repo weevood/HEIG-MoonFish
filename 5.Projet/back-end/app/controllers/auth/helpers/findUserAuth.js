@@ -4,7 +4,8 @@ const { buildErrObject } = require('../../../middleware/utils')
 const { getItem } = require('../../../middleware/db')
 
 /**
- * Find user auth by use id
+ * Find user auth by user id
+ *
  * @param {int} id - the user´s id
  */
 const findUserAuth = (id = 0) => {

@@ -6,6 +6,7 @@ const { getItems } = require('../../../middleware/db')
 
 /**
  * Find user from query
+ *
  * @param {Object} options - build and query options
  * @param {string} lang - the translation to load
  */
