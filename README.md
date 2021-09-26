@@ -56,6 +56,7 @@ Ce projet est documenté dans un rapport, la dernière version de celui-ci se tr
  - Des maquettes HTML statiques ont été réalisées, les sources de celles-ci sont disponibles dans le dossier [3.Maquettes](/3.Maquettes).
  - La définition des routes de l'API réalisé à l'aide de Postman : [MoonFish - Express.js REST API with JWT](https://documenter.getpostman.com/view/8210926/TzseHmCz)
  - Pour les suivis des tâches, un Trello est mis à jour à l'adresse suivante : [trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor](https://trello.com/b/meyHR8e8/heig-vd-travail-de-bachelor).
+ - Le résultat des tests de bout en bout, sous la forme d'un tableur Excel, est disponible dans le dossier 2.Documentation/Annexes : [Tests_End-to-end.xlsx](/2.Documentation/Annexes/Tests_End-to-end.xlsx).
 
 ## Démonstration fonctionnelle
  - L'état actuel du projet peut être consulté via l’URL suivant [heig-tb-moonfish.netlify.app](https://heig-tb-moonfish.netlify.app).
