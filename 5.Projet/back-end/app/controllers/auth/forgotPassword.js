@@ -28,7 +28,7 @@ const forgotPassword = async (req, res) => {
             countryRequest: getCountry(req)
         }
         await updateItem(Authentication, userAuth.userId, { verification: forgetData.verification })
-        sendResetPasswordEmail(locale, forgetData)
+        await sendResetPasswordEmail(locale, forgetData)
         let response = {
             msg: 'RESET_EMAIL_SENT',
         }

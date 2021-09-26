@@ -29,11 +29,11 @@
       <Form class="flex flex-col" @submit="updateUser" :validation-schema="schema" v-slot="{ errors }">
         <div v-for="(value, key) in profile" :key="`UserKey-${key}`">
           <div v-if="inArray(key, whiteList)" class="mb-6 pt-3 rounded bg-gray-200">
-            <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" :for="`${key}`">{{ $t(key) }}</label>
-            <Field :id="`${key}`" :name="`${key}`" type="text" :value="value && `${value}`"
-                   class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3"/>
-            <ErrorMessage :name="`${key}`" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
-          </div>
+          <label class="block text-gray-700 text-sm font-bold md:mb-2 ml-3" :for="`${key}`">{{ $t(key) }}</label>
+          <Field :id="`${key}`" :name="`${key}`" type="text" :value="value && `${value}`" :disabled="inArray(key, disabled)"
+                 class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-teal-600 transition duration-500 px-3 md:pb-3 disabled:opacity-50"/>
+          <ErrorMessage :name="`${key}`" class="block px-3 py-3 bg-red-500 rounded-b text-white text-xs"/>
+        </div>
         </div>
         <button :disabled="loading || Object.keys(errors).length"
                 class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 rounded shadow-lg hover:shadow-xl transition duration-200 focus:outline-none focus:ring disabled:opacity-50 inline-flex items-center justify-center">
@@ -62,6 +62,7 @@ import { ErrorMessage, Field, Form } from 'vee-validate';
 export default {
   name: 'Profile',
   components: { AlertSuccess, AlertError, Form, Field, ErrorMessage },
+  emits: ['refresh', 'msg'],
 
   data() {
     const schema = yup.object().shape({
@@ -82,6 +83,7 @@ export default {
     return {
       schema,
       whiteList: ['city', 'country', 'firstName', 'lang', 'lastName', 'phone', 'state', 'street', 'zipCode'],
+      disabled: ['firstName', 'lastName'],
       loading: false,
       errorMessage: this.$route.query.error,
       message: this.$route.query.message,
@@ -124,9 +126,10 @@ export default {
 
     async updateUser(user) {
       this.loading = true;
-      this.$emit('msg', { status: 'OK', message: 'Profile.updated' })
-      await request(ProfileService.update(user), this)
+      await request(ProfileService.update(user), this);
+      this.$emit('msg', { status: 'OK', message: 'Profile.updated' });
       await this.retrieveProfile();
+      this.$emit('refresh', 'user');
       this.loading = false;
     }
 

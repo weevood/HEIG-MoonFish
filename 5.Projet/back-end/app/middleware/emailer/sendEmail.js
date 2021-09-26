@@ -5,7 +5,6 @@ const nodemailer = require('nodemailer')
  * Sends an email
  *
  * @param {Object} data - data
- * @param {boolean} callback - callback
  */
 const sendEmail = async (data = {}) => {
     const auth = {
@@ -23,10 +22,7 @@ const sendEmail = async (data = {}) => {
         html: data.htmlMessage
     }
     transporter.sendMail(mailOptions, function callback(error) {
-        if (error) {
-            return callback(false)
-        }
-        return callback(true)
+        return !error;
     })
 }
 

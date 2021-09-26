@@ -211,7 +211,7 @@ import { RELATION_DEVELOPS, RELATION_MANDATES } from "@/enums/relations";
 export default {
   name: 'Project',
   components: { ErrorMessage, Field, Form, DropZone, EditOrCreateProject, StarRating },
-  emits: ['msg'],
+  emits: ['refresh', 'msg'],
   watch: {
     $route() {
       if (this.$route.name === 'project') {

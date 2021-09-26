@@ -131,7 +131,7 @@ import { STATUS_ACTIVE, STATUS_INACTIVE } from "@/enums/status";
 export default {
   name: 'Team',
   components: { ProjectsList, JoinOrLeaveTeam, EditOrCreateTeam, StarRating },
-  emits: ['msg'],
+  emits: ['refresh', 'msg'],
   watch: {
     $route() {
       if (this.$route.name === 'team') {

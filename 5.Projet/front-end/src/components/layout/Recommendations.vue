@@ -1,5 +1,5 @@
 <template>
-  <section class="container mb-6 shadow-inner">
+  <section v-if="projects.length" class="container mb-6 shadow-inner">
     <h2 class="py-4 text-2xl font-medium" :class="podium && 'mb-6 text-white text-center font-allison italic text-6xl'"
         style="color: #DAA520">
       {{ $t('Recommendations.title') }}</h2>
