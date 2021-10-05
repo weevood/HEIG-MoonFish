@@ -156,7 +156,7 @@ export default {
   data() {
     return {
       error: '',
-      myProjects: [],
+      myProjects: {},
       myTeams: { STATUS_ACTIVE: [], STATUS_INACTIVE: [], STATUS_BANNED: [] },
     };
   },
@@ -197,7 +197,7 @@ export default {
         myProjects[s].map(project => {
           if (s === 'RELATION_APPLIES') { return }
           if (project.status !== "proposal" && project.status !== "ongoing") { return }
-          this.myProjects.push({ uuid: project.uuid, title: project.title });
+          this.myProjects[project.uuid] = { uuid: project.uuid, title: project.title };
         });
       }
     }

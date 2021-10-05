@@ -24,7 +24,9 @@ const updateProject = async (req, res) => {
             { isOwner: true })
         ) {
             await updateItem(Project, project.id, data)
-            await updateItem(Trans, { projectId: project.id }, data)
+            try {
+                await updateItem(Trans, { projectId: project.id }, data)
+            } catch (error) { /* catch unchanged data */ }
             let nodeValues = {}
             if (data.deadline)
                 nodeValues.deadline = new Date(data.deadline)

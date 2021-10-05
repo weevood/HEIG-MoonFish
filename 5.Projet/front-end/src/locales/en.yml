@@ -194,11 +194,11 @@ SIGNED_OUT: "You have been correctly signed out."
 # Errors
 
 error:
-  INVALID_CREDENTIALS: "You have entered an invalid username or password."
   EMAIL_ALREADY_EXISTS: "This email is already associated with an account, you can connect with it."
-  SIGN_IN_AGAIN: "Please sign in again."
-  SERVER_ERROR: "An error occurred with the server connection, please sign in again."
+  INVALID_CREDENTIALS: "You have entered an invalid username or password."
   OLD_PASSWORD_INCORRECT: "The old password you have entered is incorrect, please try again."
-  USER_BLOCKED: "This user is actually blocked, please try again later."
+  SERVER_ERROR: "An error occurred with the server connection, please sign in again."
+  SIGN_IN_AGAIN: "Please sign in again."
   TEAM_ALREADY_EXISTS: "This team name already exists, please choose another one."
   TEAM_DOES_NOT_EXIST: "This team does not exist."
+  USER_BLOCKED: "This user is actually blocked, please try again later."

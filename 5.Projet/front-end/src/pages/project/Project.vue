@@ -291,7 +291,7 @@ export default {
       this.project.title = project.title;
       this.project.description = project.description;
       this.project.deadline = project.deadline;
-      this.project.tags = project.tags;
+      this.project.tags = JSON.parse(project.tags);
       this.edition = false;
     },
 

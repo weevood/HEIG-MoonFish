@@ -100,6 +100,11 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		create(data) {
+				try {
+						data.tags = JSON.stringify(data.tags)
+				} catch (err) {
+						console.error(err)
+				}
 				CacheService.del('myProjects')
 				return http.post('/projects', clean(data))
 		}
@@ -111,6 +116,11 @@ class ProjectsService {
 		 * @return {Promise<AxiosResponse<any>>}
 		 */
 		update(project) {
+				try {
+						project.tags = JSON.stringify(project.tags)
+				} catch (err) {
+						console.error(err)
+				}
 				CacheService.del('myProjects')
 				return http.patch(`/projects/${ project.uuid }`, clean(project))
 		}

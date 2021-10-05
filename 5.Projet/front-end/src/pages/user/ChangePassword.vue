@@ -57,6 +57,7 @@ import { ErrorMessage, Field, Form } from 'vee-validate';
 export default {
   name: 'ChangePassword',
   components: { AlertSuccess, AlertError, Form, Field, ErrorMessage },
+  emits: ['msg'],
 
   data() {
     const schema = yup.object().shape({
