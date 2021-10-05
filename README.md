@@ -29,6 +29,8 @@ Les problèmes rencontrés lors de ces projets sont nombreux, les principaux et 
 
 ### Objectifs
 
+![The MoonFish flow](MoonFish.png)
+
 La solution envisagée se base sur la communication directe entre le mandant et l’équipe de développeurs. Le processus se simplifie alors comme suit :
 1.	Un mandant met en concours une liste de fonctionnalités et un délai pour la production d’un produit
 2.	Différentes équipes de développeurs décrivent un cahier des charges comprenant une liste de fonctionnalités réalisables, un choix technologique, une qualité et un coût dans le délai donné
