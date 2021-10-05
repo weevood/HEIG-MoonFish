@@ -29,7 +29,9 @@ Les problèmes rencontrés lors de ces projets sont nombreux, les principaux et 
 
 ### Objectifs
 
-![The MoonFish flow](MoonFish.png)
+<p align="center">
+  <img width="600" height="206" src="MoonFish.png">
+</p>
 
 La solution envisagée se base sur la communication directe entre le mandant et l’équipe de développeurs. Le processus se simplifie alors comme suit :
 1.	Un mandant met en concours une liste de fonctionnalités et un délai pour la production d’un produit
