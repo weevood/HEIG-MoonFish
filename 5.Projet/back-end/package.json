@@ -13,7 +13,8 @@
     "dev": "cross-env NODE_ENV=development nodemon --inspect=9230 --trace-warnings server.js",
     "dev-drop": "cross-env NODE_ENV=development DROP_DB=true nodemon --inspect=9230 --trace-warnings server.js",
     "test": "cross-env NODE_ENV=test npm run mocha",
-    "mocha": "mocha tests/*.js --timeout=5000 --exit"
+    "mocha": "mocha tests/*.js --timeout=5000 --exit",
+    "start-docker": "cross-env NODE_ENV=development node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
