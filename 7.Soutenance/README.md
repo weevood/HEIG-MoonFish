@@ -22,6 +22,14 @@ cd Projects/HEIG-VD_Travail-de-Bachelor/5.Projet/front-end/
 `
 
 `
+serve -s dist
+`
+
+Visit : http://localhost:5000/
+
+OR for hot reload (dev)
+
+`
 npm run dev
 `
 
