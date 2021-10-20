@@ -1,6 +1,16 @@
 version: "3.0"
 services:
 
+  moonfish-frontend:
+    container_name: moonfish-frontend
+    restart: always # Always restart the container if it stops
+    build:
+      context: ../front-end/
+    ports:
+      - 80:5000
+    depends_on: # Wait on databases before start
+      - moonfish-backend
+
   moonfish-backend:
     container_name: moonfish-backend
     restart: always # Always restart the container if it stops
