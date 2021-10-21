@@ -8,4 +8,4 @@ COPY ./dist ./
 
 EXPOSE 5000
 
-CMD ["serve"]
+CMD ["serve", "-s"]
